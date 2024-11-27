@@ -1,0 +1,31 @@
+-CRIAR O ICONE DO HEAD E TROCAR O ATUAL
+
+-DEVERÁ SER POSSÍVEL O CLIENTE REAGENDAR O HORARIO
+
+-Validação para somente ser possível agendar um horario a partir do horario seguinte ao do dia atual
+
+-Deverá ser possível o cliente utilizar o credito dele para marcar serviços
+
+-O crédito será gerado ao não ter a confirmação do serviço executado pela paula no final do dia, ou o cliente ter desmarcado ou remarcado o serviço
+
+-O crédito terá validade de 180 dias, caso não seja utilizado será expirado, a lei do CDC exige que seja avisado o cliente que o credito ira expirar
+
+-So sera possível um numero cadastrado fazer 1 depoimento no site
+-Deverá ser possivel o cliente editar o depoimento
+
+-Deverá ter uma validação antes de avançar o servico, para verificar se os valores do serviço está de acordo com os valores salvos no banco de dados, não estando de acordo deverá avisar e encerrar todos os processos do site
+
+
+/*******/
+-serviço completo = agenda-manicure-pedicure-1
+-serviço unitario completo = agenda-manicure-1
+-subserviços unitario = agenda-manicure-corte-1
+-subserviços unitario= agenda-manicure-esmaltacao-1
+
+Se selecionar o serviço completo devera desmarcar todos os serviços que tambem tem uma parte do nome do serviço completo, por exemplo se selecionei agenda-manicure-1, deverá desmarcar serviços que tem no id manicure
+
+Deverá ser possível selecionar 2 subserviços ao mesmo tempo
+
+Se selecionar serviço completo, deverá desmarcar todos os serviços que tem parte do nome do serviço id no nome. Por exemplo, selecionei agenda-manicure-pedicure-1, deselecionar todos os serviços unitario
+
+Esses meus ids que mandei é so um dos varios que tenho no meu site, por tanto o codigo deverá ser adaptavel para os outros ids, todos ids seguem a mesma estrutura do exemplo a seguir local = agenda. serviço = manicure. subserviço se tiver = corte. e o id do serviço - 1

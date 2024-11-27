@@ -1,0 +1,73 @@
+- Usuario (id_usuario, nome, cargo, foto, login, senha)
+- Cliente (id_cliente, endereco_id, nome, data_cadastro, telefone, atendido ENUM('nenhum', 'contato', 'agendado' = ENUM('0','1','2')., addCliente = adicionado pelo cliente no site = 1 ou 0)
+- Endereco (id_endereco, CEP, cidade, bairro, rua, numero-casa)
+- Servico (id_servico, cliente_id, manicure-pedicure, manicure, corte-unha-mao, esmaltacao-mao, pedicure, corte-unha-pe, esmaltacao-pe, sombrancelha-simples, sombrancelha-henna, along-manutencao, along-remocao, along-concerto, along-esmaltacaogel, along-fibravidro, along-gel, along-poligel, along-seda, along-tips, along-banhogel, along-blindagem) ENUM('1','0')
+- Preco 
+	(id_preco, manicure-pedicure, manicure, corte-unha-mao, esmaltacao-mao, pedicure, corte-unha-pe, esmaltacao-pe, sombrancelha-simples, sombrancelha-henna, along-manutencao, along-remocao, along-concerto, along-esmaltacaogel, along-fibravidro, along-gel, along-poligel, along-seda, along-tips, along-banhogel, along-blindagem)
+	(id_tarifa_especial, manicure-pedicure, manicure, corte-unha-mao, esmaltacao-mao, pedicure, corte-unha-pe, esmaltacao-pe, sombrancelha-simples, sombrancelha-henna, along-manutencao, along-remocao, along-concerto, along-esmaltacaogel, along-fibravidro, along-gel, along-poligel, along-seda, along-tips, along-banhogel, along-blindagem)
+- Pacote ( id_pacote, cliente_id, servico_id, valores) = paula coloca os valores e o que vai ser feito
+- Agendamentos (cliente_id, servico_id, pacote_id, horario, data, status) ENUM('0','1','2','3') ('CADASTRADO','CANCELADO','CONFIRMADO','ATENDIDO')
+- Credito (cliente_id, valor_credito, data_do_credito)
+
+-SINAL = BANCO DE DADOS E LOGICA..
+
+7-11 13-18 = horarios normais
+
+18-21 = horarios especiais
+
+domingos e feriados = valores especiais
+
+pe, mao = 1:00
+pe e mao = 2:00
+sombrancelha = 1:00
+alongamento de unha = 3:00
+spa do pé = 2:00
+aplicação de tinta = 1:00
+cabelo = 1:00
+
+
+Tarifa Especial
+
+20R$ a 40R$ -> R$15.00
+
+Adicional noturno = 15% em cima do valor total
+
+1. Paleta Rosada e Neutra
+
+    Rosa Claro (#f7e4e3) : Para transmitir delicadeza e feminilidade, ideal como fundo ou para áreas destacadas.
+    Rosa Escuro (#d1939e): Para botões e detalhes, traz um toque de sofisticação.
+    Cinza Claro (#f0f0f0) : Um tom neutro que equilibra a paleta, perfeito para fundos secundários.
+    Bege (#fff7e0) : Um tom suave para destacar seções sem sobrecarregar o visual.
+    Bordô (#a44a52): Um toque sofisticado para elementos importantes, como títulos ou botões.
+
+2. Paleta Pastel e Relaxante
+
+    Lavanda (#d3c3e5) : Calmante e feminino, ótimo para fundos.
+    Rosa Chá (#f1c5c8): Um rosa sutil que é delicado e acolhedor, ideal para botões ou destaques.
+    Verde Menta (#e0f5ea) : Refrescante, para pequenas áreas de destaque e trazer um toque orgânico.
+    Cinza Azulado (#d8e2dc): Suave e versátil, para seções e fundos, trazendo um ar leve.
+    Roxo Escuro (#6d597a) : Para títulos e botões, conferindo elegância e um pouco de profundidade. 
+
+3. Paleta Elegante e Neutra
+
+    Creme (#fdf1e0) : Para o fundo principal, dando uma sensação de limpeza e suavidade.
+    Dourado Claro (#e7cfa5) : Elegante, perfeito para ícones ou elementos de destaque.
+    Cinza Médio (#9e9e9e) : Sofisticado e neutro, ótimo para textos e botões secundários.
+    Rosa Suave (#f8bcb9) : Para detalhes femininos que chamam a atenção de maneira sutil.
+    Marrom Profundo (#6e4b3a) : Para títulos, cabeçalhos e botões, agregando uma sensação de confiança e estilo. 
+
+4. Paleta Viva e Feminina
+
+    Rosa Pink (#e91e63): Para elementos chamativos como botões de ação ou banners, dando um toque vibrante.
+    Rosa Bebê (#ffe5ec) : Um rosa muito claro para o fundo principal ou seções.
+    Branco (#ffffff) : Para equilíbrio e um visual limpo.
+    Cinza Claro (#d3d3d3): Neutro para separar seções, fácil de combinar com tons vibrantes.
+    Preto Suave (#333333) : Para textos e detalhes que precisam de destaque sem pesar muito no visual. 
+
+5. Paleta Natural e Aconchegante
+
+    Rosa Pêssego (#ffcccb) : Caloroso e convidativo, perfeito para destaques e botões.
+    Bege Claro (#faf0e6) : Para fundo principal, mantendo o site claro e acolhedor.
+    Cinza Esverdeado (#c5d8d1) : Para equilíbrio, adicionando uma leveza natural.
+    Verde Musgo Claro (#a8c0a8) : Para dar um toque orgânico, ideal em detalhes e ícones.
+    Marrom (#8c6057) : Para textos e elementos que precisam de contraste, criando uma base sólida e sofisticada. 
