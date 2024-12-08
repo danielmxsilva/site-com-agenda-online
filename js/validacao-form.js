@@ -4,7 +4,7 @@ $(document).ready(function(){
 	//let horariosSelecionados = JSON.parse(localStorage.getItem("horariosSelecionados"));
 
 	// Função para converter horário no formato "HH:MM" para minutos
-	function converterParaMinutos(horario) {
+	/*function converterParaMinutos(horario) {
 	    let [horas, minutos] = horario.split(":").map(Number);
 	    return (horas * 60) + minutos;
 	}
@@ -20,6 +20,6 @@ $(document).ready(function(){
 	// Exibe o resultado total
 	console.log("Total de minutos:", minutosTotais);
 
-	console.log('horariosSelecionados');
+	console.log('horariosSelecionados');*/
 
 })

@@ -30,7 +30,7 @@ function clickDia() {
                 
                 // Adiciona o HTML da tarifa especial na .wraper-resumo antes de .selecao-single-total
                 const tarifaEspecial = `
-                    <div class="selecao-single flex">
+                    <div class="selecao-single flex box-tarifa-especial">
                         <div class="txt-p">
                             <span class="p-single">Tarifa Especial</span>
                         </div>
@@ -136,6 +136,18 @@ function atualizarResumoSelecao(checked, checkboxId) {
         }).remove();
     });
 
+    $(".agenda-resumo-cliente-3").each(function () {
+        $(this).find(".selecao-single:not(.selecao-single-total)").filter(function () {
+            return $(this).find(".p-single").text().trim() !== "Tarifa Especial";
+        }).remove();
+    });
+
+    $(".agenda-resumo-cliente-4").each(function () {
+        $(this).find(".selecao-single:not(.selecao-single-total)").filter(function () {
+            return $(this).find(".p-single").text().trim() !== "Tarifa Especial";
+        }).remove();
+    });
+
     // Itera pelos serviços no localStorage
     for (const [id, servico] of Object.entries(servicosSelecionadosAgenda)) {
         const { clienteId, servicoNome, preco, duracao } = servico;
@@ -214,8 +226,39 @@ function adicionarServico(checked, nomeServico, duracaoServico, precoServico, ch
         `;
 
         // Adiciona o novo serviço no DOM
-        $('.wraper-resumo .selecao-single-total').last().before(novaSelecao);
+        // Insere 'novaSelecao' antes da última 'selecao-single-total'
+        //$('.wraper-resumo .selecao-single-total').last().before(novaSelecao);
+       // Reposiciona a div box-tarifa-especial, se ela existir
+/*if ($('.wraper-resumo .box-tarifa-especial').length > 0) {
+    const tarifaEspecial = $('.wraper-resumo .box-tarifa-especial'); // Seleciona a div existente
+   // Verifica se a div já está antes de .selecao-single-total
+    if (!tarifaEspecial.next('.selecao-single-total').length) {
+        $('.wraper-resumo .selecao-single-total').before(tarifaEspecial); // Move para antes da selecao-single-total
+    }
+}*/
+        // Primeiro, reposiciona a box-tarifa-especial caso ela exista/*
 
+        /*
+        if ($('.wraper-resumo .box-tarifa-especial').length > 0) {
+            const tarifaEspecial = $('.wraper-resumo .box-tarifa-especial'); // Seleciona a div existente
+
+            // Verifica se a box-tarifa-especial já está posicionada corretamente
+            if (!tarifaEspecial.prev('.selecao-single-total').length) {
+                // Move a box-tarifa-especial antes de .selecao-single-total
+                $('.wraper-resumo .selecao-single-total').before(tarifaEspecial);
+            }
+        }
+
+        // Em seguida, adiciona novaSelecao antes da última selecao-single-total
+        if ($('.wraper-resumo .selecao-single-total').length > 0) {
+            $('.wraper-resumo .selecao-single-total').last().before(novaSelecao);
+        } else {
+            // Caso .selecao-single-total não exista (cenário improvável), adiciona ao final do .wraper-resumo
+            $('.wraper-resumo').append(novaSelecao);
+        }*/
+
+// Adiciona o novo serviço à lista
+$('.wraper-resumo .selecao-single-total').last().before(novaSelecao);
         // Atualiza o total de serviços selecionados
         atualizarTotal();
 
@@ -368,6 +411,10 @@ function atualizarTotal() {
     let totalDuracao1 = 0;
     let total2 = 0;
     let totalDuracao2 = 0;
+    let total3 = 0;
+    let totalDuracao3 = 0;
+    let total4 = 0;
+    let totalDuracao4 = 0;
 
    // console.error($(".wraper-resumo .agenda-resumo-cliente-1 .selecao-single").length);
 
@@ -396,6 +443,30 @@ function atualizarTotal() {
         totalDuracao2 += duracaoMinutos;
     });
 
+    $(".agenda-resumo-cliente-3 .selecao-single").each(function () {
+        const precoTexto = $(this).find(".preco-single").text().replace("R$", "").replace(",", ".");
+        const preco = parseFloat(precoTexto);
+        if (!isNaN(preco)) {
+            total3 += preco;
+        }
+
+        const duracaoTexto = $(this).find(".duracao span").text().trim();
+        const duracaoMinutos = converterDuracaoParaMinutos(duracaoTexto);
+        totalDuracao3 += duracaoMinutos;
+    });
+
+    $(".agenda-resumo-cliente-4 .selecao-single").each(function () {
+        const precoTexto = $(this).find(".preco-single").text().replace("R$", "").replace(",", ".");
+        const preco = parseFloat(precoTexto);
+        if (!isNaN(preco)) {
+            total4 += preco;
+        }
+
+        const duracaoTexto = $(this).find(".duracao span").text().trim();
+        const duracaoMinutos = converterDuracaoParaMinutos(duracaoTexto);
+        totalDuracao4 += duracaoMinutos;
+    });
+
     const totalContainer1 = $(".agenda-resumo-cliente-1 .selecao-single-total");
     totalContainer1.html(`
         <div class="txt-p"><span class="color-p">Total</span></div>
@@ -417,6 +488,30 @@ function atualizarTotal() {
             <span class="preco-total color-p">R$${total2.toFixed(2).replace(".", ",")}</span>
         </div>
     `);
+
+    const totalContainer3 = $(".agenda-resumo-cliente-3 .selecao-single-total");
+    totalContainer3.html(`
+        <div class="txt-p"><span class="color-p">Total</span></div>
+        <div class="duracao">
+            <span class="color-p"><i class="fa-solid fa-clock"></i> ${converterMinutosParaHoras(totalDuracao3)}</span>
+        </div>
+        <div class="preco-lixeira">
+            <span class="preco-total color-p">R$${total3.toFixed(2).replace(".", ",")}</span>
+        </div>
+    `);
+
+    const totalContainer4 = $(".agenda-resumo-cliente-4 .selecao-single-total");
+    totalContainer4.html(`
+        <div class="txt-p"><span class="color-p">Total</span></div>
+        <div class="duracao">
+            <span class="color-p"><i class="fa-solid fa-clock"></i> ${converterMinutosParaHoras(totalDuracao4)}</span>
+        </div>
+        <div class="preco-lixeira">
+            <span class="preco-total color-p">R$${total4.toFixed(2).replace(".", ",")}</span>
+        </div>
+    `);
+
+    atualizarTempoEstimado();
 
 
 }
@@ -509,6 +604,13 @@ function closeModal() {
         console.error("Erro ao remover horariosSelecionados:", error);
     }
 
+    try {
+        localStorage.removeItem('minutosTotaisSelecionado');
+        console.log("LocalStorage: minutosTotaisSelecionado removido");
+    } catch (error){
+        console.error("Erro ao remover minutosTotaisSelecionado: ", error);
+    }
+
     // Limpar seleções visuais e classes no DOM
     $('.checkbox-servico').prop('checked', false).closest('.servico-single').removeClass('selected');
     console.log("Quantidade de checkboxes encontrados:", $('.checkbox-servico').length);
@@ -543,6 +645,7 @@ function closeModal() {
 
     // Mostrar o modal inicial de serviços
     $('.modal-agenda-servicos').show();
+    $('.js-modal-agenda-servicos').show();
     $('.agendamentos-js-login').show();
     console.log("Modal inicial exibido");
 
@@ -571,33 +674,78 @@ function closeModal() {
     }
 
     console.log("Modal função closeModal fechado e encerrado");
+
+    $('.select-icon').fadeOut();
+    $('.js-modal-agenda-servicos').css('opacity','1');
+    $('.js-error-modal-agenda-servicos').fadeOut();
+
+    $('.js-tempo-servico .tempo-estimado').html('0:00');
+
     } catch (error){
         console.error("Erro na função closeModal:", error);
     }
 
-    $('.select-icon').fadeOut();
+
 }
 //localStorage.clear(); // Cuidado! Remove todos os itens do localStorage.
 function organizarResumoSelecao() {
+
+    // Seleciona o container principal
+    $(".wraper-resumo").each(function () {
+        const $container = $(this);
+
+        // Seleciona o elemento "Tarifa Especial"
+        const $tarifaEspecial = $container.find(".box-tarifa-especial");
+
+        // Seleciona o elemento "Total"
+        const $total = $container.find(".selecao-single-total");
+
+        // Move "Tarifa Especial" para logo antes do "Total"
+        if ($tarifaEspecial.length && $total.length) {
+            $tarifaEspecial.detach().insertBefore($total);
+        }
+
+        // Garante que "Total" permaneça como o último elemento no container
+        $total.detach().appendTo($container);
+    });
+    /*
     const $container1 = $(".wraper-resumo.agenda-resumo-cliente-1");
     const $container2 = $(".wraper-resumo.agenda-resumo-cliente-2");
-    const $tarifaEspecial1 = $container1.find(".selecao-single .p-single:contains('Tarifa Especial')").closest(".selecao-single");
-    const $selecaoTotal1 = $container1.find(".selecao-single-total");
-    const $tarifaEspecial2 = $container2.find(".selecao-single .p-single:contains('Tarifa Especial')").closest(".selecao-single");
-    const $selecaoTotal2 = $container2.find(".selecao-single-total");
+    //const $tarifaEspecial1 = $container1.find(".selecao-single .p-single:contains('Tarifa Especial')").closest(".selecao-single");
+    
+    // Seleciona Tarifa Especial
+    const $tarifaEspecial1 = $container1.find(".selecao-single").filter(function () {
+        return $(this).find(".p-single").text().trim() === "Tarifa Especial";
+    });
+
+    const $selecaoTotal1 = $container1.find(".pos-total-cliente-1");
+    //const $tarifaEspecial2 = $container2.find(".selecao-single .p-single:contains('Tarifa Especial')").closest(".selecao-single");
+    
+    const $tarifaEspecial2 = $container2.find(".selecao-single").filter(function () {
+        return $(this).find(".p-single").text().trim() === "Tarifa Especial";
+    });
+
+    const $selecaoTotal2 = $container2.find(".pos-total-cliente-2");
 
     // Move "Tarifa Especial" para antes de "Total", se houver
     if ($tarifaEspecial1.length) {
-        $tarifaEspecial.detach().insertBefore($selecaoTotal1);
+        $tarifaEspecial1.detach().insertBefore($selecaoTotal1);
     }
     if ($tarifaEspecial2.length) {
-        $tarifaEspecial.detach().insertBefore($selecaoTotal2);
+        $tarifaEspecial2.detach().insertBefore($selecaoTotal2);
     }
 
+    console.log($tarifaEspecial1, $tarifaEspecial2);
+    console.log($selecaoTotal1, $selecaoTotal2);
+
+    console.log("Tarifa Especial Cliente 1:", $tarifaEspecial1.length);
+    console.log("Total Cliente 1:", $selecaoTotal1.length);
+    console.log("Tarifa Especial Cliente 2:", $tarifaEspecial2.length);
+    console.log("Total Cliente 2:", $selecaoTotal2.length);
 
     // Garante que "Total" seja sempre o último
     $selecaoTotal1.detach().appendTo($container1);
-    $selecaoTotal2.detach().appendTo($container2);
+    $selecaoTotal2.detach().appendTo($container2);*/
 } 
 
 // Função para converter a duração de horas para minutos
@@ -831,11 +979,161 @@ function clickMeusAgendamentos(){
     });
 }
 
+// Função para converter "hh:mm" para minutos
+function converterParaMinutos(duracao) {
+    let [horas, minutos] = duracao.split(":").map(Number);
+    return (horas * 60) + minutos;
+}
+
+function calcularTotalMinutosServicos() {
+    let totalMinutos = 0;
+
+    // Acessa os serviços selecionados armazenados no localStorage
+    const servicosSelecionados = JSON.parse(localStorage.getItem('servicosSelecionadosAgenda'));
+    
+    // Itera sobre os serviços selecionados
+    for (let key in servicosSelecionados) {
+        const servico = servicosSelecionados[key];
+        const duracao = servico.duracao; // Duração no formato "hh:mm"
+        const minutos = converterParaMinutos(duracao); // Converte para minutos
+        totalMinutos += minutos;
+    }
+
+    console.log("Total de minutos de todos os serviços selecionados:", totalMinutos);
+
+    return totalMinutos;
+    
+}
+
+// Função para validar se o tempo é suficiente e não excessivo
+function validarTempoAgendamento() {
+    // Obter o tempo total disponível selecionado pelo cliente
+    const minutosTotaisSelecionados = parseInt(localStorage.getItem('minutosTotaisSelecionado'));
+
+    // Caso não exista o tempo selecionado, consideramos que o cliente não selecionou o tempo
+    if (!minutosTotaisSelecionados || minutosTotaisSelecionados <= 0) {
+        return "Você precisa selecionar um tempo para o serviço.";
+    }
+
+    // Calcular o tempo total dos serviços selecionados
+    const minutosTotaisServicos = calcularTotalMinutosServicos();
+    
+     // Verifica se o tempo total dos serviços é maior que o tempo disponível
+    if (minutosTotaisServicos > minutosTotaisSelecionados) {
+        return "O tempo necessário para os serviços selecionados excede os horarios escolhidos. Por favor, revise sua seleção e escolha um tempo maior ou ajuste os serviços";
+    }
+
+    // Verifica se algum serviço tem mais tempo selecionado do que o necessário
+    
+    let limiteDiferenca = 0.30; // 30% a mais
+
+    // Para tempos menores que 60 minutos, aplica uma diferença maior (exemplo: 50%)
+    if (minutosTotaisServicos < 60) {
+        limiteDiferenca = 0.50; // Permite 50% a mais
+    }
+
+    const limiteMaximo = minutosTotaisServicos * (1 + limiteDiferenca);
+
+    console.log("Limite máximo calculado:", limiteMaximo);
+
+    if (minutosTotaisSelecionados > limiteMaximo) {
+         return `O tempo selecionado (${minutosTotaisSelecionados} minutos) é muito maior do que o necessário (${limiteMaximo} minutos).`;
+    }
+
+    console.log("Validação bem-sucedida. Tempo suficiente e adequado.");
+    return null; // Se passar em todas as validações
+}
+
+function atualizarTempoEstimado() {
+    // Recupera os serviços selecionados do localStorage
+    const servicosSelecionadosDuracao = JSON.parse(localStorage.getItem('servicosSelecionadosAgenda'));
+
+    // Verifica se há dados no localStorage
+    if (!servicosSelecionadosDuracao) {
+        console.log("Nenhum serviço selecionado encontrado no localStorage.");
+        return; // Sai da função se não houver dados
+    }
+
+    let totalHoras = 0; // Total de horas
+    let totalMinutos = 0; // Total de minutos
+
+    // Itera pelos serviços selecionados
+    for (let key in servicosSelecionadosDuracao) {
+        const duracao = servicosSelecionadosDuracao[key].duracao; // Valor no formato hh:mm
+
+        if (duracao) {
+            const [horas, minutos] = duracao.split(':').map(Number); // Separa horas e minutos
+            totalHoras += horas;
+            totalMinutos += minutos;
+        }
+    }
+
+    // Ajusta os minutos para converter em horas, se necessário
+    totalHoras += Math.floor(totalMinutos / 60);
+    totalMinutos = totalMinutos % 60;
+
+    // Formata o tempo total no formato hh:mm
+    const tempoTotalFormatado = `${totalHoras}:${totalMinutos.toString().padStart(2, '0')}`;
+
+    // Atualiza dinamicamente o HTML
+    const tempoEstimadoSpan = document.querySelector('.js-tempo-servico .tempo-estimado');
+    if (tempoEstimadoSpan) {
+        tempoEstimadoSpan.textContent = tempoTotalFormatado;
+    } else {
+        console.error("Elemento '.tempo-estimado' não encontrado no HTML.");
+    }
+
+    console.log("Tempo total estimado:", tempoTotalFormatado);
+}
+
+
+
 function ClickbtnAvancarAgendamento(){
+    /*
+    <div class="sucess js-sucess-modal-agenda-servicos">
+        <p class="txt-p">Texto exemplo</p>
+    </div><!--error-->
+
+    <div class="error js-error-modal-agenda-servicos">
+        <p class="txt-p">Texto exemplo</p>
+    </div><!--error-->
+    */
 
     $('.btn-avancar').click(function(){
-        $('.modal-agenda-servicos').css('display','none');
-        $('.login-agenda').fadeIn();
+
+        $('.js-modal-agenda-servicos').css('opacity','0.3');
+
+        calcularTotalMinutosServicos()
+
+        // Adiciona atraso para validação (1 segundo)
+        setTimeout(() => {
+            const mensagemErro = validarTempoAgendamento(); // Recebe a mensagem de erro ou `null`
+            // Valida o tempo de agendamento
+            if (mensagemErro) {
+                // Define o texto dinâmico
+                $('.js-error-modal-agenda-servicos .txt-p').text(mensagemErro);
+
+                // Exibe a div de erro
+                $('.js-error-modal-agenda-servicos').fadeIn();
+                
+                // Restaura a opacidade
+                $('.js-modal-agenda-servicos').css('opacity', '1');
+
+                // Oculta a mensagem de erro após 5 segundos
+                setTimeout(() => {
+                    $('.js-error-modal-agenda-servicos').fadeOut();
+                }, 5000); // 5 segundos
+
+            } else {
+                // Se a validação passar, execute outras ações, como:
+                $('.js-modal-agenda-servicos').css('display', 'none');
+                $('.login-agenda').fadeIn();
+
+                // Garante que a mensagem de erro seja escondida, caso ainda esteja visível
+                $('.js-error-modal-agenda-servicos').fadeOut();
+            }
+        }, 800); // 0,8 segundo de atraso
+        
     })
 
     $('.btn-concluir').click(function(){

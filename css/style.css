@@ -112,10 +112,10 @@ canvas{
 	position: fixed;
 	z-index: 10;
 	left: 0;
-	width: 100%;
+	width: 100vw;
 	padding: 10px 0;
 	background-color: rgba(255, 255, 255, 0.5);
-	border-bottom: 2px solid #FF69B4;
+	border-bottom: 2px solid #946054;
 	backdrop-filter: blur(10px);
 	transition: top 0.5s ease;
 }
@@ -706,7 +706,7 @@ section{
 	margin-bottom: 10px; /* Espaçamento entre semanas */
   overflow-x: auto; /* ou overflow: auto; para habilitar ambos os scrolls */
   scrollbar-width: thin; /* Define a largura da barra de rolagem para Firefox */
-  scrollbar-color: rgba(254, 159, 166, 0.7) #f0f0f0; /* Cor da barra e do fundo */
+  scrollbar-color: rgba(144, 143, 143, 0.7) #f0f0f0; /* Cor da barra e do fundo */
 }
 
 /* Para navegadores WebKit (Chrome, Safari) */
@@ -754,7 +754,7 @@ section{
   min-height: 100px;
   padding: 15px 2% 10px 2%;
   text-align: center;
-  border: 1px solid #ff69b4;
+  border: 1px solid #ebeaeb;
   border-radius: 20px;
   margin-right: 10px; /* Espaçamento entre os dias */
   margin-bottom: 25px;
@@ -763,7 +763,7 @@ section{
   transition: background-color 0.3s;
   color: #333333;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0px 2px 5px rgba(233, 30, 99, 0.71);
+  box-shadow: 0px 2px 5px rgba(23, 23, 23, 0.71);
 }
 
 .dia-semana{
@@ -854,8 +854,8 @@ section{
 	top: 50%;
 	transform: translate(-50%,-50%);
 	border-radius: 15px;
-	border: 1px solid #ff69b4;
-  border-radius: 5px;
+	border: 2px solid rgb(148, 96, 84);
+  border-radius: 15px;
   width: 95%;
   padding: 20px 2%;
   margin: 0 auto;
@@ -867,8 +867,8 @@ section{
 
 .close-btn {
    	position: absolute; /* Mantém a posição relativa ao .box-modal-wraper */
-    top: -8px; /* Posiciona fora da borda superior */
-    right: -5px; /* Posiciona fora da borda direita */
+    top: -13px; /* Posiciona fora da borda superior */
+    right: -10px; /* Posiciona fora da borda direita */
     z-index: 100; /* Garantia que o botão esteja acima de tudo */
     border-radius: 50%;
     padding: 5px;
@@ -878,7 +878,7 @@ section{
 
 .close-btn i {
     color: #ff6f61;
-    font-size: 30px;
+    font-size: 35px;
 }
 
 .wraper-modal,.wraper-login,.wraper-pagamento,.login-agendamentos{
@@ -959,11 +959,11 @@ section{
 }
 
 .wraper-servicos-selecao{
-	border-radius: 5px;
+	border-radius: 15px;
 	padding: 30px 0 10px 0;
 	margin-top: 40px;
 	transition: background-color 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 4px 12px rgba(233, 30, 99, 0.71);
+  box-shadow: 0 4px 12px rgba(148, 96, 84, 0.71);
   background-color: white;
 }
 
@@ -1381,6 +1381,7 @@ span.preco-single{
 	top: 15px;
 	max-width: 450px;
 	display: none;
+	z-index: 90;
 }
 
 .error p{
@@ -1420,7 +1421,7 @@ span.preco-single{
 }*/
 
 .wraper-login,.wraper-modal,.login-agendamentos{
-	transition: 1s;
+	transition: 0.5s;
 }
 
 .form-telefone-login, .form-informacoes-cliente {
@@ -1967,7 +1968,7 @@ span.preco-single{
 
 /* Estilo do Rodapé */
 .footer {
-  background: linear-gradient(135deg, #ffe8f3, #ffd6eb);
+  background: linear-gradient(135deg, #000, #70063c);
   color: #333;
   padding: 35px 2% 15px 2%;
   font-family: 'Poppins', sans-serif;
@@ -1996,7 +1997,7 @@ span.preco-single{
 
 .footer-tagline {
   font-size: 1rem;
-  color: #666;
+  color: #fff;
 }
 
 .footer-links {
@@ -2020,7 +2021,7 @@ span.preco-single{
 }
 
 .footer-links a {
-  color: #333;
+  color: #fff;
   text-decoration: none;
   font-size: 1rem;
 }
@@ -2048,7 +2049,7 @@ span.preco-single{
 
 .social-icon {
   font-size: 2rem;
-  color: #333;
+  color: #fff;
   text-decoration: none;
   transition: color 0.3s;
 }
@@ -2062,7 +2063,7 @@ span.preco-single{
   text-align: center;
   margin-top: 2rem;
   font-size: 0.9rem;
-  color: #777;
+  color: #fff;
   border-top: 1px solid #ddd;
   padding-top: 1rem;
 }

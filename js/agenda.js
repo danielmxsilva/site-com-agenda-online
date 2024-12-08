@@ -121,6 +121,15 @@ function atualizarHorariosSelecionados() {
      // Verifica se há pelo menos um horário selecionado
     if (horariosSelecionados.length > 0) {
         // Função para converter horário no formato "HH:MM" para minutos
+      // Função para calcular os minutos baseados na quantidade de horários selecionados
+        const minutosTotaisSelecionado = horariosSelecionados.length * 60;
+
+        // Salva o total de minutos no localStorage
+        localStorage.setItem('minutosTotaisSelecionado', minutosTotaisSelecionado);
+
+        // Log para verificar o total de minutos calculado
+        console.log("Total de minutos:", minutosTotaisSelecionado);
+      /*
         function converterParaMinutos(horario) {
             let [horas, minutos] = horario.split(":").map(Number);
             return (horas * 60) + minutos;
@@ -128,7 +137,7 @@ function atualizarHorariosSelecionados() {
 
         // Se houver apenas um horário selecionado, considera 60 minutos
         if (horariosSelecionados.length === 1) {
-            localStorage.setItem('minutosTotais', 60);
+            localStorage.setItem('minutosTotaisSelecionado', 60);
             console.log("Apenas um bloco selecionado. Total de minutos: 60");
         } else{
 
@@ -140,17 +149,16 @@ function atualizarHorariosSelecionados() {
         let fimEmMinutos = converterParaMinutos(horariosSelecionados[horariosSelecionados.length - 1]);
 
         // Calcula a diferença total em minutos entre o primeiro e o último horário
-        let minutosTotais = fimEmMinutos - inicioEmMinutos;
+        let minutosTotaisSelecionado = fimEmMinutos - inicioEmMinutos;
 
         // Salva o total de minutos no localStorage
-        localStorage.setItem('minutosTotais', minutosTotais);
+        localStorage.setItem('minutosTotaisSelecionado', minutosTotaisSelecionado);
 
         // Log para verificar o total de minutos calculado
-        console.log("Total de minutos:", minutosTotais);
-      }
-    } else {
+        console.log("Total de minutos:", minutosTotaisSelecionado);*/
+      }else {
         // Caso nenhum horário esteja selecionado, salva 0 minutos no localStorage
-        localStorage.setItem('minutosTotais', 0);
+        localStorage.setItem('minutosTotaisSelecionado', 0);
         console.log("Nenhum horário selecionado.");
     }
 

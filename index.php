@@ -1,4 +1,13 @@
-<?php include('config.php');?>
+<?php include('config.php');
+
+	 // Recuperar os serviços da tabela `tb_servico`
+	try {
+	    $servicos = Painel::selectAll('tb_servico');
+	} catch (Exception $e) {
+	    die("Erro ao recuperar os serviços: " . $e->getMessage());
+	}
+	 
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -27,19 +36,20 @@
 		<div class="container flex" style="align-items: center;">
 			<div class="logo">
 				<a href="#home">
-					<img src="<?php echo INCLUDE_PATH;?>img/logo/logo-edit-4.png">
+					<img src="<?php echo INCLUDE_PATH;?>img/logo/logo-edit-4.png" alt="logo empresa">
 				</a><!--#home-->
 			</div><!--logo-->
 			<div class="menu">
 				<nav class="menu-desktop hover-a-class">
 					<ul>
 						<li><a href="#home">Home</a></li>
-						<li><a href="#sobre">Sobre</li>
+						<li><a href="#sobre">Sobre</a></li>
 						<li><a href="#servicos">Serviços</a></li>
 						<li><a href="#galeria">Galeria</a></li>
 						<li><a href="#sessao-agenda">Agenda</a></li>
 						<li><a href="#depoimentos">Depoimentos</a></li>
 						<li><a href="#contato">Contato</a></li>
+						<li><a href="https://nailtips.paularosangelanails.com.br/">NailTips</a></li>
 					</ul>
 				</nav>
 				<div class="btn-chamada btn-desktop"><a href="#sessao-agenda">Agendar Agora</a></div>
@@ -49,12 +59,13 @@
 				<nav class="menu menu-mobile-nav">
 						<ul>
 							<li><a href="#home">Home</a></li>
-							<li><a href="#sobre">Sobre</li>
+							<li><a href="#sobre">Sobre</a></li>
 							<li><a href="#servicos">Serviços</a></li>
 							<li><a href="#galeria">Galeria</a></li>
 							<li><a href="#sessao-agenda">Agenda</a></li>
 							<li><a href="#depoimentos">Depoimentos</a></li>
 							<li><a href="#contato">Contato</a></li>
+							<li><a href="https://nailtips.paularosangelanails.com.br/">NailTips by Paula Rosangela</a></li>
 						</ul>
 						<div class="btn-chamada btn-mobile" style="display:none;"><a href="#sessao-agenda">Agendar Agora</a></div>
 				</nav>
@@ -95,7 +106,7 @@
 
 				<div class="img-sobre">
 					<div class="wraper-mockup">
-							<img src="<?php echo INCLUDE_PATH;?>img/sobre/img-unha.png">
+							<img src="<?php echo INCLUDE_PATH;?>img/sobre/img-unha.png" alt="fundo banner home">
 					</div><!--wraper-mockup-->
 				</div><!--img-sobre-->
 
@@ -113,7 +124,7 @@
 
 				<div class="img-sobre">
 					<div class="wraper-mockup">
-							<img src="<?php echo INCLUDE_PATH;?>img/sobre/img-unha.png">
+							<img src="<?php echo INCLUDE_PATH;?>img/sobre/img-unha.png" alt="foto sobre">
 					</div><!--wraper-mockup-->
 				</div><!--img-sobre-->
 
@@ -198,7 +209,7 @@
 					<div class="servicos-single">
 						<a href="#sessao-agenda" class="btn-scroll">
 						<div class="img-servicos">
-							<img src="<?php echo INCLUDE_PATH;?>img/servicos/img-unha.png">
+							<img src="<?php echo INCLUDE_PATH;?>img/servicos/img-unha.png" alt="fundo sessão serviços">
 						</div><!--img-servicos-->
 
 						<div class="txt-servicos">
@@ -216,7 +227,7 @@
 					<div class="servicos-single">
 						<a href="#sessao-agenda" class="btn-scroll">
 						<div class="img-servicos">
-							<img src="<?php echo INCLUDE_PATH;?>img/servicos/img-unha.png">
+							<img src="<?php echo INCLUDE_PATH;?>img/servicos/img-unha.png" alt="fundo foto">
 						</div><!--img-servicos-->
 
 						<div class="txt-servicos">
@@ -234,7 +245,7 @@
 					<div class="servicos-single">
 						<a href="#sessao-agenda" class="btn-scroll">
 						<div class="img-servicos">
-							<img src="<?php echo INCLUDE_PATH;?>img/servicos/img-unha.png">
+							<img src="<?php echo INCLUDE_PATH;?>img/servicos/img-unha.png" alt="foto">
 						</div><!--img-servicos-->
 
 						<div class="txt-servicos">
@@ -252,7 +263,7 @@
 					<div class="servicos-single">
 						<a href="#sessao-agenda" class="btn-scroll">
 						<div class="img-servicos">
-							<img src="<?php echo INCLUDE_PATH;?>img/servicos/img-unha.png">
+							<img src="<?php echo INCLUDE_PATH;?>img/servicos/img-unha.png" alt="foto">
 						</div><!--img-servicos-->
 
 						<div class="txt-servicos">
@@ -271,7 +282,7 @@
 					<div class="servicos-single">
 						<a href="#sessao-agenda" class="btn-scroll">
 						<div class="img-servicos">
-							<img src="<?php echo INCLUDE_PATH;?>img/servicos/img-unha.png">
+							<img src="<?php echo INCLUDE_PATH;?>img/servicos/img-unha.png" alt="foto">
 						</div><!--img-servicos-->
 
 						<div class="txt-servicos">
@@ -355,7 +366,7 @@
 			-->
 			<div class="btn-chamada-wraper" style="text-align: center;">
 
-				<div class="btn-chamada btn-meus-agendamentos"><a>Consultar Agendamentos</a></div>
+				<div class="btn-chamada btn-meus-agendamentos"><a>Consultar Meus Agendamentos</a></div>
 
 			</div><!--btn-chamada-wraper-->
 		</div><!--meus-agendamentos-->
@@ -703,9 +714,9 @@
 
 		</div><!--wraper-resumo-->
 
-<!---
+<!--
 	SE TEM CREDITO DISPONIVEL
-	----->
+	-->
 		<div class="wraper-resumo box-servicos-select">
 
 			<div class="selecao-single-topo flex">
@@ -735,7 +746,7 @@
 		</div><!--wraper-resumo-->
 
 
-		<!----FINAL CREDITO DISPONIVEL----->
+		<!--FINAL CREDITO DISPONIVEL-->
 
 		<div class="editar-servico-btn js-btn-editar-servico-consultar">
 			<div class="btn-chamada-wraper btn-edit-servico">
@@ -2334,11 +2345,11 @@
 
 			<div class="close-btn"><i class="fa-solid fa-square-xmark"></i></div><!--close-btn-->
 
-			<div class="sucess">
+			<div class="sucess js-sucess-modal-agenda-servicos">
 				<p class="txt-p">Texto exemplo</p>
 			</div><!--error-->
 
-			<div class="error">
+			<div class="error js-error-modal-agenda-servicos">
 				<p class="txt-p">Texto exemplo</p>
 			</div><!--error-->
 
@@ -2408,24 +2419,59 @@
 
 					<div class="box-de-servicos">
 
-						<div class="servico-single">
+						<?php
 
-							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+						try {
 
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-						    
-						    <div class="txt-box-servico">
-							    <input type="checkbox" id="agenda-manicure-pedicure-1" class="checkbox-servico" value="agenda-manicure-pedicure-1" data-preco="30">
+						    // Nome do serviço que queremos filtrar (manicure-pedicure, por exemplo)
+						    $nomeServicoFiltro = 'manicure-pedicure';
 
-							    <input type="hidden" name="duracao" value="2:00">
-							    
-							    <p class="p-single">Manicure e Pedicure Completo e Bem Estar</p>
+						    // Filtrar os serviços com base no valor de `nome_servico_id`
+						    $servicosFiltrados = array_filter($servicos, function($servico) use ($nomeServicoFiltro) {
+						        return $servico['nome_servico_id'] === $nomeServicoFiltro;
+						    });
 
-							    <span class="preco-txt">R$49,99</span>
+						// Verificar se existem serviços filtrados
+    					if (!empty($servicosFiltrados)) {
 
-							</div><!--txt-box-servico-->
-						</div><!--servico-single-->
+							//echo "<h2>Serviços do grupo: {$nomeServicoFiltro}</h2>";
+					        foreach ($servicosFiltrados as $servico) {
+					            // Extraindo os dados da tabela
+					            $id = $servico['id'];
+					            $foto = $servico['foto_servico'];
+					            $duracao = $servico['duracao_servico'];
+					            $preco = $servico['preco_servico'];
+					            $nome = $servico['nome_servico'];
+					            $descricao = $servico['descricao_servico'];
+					            $nomeServicoId = $servico['nome_servico_id'];
+
+						        echo <<<HTML
+<div class="servico-single">
+    <i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+
+    <div class="over-back-img-servico"></div><!--back-img-servico-->
+    <div class="img-servico" style="background-image:url('img/img-servicos/{$foto}');"></div>
+    
+    <div class="txt-box-servico">
+        <input type="checkbox" id="agenda-{$nomeServicoId}-1" class="checkbox-servico" value="agenda-{$nomeServicoId}-{$id}" data-preco="{$preco}">
+        <input type="hidden" name="duracao" value="{$duracao}">
+        
+        <p class="p-single">{$nome} <br> 
+            <span style="font-size: 12px;">{$descricao}</span>
+        </p>
+
+        <span class="preco-txt">R\${$preco}</span>
+    </div><!--txt-box-servico-->
+</div><!--servico-single-->
+HTML;
+						    }
+						} 
+
+						}catch (Exception $e) {
+						    echo "Erro ao recuperar os serviços: " . $e->getMessage();
+						}
+
+						?>
 
 					</div><!--box-de-servicos-->
 				   
@@ -2448,60 +2494,64 @@
 
 					<div class="box-de-servicos">
 
-						<div class="servico-single">
+						<?php
 
-							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+						try {
 
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/manicure-img.jpg');"></div>
-						    
-						   	<div class="txt-box-servico">
-						    	<input type="checkbox" id="agenda-manicure-1" class="checkbox-servico" value="agenda-manicure-1" data-preco="30">
+						    // Nome do serviço que queremos filtrar (manicure-pedicure, por exemplo)
+						    $nomeServicoFiltro = 'manicure';
 
-						     	<input type="hidden" name="duracao" value="1:00">
-						    
-						    	<p class="p-single">Manicure Completa e Bem Estar</p>
+						    // Filtrar os serviços com base no valor de `nome_servico_id`
+						    $servicosFiltrados = array_filter($servicos, function($servico) use ($nomeServicoFiltro) {
+						        $nomeServicoId = $servico['nome_servico_id'];
 
-							    <span class="preco-txt">R$49,99</span>
-							</div><!--txt-box-servico-->
-						</div><!--servico-single-->
+						        // Verifica se o nome do serviço começa com o grupo desejado e não é uma exceção
+        						return strpos($nomeServicoId, $nomeServicoFiltro) === 0 && $nomeServicoId !== 'manicure-pedicure';
+						    });
 
-					    <div class="servico-single">
+						// Verificar se existem serviços filtrados
+    					if (!empty($servicosFiltrados)) {
 
-					    	<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+							//echo "<h2>Serviços do grupo: {$nomeServicoFiltro}</h2>";
+					        foreach ($servicosFiltrados as $servico) {
+					            // Extraindo os dados da tabela
+					            $id = $servico['id'];
+					            $foto = $servico['foto_servico'];
+					            $duracao = $servico['duracao_servico'];
+					            $preco = $servico['preco_servico'];
+					            $nome = $servico['nome_servico'];
+					            $descricao = $servico['descricao_servico'];
+					            $nomeServicoId = $servico['nome_servico_id'];
 
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/manicure-corte-img.jpg');"></div>
-						    
-						    <div class="txt-box-servico">
-							    <input type="checkbox" id="agenda-manicure-corte-1" class="checkbox-servico" value="agenda-manicure-corte-1" data-preco="30">
+						        echo <<<HTML
+<div class="servico-single">
+    <i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
 
-							    <input type="hidden" name="duracao" value="0:40">
-							    
-							    <p class="p-single">Corte de Unha Mão</p>
+    <div class="over-back-img-servico"></div><!--back-img-servico-->
+    <div class="img-servico" style="background-image:url('img/img-servicos/{$foto}');"></div>
+    
+    <div class="txt-box-servico">
+        <input type="checkbox" id="agenda-{$nomeServicoId}-1" class="checkbox-servico" value="agenda-{$nomeServicoId}-{$id}" data-preco="{$preco}">
+        <input type="hidden" name="duracao" value="{$duracao}">
+        
+        <p class="p-single">{$nome} <br> 
+            <span style="font-size: 12px;">{$descricao}</span>
+        </p>
 
-							    <span class="preco-txt">R$14,99</span>
-							</div><!--txt-box-servico-->
-						</div><!--servico-single-->
-					    
-					    <div class="servico-single">
+        <span class="preco-txt">R\${$preco}</span>
+    </div><!--txt-box-servico-->
+</div><!--servico-single-->
+HTML;
+						    }
+						}else {
+					        echo "<p>Nenhum serviço encontrado para o grupo: {$grupoFiltro}</p>";
+					    } 
 
-					    	<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+						}catch (Exception $e) {
+						    echo "Erro ao recuperar os serviços: " . $e->getMessage();
+						}
 
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/manicure-esmaltacao-img.jpg');"></div>
-
-							<div class="txt-box-servico">
-							    
-							    <input type="checkbox" id="agenda-manicure-esmaltacao-1" class="checkbox-servico" value="agenda-manicure-esmaltacao-1" data-preco="30">
-
-							     <input type="hidden" name="duracao" value="0:40">
-							    
-							    <p class="p-single">Esmaltação Mão</p>
-
-							    <span class="preco-txt">R$14,99</span>
-							</div><!--txt-box-servico-->
-						</div><!--servico-single-->
+						?>
 
 					</div><!--box-de-servicos-->
 				   
@@ -2524,104 +2574,64 @@
 
 					<div class="box-de-servicos">
 
-						<div class="servico-single">
-						    
-						    <i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+						<?php
 
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-						    
-						    <div class="txt-box-servico">
+						try {
 
-						    	<input type="checkbox" id="agenda-pedicure-1" class="checkbox-servico" value="agenda-pedicure-1" data-preco="30">
+						    // Nome do serviço que queremos filtrar (manicure-pedicure, por exemplo)
+						    $nomeServicoFiltro = 'pedicure';
 
-						    	<input type="hidden" name="duracao" value="1:00">
-						    
-						    	<p class="p-single">Pedicure</p>
+						    // Filtrar os serviços com base no valor de `nome_servico_id`
+						    $servicosFiltrados = array_filter($servicos, function($servico) use ($nomeServicoFiltro) {
+						        $nomeServicoId = $servico['nome_servico_id'];
 
-						   		<span class="preco-txt">R$29,99</span>
-							</div><!--TXT-BOX-SERVICO-->
-						</div><!--servico-single-->
+						        // Verifica se o nome do serviço começa com o grupo desejado e não é uma exceção
+        						return strpos($nomeServicoId, $nomeServicoFiltro) === 0 && $nomeServicoId !== 'manicure-pedicure';
+						    });
 
-					    <div class="servico-single">
-						    
-						    <i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+						// Verificar se existem serviços filtrados
+    					if (!empty($servicosFiltrados)) {
 
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-						    
-						    <div class="txt-box-servico">
+							//echo "<h2>Serviços do grupo: {$nomeServicoFiltro}</h2>";
+					        foreach ($servicosFiltrados as $servico) {
+					            // Extraindo os dados da tabela
+					            $id = $servico['id'];
+					            $foto = $servico['foto_servico'];
+					            $duracao = $servico['duracao_servico'];
+					            $preco = $servico['preco_servico'];
+					            $nome = $servico['nome_servico'];
+					            $descricao = $servico['descricao_servico'];
+					            $nomeServicoId = $servico['nome_servico_id'];
 
-						    	<input type="checkbox" id="agenda-pedicure-corte-1" class="checkbox-servico" value="agenda-pedicure-corte-1" data-preco="30">
+						        echo <<<HTML
+<div class="servico-single">
+    <i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
 
-						     	<input type="hidden" name="duracao" value="0:40">
-						    
-						    	<p class="p-single">Corte de Unha Pé</p>
+    <div class="over-back-img-servico"></div><!--back-img-servico-->
+    <div class="img-servico" style="background-image:url('img/img-servicos/{$foto}');"></div>
+    
+    <div class="txt-box-servico">
+        <input type="checkbox" id="agenda-{$nomeServicoId}-1" class="checkbox-servico" value="agenda-{$nomeServicoId}-{$id}" data-preco="{$preco}">
+        <input type="hidden" name="duracao" value="{$duracao}">
+        
+        <p class="p-single">{$nome} <br> 
+            <span style="font-size: 12px;">{$descricao}</span>
+        </p>
 
-						    	<span class="preco-txt">R$14,99</span>
-						    </div><!--TXT-BOX-SERVICO-->
+        <span class="preco-txt">R\${$preco}</span>
+    </div><!--txt-box-servico-->
+</div><!--servico-single-->
+HTML;
+						    }
+						}else {
+					        echo "<p>Nenhum serviço encontrado para o grupo: {$grupoFiltro}</p>";
+					    } 
 
-						</div><!--servico-single-->
-					    
-					    <div class="servico-single">
+						}catch (Exception $e) {
+						    echo "Erro ao recuperar os serviços: " . $e->getMessage();
+						}
 
-					    	<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-						    
-						    <div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-pedicure-esmaltacao-1" class="checkbox-servico" value="agenda-pedicure-esmaltacao-1" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="0:40">
-						    
-						    	<p class="p-single">Esmaltação Pé</p>
-
-						    	<span class="preco-txt">R$14,99</span>
-						    </div><!--txt-box-servico-->
-						</div><!--servico-single-->
-
-						<div class="servico-single">
-
-							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div> 
-								
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-						    
-						    <div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-pedicure-spa-do-pe-1" class="checkbox-servico" value="agenda-pedicure-spa-do-pe-1" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="0:40">
-						    
-						    	<p class="p-single">Spa do Pé</p>
-
-						    	<span class="preco-txt">R$39,99</span>
-						    </div><!--txt-box-servico-->
-						</div><!--servico-single-->
-
-						<div class="servico-single">
-
-							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-						    
-						    <div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-plastica-dos-pes-1" class="checkbox-servico" value="agenda-plastica-dos-pes-1" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="0:40">
-						    
-						    	<p class="p-single">Plástica dos Pés</p>
-
-						    	<span class="preco-txt">R$49,99</span>
-
-						    </div><!--txt-box-servico-->
-						</div><!--servico-single-->
+						?>
 
 					</div><!--box-de-servicos-->
 
@@ -2644,43 +2654,64 @@
 
 					<div class="box-de-servicos">
 
-						<div class="servico-single">
+						<?php
 
-							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+						try {
 
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-						    
-						    <div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-limpeza-simples-1" class="checkbox-servico" value="agenda-limpeza-simples-1" data-preco="30">
+						    // Nome do serviço que queremos filtrar (manicure-pedicure, por exemplo)
+						    $nomeServicoFiltro = 'sobrancelhas';
 
-						     	<input type="hidden" name="duracao" value="0:40">
-						    
-						    	<p class="p-single">Limpeza Simples de Sobrancelhas</p>
+						    // Filtrar os serviços com base no valor de `nome_servico_id`
+						    $servicosFiltrados = array_filter($servicos, function($servico) use ($nomeServicoFiltro) {
+						        $nomeServicoId = $servico['nome_servico_id'];
 
-						    	<span class="preco-txt">R$24,99</span>
-						    </div><!--txt-box-servico-->
-						</div><!--servico-single-->
+						        // Verifica se o nome do serviço começa com o grupo desejado e não é uma exceção
+        						return strpos($nomeServicoId, $nomeServicoFiltro) === 0 && $nomeServicoId !== 'manicure-pedicure';
+						    });
 
-					    <div class="servico-single">
+						// Verificar se existem serviços filtrados
+    					if (!empty($servicosFiltrados)) {
 
-					    	<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+							//echo "<h2>Serviços do grupo: {$nomeServicoFiltro}</h2>";
+					        foreach ($servicosFiltrados as $servico) {
+					            // Extraindo os dados da tabela
+					            $id = 1;
+					            $foto = $servico['foto_servico'];
+					            $duracao = $servico['duracao_servico'];
+					            $preco = $servico['preco_servico'];
+					            $nome = $servico['nome_servico'];
+					            $descricao = $servico['descricao_servico'];
+					            $nomeServicoId = $servico['nome_servico_id'];
 
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-						    
-						    <div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-limpeza-henna-1" class="checkbox-servico" value="agenda-limpeza-henna-1" data-preco="30">
+						        echo <<<HTML
+<div class="servico-single">
+    <i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
 
-						     	<input type="hidden" name="duracao" value="1:00">
-						    
-						    	<p class="p-single">Aplicação de Henna</p>
+    <div class="over-back-img-servico"></div><!--back-img-servico-->
+    <div class="img-servico" style="background-image:url('img/img-servicos/{$foto}');"></div>
+    
+    <div class="txt-box-servico">
+        <input type="checkbox" id="agenda-{$nomeServicoId}-1" class="checkbox-servico" value="agenda-{$nomeServicoId}-{$id}" data-preco="{$preco}">
+        <input type="hidden" name="duracao" value="{$duracao}">
+        
+        <p class="p-single">{$nome} <br> 
+            <span style="font-size: 12px;">{$descricao}</span>
+        </p>
 
-						    	<span class="preco-txt">R$39,99</span>
-						    </div><!--txt-box-servico-->
-						</div><!--servico-single-->
+        <span class="preco-txt">R\${$preco}</span>
+    </div><!--txt-box-servico-->
+</div><!--servico-single-->
+HTML;
+						    }
+						}else {
+					        echo "<p>Nenhum serviço encontrado para o grupo: {$grupoFiltro}</p>";
+					    } 
+
+						}catch (Exception $e) {
+						    echo "Erro ao recuperar os serviços: " . $e->getMessage();
+						}
+
+						?>
 					    
 
 					</div><!--box-de-servicos-->
@@ -2705,233 +2736,64 @@
 
 					<div class="box-de-servicos">
 
-						<div class="servico-single">
+						<?php
 
-							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+						try {
 
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-						    
-						    <div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-along-corte-1" class="checkbox-servico" value="agenda-along-corte-1" data-preco="30">
+						    // Nome do serviço que queremos filtrar (manicure-pedicure, por exemplo)
+						    $nomeServicoFiltro = 'along';
 
-						     	<input type="hidden" name="duracao" value="1:00">
-						    
-						    	<p class="p-single">Corte</p>
+						    // Filtrar os serviços com base no valor de `nome_servico_id`
+						    $servicosFiltrados = array_filter($servicos, function($servico) use ($nomeServicoFiltro) {
+						        $nomeServicoId = $servico['nome_servico_id'];
 
-						    	<span class="preco-txt">R$24,99</span>
-						    </div><!--txt-box-servico-->
-						</div><!--servico-single-->
+						        // Verifica se o nome do serviço começa com o grupo desejado e não é uma exceção
+        						return strpos($nomeServicoId, $nomeServicoFiltro) === 0 && $nomeServicoId !== 'manicure-pedicure';
+						    });
 
-						<div class="servico-single">
+						// Verificar se existem serviços filtrados
+    					if (!empty($servicosFiltrados)) {
 
-							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+							//echo "<h2>Serviços do grupo: {$nomeServicoFiltro}</h2>";
+					        foreach ($servicosFiltrados as $servico) {
+					            // Extraindo os dados da tabela
+					            $id = $servico['id'];
+					            $foto = $servico['foto_servico'];
+					            $duracao = $servico['duracao_servico'];
+					            $preco = $servico['preco_servico'];
+					            $nome = $servico['nome_servico'];
+					            $descricao = $servico['descricao_servico'];
+					            $nomeServicoId = $servico['nome_servico_id'];
 
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-						    
-						    <div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-along-manutencao-1" class="checkbox-servico" value="agenda-along-manutencao-1" data-preco="30">
+						        echo <<<HTML
+<div class="servico-single">
+    <i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
 
-						     	<input type="hidden" name="duracao" value="1:30">
-						    
-						    	<p class="p-single">Manutenção</p>
+    <div class="over-back-img-servico"></div><!--back-img-servico-->
+    <div class="img-servico" style="background-image:url('img/img-servicos/{$foto}');"></div>
+    
+    <div class="txt-box-servico">
+        <input type="checkbox" id="agenda-{$nomeServicoId}-1" class="checkbox-servico" value="agenda-{$nomeServicoId}-{$id}" data-preco="{$preco}">
+        <input type="hidden" name="duracao" value="{$duracao}">
+        
+        <p class="p-single">{$nome} <br> 
+            <span style="font-size: 12px;">{$descricao}</span>
+        </p>
 
-						    	<span class="preco-txt">R$24,99</span>
-						    </div><!--txt-box-servico-->
-						</div><!--servico-single-->
+        <span class="preco-txt">R\${$preco}</span>
+    </div><!--txt-box-servico-->
+</div><!--servico-single-->
+HTML;
+						    }
+						}else {
+					        echo "<p>Nenhum serviço encontrado para o grupo: {$grupoFiltro}</p>";
+					    } 
 
-					    <div class="servico-single">
+						}catch (Exception $e) {
+						    echo "Erro ao recuperar os serviços: " . $e->getMessage();
+						}
 
-					    	<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-						    
-						    <div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-along-remocao-1-1" class="checkbox-servico" value="agenda-along-remocao-1-1" data-preco="30">
-
-						    	<input type="hidden" name="duracao" value="2:00">
-						    
-						    	<p class="p-single">Remoção</p>
-
-						    	<span class="preco-txt">R$39,99</span>
-						    </div><!--txt-box-servico-->
-						</div><!--servico-single-->
-
-						 <div class="servico-single">
-
-						 	<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-						    
-						    <div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-along-concerto-1" class="checkbox-servico" value="agenda-along-concerto-1" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="1:40">
-						    
-						    	<p class="p-single">Concerto</p>
-
-						    	<span class="preco-txt">R$39,99</span>
-						    </div><!--txt-box-servico-->
-						</div><!--servico-single-->
-
-						<div class="servico-single">
-
-							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-						    
-						    <div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-along-esmaltacaogel-1" class="checkbox-servico" value="agenda-along-esmaltacaogel-1" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="1:00">
-						    
-						    	<p class="p-single">Esmaltação em gel</p>
-
-						    	<span class="preco-txt">R$39,99</span>
-						    </div><!--txt-box-servico-->
-						</div><!--servico-single-->
-
-						<div class="servico-single">
-						    
-						    <i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-						    
-						    <div class="txt-box-servico">
-
-						    	<input type="checkbox" id="agenda-along-fibravidro-1" class="checkbox-servico" value="agenda-along-fibravidro-1" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="2:00">
-						    
-						    	<p class="p-single">Fibra de vidro</p>
-
-						    	<span class="preco-txt">R$39,99</span>
-						    </div><!--txt-box-servico-->
-						</div><!--servico-single-->
-
-						<div class="servico-single">
-						    
-						    <i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-						    
-						    <div class="txt-box-servico">
-
-						    	<input type="checkbox" id="agenda-along-gel-1" class="checkbox-servico" value="agenda-along-gel-1" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="2:00">
-						    
-						    	<p class="p-single">Along. Gel</p>
-
-						    	<span class="preco-txt">R$39,99</span>
-						    </div><!--txt-box-servico-->
-						</div><!--servico-single-->
-
-						<div class="servico-single">
-						    
-						    <i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-						    
-						    <div class="txt-box-servico">
-
-						    	<input type="checkbox" id="agenda-along-poligel-1" class="checkbox-servico" value="agenda-along-poligel-1" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="2:00">
-						    
-						    	<p class="p-single">Poligel</p>
-
-						    	<span class="preco-txt">R$39,99</span>
-						    </div><!--txt-box-servico-->
-						</div><!--servico-single-->
-
-						<div class="servico-single">
-						    
-						    <i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-						    
-						    <div class="txt-box-servico">
-
-						    	<input type="checkbox" id="agenda-along-seda-1" class="checkbox-servico" value="agenda-along-seda-1" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="2:00">
-						    
-						    	<p class="p-single">Seda</p>
-
-						    	<span class="preco-txt">R$39,99</span>
-						    </div><!--txt-box-servico-->
-						</div><!--servico-single-->
-
-						<div class="servico-single">
-
-							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-						    
-						    <div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-along-tips-1" class="checkbox-servico" value="agenda-along-tips-1" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="2:00">
-						    
-						    	<p class="p-single">Tips</p>
-
-						    	<span class="preco-txt">R$39,99</span>
-						    </div><!--txt-box-servico-->
-						</div><!--servico-single-->
-
-						<div class="servico-single">
-
-						    <i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-						    
-						    <div class="txt-box-servico">
-
-						    	<input type="checkbox" id="agenda-along-banhogel-1" class="checkbox-servico" value="agenda-along-banhogel-1" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="2:00">
-						    
-						    	<p class="p-single">Banho em Gel</p>
-
-						    	<span class="preco-txt">R$39,99</span>
-						    </div><!--txt-box-servico-->
-						</div><!--servico-single-->
-
-						<div class="servico-single">
-
-						    <i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-						    
-						    <div class="txt-box-servico">
-
-						    	<input type="checkbox" id="agenda-along-blinda-1" class="checkbox-servico" value="agenda-along-blinda-1" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="2:00">
-						    
-						    	<p class="p-single">Blindagem</p>
-
-						    	<span class="preco-txt">R$39,99</span>
-						    </div><!--txt-box-servico-->
-						</div><!--servico-single-->
+						?>
 					    
 
 					</div><!--box-de-servicos-->
@@ -2963,7 +2825,7 @@
 						</div>
 					</div>
 
-					<div class="selecao-single-total flex">
+					<div class="selecao-single-total pos-total-cliente-1 flex">
 						<div class="txt-p"><span class="color-p">Total</span>
 						</div> 
 						<div class="duracao">
@@ -3588,20 +3450,7 @@
 						
 					</div>
 
-<!--
-   		<div class="selecao-single flex">
-            <div class="txt-p">
-                <span class="p-single">Tarifa Especial</span>
-            </div>
-            <div class="duracao">
-				<span class="color-p"></span>
-			</div>
-            <div class="preco-lixeira">
-                <span class="preco-single">R$14,99</span>
-            </div>
-        </div>
--->
-					<div class="selecao-single-total flex">
+					<div class="selecao-single-total pos-total-cliente-2 flex">
 						<div class="txt-p"><span class="color-p">Total</span>
 						</div> 
 						<div class="duracao">
@@ -3650,12 +3499,25 @@
 					<div class="box-de-servicos">
 
 						<div class="servico-single">
-						    
-						    <input type="checkbox" id="agenda-manicure-pedicure-3" class="checkbox-servico" value="agenda-manicure-pedicure-3" data-preco="30">
 
-						    <input type="hidden" name="duracao" value="2:00">
+							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+
+							<div class="over-back-img-servico"></div>
+
+							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
+
+							<div class="txt-box-servico">
 						    
-						    <p class="p-single">Manicure e Pedicure<span class="preco-txt">R$49,99</span></p>
+							    <input type="checkbox" id="agenda-manicure-pedicure-3" class="checkbox-servico" value="agenda-manicure-pedicure-3" data-preco="30">
+
+							    <input type="hidden" name="duracao" value="2:00">
+							    
+							    <p class="p-single">Manicure e Pedicure</p>
+
+							    <span class="preco-txt">R$49,99</span>
+
+							</div><!--txt-box-servico-->
+
 						</div><!--servico-single-->
 
 					</div><!--box-de-servicos-->
@@ -3680,30 +3542,69 @@
 					<div class="box-de-servicos">
 
 						<div class="servico-single">
-						    
-						    <input type="checkbox" id="agenda-manicure-3" class="checkbox-servico" value="agenda-manicure-3" data-preco="30">
 
-						     <input type="hidden" name="duracao" value="1:00">
+							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+
+							<div class="over-back-img-servico"></div>
+
+							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
+
+							<div class="txt-box-servico">
 						    
-						    <p class="p-single">Manicure<span class="preco-txt">R$29,99</span></p>
+						    	<input type="checkbox" id="agenda-manicure-3" class="checkbox-servico" value="agenda-manicure-3" data-preco="30">
+
+							     <input type="hidden" name="duracao" value="1:00">
+						    
+						    	<p class="p-single">Manicure</p>
+
+						    	<span class="preco-txt">R$29,99</span>
+
+						    </div><!--txt-box-servico-->
+
 						</div><!--servico-single-->
 
 					    <div class="servico-single">
-						    
-						    <input type="checkbox" id="agenda-manicure-corte-3" class="checkbox-servico" value="agenda-manicure-corte-3" data-preco="30">
 
-						    <input type="hidden" name="duracao" value="0:40">
+					    	<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+
+							<div class="over-back-img-servico"></div>
+
+							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
+
+							<div class="txt-box-servico">
 						    
-						    <p class="p-single">Corte de Unha Mão<span class="preco-txt">R$14,99</span></p>
+						    	<input type="checkbox" id="agenda-manicure-corte-3" class="checkbox-servico" value="agenda-manicure-corte-3" data-preco="30">
+
+						    	<input type="hidden" name="duracao" value="0:40">
+						    
+						    	<p class="p-single">Corte de Unha Mão</p>
+
+						    	<span class="preco-txt">R$49,99</span>
+
+						    </div><!--txt-box-servico-->
+
 						</div><!--servico-single-->
 					    
 					    <div class="servico-single">
-						    
-						    <input type="checkbox" id="agenda-manicure-esmaltacao-3" class="checkbox-servico" value="agenda-manicure-esmaltacao-3" data-preco="30">
 
-						     <input type="hidden" name="duracao" value="0:40">
+					    	<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+
+							<div class="over-back-img-servico"></div>
+
+							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
+
+							<div class="txt-box-servico">
 						    
-						    <p class="p-single">Esmaltação Mão<span class="preco-txt">R$14,99</span></p>
+						    	<input type="checkbox" id="agenda-manicure-esmaltacao-3" class="checkbox-servico" value="agenda-manicure-esmaltacao-3" data-preco="30">
+
+						     	<input type="hidden" name="duracao" value="0:40">
+						    
+						    	<p class="p-single">Esmaltação Mão</p>
+
+						    	<span class="preco-txt">R$49,99</span>
+
+						    </div><!--txt-box-servico-->
+						
 						</div><!--servico-single-->
 
 					</div><!--box-de-servicos-->
@@ -3728,48 +3629,113 @@
 					<div class="box-de-servicos">
 
 						<div class="servico-single">
-						    
-						    <input type="checkbox" id="agenda-pedicure-3" class="checkbox-servico" value="agenda-pedicure-3" data-preco="30">
 
-						    <input type="hidden" name="duracao" value="1:00">
+							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+
+							<div class="over-back-img-servico"></div>
+
+							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
+
+							<div class="txt-box-servico">
 						    
-						    <p class="p-single">Pedicure<span class="preco-txt">R$29,99</span></p>
+						    	<input type="checkbox" id="agenda-pedicure-3" class="checkbox-servico" value="agenda-pedicure-3" data-preco="30">
+
+						    	<input type="hidden" name="duracao" value="1:00">
+						    
+						    	<p class="p-single">Pedicure</p>
+
+						    	<span class="preco-txt">R$49,99</span>
+
+						    </div><!--txt-box-servico-->
+
 						</div><!--servico-single-->
 
 					    <div class="servico-single">
-						    
-						    <input type="checkbox" id="agenda-pedicure-corte-3" class="checkbox-servico" value="agenda-pedicure-corte-3" data-preco="30">
 
-						     <input type="hidden" name="duracao" value="0:40">
+					    	<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+
+							<div class="over-back-img-servico"></div>
+
+							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
+
+							<div class="txt-box-servico">
 						    
-						    <p class="p-single">Corte de Unha Pé<span class="preco-txt">R$14,99</span></p>
+						    	<input type="checkbox" id="agenda-pedicure-corte-3" class="checkbox-servico" value="agenda-pedicure-corte-3" data-preco="30">
+
+						     	<input type="hidden" name="duracao" value="0:40">
+						    
+						    	<p class="p-single">Corte de Unha Pé</p>
+
+						    	<span class="preco-txt">R$49,99</span>
+
+						    </div><!--txt-box-servico-->
+
 						</div><!--servico-single-->
 					    
 					    <div class="servico-single">
-						    
-						    <input type="checkbox" id="agenda-pedicure-esmaltacao-3" class="checkbox-servico" value="agenda-pedicure-esmaltacao-3" data-preco="30">
 
-						     <input type="hidden" name="duracao" value="0:40">
+					    	<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+
+							<div class="over-back-img-servico"></div>
+
+							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
+
+							<div class="txt-box-servico">
 						    
-						    <p class="p-single">Esmaltação Pé<span class="preco-txt">R$14,99</span></p>
+						    	<input type="checkbox" id="agenda-pedicure-esmaltacao-3" class="checkbox-servico" value="agenda-pedicure-esmaltacao-3" data-preco="30">
+
+						     	<input type="hidden" name="duracao" value="0:40">
+						    
+						    	<p class="p-single">Esmaltação Pé></p>
+
+						    	<span class="preco-txt">R$49,99</span>
+
+						    </div><!--txt-box-servico-->
+
 						</div><!--servico-single-->
 
 						<div class="servico-single">
-						    
-						    <input type="checkbox" id="agenda-pedicure-spa-do-pe-3" class="checkbox-servico" value="agenda-pedicure-spa-do-pe-3" data-preco="30">
 
-						     <input type="hidden" name="duracao" value="0:40">
+							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+
+							<div class="over-back-img-servico"></div>
+
+							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
+
+							<div class="txt-box-servico">
 						    
-						    <p class="p-single">Spa do Pé<span class="preco-txt">R$39,99</span></p>
+						    	<input type="checkbox" id="agenda-pedicure-spa-do-pe-3" class="checkbox-servico" value="agenda-pedicure-spa-do-pe-3" data-preco="30">
+
+						     	<input type="hidden" name="duracao" value="0:40">
+						    
+						    	<p class="p-single">Spa do Pé</p>
+
+						    	<span class="preco-txt">R$49,99</span>
+
+						    </div><!--txt-box-servico-->
+
 						</div><!--servico-single-->
 
 						<div class="servico-single">
-						    
-						    <input type="checkbox" id="agenda-plastica-dos-pes-3" class="checkbox-servico" value="agenda-plastica-dos-pes-3" data-preco="30">
 
-						     <input type="hidden" name="duracao" value="0:40">
+							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+
+							<div class="over-back-img-servico"></div>
+
+							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
+
+							<div class="txt-box-servico">
 						    
-						    <p class="p-single">Plástica dos Pés<span class="preco-txt">R$49,99</span></p>
+						    	<input type="checkbox" id="agenda-plastica-dos-pes-3" class="checkbox-servico" value="agenda-plastica-dos-pes-3" data-preco="30">
+
+						     	<input type="hidden" name="duracao" value="0:40">
+						    
+						    	<p class="p-single">Plástica dos Pés</p>
+
+						    	<span class="preco-txt">R$49,99</span>
+
+						    </div><!--txt-box-servico-->
+
 						</div><!--servico-single-->
 
 					</div><!--box-de-servicos-->
@@ -3794,21 +3760,47 @@
 					<div class="box-de-servicos">
 
 						<div class="servico-single">
-						    
-						    <input type="checkbox" id="agenda-limpeza-simples-3" class="checkbox-servico" value="agenda-limpeza-simples-3" data-preco="30">
 
-						     <input type="hidden" name="duracao" value="0:40">
+							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+
+							<div class="over-back-img-servico"></div>
+
+							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
+
+							<div class="txt-box-servico">
 						    
-						    <p class="p-single">Limpeza Simples de Sobrancelhas<span class="preco-txt">R$24,99</span></p>
+						    	<input type="checkbox" id="agenda-limpeza-simples-3" class="checkbox-servico" value="agenda-limpeza-simples-3" data-preco="30">
+
+						     	<input type="hidden" name="duracao" value="0:40">
+						    
+						    	<p class="p-single">Limpeza Simples de Sobrancelhas</p>
+
+						    	<span class="preco-txt">R$49,99</span>
+
+						    </div><!--txt-box-servico-->
+
 						</div><!--servico-single-->
 
 					    <div class="servico-single">
-						    
-						    <input type="checkbox" id="agenda-limpeza-henna-3" class="checkbox-servico" value="agenda-limpeza-henna-3" data-preco="30">
 
-						     <input type="hidden" name="duracao" value="1:00">
+					    	<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+
+							<div class="over-back-img-servico"></div>
+
+							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
+
+							<div class="txt-box-servico">
 						    
-						    <p class="p-single">Aplicação de Henna<span class="preco-txt">R$39,99</span></p>
+						    	<input type="checkbox" id="agenda-limpeza-henna-3" class="checkbox-servico" value="agenda-limpeza-henna-3" data-preco="30">
+
+						     	<input type="hidden" name="duracao" value="1:00">
+						    
+						    	<p class="p-single">Aplicação de Henna</p>
+
+						    	<span class="preco-txt">R$49,99</span>
+
+						    </div><!--txt-box-servico-->
+
 						</div><!--servico-single-->
 					    
 
@@ -3835,111 +3827,265 @@
 					<div class="box-de-servicos">
 
 						<div class="servico-single">
-						    
-						    <input type="checkbox" id="agenda-along-corte-3" class="checkbox-servico" value="agenda-along-corte-3" data-preco="30">
 
-						     <input type="hidden" name="duracao" value="1:00">
+							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+
+							<div class="over-back-img-servico"></div>
+
+							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
+
+							<div class="txt-box-servico">
 						    
-						    <p class="p-single">Corte<span class="preco-txt">R$24,99</span></p>
+						    	<input type="checkbox" id="agenda-along-corte-3" class="checkbox-servico" value="agenda-along-corte-3" data-preco="30">
+
+						     	<input type="hidden" name="duracao" value="1:00">
+						    
+						    	<p class="p-single">Corte</p>
+
+						    	<span class="preco-txt">R$49,99</span>
+
+						    </div><!--txt-box-servico-->
+
 						</div><!--servico-single-->
 
 						<div class="servico-single">
-						    
-						    <input type="checkbox" id="agenda-along-manutencao-3" class="checkbox-servico" value="agenda-along-manutencao-3" data-preco="30">
 
-						     <input type="hidden" name="duracao" value="1:30">
+							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+
+							<div class="over-back-img-servico"></div>
+
+							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
+
+							<div class="txt-box-servico">
 						    
-						    <p class="p-single">Manutenção<span class="preco-txt">R$24,99</span></p>
+						    	<input type="checkbox" id="agenda-along-manutencao-3" class="checkbox-servico" value="agenda-along-manutencao-3" data-preco="30">
+
+						     	<input type="hidden" name="duracao" value="1:30">
+						    
+						    	<p class="p-single">Manutenção</p>
+
+						    	<span class="preco-txt">R$49,99</span>
+
+						    </div><!--txt-box-servico-->
+
 						</div><!--servico-single-->
 
 					    <div class="servico-single">
-						    
-						    <input type="checkbox" id="agenda-along-remocao-3" class="checkbox-servico" value="agenda-along-remocao-3" data-preco="30">
 
-						    <input type="hidden" name="duracao" value="2:00">
+					    	<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+
+							<div class="over-back-img-servico"></div>
+
+							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
+
+							<div class="txt-box-servico">
 						    
-						    <p class="p-single">Remoção<span class="preco-txt">R$39,99</span></p>
+						    	<input type="checkbox" id="agenda-along-remocao-3" class="checkbox-servico" value="agenda-along-remocao-3" data-preco="30">
+
+						    	<input type="hidden" name="duracao" value="2:00">
+						    
+						    	<p class="p-single">Remoção</p>
+
+						    	<span class="preco-txt">R$49,99</span>
+
+						    </div><!--txt-box-servico-->
+
 						</div><!--servico-single-->
 
 						 <div class="servico-single">
-						    
-						    <input type="checkbox" id="agenda-along-concerto-3" class="checkbox-servico" value="agenda-along-concerto-3" data-preco="30">
 
-						     <input type="hidden" name="duracao" value="1:40">
+						 	<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+
+							<div class="over-back-img-servico"></div>
+
+							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
+
+							<div class="txt-box-servico">
 						    
-						    <p class="p-single">Concerto<span class="preco-txt">R$39,99</span></p>
+						    	<input type="checkbox" id="agenda-along-concerto-3" class="checkbox-servico" value="agenda-along-concerto-3" data-preco="30">
+
+						     	<input type="hidden" name="duracao" value="1:40">
+						    
+						    	<p class="p-single">Concerto</p>
+
+						    	<span class="preco-txt">R$49,99</span>
+
+						    </div><!--txt-box-servico-->
+
 						</div><!--servico-single-->
 
 						<div class="servico-single">
-						    
-						    <input type="checkbox" id="agenda-along-esmaltacaogel-3" class="checkbox-servico" value="agenda-along-esmaltacaogel-3" data-preco="30">
 
-						     <input type="hidden" name="duracao" value="1:00">
+							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+
+							<div class="over-back-img-servico"></div>
+
+							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
+
+							<div class="txt-box-servico">
 						    
-						    <p class="p-single">Esmaltação em gel<span class="preco-txt">R$39,99</span></p>
+						    	<input type="checkbox" id="agenda-along-esmaltacaogel-3" class="checkbox-servico" value="agenda-along-esmaltacaogel-3" data-preco="30">
+
+						     	<input type="hidden" name="duracao" value="1:00">
+						    
+						    	<p class="p-single">Esmaltação em gel</p>
+
+						    	<span class="preco-txt">R$49,99</span>
+
+						    </div><!--txt-box-servico-->
+
 						</div><!--servico-single-->
 
 						<div class="servico-single">
-						    
-						    <input type="checkbox" id="agenda-along-fibravidro-3" class="checkbox-servico" value="agenda-along-fibravidro-3" data-preco="30">
 
-						     <input type="hidden" name="duracao" value="2:00">
+							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+
+							<div class="over-back-img-servico"></div>
+
+							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
+
+							<div class="txt-box-servico">
 						    
-						    <p class="p-single">Fibra de vidro<span class="preco-txt">R$39,99</span></p>
+						    	<input type="checkbox" id="agenda-along-fibravidro-3" class="checkbox-servico" value="agenda-along-fibravidro-3" data-preco="30">
+
+						     	<input type="hidden" name="duracao" value="2:00">
+						    
+						    	<p class="p-single">Fibra de vidro</p>
+
+						    	<span class="preco-txt">R$49,99</span>
+
+						    </div><!--txt-box-servico-->
+
 						</div><!--servico-single-->
 
 						<div class="servico-single">
-						    
-						    <input type="checkbox" id="agenda-along-gel-3" class="checkbox-servico" value="agenda-along-gel-3" data-preco="30">
 
-						     <input type="hidden" name="duracao" value="2:00">
+							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+
+							<div class="over-back-img-servico"></div>
+
+							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
+
+							<div class="txt-box-servico">
 						    
-						    <p class="p-single">Along. Gel<span class="preco-txt">R$39,99</span></p>
+						    	<input type="checkbox" id="agenda-along-gel-3" class="checkbox-servico" value="agenda-along-gel-3" data-preco="30">
+
+						     	<input type="hidden" name="duracao" value="2:00">
+						    
+						    	<p class="p-single">Along. Gel</p>
+
+						    	<span class="preco-txt">R$49,99</span>
+
+						    </div><!--txt-box-servico-->
+
 						</div><!--servico-single-->
 
 						<div class="servico-single">
-						    
-						    <input type="checkbox" id="agenda-along-poligel-3agenda-" class="c-3heckbox-servico" value="agenda-along-poligel-3agenda-" data-pre-3co="30">
 
-						     <input type="hidden" name="duracao" value="2:00">
+							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+
+							<div class="over-back-img-servico"></div><!--back-img-servico-->
+							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
+
+							<div class="txt-box-servico">
 						    
-						    <p class="p-single">Poligel<span class="preco-txt">R$39,99</span></p>
+						    	<input type="checkbox" id="agenda-along-poligel-3" class="checkbox-servico" value="agenda-along-poligel-3" data-preco="30">
+
+						     	<input type="hidden" name="duracao" value="2:00">
+						    
+						    	<p class="p-single">Poligel</p>
+
+						    	<span class="preco-txt">R$39,99</span>
+
+						    </div><!--txt-box-servico-->
 						</div><!--servico-single-->
 
 						<div class="servico-single">
-						    
-						    <input type="checkbox" id="agenda-along-seda-3" class="checkbox-servico" value="agenda-along-seda-3" data-preco="30">
 
-						     <input type="hidden" name="duracao" value="2:00">
+							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+
+							<div class="over-back-img-servico"></div>
+
+							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
+
+							<div class="txt-box-servico">
 						    
-						    <p class="p-single">Seda<span class="preco-txt">R$39,99</span></p>
+						    	<input type="checkbox" id="agenda-along-seda-3" class="checkbox-servico" value="agenda-along-seda-3" data-preco="30">
+
+						     	<input type="hidden" name="duracao" value="2:00">
+						    
+						    	<p class="p-single">Seda</p>
+
+						    	<span class="preco-txt">R$49,99</span>
+
+						    </div><!--txt-box-servico-->
+
 						</div><!--servico-single-->
 
 						<div class="servico-single">
-						    
-						    <input type="checkbox" id="agenda-along-tips-3" class="checkbox-servico" value="agenda-along-tips-3" data-preco="30">
 
-						     <input type="hidden" name="duracao" value="2:00">
+						    <i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+
+							<div class="over-back-img-servico"></div>
+
+							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
+
+							<div class="txt-box-servico">
+
+						    	<input type="checkbox" id="agenda-along-tips-3" class="checkbox-servico" value="agenda-along-tips-3" data-preco="30">
+
+						     	<input type="hidden" name="duracao" value="2:00">
 						    
-						    <p class="p-single">Tips<span class="preco-txt">R$39,99</span></p>
+						    	<p class="p-single">Tips</p>
+
+						    	<span class="preco-txt">R$49,99</span>
+
+						    </div><!--txt-box-servico-->
+
 						</div><!--servico-single-->
 
 						<div class="servico-single">
-						    
-						    <input type="checkbox" id="agenda-along-banhogel-3" class="checkbox-servico" value="agenda-along-banhogel-3" data-preco="30">
 
-						     <input type="hidden" name="duracao" value="2:00">
+							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+
+							<div class="over-back-img-servico"></div>
+
+							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
+
+							<div class="txt-box-servico">
 						    
-						    <p class="p-single">Banho em Gel<span class="preco-txt">R$39,99</span></p>
+						    	<input type="checkbox" id="agenda-along-banhogel-3" class="checkbox-servico" value="agenda-along-banhogel-3" data-preco="30">
+
+						     	<input type="hidden" name="duracao" value="2:00">
+						    
+						    	<p class="p-single">Banho em Gel</p>
+
+						    	<span class="preco-txt">R$49,99</span>
+
+						    </div><!--txt-box-servico-->
+
 						</div><!--servico-single-->
 
 						<div class="servico-single">
-						    
-						    <input type="checkbox" id="agenda-along-blindagem-3" class="checkbox-servico" value="agenda-along-blindagem-3" data-preco="30">
 
-						     <input type="hidden" name="duracao" value="2:00">
+							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+
+							<div class="over-back-img-servico"></div>
+
+							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
+
+							<div class="txt-box-servico">
 						    
-						    <p class="p-single">Blindagem<span class="preco-txt">R$39,99</span></p>
+						    	<input type="checkbox" id="agenda-along-blindagem-3" class="checkbox-servico" value="agenda-along-blindagem-3" data-preco="30">
+
+						     	<input type="hidden" name="duracao" value="2:00">
+						    
+						    	<p class="p-single">Blindage</p>
+
+						    	<span class="preco-txt">R$49,99</span>
+
+						    </div><!--txt-box-servico-->
+
 						</div><!--servico-single-->
 					    
 
@@ -3958,7 +4104,7 @@
 					<span class="line-h"></span>
 				</div><!--wraper-h-->
 
-				<div class="wraper-resumo box-servicos-select">
+				<div class="wraper-resumo box-servicos-select agenda-resumo-cliente-3">
 
 					<div class="selecao-single-topo flex">
 						<div class="txt-p"><span class="color-p">Serviço</span>
@@ -3973,6 +4119,8 @@
 						<input type="hidden" name="cliente_1" value="cliente_1">
 					</div>
 
+
+
 <!--
    		<div class="selecao-single flex">
             <div class="txt-p">
@@ -3986,7 +4134,7 @@
             </div>
         </div>
 -->
-					<div class="selecao-single-total flex">
+					<div class="selecao-single-total pos-total-cliente-3 flex">
 						<div class="txt-p"><span class="color-p">Total</span>
 						</div> 
 						<div class="duracao">
@@ -4035,12 +4183,23 @@
 					<div class="box-de-servicos">
 
 						<div class="servico-single">
-						    
-						    <input type="checkbox" id="agenda-manicure-pedicure-4" class="checkbox-servico" value="agenda-manicure-pedicure-4" data-preco="30">
 
-						    <input type="hidden" name="duracao" value="2:00">
+							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+
+							<div class="over-back-img-servico"></div><!--back-img-servico-->
+							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
 						    
-						    <p class="p-single">Manicure e Pedicure<span class="preco-txt">R$49,99</span></p>
+						    <div class="txt-box-servico">
+						    
+						    	<input type="checkbox" id="agenda-manicure-pedicure-4" class="checkbox-servico" value="agenda-manicure-pedicure-4" data-preco="30">
+
+						    	<input type="hidden" name="duracao" value="2:00">
+						    
+						    	<p class="p-single">Manicure e Pedicure</p>
+
+						    	<span class="preco-txt">R$49,99</span>
+
+						    </div><!--txt-box-servico-->
 						</div><!--servico-single-->
 
 					</div><!--box-de-servicos-->
@@ -4065,30 +4224,63 @@
 					<div class="box-de-servicos">
 
 						<div class="servico-single">
-						    
-						    <input type="checkbox" id="agenda-manicure-4" class="checkbox-servico" value="agenda-manicure-4" data-preco="30">
 
-						     <input type="hidden" name="duracao" value="1:00">
+							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+
+							<div class="over-back-img-servico"></div><!--back-img-servico-->
+							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
 						    
-						    <p class="p-single">Manicure<span class="preco-txt">R$29,99</span></p>
+						    <div class="txt-box-servico">
+						    
+						    	<input type="checkbox" id="agenda-manicure-4" class="checkbox-servico" value="agenda-manicure-4" data-preco="30">
+
+						     	<input type="hidden" name="duracao" value="1:00">
+						    
+						    	<p class="p-single">Manicure</p>
+
+						    	<span class="preco-txt">R$49,99</span>
+						    </div><!--txt-box-servico-->
+
 						</div><!--servico-single-->
 
 					    <div class="servico-single">
-						    
-						    <input type="checkbox" id="agenda-manicure-corte-4" class="checkbox-servico" value="agenda-manicure-corte-4" data-preco="30">
 
-						    <input type="hidden" name="duracao" value="0:40">
+					    	<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+
+							<div class="over-back-img-servico"></div><!--back-img-servico-->
+							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
 						    
-						    <p class="p-single">Corte de Unha Mão<span class="preco-txt">R$14,99</span></p>
+						    <div class="txt-box-servico">
+						    
+						    	<input type="checkbox" id="agenda-manicure-corte-4" class="checkbox-servico" value="agenda-manicure-corte-4" data-preco="30">
+
+						    	<input type="hidden" name="duracao" value="0:40">
+						    
+						    	<p class="p-single">Corte de Unha Mão</p>
+
+						    	<span class="preco-txt">R$49,99</span>
+
+						    </div><!--txt-box-servico-->
 						</div><!--servico-single-->
 					    
 					    <div class="servico-single">
-						    
-						    <input type="checkbox" id="agenda-manicure-esmaltacao-4" class="checkbox-servico" value="agenda-manicure-esmaltacao-4" data-preco="30">
 
-						     <input type="hidden" name="duracao" value="0:40">
+					    	<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+
+							<div class="over-back-img-servico"></div><!--back-img-servico-->
+							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
 						    
-						    <p class="p-single">Esmaltação Mão<span class="preco-txt">R$14,99</span></p>
+						    <div class="txt-box-servico">
+						    
+						    	<input type="checkbox" id="agenda-manicure-esmaltacao-4" class="checkbox-servico" value="agenda-manicure-esmaltacao-4" data-preco="30">
+
+						     	<input type="hidden" name="duracao" value="0:40">
+						    
+						    	<p class="p-single">Esmaltação Mão</p>
+
+						    	<span class="preco-txt">R$49,99</span>
+
+						    </div><!--txt-box-servico-->
 						</div><!--servico-single-->
 
 					</div><!--box-de-servicos-->
@@ -4113,48 +4305,103 @@
 					<div class="box-de-servicos">
 
 						<div class="servico-single">
-						    
-						    <input type="checkbox" id="agenda-pedicure-4" class="checkbox-servico" value="agenda-pedicure-4" data-preco="30">
 
-						    <input type="hidden" name="duracao" value="1:00">
+							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+
+							<div class="over-back-img-servico"></div><!--back-img-servico-->
+							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
 						    
-						    <p class="p-single">Pedicure<span class="preco-txt">R$29,99</span></p>
+						    <div class="txt-box-servico">
+						    
+						    	<input type="checkbox" id="agenda-pedicure-4" class="checkbox-servico" value="agenda-pedicure-4" data-preco="30">
+
+						    	<input type="hidden" name="duracao" value="1:00">
+						    
+						    	<p class="p-single">Pedicure</p>
+
+						    	<span class="preco-txt">R$49,99</span>
+
+						    </div><!--txt-box-servico-->
 						</div><!--servico-single-->
 
 					    <div class="servico-single">
-						    
-						    <input type="checkbox" id="agenda-pedicure-corte-4" class="checkbox-servico" value="agenda-pedicure-corte-4" data-preco="30">
 
-						     <input type="hidden" name="duracao" value="0:40">
+					    	<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+
+							<div class="over-back-img-servico"></div><!--back-img-servico-->
+							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
 						    
-						    <p class="p-single">Corte de Unha Pé<span class="preco-txt">R$14,99</span></p>
+						    <div class="txt-box-servico">
+						    
+						    	<input type="checkbox" id="agenda-pedicure-corte-4" class="checkbox-servico" value="agenda-pedicure-corte-4" data-preco="30">
+
+						     	<input type="hidden" name="duracao" value="0:40">
+						    
+						    	<p class="p-single">Corte de Unha Pé</p>
+
+						    	<span class="preco-txt">R$49,99</span>
+
+						    </div><!--txt-box-servico-->
+
 						</div><!--servico-single-->
 					    
 					    <div class="servico-single">
-						    
-						    <input type="checkbox" id="agenda-pedicure-esmaltacao-4" class="checkbox-servico" value="agenda-pedicure-esmaltacao-4" data-preco="30">
 
-						     <input type="hidden" name="duracao" value="0:40">
+					    	<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+
+							<div class="over-back-img-servico"></div><!--back-img-servico-->
+							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
 						    
-						    <p class="p-single">Esmaltação Pé<span class="preco-txt">R$14,99</span></p>
+						    <div class="txt-box-servico">
+						    
+						    	<input type="checkbox" id="agenda-pedicure-esmaltacao-4" class="checkbox-servico" value="agenda-pedicure-esmaltacao-4" data-preco="30">
+
+						     	<input type="hidden" name="duracao" value="0:40">
+						    
+						    	<p class="p-single">Esmaltação Pé</p>
+
+						    	<span class="preco-txt">R$49,99</span>
+						    </div><!--txt-box-servico-->
+						</div><!--servico-single-->
+
+						<div class="servico-single">
+
+							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+
+							<div class="over-back-img-servico"></div><!--back-img-servico-->
+							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
+						    
+						    <div class="txt-box-servico">
+						    
+						    	<input type="checkbox" id="agenda-pedicure-spa-do-pe-4" class="checkbox-servico" value="agenda-pedicure-spa-do-pe-4" data-preco="30">
+
+						     	<input type="hidden" name="duracao" value="0:40">
+						    
+						    	<p class="p-single">Spa do Pé</p>
+
+						    	<span class="preco-txt">R$49,99</span>
+
+						    </div><!--txt-box-servico-->
 						</div><!--servico-single-->
 
 						<div class="servico-single">
 						    
-						    <input type="checkbox" id="agenda-pedicure-spa-do-pe-4" class="checkbox-servico" value="agenda-pedicure-spa-do-pe-4" data-preco="30">
+						    <i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
 
-						     <input type="hidden" name="duracao" value="0:40">
+							<div class="over-back-img-servico"></div><!--back-img-servico-->
+							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
 						    
-						    <p class="p-single">Spa do Pé<span class="preco-txt">R$39,99</span></p>
-						</div><!--servico-single-->
+						    <div class="txt-box-servico">
 
-						<div class="servico-single">
-						    
-						    <input type="checkbox" id="agenda-plastica-dos-pes-4" class="checkbox-servico" value="agenda-plastica-dos-pes-4" data-preco="30">
+						    	<input type="checkbox" id="agenda-plastica-dos-pes-4" class="checkbox-servico" value="agenda-plastica-dos-pes-4" data-preco="30">
 
-						     <input type="hidden" name="duracao" value="0:40">
+						     	<input type="hidden" name="duracao" value="0:40">
 						    
-						    <p class="p-single">Plástica dos Pés<span class="preco-txt">R$49,99</span></p>
+						    	<p class="p-single">Plástica dos Pés</p>
+
+						    	<span class="preco-txt">R$49,99</span>
+
+						    </div><!--txt-box-servico-->
 						</div><!--servico-single-->
 
 					</div><!--box-de-servicos-->
@@ -4179,21 +4426,43 @@
 					<div class="box-de-servicos">
 
 						<div class="servico-single">
-						    
-						    <input type="checkbox" id="agenda-limpeza-simples-4" class="checkbox-servico" value="agenda-limpeza-simples-4" data-preco="30">
 
-						     <input type="hidden" name="duracao" value="0:40">
+							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+
+							<div class="over-back-img-servico"></div><!--back-img-servico-->
+							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
 						    
-						    <p class="p-single">Limpeza Simples de Sobrancelhas<span class="preco-txt">R$24,99</span></p>
+						    <div class="txt-box-servico">
+						    
+						    	<input type="checkbox" id="agenda-limpeza-simples-4" class="checkbox-servico" value="agenda-limpeza-simples-4" data-preco="30">
+
+						     	<input type="hidden" name="duracao" value="0:40">
+						    
+						    	<p class="p-single">Limpeza Simples de Sobrancelhas</p>
+
+						    	<span class="preco-txt">R$49,99</span>
+
+						    </div><!--txt-box-servico-->
 						</div><!--servico-single-->
 
 					    <div class="servico-single">
-						    
-						    <input type="checkbox" id="agenda-limpeza-henna-4" class="checkbox-servico" value="agenda-limpeza-henna-4" data-preco="30">
 
-						     <input type="hidden" name="duracao" value="1:00">
+					    	<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+
+							<div class="over-back-img-servico"></div><!--back-img-servico-->
+							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
 						    
-						    <p class="p-single">Aplicação de Henna<span class="preco-txt">R$39,99</span></p>
+						    <div class="txt-box-servico">
+						    
+						    	<input type="checkbox" id="agenda-limpeza-henna-4" class="checkbox-servico" value="agenda-limpeza-henna-4" data-preco="30">
+
+						     	<input type="hidden" name="duracao" value="1:00">
+						    
+						    	<p class="p-single">Aplicação de Henna</p>
+
+						    	<span class="preco-txt">R$49,99</span>
+
+						    </div><!--txt-box-servico-->
 						</div><!--servico-single-->
 					    
 
@@ -4220,111 +4489,244 @@
 					<div class="box-de-servicos">
 
 						<div class="servico-single">
-						    
-						    <input type="checkbox" id="agenda-along-corte-4" class="checkbox-servico" value="agenda-along-corte-4" data-preco="30">
 
-						     <input type="hidden" name="duracao" value="1:00">
+							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+
+							<div class="over-back-img-servico"></div><!--back-img-servico-->
+							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
 						    
-						    <p class="p-single">Corte<span class="preco-txt">R$24,99</span></p>
+						    <div class="txt-box-servico">
+						    
+						    	<input type="checkbox" id="agenda-along-corte-4" class="checkbox-servico" value="agenda-along-corte-4" data-preco="30">
+
+						     	<input type="hidden" name="duracao" value="1:00">
+						    
+						    	<p class="p-single">Corte</p>
+
+						    	<span class="preco-txt">R$49,99</span>
+
+						    </div><!--txt-box-servico-->
 						</div><!--servico-single-->
 
 						<div class="servico-single">
-						    
-						    <input type="checkbox" id="agenda-along-manutencao-4" class="checkbox-servico" value="agenda-along-manutencao-4" data-preco="30">
 
-						     <input type="hidden" name="duracao" value="1:30">
+							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+
+							<div class="over-back-img-servico"></div><!--back-img-servico-->
+							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
 						    
-						    <p class="p-single">Manutenção<span class="preco-txt">R$24,99</span></p>
+						    <div class="txt-box-servico">
+						    
+						    	<input type="checkbox" id="agenda-along-manutencao-4" class="checkbox-servico" value="agenda-along-manutencao-4" data-preco="30">
+
+						     	<input type="hidden" name="duracao" value="1:30">
+						    
+						    	<p class="p-single">Manutenção</p>
+
+						    	<span class="preco-txt">R$49,99</span>
+
+						    </div><!--TXT-BOX-SERVICO-->
+
 						</div><!--servico-single-->
 
 					    <div class="servico-single">
-						    
-						    <input type="checkbox" id="agenda-along-remocao-4" class="checkbox-servico" value="agenda-along-remocao-4" data-preco="30">
 
-						    <input type="hidden" name="duracao" value="2:00">
+					    	<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+
+							<div class="over-back-img-servico"></div><!--back-img-servico-->
+							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
 						    
-						    <p class="p-single">Remoção<span class="preco-txt">R$39,99</span></p>
+						    <div class="txt-box-servico">
+						    
+						    	<input type="checkbox" id="agenda-along-remocao-4" class="checkbox-servico" value="agenda-along-remocao-4" data-preco="30">
+
+						    	<input type="hidden" name="duracao" value="2:00">
+						    
+						    	<p class="p-single">Remoção</p>
+
+						    	<span class="preco-txt">R$49,99</span>
+
+						    </div><!--txt-box-servico-->
 						</div><!--servico-single-->
 
 						 <div class="servico-single">
-						    
-						    <input type="checkbox" id="agenda-along-concerto-4" class="checkbox-servico" value="agenda-along-concerto-4" data-preco="30">
 
-						     <input type="hidden" name="duracao" value="1:40">
+						 	<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+
+							<div class="over-back-img-servico"></div><!--back-img-servico-->
+							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
 						    
-						    <p class="p-single">Concerto<span class="preco-txt">R$39,99</span></p>
+						    <div class="txt-box-servico">
+						    
+						    	<input type="checkbox" id="agenda-along-concerto-4" class="checkbox-servico" value="agenda-along-concerto-4" data-preco="30">
+
+						     	<input type="hidden" name="duracao" value="1:40">
+						    
+						    	<p class="p-single">Concerto</p>
+
+						    	<span class="preco-txt">R$49,99</span>
+
+						    </div><!--txt-box-servico-->
+						</div><!--servico-single-->
+
+						<div class="servico-single">
+
+							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+
+							<div class="over-back-img-servico"></div><!--back-img-servico-->
+							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
+						    
+						    <div class="txt-box-servico">
+						    
+						    	<input type="checkbox" id="agenda-along-esmaltacaogel-4" class="checkbox-servico" value="agenda-along-esmaltacaogel-4" data-preco="30">
+
+						     	<input type="hidden" name="duracao" value="1:00">
+						    
+						    	<p class="p-single">Esmaltação em gel</p>
+
+						    	<span class="preco-txt">R$49,99</span>
+
+						    </div><!--txto-box-servico-->
+						</div><!--servico-single-->
+
+						<div class="servico-single">
+
+							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+
+							<div class="over-back-img-servico"></div><!--back-img-servico-->
+							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
+						    
+						    <div class="txt-box-servico">
+						    
+						    	<input type="checkbox" id="agenda-along-fibravidro-4" class="checkbox-servico" value="agenda-along-fibravidro-4" data-preco="30">
+
+						     	<input type="hidden" name="duracao" value="2:00">
+						    
+						    	<p class="p-single">Fibra de vidro</p>
+
+						    	<span class="preco-txt">R$49,99</span>
+
+						    </div><!--txt-box-servico-->
 						</div><!--servico-single-->
 
 						<div class="servico-single">
 						    
-						    <input type="checkbox" id="agenda-along-esmaltacaogel-4" class="checkbox-servico" value="agenda-along-esmaltacaogel-4" data-preco="30">
+						    <i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
 
-						     <input type="hidden" name="duracao" value="1:00">
+							<div class="over-back-img-servico"></div><!--back-img-servico-->
+							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
 						    
-						    <p class="p-single">Esmaltação em gel<span class="preco-txt">R$39,99</span></p>
+						    <div class="txt-box-servico">
+
+						    	<input type="checkbox" id="agenda-along-gel-4" class="checkbox-servico" value="agenda-along-gel-4" data-preco="30">
+
+						     	<input type="hidden" name="duracao" value="2:00">
+						    
+						    	<p class="p-single">Along. Gel</p>
+
+						    	<span class="preco-txt">R$49,99</span>
+
+						    </div><!--txt-box-servico-->
+						</div><!--servico-single-->
+
+						<div class="servico-single">
+
+							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+
+							<div class="over-back-img-servico"></div><!--back-img-servico-->
+							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
+						    
+						    <div class="txt-box-servico">
+						    
+						    	<input type="checkbox" id="agenda-along-poligel-4" class="checkbox-servico" value="agenda-along-poligel-4" data-preco="30">
+
+						     	<input type="hidden" name="duracao" value="2:00">
+						    
+						    	<p class="p-single">Poligel</p>
+
+						    	<span class="preco-txt">R$49,99</span>
+
+						    </div><!--txt-box-servico-->
+						</div><!--servico-single-->
+
+						<div class="servico-single">
+
+							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+
+							<div class="over-back-img-servico"></div><!--back-img-servico-->
+							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
+						    
+						    <div class="txt-box-servico">
+						    
+						    	<input type="checkbox" id="agenda-along-seda-4" class="checkbox-servico" value="agenda-along-seda-4" data-preco="30">
+
+						     	<input type="hidden" name="duracao" value="2:00">
+						    
+						    	<p class="p-single">Seda</p>
+
+						    	<span class="preco-txt">R$49,99</span>
+
+						    </div><!--txt-box-servico-->
+						</div><!--servico-single-->
+
+						<div class="servico-single">
+
+							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+
+							<div class="over-back-img-servico"></div><!--back-img-servico-->
+							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
+						    
+						    <div class="txt-box-servico">
+						    
+						    	<input type="checkbox" id="agenda-along-tips-4" class="checkbox-servico" value="agenda-along-tips-4" data-preco="30">
+
+						     	<input type="hidden" name="duracao" value="2:00">
+						    
+						    	<p class="p-single">Tips</p>
+
+						    	<span class="preco-txt">R$49,99</span>
+
+						    </div><!--txt-box-servico-->
 						</div><!--servico-single-->
 
 						<div class="servico-single">
 						    
-						    <input type="checkbox" id="agenda-along-fibravidro-4" class="checkbox-servico" value="agenda-along-fibravidro-4" data-preco="30">
+						    <i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
 
-						     <input type="hidden" name="duracao" value="2:00">
+							<div class="over-back-img-servico"></div><!--back-img-servico-->
+							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
 						    
-						    <p class="p-single">Fibra de vidro<span class="preco-txt">R$39,99</span></p>
+						    <div class="txt-box-servico">
+
+						    	<input type="checkbox" id="agenda-along-banhogel-4" class="checkbox-servico" value="agenda-along-banhogel-4" data-preco="30">
+
+						     	<input type="hidden" name="duracao" value="2:00">
+						    
+						    	<p class="p-single">Banho em Gel</p>
+
+						    	<span class="preco-txt">R$49,99</span>
+
+						    </div><!--txt-box-servico-->
 						</div><!--servico-single-->
 
 						<div class="servico-single">
-						    
-						    <input type="checkbox" id="agenda-along-gel-4" class="checkbox-servico" value="agenda-along-gel-4" data-preco="30">
 
-						     <input type="hidden" name="duracao" value="2:00">
-						    
-						    <p class="p-single">Along. Gel<span class="preco-txt">R$39,99</span></p>
-						</div><!--servico-single-->
+							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
 
-						<div class="servico-single">
+							<div class="over-back-img-servico"></div><!--back-img-servico-->
+							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
 						    
-						    <input type="checkbox" id="agenda-along-poligel-4" class="checkbox-servico" value="agenda-along-poligel-4" data-preco="30">
+						    <div class="txt-box-servico">
+						    
+						    	<input type="checkbox" id="agenda-along-blindagem-4" class="checkbox-servico" value="agenda-along-blindagem-4" data-preco="30">
 
-						     <input type="hidden" name="duracao" value="2:00">
+						     	<input type="hidden" name="duracao" value="2:00">
 						    
-						    <p class="p-single">Poligel<span class="preco-txt">R$39,99</span></p>
-						</div><!--servico-single-->
+						    	<p class="p-single">Blindagem</p>
 
-						<div class="servico-single">
-						    
-						    <input type="checkbox" id="agenda-along-seda-4" class="checkbox-servico" value="agenda-along-seda-4" data-preco="30">
+						    	<span class="preco-txt">R$49,99</span>
 
-						     <input type="hidden" name="duracao" value="2:00">
-						    
-						    <p class="p-single">Seda<span class="preco-txt">R$39,99</span></p>
-						</div><!--servico-single-->
-
-						<div class="servico-single">
-						    
-						    <input type="checkbox" id="agenda-along-tips-4" class="checkbox-servico" value="agenda-along-tips-4" data-preco="30">
-
-						     <input type="hidden" name="duracao" value="2:00">
-						    
-						    <p class="p-single">Tips<span class="preco-txt">R$39,99</span></p>
-						</div><!--servico-single-->
-
-						<div class="servico-single">
-						    
-						    <input type="checkbox" id="agenda-along-banhogel-4" class="checkbox-servico" value="agenda-along-banhogel-4" data-preco="30">
-
-						     <input type="hidden" name="duracao" value="2:00">
-						    
-						    <p class="p-single">Banho em Gel<span class="preco-txt">R$39,99</span></p>
-						</div><!--servico-single-->
-
-						<div class="servico-single">
-						    
-						    <input type="checkbox" id="agenda-along-blindagem-4" class="checkbox-servico" value="agenda-along-blindagem-4" data-preco="30">
-
-						     <input type="hidden" name="duracao" value="2:00">
-						    
-						    <p class="p-single">Blindagem<span class="preco-txt">R$39,99</span></p>
+						    </div><!--txt-box-servico-->
 						</div><!--servico-single-->
 					    
 
@@ -4343,7 +4745,7 @@
 					<span class="line-h"></span>
 				</div><!--wraper-h-->
 
-				<div class="wraper-resumo box-servicos-select">
+				<div class="wraper-resumo box-servicos-select agenda-resumo-cliente-4">
 
 					<div class="selecao-single-topo flex">
 						<div class="txt-p"><span class="color-p">Serviço</span>
@@ -4400,7 +4802,7 @@
 						<span class="line-h"></span>
 					</div><!--wraper-h-->
 
-					<div class="horarios-periodo flex" id="horario-agendamento">
+					<div class="horarios-periodo flex horarios-agenda" id="horario-agendamento">
 
 						<div class="manha select-periodo">
 							<p class="color-p">Manha</p>
@@ -4420,8 +4822,8 @@
 						<p>Tarifa adicional R$15,00</p>
 					</div><!--msg-tarifa-->
 
-					<div class="horario-necess">
-						<p class="color-p horario-total">Tempo estimado necessário &nbsp&nbsp&nbsp<i class="fa-solid fa-clock" aria-hidden="true"></i>&nbsp&nbsp<span class="tempo-estimado">2:00</span></p>
+					<div class="horario-necess js-tempo-servico">
+						<p class="color-p horario-total">Tempo estimado necessário &nbsp&nbsp&nbsp<i class="fa-solid fa-clock" aria-hidden="true"></i>&nbsp&nbsp<span class="tempo-estimado">0:00</span></p>
 					</div><!--horarios-necess-->
 
 					<div class="horario-single">
@@ -4775,9 +5177,9 @@
 
 		</div><!--wraper-resumo-->
 
-<!---
+<!--
 	SE TEM CREDITO DISPONIVEL
-	----->
+	-->
 		<div class="wraper-resumo box-servicos-select">
 
 			<div class="selecao-single-topo flex">
@@ -4807,7 +5209,7 @@
 		</div><!--wraper-resumo-->
 
 
-		<!----FINAL CREDITO DISPONIVEL----->
+		<!--FINAL CREDITO DISPONIVEL-->
 
 		<div class="editar-servico-btn js-btn-editar-servico-agenda">
 			<div class="btn-chamada-wraper btn-edit-servico">
@@ -4863,6 +5265,9 @@
 		</div><!--wraper-pagamento-->
 		
 	</div><!--box-modal-->
+
+	</div>
+
 
 </section><!--agenda-->
 
@@ -4993,7 +5398,7 @@
 			      </div>
 
 			      <div class="wraper-form-single" style="margin-top: 20px;">
-			        <textarea type="text" id="txt-depoimento-form" name="bairro" placeholder=" "></textarea>
+			        <textarea id="txt-depoimento-form" name="bairro" placeholder=" "></textarea>
 			        <label for="txt-depoimento-form">Depoimento</label>
 			      </div>
 
@@ -5110,7 +5515,7 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <p>&copy 2024 Paula Rosangela Nail Design . Todos os direitos reservados.</p>
+      <p>&copy; 2024 Paula Rosangela Nail Design . Todos os direitos reservados.</p>
     </div>
   </footer>
 

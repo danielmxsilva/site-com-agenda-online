@@ -16,6 +16,7 @@
 	define('PASSWORD','');
 	define('DATABASE','paula-rosangela');
 	define("INCLUDE_PATH" , "http://localhost/projetos/paula-rosangela/");
+	define('INCLUDE_PATH_PAINEL',INCLUDE_PATH.'painel/');
 
 
 ?>

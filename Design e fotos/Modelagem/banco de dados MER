@@ -1,6 +1,6 @@
 - Usuario (id_usuario, nome, cargo, foto, login, senha)
-- Cliente (id_cliente, endereco_id, nome, data_cadastro, telefone, atendido ENUM('nenhum', 'contato', 'agendado' = ENUM('0','1','2')., addCliente = adicionado pelo cliente no site = 1 ou 0)
-- Endereco (id_endereco, CEP, cidade, bairro, rua, numero-casa)
+- Cliente (id_cliente, id_endereco, nome, data_cadastro, telefone, atendido ENUM('nao', 'contato', 'agendado' = ENUM('0','1','2')., addCliente = adicionado pelo cliente no site = 1 ou 0)
+- Endereco (endereco_id, CEP, cidade, bairro, rua, numero-casa)
 - Servico (id_servico, cliente_id, manicure-pedicure, manicure, corte-unha-mao, esmaltacao-mao, pedicure, corte-unha-pe, esmaltacao-pe, sombrancelha-simples, sombrancelha-henna, along-manutencao, along-remocao, along-concerto, along-esmaltacaogel, along-fibravidro, along-gel, along-poligel, along-seda, along-tips, along-banhogel, along-blindagem) ENUM('1','0')
 - Preco 
 	(id_preco, manicure-pedicure, manicure, corte-unha-mao, esmaltacao-mao, pedicure, corte-unha-pe, esmaltacao-pe, sombrancelha-simples, sombrancelha-henna, along-manutencao, along-remocao, along-concerto, along-esmaltacaogel, along-fibravidro, along-gel, along-poligel, along-seda, along-tips, along-banhogel, along-blindagem)
@@ -8,6 +8,90 @@
 - Pacote ( id_pacote, cliente_id, servico_id, valores) = paula coloca os valores e o que vai ser feito
 - Agendamentos (cliente_id, servico_id, pacote_id, horario, data, status) ENUM('0','1','2','3') ('CADASTRADO','CANCELADO','CONFIRMADO','ATENDIDO')
 - Credito (cliente_id, valor_credito, data_do_credito)
+
+
+
+
+
+
+
+usuarios {
+    id int pk
+    nome varchar
+    cargo varchar
+    foto varchar
+    login varchar unique
+    senha varchar
+}
+
+clientes {
+    id int pk
+    endereco_id int > enderecos.id
+    nome varchar
+    data_cadastro date
+    telefone varchar
+    atendido enum
+    add_cliente boolean
+}
+
+enderecos {
+    id int pk
+    cep varchar
+    cidade varchar
+    bairro varchar
+    rua varchar
+    numero_casa varchar
+}
+
+cliente_servicos {
+    id int pk
+    cliente_id int > clientes.id
+    servico_id int
+    data_contratacao date
+}
+
+pacotes {
+    id int pk
+    cliente_id int > clientes.id
+    servico_id int > cliente_servicos.id
+    valores text
+}
+
+agendamentos {
+    id int pk
+    cliente_id int > clientes.id
+    servico_id int > servicos.id
+    pacote_id int > pacotes.id
+    horario time
+    data date
+    status enum
+}
+
+creditos {
+    id int pk
+    cliente_id int > clientes.id
+    valor_credito float
+    data_do_credito date
+}
+
+servicos {
+    id int pk
+    foto_servico varchar
+    duracao time
+    preco float
+    atualizado_em datetime
+    nome varchar
+    descricao text
+}
+
+
+
+
+
+
+
+
+
 
 -SINAL = BANCO DE DADOS E LOGICA..
 
