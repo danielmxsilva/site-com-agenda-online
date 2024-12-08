@@ -24,15 +24,6 @@ usuarios {
     senha varchar
 }
 
-clientes {
-    id int pk
-    endereco_id int > enderecos.id
-    nome varchar
-    data_cadastro date
-    telefone varchar
-    atendido enum
-    add_cliente boolean
-}
 
 enderecos {
     id int pk
@@ -43,28 +34,66 @@ enderecos {
     numero_casa varchar
 }
 
-cliente_servicos {
+agendamentos {
     id int pk
-    cliente_id int > clientes.id
-    servico_id int
-    data_contratacao date
+    horario time
+    data date
+    status enum
+    cliente_servicos integer > cliente_servicos.id
+}
+
+servico {
+    id int pk
+    foto_servico varchar
+    duracao_servico time
+    preco_servico float
+    nome_servico varchar
+    descricao_servico text
+    nome_servico_id varchar
 }
 
 pacotes {
     id int pk
     cliente_id int > clientes.id
-    servico_id int > cliente_servicos.id
-    valores text
+    servicos_id int > servicos.id
+    agendamentos_id int > agendamentos.id
 }
 
-agendamentos {
+clientes_adicionais {
+    id int pk
+    cliente_adicional_nmr int
+    cliente_servicos_id integer > cliente_servicos.id
+    servicos_id int > servicos.id
+}
+
+financeiro {
+    id int pk
+    clientes_id int > clientes.id
+    agendamentos_id int > agendamentos.id
+    pacotes_id int > pacotes.id
+    valor_total boolean
+    tipo_transacao enum
+    status enum
+    data_transacao datetime
+    forma_pagamento enum
+    observacao text
+    atualizado_em datetime
+}
+
+clientes {
+    id int pk
+    endereco_id int > enderecos.id
+    nome varchar
+    data_cadastro date
+    telefone varchar
+    atendido enum
+    add_cliente boolean
+}
+
+cliente_servicos {
     id int pk
     cliente_id int > clientes.id
     servico_id int > servicos.id
-    pacote_id int > pacotes.id
-    horario time
-    data date
-    status enum
 }
 
 creditos {
@@ -74,15 +103,7 @@ creditos {
     data_do_credito date
 }
 
-servicos {
-    id int pk
-    foto_servico varchar
-    duracao time
-    preco float
-    atualizado_em datetime
-    nome varchar
-    descricao text
-}
+
 
 
 

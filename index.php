@@ -2873,27 +2873,59 @@ HTML;
 
 					<div class="box-de-servicos">
 
-						<div class="servico-single">
+						<?php
 
-							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+						try {
 
-							<div class="over-back-img-servico"></div>
+						    // Nome do serviço que queremos filtrar (manicure-pedicure, por exemplo)
+						    $nomeServicoFiltro = 'manicure-pedicure';
 
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
+						    // Filtrar os serviços com base no valor de `nome_servico_id`
+						    $servicosFiltrados = array_filter($servicos, function($servico) use ($nomeServicoFiltro) {
+						        return $servico['nome_servico_id'] === $nomeServicoFiltro;
+						    });
 
-							<div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-manicure-pedicure-2" class="checkbox-servico" value="agenda-manicure-pedicure-2" data-preco="30">
+						// Verificar se existem serviços filtrados
+    					if (!empty($servicosFiltrados)) {
 
-						    	<input type="hidden" name="duracao" value="2:00">
-						    
-						    	<p class="p-single">Manicure e Pedicure Completo e Bem Estar</p>
+							//echo "<h2>Serviços do grupo: {$nomeServicoFiltro}</h2>";
+					        foreach ($servicosFiltrados as $servico) {
+					            // Extraindo os dados da tabela
+					            $id = $servico['id'];
+					            $foto = $servico['foto_servico'];
+					            $duracao = $servico['duracao_servico'];
+					            $preco = $servico['preco_servico'];
+					            $nome = $servico['nome_servico'];
+					            $descricao = $servico['descricao_servico'];
+					            $nomeServicoId = $servico['nome_servico_id'];
 
-						    	<span class="preco-txt">R$49,99</span>
+						        echo <<<HTML
+<div class="servico-single">
+    <i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
 
-						    </div><!--txt-box-servico-->
+    <div class="over-back-img-servico"></div><!--back-img-servico-->
+    <div class="img-servico" style="background-image:url('img/img-servicos/{$foto}');"></div>
+    
+    <div class="txt-box-servico">
+        <input type="checkbox" id="agenda-{$nomeServicoId}-2" class="checkbox-servico" value="agenda-{$nomeServicoId}-{$id}" data-preco="{$preco}">
+        <input type="hidden" name="duracao" value="{$duracao}">
+        
+        <p class="p-single">{$nome} <br> 
+            <span style="font-size: 12px;">{$descricao}</span>
+        </p>
 
-						</div><!--servico-single-->
+        <span class="preco-txt">R\${$preco}</span>
+    </div><!--txt-box-servico-->
+</div><!--servico-single-->
+HTML;
+						    }
+						} 
+
+						}catch (Exception $e) {
+						    echo "Erro ao recuperar os serviços: " . $e->getMessage();
+						}
+
+						?>
 
 					</div><!--box-de-servicos-->
 				   
@@ -2916,65 +2948,64 @@ HTML;
 
 					<div class="box-de-servicos">
 
-						<div class="servico-single">
+						<?php
 
-							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+						try {
 
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-						    <div class="img-servico" style="background-image:url('img/img-servicos/manicure-img.jpg');"></div>
+						    // Nome do serviço que queremos filtrar (manicure-pedicure, por exemplo)
+						    $nomeServicoFiltro = 'manicure';
 
-						    <div class="txt-box-servico">
+						    // Filtrar os serviços com base no valor de `nome_servico_id`
+						    $servicosFiltrados = array_filter($servicos, function($servico) use ($nomeServicoFiltro) {
+						        $nomeServicoId = $servico['nome_servico_id'];
 
-						    	<input type="checkbox" id="agenda-manicure-2" class="checkbox-servico" value="agenda-manicure-2" data-preco="30">
+						        // Verifica se o nome do serviço começa com o grupo desejado e não é uma exceção
+        						return strpos($nomeServicoId, $nomeServicoFiltro) === 0 && $nomeServicoId !== 'manicure-pedicure';
+						    });
 
-						     	<input type="hidden" name="duracao" value="1:00">
-						    
-						    	<p class="p-single">Manicure Completa e Bem estar</p>
+						// Verificar se existem serviços filtrados
+    					if (!empty($servicosFiltrados)) {
 
-						    	<span class="preco-txt">R$29,99</span>
-						    </div><!--txt-box-servico-->
+							//echo "<h2>Serviços do grupo: {$nomeServicoFiltro}</h2>";
+					        foreach ($servicosFiltrados as $servico) {
+					            // Extraindo os dados da tabela
+					            $id = $servico['id'];
+					            $foto = $servico['foto_servico'];
+					            $duracao = $servico['duracao_servico'];
+					            $preco = $servico['preco_servico'];
+					            $nome = $servico['nome_servico'];
+					            $descricao = $servico['descricao_servico'];
+					            $nomeServicoId = $servico['nome_servico_id'];
 
-						</div><!--servico-single-->
+						        echo <<<HTML
+<div class="servico-single">
+    <i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
 
-					    <div class="servico-single">
+    <div class="over-back-img-servico"></div><!--back-img-servico-->
+    <div class="img-servico" style="background-image:url('img/img-servicos/{$foto}');"></div>
+    
+    <div class="txt-box-servico">
+        <input type="checkbox" id="agenda-{$nomeServicoId}-2" class="checkbox-servico" value="agenda-{$nomeServicoId}-{$id}" data-preco="{$preco}">
+        <input type="hidden" name="duracao" value="{$duracao}">
+        
+        <p class="p-single">{$nome} <br> 
+            <span style="font-size: 12px;">{$descricao}</span>
+        </p>
 
-					    	<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+        <span class="preco-txt">R\${$preco}</span>
+    </div><!--txt-box-servico-->
+</div><!--servico-single-->
+HTML;
+						    }
+						}else {
+					        echo "<p>Nenhum serviço encontrado para o grupo: {$grupoFiltro}</p>";
+					    } 
 
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/manicure-corte-img.jpg');"></div>
+						}catch (Exception $e) {
+						    echo "Erro ao recuperar os serviços: " . $e->getMessage();
+						}
 
-							<div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-manicure-corte-2" class="checkbox-servico" value="agenda-manicure-corte-2" data-preco="30">
-
-						    	<input type="hidden" name="duracao" value="0:40">
-						    
-						    	<p class="p-single">Corte de Unha Mão</p>
-
-						    	<span class="preco-txt">R$14,99</span>
-							</div><!--txt-box-servico-->
-
-						</div><!--servico-single-->
-					    
-					    <div class="servico-single">
-
-					    	<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/manicure-esmaltacao-img.jpg');"></div>
-						    
-						    <div class="txt-box-servico">
-						    	<input type="checkbox" id="agenda-manicure-esmaltacao-2" class="checkbox-servico" value="agenda-manicure-esmaltacao-2" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="0:40">
-						    
-						    	<p class="p-single">Esmaltação Mão</p>
-
-						    	<span class="preco-txt">R$14,99</span>
-
-						    </div><!--txt-box-servico-->
-
-						</div><!--servico-single-->
+						?>
 
 					</div><!--box-de-servicos-->
 				   
@@ -2997,107 +3028,64 @@ HTML;
 
 					<div class="box-de-servicos">
 
-						<div class="servico-single">
+						<?php
 
-							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+						try {
 
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
+						    // Nome do serviço que queremos filtrar (manicure-pedicure, por exemplo)
+						    $nomeServicoFiltro = 'pedicure';
 
-							<div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-pedicure-2" class="checkbox-servico" value="agenda-pedicure-2" data-preco="30">
+						    // Filtrar os serviços com base no valor de `nome_servico_id`
+						    $servicosFiltrados = array_filter($servicos, function($servico) use ($nomeServicoFiltro) {
+						        $nomeServicoId = $servico['nome_servico_id'];
 
-						    	<input type="hidden" name="duracao" value="1:00">
-						    
-						    	<p class="p-single">Pedicure</p>
+						        // Verifica se o nome do serviço começa com o grupo desejado e não é uma exceção
+        						return strpos($nomeServicoId, $nomeServicoFiltro) === 0 && $nomeServicoId !== 'manicure-pedicure';
+						    });
 
-						    	<span class="preco-txt">R$29,99</span>
+						// Verificar se existem serviços filtrados
+    					if (!empty($servicosFiltrados)) {
 
-						    </div><!--txt-box-servico-->
+							//echo "<h2>Serviços do grupo: {$nomeServicoFiltro}</h2>";
+					        foreach ($servicosFiltrados as $servico) {
+					            // Extraindo os dados da tabela
+					            $id = $servico['id'];
+					            $foto = $servico['foto_servico'];
+					            $duracao = $servico['duracao_servico'];
+					            $preco = $servico['preco_servico'];
+					            $nome = $servico['nome_servico'];
+					            $descricao = $servico['descricao_servico'];
+					            $nomeServicoId = $servico['nome_servico_id'];
 
-						</div><!--servico-single-->
+						        echo <<<HTML
+<div class="servico-single">
+    <i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
 
-					    <div class="servico-single">
+    <div class="over-back-img-servico"></div><!--back-img-servico-->
+    <div class="img-servico" style="background-image:url('img/img-servicos/{$foto}');"></div>
+    
+    <div class="txt-box-servico">
+        <input type="checkbox" id="agenda-{$nomeServicoId}-2" class="checkbox-servico" value="agenda-{$nomeServicoId}-{$id}" data-preco="{$preco}">
+        <input type="hidden" name="duracao" value="{$duracao}">
+        
+        <p class="p-single">{$nome} <br> 
+            <span style="font-size: 12px;">{$descricao}</span>
+        </p>
 
-					    	<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+        <span class="preco-txt">R\${$preco}</span>
+    </div><!--txt-box-servico-->
+</div><!--servico-single-->
+HTML;
+						    }
+						}else {
+					        echo "<p>Nenhum serviço encontrado para o grupo: {$grupoFiltro}</p>";
+					    } 
 
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-						    
-						    <div class="txt-box-servico">
-						    	<input type="checkbox" id="agenda-pedicure-corte-2" class="checkbox-servico" value="agenda-pedicure-corte-2" data-preco="30">
+						}catch (Exception $e) {
+						    echo "Erro ao recuperar os serviços: " . $e->getMessage();
+						}
 
-						     	<input type="hidden" name="duracao" value="0:40">
-						    
-						    	<p class="p-single">Corte de Unha Pé</p>
-
-						    	<span class="preco-txt">R$14,99</span>
-						    </div><!--txt-box-servico-->
-
-						</div><!--servico-single-->
-					    
-					    <div class="servico-single">
-
-					    	<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-
-							<div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-pedicure-esmaltacao-2" class="checkbox-servico" value="agenda-pedicure-esmaltacao-2" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="0:40">
-						    
-						    	<p class="p-single">Esmaltação Pé</p>
-
-						    	<span class="preco-txt">R$14,99</span>
-
-						    </div><!--txt-box-servico-->
-
-						</div><!--servico-single-->
-
-						<div class="servico-single">
-
-							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-
-							<div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-pedicure-spa-do-pe-2" class="checkbox-servico" value="agenda-pedicure-spa-do-pe-2" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="0:40">
-						    
-						    	<p class="p-single">Spa do Pé</p>
-
-						    	<span class="preco-txt">R$39,99</span>
-
-						    </div><!--txt-box-servico-->
-
-						</div><!--servico-single-->
-
-						<div class="servico-single">
-
-							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-
-							<div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-plastica-dos-pes-2" class="checkbox-servico" value="agenda-plastica-dos-pes-2" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="0:40">
-						    
-						    	<p class="p-single">Plástica dos Pés</p>
-
-						    	<span class="preco-txt">R$49,99</span>
-						    </div><!--txt-box-servico-->
-
-						</div><!--servico-single-->
+						?>
 
 					</div><!--box-de-servicos-->
 
@@ -3120,45 +3108,64 @@ HTML;
 
 					<div class="box-de-servicos">
 
-						<div class="servico-single">
+							<?php
 
-							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+						try {
 
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
+						    // Nome do serviço que queremos filtrar (manicure-pedicure, por exemplo)
+						    $nomeServicoFiltro = 'sobrancelhas';
 
-							<div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-limpeza-simples-2" class="checkbox-servico" value="agenda-limpeza-simples-2" data-preco="30">
+						    // Filtrar os serviços com base no valor de `nome_servico_id`
+						    $servicosFiltrados = array_filter($servicos, function($servico) use ($nomeServicoFiltro) {
+						        $nomeServicoId = $servico['nome_servico_id'];
 
-						     	<input type="hidden" name="duracao" value="0:40">
-						    
-						    	<p class="p-single">Limpeza Simples de Sobrancelhas</p>
+						        // Verifica se o nome do serviço começa com o grupo desejado e não é uma exceção
+        						return strpos($nomeServicoId, $nomeServicoFiltro) === 0 && $nomeServicoId !== 'manicure-pedicure';
+						    });
 
-						    	<span class="preco-txt">R$24,99</span>
+						// Verificar se existem serviços filtrados
+    					if (!empty($servicosFiltrados)) {
 
-						    </div><!--txt-box-servico-->
-						</div><!--servico-single-->
+							//echo "<h2>Serviços do grupo: {$nomeServicoFiltro}</h2>";
+					        foreach ($servicosFiltrados as $servico) {
+					            // Extraindo os dados da tabela
+					            $id = 1;
+					            $foto = $servico['foto_servico'];
+					            $duracao = $servico['duracao_servico'];
+					            $preco = $servico['preco_servico'];
+					            $nome = $servico['nome_servico'];
+					            $descricao = $servico['descricao_servico'];
+					            $nomeServicoId = $servico['nome_servico_id'];
 
-					    <div class="servico-single">
+						        echo <<<HTML
+<div class="servico-single">
+    <i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
 
-					    	<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+    <div class="over-back-img-servico"></div><!--back-img-servico-->
+    <div class="img-servico" style="background-image:url('img/img-servicos/{$foto}');"></div>
+    
+    <div class="txt-box-servico">
+        <input type="checkbox" id="agenda-{$nomeServicoId}-2" class="checkbox-servico" value="agenda-{$nomeServicoId}-{$id}" data-preco="{$preco}">
+        <input type="hidden" name="duracao" value="{$duracao}">
+        
+        <p class="p-single">{$nome} <br> 
+            <span style="font-size: 12px;">{$descricao}</span>
+        </p>
 
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
+        <span class="preco-txt">R\${$preco}</span>
+    </div><!--txt-box-servico-->
+</div><!--servico-single-->
+HTML;
+						    }
+						}else {
+					        echo "<p>Nenhum serviço encontrado para o grupo: {$grupoFiltro}</p>";
+					    } 
 
-							<div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-limpeza-henna-2" class="checkbox-servico" value="agenda-limpeza-henna-2" data-preco="30">
+						}catch (Exception $e) {
+						    echo "Erro ao recuperar os serviços: " . $e->getMessage();
+						}
 
-						     	<input type="hidden" name="duracao" value="1:00">
-						    
-						    	<p class="p-single">Aplicação de Henna</p>
-
-						    	<span class="preco-txt">R$39,99</span>
-							</div><!--txt-box-servico-->
-						</div><!--servico-single-->
-					    
+						?> 
 
 					</div><!--box-de-servicos-->
 				   
@@ -3182,243 +3189,64 @@ HTML;
 
 					<div class="box-de-servicos">
 
-						<div class="servico-single">
-
-							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-
-							<div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-along-corte-2" class="checkbox-servico" value="agenda-along-corte-2" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="1:00">
-						    
-						    	<p class="p-single">Corte</p>
-
-						    	<span class="preco-txt">R$24,99</span>
-							</div><!--txt-box-servico-->
-						</div><!--servico-single-->
-
-						<div class="servico-single">
-
-							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-
-							<div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-along-manutencao-2" class="checkbox-servico" value="agenda-along-manutencao-2" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="1:30">
-						    
-						    	<p class="p-single">Manutenção</p>
-
-						    	<span class="preco-txt">R$24,99</span>
-
-						    </div><!--txt-box-servico-->
-						</div><!--servico-single-->
-
-					    <div class="servico-single">
-
-					    	<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-
-							<div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-along-remocao-2" class="checkbox-servico" value="agenda-along-remocao-2" data-preco="30">
-
-						    	<input type="hidden" name="duracao" value="2:00">
-						    
-						    	<p class="p-single">Remoção</p>
-
-						    	<span class="preco-txt">R$39,99</span>
-						    </div><!--txt-box-servico-->
-
-						</div><!--servico-single-->
-
-						 <div class="servico-single">
-
-						 	<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-						    
-						    <div class="txt-box-servico">
-						    	<input type="checkbox" id="agenda-along-concerto-2" class="checkbox-servico" value="agenda-along-concerto-2" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="1:40">
-						    
-						    	<p class="p-single">Concerto</p>
-
-						    	<span class="preco-txt">R$39,99</span>
-						    </div><!--txt-box-servico-->
-
-						</div><!--servico-single-->
-
-						<div class="servico-single">
-
-							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-						    
-						    <div class="txt-box-servico">
-						    	<input type="checkbox" id="agenda-along-esmaltacaogel-2" class="checkbox-servico" value="agenda-along-esmaltacaogel-2" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="1:00">
-						    
-						    	<p class="p-single">Esmaltação em gel</p>
-
-						    	<span class="preco-txt">R$39,99</span>
-							</div><!--txt-box-servico-->
-						</div><!--servico-single-->
-
-						<div class="servico-single">
-
-							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-
-							<div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-along-fibravidro-2" class="checkbox-servico" value="agenda-along-fibravidro-2" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="2:00">
-						    
-						    	<p class="p-single">Fibra de vidro</p>
-
-						    	<span class="preco-txt">R$39,99</span>
-
-						    </div><!--txt-box-servico-->
-						</div><!--servico-single-->
-
-						<div class="servico-single">
-
-							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-
-							<div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-along-gel-2" class="checkbox-servico" value="agenda-along-gel-2" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="2:00">
-						    
-						    	<p class="p-single">Along. Gel</p>
-
-						    	<span class="preco-txt">R$39,99</span>
-
-						    </div><!--txt-box-servico-->
-
-						</div><!--servico-single-->
-
-						<div class="servico-single">
-
-							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-
-							<div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-along-poligel-2" class="checkbox-servico" value="agenda-along-poligel-2" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="2:00">
-						    
-						    	<p class="p-single">Poligel</p>
-
-						    	<span class="preco-txt">R$39,99</span>
-
-						    </div><!--txt-box-servico-->
-						</div><!--servico-single-->
-
-						<div class="servico-single">
-
-							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-
-							<div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-along-seda-2" class="checkbox-servico" value="agenda-along-seda-2" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="2:00">
-						    
-						    	<p class="p-single">Seda</p>
-
-						    	<span class="preco-txt">R$39,99</span>
-						    </div><!--txt-box-servico-->
-						</div><!--servico-single-->
-
-						<div class="servico-single">
-
-							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-
-							<div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-along-tips-2" class="checkbox-servico" value="agenda-along-tips-2" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="2:00">
-						    
-						    	<p class="p-single">Tips</p>
-						    	<span class="preco-txt">R$39,99</span>
-
-						    </div><!--txt-box-servico-->
-
-						</div><!--servico-single-->
-
-						<div class="servico-single">
-
-							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-
-							<div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-agenda-along-banhogel-2" class="checkbox-servico" value="agenda-agenda-along-banhogel-2" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="2:00">
-						    
-						    	<p class="p-single">Banho em Gel</p>
-
-						    	<span class="preco-txt">R$39,99</span>
-
-						    </div><!--txt-box-servico-->
-
-						</div><!--servico-single-->
-
-						<div class="servico-single">
-
-							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-						    
-						    <div class="txt-box-servico">
-
-						    	<input type="checkbox" id="agenda-along-blindagem-2" class="checkbox-servico" value="agenda-along-blindagem-2" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="2:00">
-						    
-						    	<p class="p-single">Blindagem</p>
-
-						    	<span class="preco-txt">R$39,99</span>
-
-							</div><!--txt-box-servico-->
-						</div><!--servico-single-->
-					    
+					   <?php
+
+						try {
+
+						    // Nome do serviço que queremos filtrar (manicure-pedicure, por exemplo)
+						    $nomeServicoFiltro = 'along';
+
+						    // Filtrar os serviços com base no valor de `nome_servico_id`
+						    $servicosFiltrados = array_filter($servicos, function($servico) use ($nomeServicoFiltro) {
+						        $nomeServicoId = $servico['nome_servico_id'];
+
+						        // Verifica se o nome do serviço começa com o grupo desejado e não é uma exceção
+        						return strpos($nomeServicoId, $nomeServicoFiltro) === 0 && $nomeServicoId !== 'manicure-pedicure';
+						    });
+
+						// Verificar se existem serviços filtrados
+    					if (!empty($servicosFiltrados)) {
+
+							//echo "<h2>Serviços do grupo: {$nomeServicoFiltro}</h2>";
+					        foreach ($servicosFiltrados as $servico) {
+					            // Extraindo os dados da tabela
+					            $id = $servico['id'];
+					            $foto = $servico['foto_servico'];
+					            $duracao = $servico['duracao_servico'];
+					            $preco = $servico['preco_servico'];
+					            $nome = $servico['nome_servico'];
+					            $descricao = $servico['descricao_servico'];
+					            $nomeServicoId = $servico['nome_servico_id'];
+
+						        echo <<<HTML
+<div class="servico-single">
+    <i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+
+    <div class="over-back-img-servico"></div><!--back-img-servico-->
+    <div class="img-servico" style="background-image:url('img/img-servicos/{$foto}');"></div>
+    
+    <div class="txt-box-servico">
+        <input type="checkbox" id="agenda-{$nomeServicoId}-2" class="checkbox-servico" value="agenda-{$nomeServicoId}-{$id}" data-preco="{$preco}">
+        <input type="hidden" name="duracao" value="{$duracao}">
+        
+        <p class="p-single">{$nome} <br> 
+            <span style="font-size: 12px;">{$descricao}</span>
+        </p>
+
+        <span class="preco-txt">R\${$preco}</span>
+    </div><!--txt-box-servico-->
+</div><!--servico-single-->
+HTML;
+						    }
+						}else {
+					        echo "<p>Nenhum serviço encontrado para o grupo: {$grupoFiltro}</p>";
+					    } 
+
+						}catch (Exception $e) {
+						    echo "Erro ao recuperar os serviços: " . $e->getMessage();
+						}
+
+						?>
 
 					</div><!--box-de-servicos-->
 				   
@@ -3498,27 +3326,59 @@ HTML;
 
 					<div class="box-de-servicos">
 
-						<div class="servico-single">
+						<?php
 
-							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+						try {
 
-							<div class="over-back-img-servico"></div>
+						    // Nome do serviço que queremos filtrar (manicure-pedicure, por exemplo)
+						    $nomeServicoFiltro = 'manicure-pedicure';
 
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
+						    // Filtrar os serviços com base no valor de `nome_servico_id`
+						    $servicosFiltrados = array_filter($servicos, function($servico) use ($nomeServicoFiltro) {
+						        return $servico['nome_servico_id'] === $nomeServicoFiltro;
+						    });
 
-							<div class="txt-box-servico">
-						    
-							    <input type="checkbox" id="agenda-manicure-pedicure-3" class="checkbox-servico" value="agenda-manicure-pedicure-3" data-preco="30">
+						// Verificar se existem serviços filtrados
+    					if (!empty($servicosFiltrados)) {
 
-							    <input type="hidden" name="duracao" value="2:00">
-							    
-							    <p class="p-single">Manicure e Pedicure</p>
+							//echo "<h2>Serviços do grupo: {$nomeServicoFiltro}</h2>";
+					        foreach ($servicosFiltrados as $servico) {
+					            // Extraindo os dados da tabela
+					            $id = $servico['id'];
+					            $foto = $servico['foto_servico'];
+					            $duracao = $servico['duracao_servico'];
+					            $preco = $servico['preco_servico'];
+					            $nome = $servico['nome_servico'];
+					            $descricao = $servico['descricao_servico'];
+					            $nomeServicoId = $servico['nome_servico_id'];
 
-							    <span class="preco-txt">R$49,99</span>
+						        echo <<<HTML
+<div class="servico-single">
+    <i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
 
-							</div><!--txt-box-servico-->
+    <div class="over-back-img-servico"></div><!--back-img-servico-->
+    <div class="img-servico" style="background-image:url('img/img-servicos/{$foto}');"></div>
+    
+    <div class="txt-box-servico">
+        <input type="checkbox" id="agenda-{$nomeServicoId}-3" class="checkbox-servico" value="agenda-{$nomeServicoId}-{$id}" data-preco="{$preco}">
+        <input type="hidden" name="duracao" value="{$duracao}">
+        
+        <p class="p-single">{$nome} <br> 
+            <span style="font-size: 12px;">{$descricao}</span>
+        </p>
 
-						</div><!--servico-single-->
+        <span class="preco-txt">R\${$preco}</span>
+    </div><!--txt-box-servico-->
+</div><!--servico-single-->
+HTML;
+						    }
+						} 
+
+						}catch (Exception $e) {
+						    echo "Erro ao recuperar os serviços: " . $e->getMessage();
+						}
+
+						?>
 
 					</div><!--box-de-servicos-->
 				   
@@ -3541,71 +3401,64 @@ HTML;
 
 					<div class="box-de-servicos">
 
-						<div class="servico-single">
+						<?php
 
-							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+						try {
 
-							<div class="over-back-img-servico"></div>
+						    // Nome do serviço que queremos filtrar (manicure-pedicure, por exemplo)
+						    $nomeServicoFiltro = 'manicure';
 
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
+						    // Filtrar os serviços com base no valor de `nome_servico_id`
+						    $servicosFiltrados = array_filter($servicos, function($servico) use ($nomeServicoFiltro) {
+						        $nomeServicoId = $servico['nome_servico_id'];
 
-							<div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-manicure-3" class="checkbox-servico" value="agenda-manicure-3" data-preco="30">
+						        // Verifica se o nome do serviço começa com o grupo desejado e não é uma exceção
+        						return strpos($nomeServicoId, $nomeServicoFiltro) === 0 && $nomeServicoId !== 'manicure-pedicure';
+						    });
 
-							     <input type="hidden" name="duracao" value="1:00">
-						    
-						    	<p class="p-single">Manicure</p>
+						// Verificar se existem serviços filtrados
+    					if (!empty($servicosFiltrados)) {
 
-						    	<span class="preco-txt">R$29,99</span>
+							//echo "<h2>Serviços do grupo: {$nomeServicoFiltro}</h2>";
+					        foreach ($servicosFiltrados as $servico) {
+					            // Extraindo os dados da tabela
+					            $id = $servico['id'];
+					            $foto = $servico['foto_servico'];
+					            $duracao = $servico['duracao_servico'];
+					            $preco = $servico['preco_servico'];
+					            $nome = $servico['nome_servico'];
+					            $descricao = $servico['descricao_servico'];
+					            $nomeServicoId = $servico['nome_servico_id'];
 
-						    </div><!--txt-box-servico-->
+						        echo <<<HTML
+<div class="servico-single">
+    <i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
 
-						</div><!--servico-single-->
+    <div class="over-back-img-servico"></div><!--back-img-servico-->
+    <div class="img-servico" style="background-image:url('img/img-servicos/{$foto}');"></div>
+    
+    <div class="txt-box-servico">
+        <input type="checkbox" id="agenda-{$nomeServicoId}-3" class="checkbox-servico" value="agenda-{$nomeServicoId}-{$id}" data-preco="{$preco}">
+        <input type="hidden" name="duracao" value="{$duracao}">
+        
+        <p class="p-single">{$nome} <br> 
+            <span style="font-size: 12px;">{$descricao}</span>
+        </p>
 
-					    <div class="servico-single">
+        <span class="preco-txt">R\${$preco}</span>
+    </div><!--txt-box-servico-->
+</div><!--servico-single-->
+HTML;
+						    }
+						}else {
+					        echo "<p>Nenhum serviço encontrado para o grupo: {$grupoFiltro}</p>";
+					    } 
 
-					    	<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+						}catch (Exception $e) {
+						    echo "Erro ao recuperar os serviços: " . $e->getMessage();
+						}
 
-							<div class="over-back-img-servico"></div>
-
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-
-							<div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-manicure-corte-3" class="checkbox-servico" value="agenda-manicure-corte-3" data-preco="30">
-
-						    	<input type="hidden" name="duracao" value="0:40">
-						    
-						    	<p class="p-single">Corte de Unha Mão</p>
-
-						    	<span class="preco-txt">R$49,99</span>
-
-						    </div><!--txt-box-servico-->
-
-						</div><!--servico-single-->
-					    
-					    <div class="servico-single">
-
-					    	<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div>
-
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-
-							<div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-manicure-esmaltacao-3" class="checkbox-servico" value="agenda-manicure-esmaltacao-3" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="0:40">
-						    
-						    	<p class="p-single">Esmaltação Mão</p>
-
-						    	<span class="preco-txt">R$49,99</span>
-
-						    </div><!--txt-box-servico-->
-						
-						</div><!--servico-single-->
+						?>
 
 					</div><!--box-de-servicos-->
 				   
@@ -3628,115 +3481,64 @@ HTML;
 
 					<div class="box-de-servicos">
 
-						<div class="servico-single">
+						<?php
 
-							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+						try {
 
-							<div class="over-back-img-servico"></div>
+						    // Nome do serviço que queremos filtrar (manicure-pedicure, por exemplo)
+						    $nomeServicoFiltro = 'pedicure';
 
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
+						    // Filtrar os serviços com base no valor de `nome_servico_id`
+						    $servicosFiltrados = array_filter($servicos, function($servico) use ($nomeServicoFiltro) {
+						        $nomeServicoId = $servico['nome_servico_id'];
 
-							<div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-pedicure-3" class="checkbox-servico" value="agenda-pedicure-3" data-preco="30">
+						        // Verifica se o nome do serviço começa com o grupo desejado e não é uma exceção
+        						return strpos($nomeServicoId, $nomeServicoFiltro) === 0 && $nomeServicoId !== 'manicure-pedicure';
+						    });
 
-						    	<input type="hidden" name="duracao" value="1:00">
-						    
-						    	<p class="p-single">Pedicure</p>
+						// Verificar se existem serviços filtrados
+    					if (!empty($servicosFiltrados)) {
 
-						    	<span class="preco-txt">R$49,99</span>
+							//echo "<h2>Serviços do grupo: {$nomeServicoFiltro}</h2>";
+					        foreach ($servicosFiltrados as $servico) {
+					            // Extraindo os dados da tabela
+					            $id = $servico['id'];
+					            $foto = $servico['foto_servico'];
+					            $duracao = $servico['duracao_servico'];
+					            $preco = $servico['preco_servico'];
+					            $nome = $servico['nome_servico'];
+					            $descricao = $servico['descricao_servico'];
+					            $nomeServicoId = $servico['nome_servico_id'];
 
-						    </div><!--txt-box-servico-->
+						        echo <<<HTML
+<div class="servico-single">
+    <i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
 
-						</div><!--servico-single-->
+    <div class="over-back-img-servico"></div><!--back-img-servico-->
+    <div class="img-servico" style="background-image:url('img/img-servicos/{$foto}');"></div>
+    
+    <div class="txt-box-servico">
+        <input type="checkbox" id="agenda-{$nomeServicoId}-3" class="checkbox-servico" value="agenda-{$nomeServicoId}-{$id}" data-preco="{$preco}">
+        <input type="hidden" name="duracao" value="{$duracao}">
+        
+        <p class="p-single">{$nome} <br> 
+            <span style="font-size: 12px;">{$descricao}</span>
+        </p>
 
-					    <div class="servico-single">
+        <span class="preco-txt">R\${$preco}</span>
+    </div><!--txt-box-servico-->
+</div><!--servico-single-->
+HTML;
+						    }
+						}else {
+					        echo "<p>Nenhum serviço encontrado para o grupo: {$grupoFiltro}</p>";
+					    } 
 
-					    	<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+						}catch (Exception $e) {
+						    echo "Erro ao recuperar os serviços: " . $e->getMessage();
+						}
 
-							<div class="over-back-img-servico"></div>
-
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-
-							<div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-pedicure-corte-3" class="checkbox-servico" value="agenda-pedicure-corte-3" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="0:40">
-						    
-						    	<p class="p-single">Corte de Unha Pé</p>
-
-						    	<span class="preco-txt">R$49,99</span>
-
-						    </div><!--txt-box-servico-->
-
-						</div><!--servico-single-->
-					    
-					    <div class="servico-single">
-
-					    	<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div>
-
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-
-							<div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-pedicure-esmaltacao-3" class="checkbox-servico" value="agenda-pedicure-esmaltacao-3" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="0:40">
-						    
-						    	<p class="p-single">Esmaltação Pé></p>
-
-						    	<span class="preco-txt">R$49,99</span>
-
-						    </div><!--txt-box-servico-->
-
-						</div><!--servico-single-->
-
-						<div class="servico-single">
-
-							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div>
-
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-
-							<div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-pedicure-spa-do-pe-3" class="checkbox-servico" value="agenda-pedicure-spa-do-pe-3" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="0:40">
-						    
-						    	<p class="p-single">Spa do Pé</p>
-
-						    	<span class="preco-txt">R$49,99</span>
-
-						    </div><!--txt-box-servico-->
-
-						</div><!--servico-single-->
-
-						<div class="servico-single">
-
-							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div>
-
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-
-							<div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-plastica-dos-pes-3" class="checkbox-servico" value="agenda-plastica-dos-pes-3" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="0:40">
-						    
-						    	<p class="p-single">Plástica dos Pés</p>
-
-						    	<span class="preco-txt">R$49,99</span>
-
-						    </div><!--txt-box-servico-->
-
-						</div><!--servico-single-->
+						?>
 
 					</div><!--box-de-servicos-->
 
@@ -3759,50 +3561,64 @@ HTML;
 
 					<div class="box-de-servicos">
 
-						<div class="servico-single">
+					    <?php
 
-							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+						try {
 
-							<div class="over-back-img-servico"></div>
+						    // Nome do serviço que queremos filtrar (manicure-pedicure, por exemplo)
+						    $nomeServicoFiltro = 'sobrancelhas';
 
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
+						    // Filtrar os serviços com base no valor de `nome_servico_id`
+						    $servicosFiltrados = array_filter($servicos, function($servico) use ($nomeServicoFiltro) {
+						        $nomeServicoId = $servico['nome_servico_id'];
 
-							<div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-limpeza-simples-3" class="checkbox-servico" value="agenda-limpeza-simples-3" data-preco="30">
+						        // Verifica se o nome do serviço começa com o grupo desejado e não é uma exceção
+        						return strpos($nomeServicoId, $nomeServicoFiltro) === 0 && $nomeServicoId !== 'manicure-pedicure';
+						    });
 
-						     	<input type="hidden" name="duracao" value="0:40">
-						    
-						    	<p class="p-single">Limpeza Simples de Sobrancelhas</p>
+						// Verificar se existem serviços filtrados
+    					if (!empty($servicosFiltrados)) {
 
-						    	<span class="preco-txt">R$49,99</span>
+							//echo "<h2>Serviços do grupo: {$nomeServicoFiltro}</h2>";
+					        foreach ($servicosFiltrados as $servico) {
+					            // Extraindo os dados da tabela
+					            $id = 1;
+					            $foto = $servico['foto_servico'];
+					            $duracao = $servico['duracao_servico'];
+					            $preco = $servico['preco_servico'];
+					            $nome = $servico['nome_servico'];
+					            $descricao = $servico['descricao_servico'];
+					            $nomeServicoId = $servico['nome_servico_id'];
 
-						    </div><!--txt-box-servico-->
+						        echo <<<HTML
+<div class="servico-single">
+    <i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
 
-						</div><!--servico-single-->
+    <div class="over-back-img-servico"></div><!--back-img-servico-->
+    <div class="img-servico" style="background-image:url('img/img-servicos/{$foto}');"></div>
+    
+    <div class="txt-box-servico">
+        <input type="checkbox" id="agenda-{$nomeServicoId}-3" class="checkbox-servico" value="agenda-{$nomeServicoId}-{$id}" data-preco="{$preco}">
+        <input type="hidden" name="duracao" value="{$duracao}">
+        
+        <p class="p-single">{$nome} <br> 
+            <span style="font-size: 12px;">{$descricao}</span>
+        </p>
 
-					    <div class="servico-single">
+        <span class="preco-txt">R\${$preco}</span>
+    </div><!--txt-box-servico-->
+</div><!--servico-single-->
+HTML;
+						    }
+						}else {
+					        echo "<p>Nenhum serviço encontrado para o grupo: {$grupoFiltro}</p>";
+					    } 
 
-					    	<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+						}catch (Exception $e) {
+						    echo "Erro ao recuperar os serviços: " . $e->getMessage();
+						}
 
-							<div class="over-back-img-servico"></div>
-
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-
-							<div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-limpeza-henna-3" class="checkbox-servico" value="agenda-limpeza-henna-3" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="1:00">
-						    
-						    	<p class="p-single">Aplicação de Henna</p>
-
-						    	<span class="preco-txt">R$49,99</span>
-
-						    </div><!--txt-box-servico-->
-
-						</div><!--servico-single-->
-					    
+						?>
 
 					</div><!--box-de-servicos-->
 				   
@@ -3826,268 +3642,64 @@ HTML;
 
 					<div class="box-de-servicos">
 
-						<div class="servico-single">
-
-							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div>
-
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-
-							<div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-along-corte-3" class="checkbox-servico" value="agenda-along-corte-3" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="1:00">
-						    
-						    	<p class="p-single">Corte</p>
-
-						    	<span class="preco-txt">R$49,99</span>
-
-						    </div><!--txt-box-servico-->
-
-						</div><!--servico-single-->
-
-						<div class="servico-single">
-
-							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div>
-
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-
-							<div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-along-manutencao-3" class="checkbox-servico" value="agenda-along-manutencao-3" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="1:30">
-						    
-						    	<p class="p-single">Manutenção</p>
-
-						    	<span class="preco-txt">R$49,99</span>
-
-						    </div><!--txt-box-servico-->
-
-						</div><!--servico-single-->
-
-					    <div class="servico-single">
-
-					    	<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div>
-
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-
-							<div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-along-remocao-3" class="checkbox-servico" value="agenda-along-remocao-3" data-preco="30">
-
-						    	<input type="hidden" name="duracao" value="2:00">
-						    
-						    	<p class="p-single">Remoção</p>
-
-						    	<span class="preco-txt">R$49,99</span>
-
-						    </div><!--txt-box-servico-->
-
-						</div><!--servico-single-->
-
-						 <div class="servico-single">
-
-						 	<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div>
-
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-
-							<div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-along-concerto-3" class="checkbox-servico" value="agenda-along-concerto-3" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="1:40">
-						    
-						    	<p class="p-single">Concerto</p>
-
-						    	<span class="preco-txt">R$49,99</span>
-
-						    </div><!--txt-box-servico-->
-
-						</div><!--servico-single-->
-
-						<div class="servico-single">
-
-							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div>
-
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-
-							<div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-along-esmaltacaogel-3" class="checkbox-servico" value="agenda-along-esmaltacaogel-3" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="1:00">
-						    
-						    	<p class="p-single">Esmaltação em gel</p>
-
-						    	<span class="preco-txt">R$49,99</span>
-
-						    </div><!--txt-box-servico-->
-
-						</div><!--servico-single-->
-
-						<div class="servico-single">
-
-							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div>
-
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-
-							<div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-along-fibravidro-3" class="checkbox-servico" value="agenda-along-fibravidro-3" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="2:00">
-						    
-						    	<p class="p-single">Fibra de vidro</p>
-
-						    	<span class="preco-txt">R$49,99</span>
-
-						    </div><!--txt-box-servico-->
-
-						</div><!--servico-single-->
-
-						<div class="servico-single">
-
-							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div>
-
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-
-							<div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-along-gel-3" class="checkbox-servico" value="agenda-along-gel-3" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="2:00">
-						    
-						    	<p class="p-single">Along. Gel</p>
-
-						    	<span class="preco-txt">R$49,99</span>
-
-						    </div><!--txt-box-servico-->
-
-						</div><!--servico-single-->
-
-						<div class="servico-single">
-
-							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-
-							<div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-along-poligel-3" class="checkbox-servico" value="agenda-along-poligel-3" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="2:00">
-						    
-						    	<p class="p-single">Poligel</p>
-
-						    	<span class="preco-txt">R$39,99</span>
-
-						    </div><!--txt-box-servico-->
-						</div><!--servico-single-->
-
-						<div class="servico-single">
-
-							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div>
-
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-
-							<div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-along-seda-3" class="checkbox-servico" value="agenda-along-seda-3" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="2:00">
-						    
-						    	<p class="p-single">Seda</p>
-
-						    	<span class="preco-txt">R$49,99</span>
-
-						    </div><!--txt-box-servico-->
-
-						</div><!--servico-single-->
-
-						<div class="servico-single">
-
-						    <i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div>
-
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-
-							<div class="txt-box-servico">
-
-						    	<input type="checkbox" id="agenda-along-tips-3" class="checkbox-servico" value="agenda-along-tips-3" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="2:00">
-						    
-						    	<p class="p-single">Tips</p>
-
-						    	<span class="preco-txt">R$49,99</span>
-
-						    </div><!--txt-box-servico-->
-
-						</div><!--servico-single-->
-
-						<div class="servico-single">
-
-							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div>
-
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-
-							<div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-along-banhogel-3" class="checkbox-servico" value="agenda-along-banhogel-3" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="2:00">
-						    
-						    	<p class="p-single">Banho em Gel</p>
-
-						    	<span class="preco-txt">R$49,99</span>
-
-						    </div><!--txt-box-servico-->
-
-						</div><!--servico-single-->
-
-						<div class="servico-single">
-
-							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div>
-
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-
-							<div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-along-blindagem-3" class="checkbox-servico" value="agenda-along-blindagem-3" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="2:00">
-						    
-						    	<p class="p-single">Blindage</p>
-
-						    	<span class="preco-txt">R$49,99</span>
-
-						    </div><!--txt-box-servico-->
-
-						</div><!--servico-single-->
-					    
+					    <?php
+
+						try {
+
+						    // Nome do serviço que queremos filtrar (manicure-pedicure, por exemplo)
+						    $nomeServicoFiltro = 'along';
+
+						    // Filtrar os serviços com base no valor de `nome_servico_id`
+						    $servicosFiltrados = array_filter($servicos, function($servico) use ($nomeServicoFiltro) {
+						        $nomeServicoId = $servico['nome_servico_id'];
+
+						        // Verifica se o nome do serviço começa com o grupo desejado e não é uma exceção
+        						return strpos($nomeServicoId, $nomeServicoFiltro) === 0 && $nomeServicoId !== 'manicure-pedicure';
+						    });
+
+						// Verificar se existem serviços filtrados
+    					if (!empty($servicosFiltrados)) {
+
+							//echo "<h2>Serviços do grupo: {$nomeServicoFiltro}</h2>";
+					        foreach ($servicosFiltrados as $servico) {
+					            // Extraindo os dados da tabela
+					            $id = $servico['id'];
+					            $foto = $servico['foto_servico'];
+					            $duracao = $servico['duracao_servico'];
+					            $preco = $servico['preco_servico'];
+					            $nome = $servico['nome_servico'];
+					            $descricao = $servico['descricao_servico'];
+					            $nomeServicoId = $servico['nome_servico_id'];
+
+						        echo <<<HTML
+<div class="servico-single">
+    <i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+
+    <div class="over-back-img-servico"></div><!--back-img-servico-->
+    <div class="img-servico" style="background-image:url('img/img-servicos/{$foto}');"></div>
+    
+    <div class="txt-box-servico">
+        <input type="checkbox" id="agenda-{$nomeServicoId}-3" class="checkbox-servico" value="agenda-{$nomeServicoId}-{$id}" data-preco="{$preco}">
+        <input type="hidden" name="duracao" value="{$duracao}">
+        
+        <p class="p-single">{$nome} <br> 
+            <span style="font-size: 12px;">{$descricao}</span>
+        </p>
+
+        <span class="preco-txt">R\${$preco}</span>
+    </div><!--txt-box-servico-->
+</div><!--servico-single-->
+HTML;
+						    }
+						}else {
+					        echo "<p>Nenhum serviço encontrado para o grupo: {$grupoFiltro}</p>";
+					    } 
+
+						}catch (Exception $e) {
+						    echo "Erro ao recuperar os serviços: " . $e->getMessage();
+						}
+
+						?>
 
 					</div><!--box-de-servicos-->
 				   
@@ -4182,25 +3794,59 @@ HTML;
 
 					<div class="box-de-servicos">
 
-						<div class="servico-single">
+						<?php
 
-							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+						try {
 
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-						    
-						    <div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-manicure-pedicure-4" class="checkbox-servico" value="agenda-manicure-pedicure-4" data-preco="30">
+						    // Nome do serviço que queremos filtrar (manicure-pedicure, por exemplo)
+						    $nomeServicoFiltro = 'manicure-pedicure';
 
-						    	<input type="hidden" name="duracao" value="2:00">
-						    
-						    	<p class="p-single">Manicure e Pedicure</p>
+						    // Filtrar os serviços com base no valor de `nome_servico_id`
+						    $servicosFiltrados = array_filter($servicos, function($servico) use ($nomeServicoFiltro) {
+						        return $servico['nome_servico_id'] === $nomeServicoFiltro;
+						    });
 
-						    	<span class="preco-txt">R$49,99</span>
+						// Verificar se existem serviços filtrados
+    					if (!empty($servicosFiltrados)) {
 
-						    </div><!--txt-box-servico-->
-						</div><!--servico-single-->
+							//echo "<h2>Serviços do grupo: {$nomeServicoFiltro}</h2>";
+					        foreach ($servicosFiltrados as $servico) {
+					            // Extraindo os dados da tabela
+					            $id = $servico['id'];
+					            $foto = $servico['foto_servico'];
+					            $duracao = $servico['duracao_servico'];
+					            $preco = $servico['preco_servico'];
+					            $nome = $servico['nome_servico'];
+					            $descricao = $servico['descricao_servico'];
+					            $nomeServicoId = $servico['nome_servico_id'];
+
+						        echo <<<HTML
+<div class="servico-single">
+    <i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+
+    <div class="over-back-img-servico"></div><!--back-img-servico-->
+    <div class="img-servico" style="background-image:url('img/img-servicos/{$foto}');"></div>
+    
+    <div class="txt-box-servico">
+        <input type="checkbox" id="agenda-{$nomeServicoId}-4" class="checkbox-servico" value="agenda-{$nomeServicoId}-{$id}" data-preco="{$preco}">
+        <input type="hidden" name="duracao" value="{$duracao}">
+        
+        <p class="p-single">{$nome} <br> 
+            <span style="font-size: 12px;">{$descricao}</span>
+        </p>
+
+        <span class="preco-txt">R\${$preco}</span>
+    </div><!--txt-box-servico-->
+</div><!--servico-single-->
+HTML;
+						    }
+						} 
+
+						}catch (Exception $e) {
+						    echo "Erro ao recuperar os serviços: " . $e->getMessage();
+						}
+
+						?>
 
 					</div><!--box-de-servicos-->
 				   
@@ -4223,65 +3869,64 @@ HTML;
 
 					<div class="box-de-servicos">
 
-						<div class="servico-single">
+						<?php
 
-							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+						try {
 
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-						    
-						    <div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-manicure-4" class="checkbox-servico" value="agenda-manicure-4" data-preco="30">
+						    // Nome do serviço que queremos filtrar (manicure-pedicure, por exemplo)
+						    $nomeServicoFiltro = 'manicure';
 
-						     	<input type="hidden" name="duracao" value="1:00">
-						    
-						    	<p class="p-single">Manicure</p>
+						    // Filtrar os serviços com base no valor de `nome_servico_id`
+						    $servicosFiltrados = array_filter($servicos, function($servico) use ($nomeServicoFiltro) {
+						        $nomeServicoId = $servico['nome_servico_id'];
 
-						    	<span class="preco-txt">R$49,99</span>
-						    </div><!--txt-box-servico-->
+						        // Verifica se o nome do serviço começa com o grupo desejado e não é uma exceção
+        						return strpos($nomeServicoId, $nomeServicoFiltro) === 0 && $nomeServicoId !== 'manicure-pedicure';
+						    });
 
-						</div><!--servico-single-->
+						// Verificar se existem serviços filtrados
+    					if (!empty($servicosFiltrados)) {
 
-					    <div class="servico-single">
+							//echo "<h2>Serviços do grupo: {$nomeServicoFiltro}</h2>";
+					        foreach ($servicosFiltrados as $servico) {
+					            // Extraindo os dados da tabela
+					            $id = $servico['id'];
+					            $foto = $servico['foto_servico'];
+					            $duracao = $servico['duracao_servico'];
+					            $preco = $servico['preco_servico'];
+					            $nome = $servico['nome_servico'];
+					            $descricao = $servico['descricao_servico'];
+					            $nomeServicoId = $servico['nome_servico_id'];
 
-					    	<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+						        echo <<<HTML
+<div class="servico-single">
+    <i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
 
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-						    
-						    <div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-manicure-corte-4" class="checkbox-servico" value="agenda-manicure-corte-4" data-preco="30">
+    <div class="over-back-img-servico"></div><!--back-img-servico-->
+    <div class="img-servico" style="background-image:url('img/img-servicos/{$foto}');"></div>
+    
+    <div class="txt-box-servico">
+        <input type="checkbox" id="agenda-{$nomeServicoId}-4" class="checkbox-servico" value="agenda-{$nomeServicoId}-{$id}" data-preco="{$preco}">
+        <input type="hidden" name="duracao" value="{$duracao}">
+        
+        <p class="p-single">{$nome} <br> 
+            <span style="font-size: 12px;">{$descricao}</span>
+        </p>
 
-						    	<input type="hidden" name="duracao" value="0:40">
-						    
-						    	<p class="p-single">Corte de Unha Mão</p>
+        <span class="preco-txt">R\${$preco}</span>
+    </div><!--txt-box-servico-->
+</div><!--servico-single-->
+HTML;
+						    }
+						}else {
+					        echo "<p>Nenhum serviço encontrado para o grupo: {$grupoFiltro}</p>";
+					    } 
 
-						    	<span class="preco-txt">R$49,99</span>
+						}catch (Exception $e) {
+						    echo "Erro ao recuperar os serviços: " . $e->getMessage();
+						}
 
-						    </div><!--txt-box-servico-->
-						</div><!--servico-single-->
-					    
-					    <div class="servico-single">
-
-					    	<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-						    
-						    <div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-manicure-esmaltacao-4" class="checkbox-servico" value="agenda-manicure-esmaltacao-4" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="0:40">
-						    
-						    	<p class="p-single">Esmaltação Mão</p>
-
-						    	<span class="preco-txt">R$49,99</span>
-
-						    </div><!--txt-box-servico-->
-						</div><!--servico-single-->
+						?>
 
 					</div><!--box-de-servicos-->
 				   
@@ -4304,105 +3949,64 @@ HTML;
 
 					<div class="box-de-servicos">
 
-						<div class="servico-single">
+							<?php
 
-							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+						try {
 
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-						    
-						    <div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-pedicure-4" class="checkbox-servico" value="agenda-pedicure-4" data-preco="30">
+						    // Nome do serviço que queremos filtrar (manicure-pedicure, por exemplo)
+						    $nomeServicoFiltro = 'pedicure';
 
-						    	<input type="hidden" name="duracao" value="1:00">
-						    
-						    	<p class="p-single">Pedicure</p>
+						    // Filtrar os serviços com base no valor de `nome_servico_id`
+						    $servicosFiltrados = array_filter($servicos, function($servico) use ($nomeServicoFiltro) {
+						        $nomeServicoId = $servico['nome_servico_id'];
 
-						    	<span class="preco-txt">R$49,99</span>
+						        // Verifica se o nome do serviço começa com o grupo desejado e não é uma exceção
+        						return strpos($nomeServicoId, $nomeServicoFiltro) === 0 && $nomeServicoId !== 'manicure-pedicure';
+						    });
 
-						    </div><!--txt-box-servico-->
-						</div><!--servico-single-->
+						// Verificar se existem serviços filtrados
+    					if (!empty($servicosFiltrados)) {
 
-					    <div class="servico-single">
+							//echo "<h2>Serviços do grupo: {$nomeServicoFiltro}</h2>";
+					        foreach ($servicosFiltrados as $servico) {
+					            // Extraindo os dados da tabela
+					            $id = $servico['id'];
+					            $foto = $servico['foto_servico'];
+					            $duracao = $servico['duracao_servico'];
+					            $preco = $servico['preco_servico'];
+					            $nome = $servico['nome_servico'];
+					            $descricao = $servico['descricao_servico'];
+					            $nomeServicoId = $servico['nome_servico_id'];
 
-					    	<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+						        echo <<<HTML
+<div class="servico-single">
+    <i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
 
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-						    
-						    <div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-pedicure-corte-4" class="checkbox-servico" value="agenda-pedicure-corte-4" data-preco="30">
+    <div class="over-back-img-servico"></div><!--back-img-servico-->
+    <div class="img-servico" style="background-image:url('img/img-servicos/{$foto}');"></div>
+    
+    <div class="txt-box-servico">
+        <input type="checkbox" id="agenda-{$nomeServicoId}-4" class="checkbox-servico" value="agenda-{$nomeServicoId}-{$id}" data-preco="{$preco}">
+        <input type="hidden" name="duracao" value="{$duracao}">
+        
+        <p class="p-single">{$nome} <br> 
+            <span style="font-size: 12px;">{$descricao}</span>
+        </p>
 
-						     	<input type="hidden" name="duracao" value="0:40">
-						    
-						    	<p class="p-single">Corte de Unha Pé</p>
+        <span class="preco-txt">R\${$preco}</span>
+    </div><!--txt-box-servico-->
+</div><!--servico-single-->
+HTML;
+						    }
+						}else {
+					        echo "<p>Nenhum serviço encontrado para o grupo: {$grupoFiltro}</p>";
+					    } 
 
-						    	<span class="preco-txt">R$49,99</span>
+						}catch (Exception $e) {
+						    echo "Erro ao recuperar os serviços: " . $e->getMessage();
+						}
 
-						    </div><!--txt-box-servico-->
-
-						</div><!--servico-single-->
-					    
-					    <div class="servico-single">
-
-					    	<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-						    
-						    <div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-pedicure-esmaltacao-4" class="checkbox-servico" value="agenda-pedicure-esmaltacao-4" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="0:40">
-						    
-						    	<p class="p-single">Esmaltação Pé</p>
-
-						    	<span class="preco-txt">R$49,99</span>
-						    </div><!--txt-box-servico-->
-						</div><!--servico-single-->
-
-						<div class="servico-single">
-
-							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-						    
-						    <div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-pedicure-spa-do-pe-4" class="checkbox-servico" value="agenda-pedicure-spa-do-pe-4" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="0:40">
-						    
-						    	<p class="p-single">Spa do Pé</p>
-
-						    	<span class="preco-txt">R$49,99</span>
-
-						    </div><!--txt-box-servico-->
-						</div><!--servico-single-->
-
-						<div class="servico-single">
-						    
-						    <i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-						    
-						    <div class="txt-box-servico">
-
-						    	<input type="checkbox" id="agenda-plastica-dos-pes-4" class="checkbox-servico" value="agenda-plastica-dos-pes-4" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="0:40">
-						    
-						    	<p class="p-single">Plástica dos Pés</p>
-
-						    	<span class="preco-txt">R$49,99</span>
-
-						    </div><!--txt-box-servico-->
-						</div><!--servico-single-->
+						?>
 
 					</div><!--box-de-servicos-->
 
@@ -4425,45 +4029,64 @@ HTML;
 
 					<div class="box-de-servicos">
 
-						<div class="servico-single">
+					    <?php
 
-							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+						try {
 
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-						    
-						    <div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-limpeza-simples-4" class="checkbox-servico" value="agenda-limpeza-simples-4" data-preco="30">
+						    // Nome do serviço que queremos filtrar (manicure-pedicure, por exemplo)
+						    $nomeServicoFiltro = 'sobrancelhas';
 
-						     	<input type="hidden" name="duracao" value="0:40">
-						    
-						    	<p class="p-single">Limpeza Simples de Sobrancelhas</p>
+						    // Filtrar os serviços com base no valor de `nome_servico_id`
+						    $servicosFiltrados = array_filter($servicos, function($servico) use ($nomeServicoFiltro) {
+						        $nomeServicoId = $servico['nome_servico_id'];
 
-						    	<span class="preco-txt">R$49,99</span>
+						        // Verifica se o nome do serviço começa com o grupo desejado e não é uma exceção
+        						return strpos($nomeServicoId, $nomeServicoFiltro) === 0 && $nomeServicoId !== 'manicure-pedicure';
+						    });
 
-						    </div><!--txt-box-servico-->
-						</div><!--servico-single-->
+						// Verificar se existem serviços filtrados
+    					if (!empty($servicosFiltrados)) {
 
-					    <div class="servico-single">
+							//echo "<h2>Serviços do grupo: {$nomeServicoFiltro}</h2>";
+					        foreach ($servicosFiltrados as $servico) {
+					            // Extraindo os dados da tabela
+					            $id = 1;
+					            $foto = $servico['foto_servico'];
+					            $duracao = $servico['duracao_servico'];
+					            $preco = $servico['preco_servico'];
+					            $nome = $servico['nome_servico'];
+					            $descricao = $servico['descricao_servico'];
+					            $nomeServicoId = $servico['nome_servico_id'];
 
-					    	<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+						        echo <<<HTML
+<div class="servico-single">
+    <i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
 
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-						    
-						    <div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-limpeza-henna-4" class="checkbox-servico" value="agenda-limpeza-henna-4" data-preco="30">
+    <div class="over-back-img-servico"></div><!--back-img-servico-->
+    <div class="img-servico" style="background-image:url('img/img-servicos/{$foto}');"></div>
+    
+    <div class="txt-box-servico">
+        <input type="checkbox" id="agenda-{$nomeServicoId}-4" class="checkbox-servico" value="agenda-{$nomeServicoId}-{$id}" data-preco="{$preco}">
+        <input type="hidden" name="duracao" value="{$duracao}">
+        
+        <p class="p-single">{$nome} <br> 
+            <span style="font-size: 12px;">{$descricao}</span>
+        </p>
 
-						     	<input type="hidden" name="duracao" value="1:00">
-						    
-						    	<p class="p-single">Aplicação de Henna</p>
+        <span class="preco-txt">R\${$preco}</span>
+    </div><!--txt-box-servico-->
+</div><!--servico-single-->
+HTML;
+						    }
+						}else {
+					        echo "<p>Nenhum serviço encontrado para o grupo: {$grupoFiltro}</p>";
+					    } 
 
-						    	<span class="preco-txt">R$49,99</span>
+						}catch (Exception $e) {
+						    echo "Erro ao recuperar os serviços: " . $e->getMessage();
+						}
 
-						    </div><!--txt-box-servico-->
-						</div><!--servico-single-->
+						?>
 					    
 
 					</div><!--box-de-servicos-->
@@ -4488,247 +4111,64 @@ HTML;
 
 					<div class="box-de-servicos">
 
-						<div class="servico-single">
-
-							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-						    
-						    <div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-along-corte-4" class="checkbox-servico" value="agenda-along-corte-4" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="1:00">
-						    
-						    	<p class="p-single">Corte</p>
-
-						    	<span class="preco-txt">R$49,99</span>
-
-						    </div><!--txt-box-servico-->
-						</div><!--servico-single-->
-
-						<div class="servico-single">
-
-							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-						    
-						    <div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-along-manutencao-4" class="checkbox-servico" value="agenda-along-manutencao-4" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="1:30">
-						    
-						    	<p class="p-single">Manutenção</p>
-
-						    	<span class="preco-txt">R$49,99</span>
-
-						    </div><!--TXT-BOX-SERVICO-->
-
-						</div><!--servico-single-->
-
-					    <div class="servico-single">
-
-					    	<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-						    
-						    <div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-along-remocao-4" class="checkbox-servico" value="agenda-along-remocao-4" data-preco="30">
-
-						    	<input type="hidden" name="duracao" value="2:00">
-						    
-						    	<p class="p-single">Remoção</p>
-
-						    	<span class="preco-txt">R$49,99</span>
-
-						    </div><!--txt-box-servico-->
-						</div><!--servico-single-->
-
-						 <div class="servico-single">
-
-						 	<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-						    
-						    <div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-along-concerto-4" class="checkbox-servico" value="agenda-along-concerto-4" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="1:40">
-						    
-						    	<p class="p-single">Concerto</p>
-
-						    	<span class="preco-txt">R$49,99</span>
-
-						    </div><!--txt-box-servico-->
-						</div><!--servico-single-->
-
-						<div class="servico-single">
-
-							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-						    
-						    <div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-along-esmaltacaogel-4" class="checkbox-servico" value="agenda-along-esmaltacaogel-4" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="1:00">
-						    
-						    	<p class="p-single">Esmaltação em gel</p>
-
-						    	<span class="preco-txt">R$49,99</span>
-
-						    </div><!--txto-box-servico-->
-						</div><!--servico-single-->
-
-						<div class="servico-single">
-
-							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-						    
-						    <div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-along-fibravidro-4" class="checkbox-servico" value="agenda-along-fibravidro-4" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="2:00">
-						    
-						    	<p class="p-single">Fibra de vidro</p>
-
-						    	<span class="preco-txt">R$49,99</span>
-
-						    </div><!--txt-box-servico-->
-						</div><!--servico-single-->
-
-						<div class="servico-single">
-						    
-						    <i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-						    
-						    <div class="txt-box-servico">
-
-						    	<input type="checkbox" id="agenda-along-gel-4" class="checkbox-servico" value="agenda-along-gel-4" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="2:00">
-						    
-						    	<p class="p-single">Along. Gel</p>
-
-						    	<span class="preco-txt">R$49,99</span>
-
-						    </div><!--txt-box-servico-->
-						</div><!--servico-single-->
-
-						<div class="servico-single">
-
-							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-						    
-						    <div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-along-poligel-4" class="checkbox-servico" value="agenda-along-poligel-4" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="2:00">
-						    
-						    	<p class="p-single">Poligel</p>
-
-						    	<span class="preco-txt">R$49,99</span>
-
-						    </div><!--txt-box-servico-->
-						</div><!--servico-single-->
-
-						<div class="servico-single">
-
-							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-						    
-						    <div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-along-seda-4" class="checkbox-servico" value="agenda-along-seda-4" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="2:00">
-						    
-						    	<p class="p-single">Seda</p>
-
-						    	<span class="preco-txt">R$49,99</span>
-
-						    </div><!--txt-box-servico-->
-						</div><!--servico-single-->
-
-						<div class="servico-single">
-
-							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-						    
-						    <div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-along-tips-4" class="checkbox-servico" value="agenda-along-tips-4" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="2:00">
-						    
-						    	<p class="p-single">Tips</p>
-
-						    	<span class="preco-txt">R$49,99</span>
-
-						    </div><!--txt-box-servico-->
-						</div><!--servico-single-->
-
-						<div class="servico-single">
-						    
-						    <i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-						    
-						    <div class="txt-box-servico">
-
-						    	<input type="checkbox" id="agenda-along-banhogel-4" class="checkbox-servico" value="agenda-along-banhogel-4" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="2:00">
-						    
-						    	<p class="p-single">Banho em Gel</p>
-
-						    	<span class="preco-txt">R$49,99</span>
-
-						    </div><!--txt-box-servico-->
-						</div><!--servico-single-->
-
-						<div class="servico-single">
-
-							<i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
-
-							<div class="over-back-img-servico"></div><!--back-img-servico-->
-							<div class="img-servico" style="background-image:url('img/img-servicos/fundo-servico-exemplo.jpg');"></div>
-						    
-						    <div class="txt-box-servico">
-						    
-						    	<input type="checkbox" id="agenda-along-blindagem-4" class="checkbox-servico" value="agenda-along-blindagem-4" data-preco="30">
-
-						     	<input type="hidden" name="duracao" value="2:00">
-						    
-						    	<p class="p-single">Blindagem</p>
-
-						    	<span class="preco-txt">R$49,99</span>
-
-						    </div><!--txt-box-servico-->
-						</div><!--servico-single-->
-					    
+					<?php
+
+						try {
+
+						    // Nome do serviço que queremos filtrar (manicure-pedicure, por exemplo)
+						    $nomeServicoFiltro = 'along';
+
+						    // Filtrar os serviços com base no valor de `nome_servico_id`
+						    $servicosFiltrados = array_filter($servicos, function($servico) use ($nomeServicoFiltro) {
+						        $nomeServicoId = $servico['nome_servico_id'];
+
+						        // Verifica se o nome do serviço começa com o grupo desejado e não é uma exceção
+        						return strpos($nomeServicoId, $nomeServicoFiltro) === 0 && $nomeServicoId !== 'manicure-pedicure';
+						    });
+
+						// Verificar se existem serviços filtrados
+    					if (!empty($servicosFiltrados)) {
+
+							//echo "<h2>Serviços do grupo: {$nomeServicoFiltro}</h2>";
+					        foreach ($servicosFiltrados as $servico) {
+					            // Extraindo os dados da tabela
+					            $id = $servico['id'];
+					            $foto = $servico['foto_servico'];
+					            $duracao = $servico['duracao_servico'];
+					            $preco = $servico['preco_servico'];
+					            $nome = $servico['nome_servico'];
+					            $descricao = $servico['descricao_servico'];
+					            $nomeServicoId = $servico['nome_servico_id'];
+
+						        echo <<<HTML
+<div class="servico-single">
+    <i class="select-icon fa-solid fa-square-check" style="display:none;"></i>
+
+    <div class="over-back-img-servico"></div><!--back-img-servico-->
+    <div class="img-servico" style="background-image:url('img/img-servicos/{$foto}');"></div>
+    
+    <div class="txt-box-servico">
+        <input type="checkbox" id="agenda-{$nomeServicoId}-4" class="checkbox-servico" value="agenda-{$nomeServicoId}-{$id}" data-preco="{$preco}">
+        <input type="hidden" name="duracao" value="{$duracao}">
+        
+        <p class="p-single">{$nome} <br> 
+            <span style="font-size: 12px;">{$descricao}</span>
+        </p>
+
+        <span class="preco-txt">R\${$preco}</span>
+    </div><!--txt-box-servico-->
+</div><!--servico-single-->
+HTML;
+						    }
+						}else {
+					        echo "<p>Nenhum serviço encontrado para o grupo: {$grupoFiltro}</p>";
+					    } 
+
+						}catch (Exception $e) {
+						    echo "Erro ao recuperar os serviços: " . $e->getMessage();
+						}
+
+						?>	
 
 					</div><!--box-de-servicos-->
 				   
