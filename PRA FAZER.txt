@@ -1,0 +1,5 @@
+- corrigir a barra de disponibilidade do dia, para ajustar conforme os horarios disponiveis = OK
+
+- caso não tenha horarios disponiveis, verificar se o dia fica desabilitado. = Verificar durante o dia
+
+- continuar a validação do formulario da box identificação cliente.. devera ser feito um opacity na box e um tempo para a validação de busca no banco de dados ocorra.

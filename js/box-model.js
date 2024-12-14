@@ -676,10 +676,17 @@ function closeModal() {
     console.log("Modal função closeModal fechado e encerrado");
 
     $('.select-icon').fadeOut();
+
     $('.js-modal-agenda-servicos').css('opacity','1');
-    $('.js-error-modal-agenda-servicos').fadeOut();
+    // Esconde mensagem de sucesso (se estiver visível)
+    $(".js-sucess-modal-agenda-servicos").stop(true, true).fadeOut(0);
+    // Esconde mensagem de error (se estiver visível)
+    $(".js-error-modal-agenda-servicos").stop(true, true).fadeOut(0);
 
     $('.js-tempo-servico .tempo-estimado').html('0:00');
+
+    $('input[type=text]').val('');
+    $('input[type=submit]').fadeIn();
 
     } catch (error){
         console.error("Erro na função closeModal:", error);

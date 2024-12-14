@@ -1478,7 +1478,7 @@ span.preco-single{
   padding: 20px;
   background: #ffffff;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 4px 12px rgba(233, 30, 99, 0.71);
+  box-shadow: 0 4px 12px rgba(148, 96, 84, 0.71);;
   border-radius: 8px;
   /*transition: transform 0.2s ease;*/
 }

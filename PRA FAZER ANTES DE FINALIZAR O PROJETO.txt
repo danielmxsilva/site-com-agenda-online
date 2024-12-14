@@ -1,1 +1,1 @@
-- Otimizar os codigos do box-model.js = esta travando ao adicionar muitos serviços e tentar excluir tudo de uma vez
+- Otimizar os codigos 

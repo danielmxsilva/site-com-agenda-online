@@ -31,7 +31,32 @@ $(document).ready(function() {
 
   function atualizarBarraDisponibilidade(diaDiv, horariosDisponiveis) {
     const totalHorarios = 13; // Total de horários possíveis no dia
-    const qtdDisponiveis = horariosDisponiveis.length;
+
+    // Obter o dia atual e a hora atual
+    const hoje = new Date();
+    const diaAtual = hoje.toISOString().split('T')[0];
+    const horaAtual = hoje.getHours();
+    const minutoAtual = hoje.getMinutes();
+
+    // Recuperar a data do elemento HTML
+    const diaTexto = diaDiv.find('.data').text().trim(); // Exemplo: "14/12/2024"
+
+    // Converter a data do formato "DD/MM/YYYY" para "YYYY-MM-DD"
+    const [dia, mes, ano] = diaTexto.split('/').map(Number);
+    const diaBarraFormatado = `${ano}-${String(mes).padStart(2, '0')}-${String(dia).padStart(2, '0')}`;
+
+    // Filtrar horários disponíveis futuros apenas se for o dia atual
+    const horariosFuturos = horariosDisponiveis.filter(horario => {
+        const [hora, minuto] = horario.split(':').map(Number);
+
+        // Converter horário para minutos do dia
+        const horarioEmMinutos = hora * 60 + minuto;
+        const agoraEmMinutos = horaAtual * 60 + minutoAtual;
+
+        return diaBarraFormatado !== diaAtual || horarioEmMinutos > agoraEmMinutos;
+    });
+
+    const qtdDisponiveis = horariosFuturos.length;
     const porcentagem = (qtdDisponiveis / totalHorarios) * 100;
     const disponibilidadeDiv = diaDiv.find('.disponibilidade');
 
