@@ -9,7 +9,7 @@
 	 
 ?>
 <!DOCTYPE html>
-<html lang="pt-br">
+<html>
 <head>
 	<!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -27,24 +27,34 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   gtag('config', 'G-REZ760HN5D');
 </script>
-	<title>Paula Rosangela - Nail Design</title>
+	<title>Paula Rosangela – Manicure e Pedicure em Itupeva, Jundiaí e Região 💅</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-	<meta name="description" content="Manicure e Pedicure, Atendimento a Domicilio em Itupeva, Jundiai e Região">
+	<meta name="description" content="Descubra a beleza e o cuidado que suas unhas merecem com os serviços de Paula Rosangela. Agende online de forma prática e transforme seu momento em uma experiência única. Saiba mais no site!">
 	<meta name="author" content="Daniel Mateus X Tiago">
 	<meta name="keyword" content="Manicure, Pedicure, Atendimento a Domicilio, Itupeva, Jundiai">
 	<meta name="og:title" content="Paula Rosangela - Nail Design">
 	<meta name="og:url" content="<?php echo INCLUDE_PATH;?>">
 	<meta name="og:img" content="<?php echo INCLUDE_PATH;?>img/logo/icone.png">
-	<meta name="og:description" content="Manicure e Pedicure, Atendimento a Domicilio em Itupeva, Jundiai e Região">
-	<link href="<?php echo INCLUDE_PATH;?>img/logo/icone-1.png" rel="shortcut icon" type="image/png">
+	<meta name="og:description" content="Atendimento a Domicilio aproveite sem Taxa de Deslocamento">
+	<link href="<?php echo INCLUDE_PATH;?>img/logo/icone-site.png" rel="shortcut icon" type="image/png">
 	<link href="<?php echo INCLUDE_PATH;?>css/style.css" rel="stylesheet">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="<?php echo INCLUDE_PATH;?>css/slick.css" />
+	 
 </head>
+
+<!--
+<div id="preloader">
+    <div class="spinner"></div>
+    <div id="preloader-text">Carregando agora</div>
+</div>
+-->
+
 <body>
+
 
 	<!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WMK87QLZ"
@@ -4330,22 +4340,27 @@ HTML;
 			      <legend class="color-p">Identifique-se com seu Número</legend>
 
 			      <div class="wraper-form-single">
-			        <input type="text" id="telefone" name="telefone" placeholder=" " required>
+			        <input type="text" id="telefone-login-agenda" name="telefone-login-agenda" placeholder=" " required>
 			        <label for="telefone">Número de Telefone</label>
 			      </div>
 
 			      <div class="wraper-form-single">
-			        <input type="submit" name="acao-validar-telefone" value="Validar">
+			        <input type="submit" name="acao-validar-telefone-login-agenda" value="Validar">
 			      </div>
 			    </fieldset>
 			</form><!--form-telefone-login-->
 
 			 <form class="form-informacoes-cliente">
+			 	<div class="wraper-h" style="margin: 10px 0 40px 0;">
+					<h3 class="titulo-h">Seu <span class="rosa-span">Cadastro</span></h3>
+					<span class="line-h"></span>
+				</div><!--wraper-->
 			    <fieldset>
+			    
 			      <legend class="color-p">Informações do Cadastro</legend>
 
 			      <div class="wraper-form-single">
-			        <input type="text" id="nome" name="nome-cliente" placeholder=" " required>
+			        <input type="text" id="nome-login-agenda" name="nome-cliente" placeholder=" " required>
 			        <label for="nome">Nome Completo</label>
 			      </div>
 
@@ -4354,12 +4369,12 @@ HTML;
 			      </div>
 
 			      <div class="wraper-form-single">
-			        <input type="text" id="CEP" name="CEP" placeholder=" ">
+			        <input type="text" id="cep-login-agenda" name="CEP" placeholder=" ">
 			        <label for="CEP">CEP</label>
 			      </div>
 
 			      <div class="wraper-form-single">
-			        <select name="cidade">
+			        <select name="cidade" id="cidade-login-agenda">
 			          <option value="Cidade" selected disabled>Cidade:</option>
 			          <option value="itupeva">Itupeva</option>
 			          <option value="jundiai">Jundiaí</option>
@@ -4367,17 +4382,17 @@ HTML;
 			      </div>
 
 			      <div class="wraper-form-single" style="margin-top: 20px;">
-			        <input type="text" id="bairro" name="bairro" placeholder=" ">
+			        <input type="text" id="bairro-login-agenda" name="bairro" placeholder=" ">
 			        <label for="bairro">Bairro</label>
 			      </div>
 
 			      <div class="wraper-form-single" style="margin-top: 20px;">
-			        <input type="text" id="rua-casa" name="rua-casa" placeholder=" ">
+			        <input type="text" id="rua-casa-login-agenda" name="rua-casa" placeholder=" ">
 			        <label for="rua-casa">Rua</label>
 			      </div>
 
 			      <div class="wraper-form-single" style="margin-top: 20px;">
-			        <input type="text" id="n-casa" name="n-casa" placeholder=" ">
+			        <input type="text" id="n-casa-login-agenda" name="n-casa" placeholder=" ">
 			        <label for="n-casa">Número</label>
 			      </div>
 
@@ -4981,6 +4996,8 @@ HTML;
   </footer>
 
 <script src="<?php echo INCLUDE_PATH;?>js/jquery.js"></script>
+<script src="<?php echo INCLUDE_PATH;?>js/jquery.ajaxform.js"></script>
+<script src="<?php echo INCLUDE_PATH;?>js/form-agenda.js"></script>
 <script src="https://kit.fontawesome.com/86e9924e5d.js" crossorigin="anonymous"></script>
 <script src="<?php echo INCLUDE_PATH;?>js/slick.min.js"></script>
 <script src="<?php echo INCLUDE_PATH;?>js/slide.js"></script>
@@ -5002,7 +5019,27 @@ HTML;
 </script>
 
 -->
+<script>
+	
+    $(window).on('load', function() {
+        // Remove a tela de carregamento
+        // Adiciona um atraso de 2 segundos (2000ms) após o carregamento completo
+/*
+        setTimeout(function(){
+
+	        $('#preloader').fadeOut('slow', function() {
+	            $(this).remove(); // Remove completamente a tela de carregamento do DOM
+	        });
+
+	        // Remove a classe de carregamento do body
+	        $('body').removeClass('loading-page');
+	    }, 1000);*/
+
+    });
+</script>
 <!--final scripts particulas-->
 
+
 </body>
+
 </html>
