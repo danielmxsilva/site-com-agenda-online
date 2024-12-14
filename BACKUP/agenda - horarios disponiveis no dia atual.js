@@ -63,42 +63,8 @@ $(document).ready(function() {
         // Debug: Verifique os horários recebidos
         console.log("Horários disponíveis recebidos:", horariosDisponiveis);
 
-        // Obter o dia atual e a hora atual
-        const hoje = new Date();
-        const diaAtual = hoje.toISOString().split('T')[0]; // Formato: YYYY-MM-DD
-        const horaAtual = hoje.getHours();
-        const minutoAtual = hoje.getMinutes();
-
-        // Converter diaSelecionado para o mesmo formato de diaAtual (YYYY-MM-DD)
-        const diaSelecionadoFormatado = diaSelecionado.toISOString().split('T')[0];
-
-        // Filtrar horários que podem ser agendados e, se for hoje, que sejam futuros
-        const horariosFiltrados = horariosDisponiveis.filter(horario => {
-            const [hora, minuto] = horario.split(':').map(Number);
-
-            // Validar se o horário pode ser agendado
-            const validoParaAgendar = podeAgendarHorario(horario, totalDuracao);
-
-            // Se o dia selecionado for hoje, validar se o horário é no futuro
-            if (diaSelecionadoFormatado === diaAtual) {
-                const horarioEmMinutos = hora * 60 + minuto;
-                const agoraEmMinutos = horaAtual * 60 + minutoAtual;
-                return horarioEmMinutos > agoraEmMinutos && validoParaAgendar;
-            }
-
-            // Se não for hoje, todos os horários disponíveis são válidos
-            return validoParaAgendar;
-        });
-
-        // Debug: Verifique os horários filtrados
-        /*
-        console.log("dia Selecionado: ", diaSelecionado);
-        console.log("dia Atual: ", diaAtual);
-        console.log("horariosDisponiveis: ", horariosDisponiveis);
-        console.log("horaAtual: ", horaAtual);
-        console.log("minutoAtual: ", minutoAtual);*/
-        console.log("Horários filtrados: ", horariosFiltrados);
-
+        // Filtrar horários que podem ser agendados
+        const horariosFiltrados = horariosDisponiveis.filter(horario => podeAgendarHorario(horario, totalDuracao));
 
         // Dividir horários por período (manhã, tarde, noite)
         horariosFiltrados.forEach(horario => {
