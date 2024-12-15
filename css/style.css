@@ -1444,7 +1444,7 @@ span.preco-single{
 }
 
 .error p,.sucess p{
-	padding: 10px 0;
+	padding: 10px 5px;
 	color: white;
   font-size: 18px;
   font-weight: bold;
@@ -1512,12 +1512,13 @@ span.preco-single{
 
 .wraper-form-single {
   position: relative;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   margin-top: 10px;
 }
 
 /* Input básico e estilo de placeholder flutuante */
 .wraper-login input[type="text"],
+.wraper-login input[type="email"],
 .wraper-login input[type="submit"],
 .wraper-login select,
 .login-agendamentos input[type="text"],
@@ -1535,6 +1536,7 @@ span.preco-single{
 }
 
 .wraper-login input[type="text"]:focus,
+.wraper-login input[type="email"]:focus,
 .wraper-login select:focus,
 .login-agendamentos input[type="text"]:focus,
 .login-agendamentos select:focus,
@@ -1559,7 +1561,8 @@ span.preco-single{
 
 /* Placeholder flutuante */
 .wraper-form-single input[type="text"]::placeholder,
-.wraper-form-single textarea::placeholder {
+.wraper-form-single textarea::placeholder,
+.wraper-form-single input[type="email"]::placeholder {
   color: transparent;
 }
 
@@ -1579,7 +1582,9 @@ span.preco-single{
 .wraper-form-single input[type="text"]:focus + label,
 .wraper-form-single input[type="text"]:not(:placeholder-shown) + label,
 .wraper-form-single textarea:focus + label,
-.wraper-form-single textarea:not(:placeholder-shown) + label {
+.wraper-form-single textarea:not(:placeholder-shown) + label,
+.wraper-form-single input[type="email"]:focus + label,
+.wraper-form-single input[type="email"]:not(:placeholder-shown) + label {
   top: -10px;
   left: 10px;
   font-size: 0.75em;
@@ -1599,7 +1604,7 @@ span.preco-single{
   background-repeat: no-repeat;
   background-position: right 10px center;
   background-size: 10px;
-  color: #aaa;
+  color: #333;
 }
 
 /* Título de seção */

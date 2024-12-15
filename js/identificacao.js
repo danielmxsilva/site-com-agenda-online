@@ -4,7 +4,7 @@ $(document).ready(function(){
   validarEConsultarFormulario({
       formSelector: '.form-telefone-login',
       telefoneInputSelector: '[name="telefone-login-agenda"]',
-      mensagemSucesso: 'Cadastro encontrado! Seus dados foram preenchidos abaixo. Você pode editá-los ou confirmar e prosseguir',
+      mensagemSucesso: 'Cadastro encontrado! Seus dados foram preenchidos abaixo. Você pode editá-los ou confirmar para prosseguir',
       mensagemErro: 'Cadastro NÃO encontrado! Preencha todos os campos obrigatórios para criar um cadastro',
       endpoint: 'ajax/validacao-form.php',
       divPai: '.login-agenda'
@@ -27,7 +27,7 @@ function validarEConsultarFormulario(config) {
 
     const { formSelector, telefoneInputSelector, mensagemSucesso, mensagemErro, endpoint, divPai } = config;
 
-    const mask = (value) => {
+    const maskTelefone = (value) => {
         value = value.replace(/\D/g, ""); // Remove tudo que não é número
         value = value.substring(0, 11); // Limita a 11 números
         value = value.replace(/^(\d{2})(\d)/g, "($1) $2"); // Adiciona parênteses no DDD
@@ -36,13 +36,79 @@ function validarEConsultarFormulario(config) {
     };
 
     $(telefoneInputSelector).on("input", function () {
-        const maskedValue = mask($(this).val());
+        const maskedValue = maskTelefone($(this).val());
         $(this).val(maskedValue);
     });
 
     // Reexibe o botão de submit ao interagir com o campo de telefone
     $(telefoneInputSelector).on("input", function () {
        $(`${formSelector}`).find('input[type="submit"]').fadeIn();
+    });
+
+
+    // Máscara para nome completo (letras, espaços e acentos)
+    const maskNomeCompleto = (value) => {
+        return value
+            .replace(/[^a-zA-Z\u00C0-\u00FF\s]/g, "") // Permite apenas letras, espaços e acentos
+            .replace(/\s{2,}/g, " "); // Substitui múltiplos espaços por um único espaço
+    };
+
+    $('[name="nome-cliente"]').on("input", function () {
+        const cursorPos = this.selectionStart; // Obtém a posição do cursor
+        const maskedValue = maskNomeCompleto($(this).val());
+        $(this).val(maskedValue);
+        this.setSelectionRange(cursorPos, cursorPos); // Mantém o cursor na posição correta
+    });
+  
+    // Máscara para e-mail (apenas validação visual básica)
+    const maskEmail = (value) => {
+        return value.replace(/[^a-zA-Z0-9@._-]/g, "");
+    };
+
+    $('[name="email-cliente"]').on("input", function () {
+        const maskedValue = maskEmail($(this).val());
+        $(this).val(maskedValue);
+    });
+
+    // Máscara para CEP (formato 00000-000)
+    const maskCep = (value) => {
+        value = value.replace(/\D/g, ""); // Remove tudo que não é número
+        value = value.substring(0, 8); // Limita a 8 números
+        value = value.replace(/^(\d{5})(\d)/, "$1-$2"); // Adiciona o traço
+        return value;
+    };
+
+    $('[name="cep-login-agenda"]').on("input", function () {
+        const maskedValue = maskCep($(this).val());
+        $(this).val(maskedValue);
+    });
+
+    // Máscara para bairro (apenas letras e espaços)
+
+    $('[name="bairro-login-agenda"]').on("input", function () {
+        const cursorPos = this.selectionStart; // Obtém a posição do cursor
+        const maskedValue = maskNomeCompleto($(this).val());
+        $(this).val(maskedValue);
+        this.setSelectionRange(cursorPos, cursorPos); // Mantém o cursor na posição correta
+    });
+
+    $('[name="rua-casa-login-agenda"]').on("input", function () {
+        const cursorPos = this.selectionStart; // Obtém a posição do cursor
+        const maskedValue = maskNomeCompleto($(this).val());
+        $(this).val(maskedValue);
+        this.setSelectionRange(cursorPos, cursorPos); // Mantém o cursor na posição correta
+    });
+
+    // Máscara para número da casa (apenas números)
+    const maskNumeroCasa = (value) => {
+        value = value.replace(/\D/g, ""); // Remove tudo que não é número
+        value = value.substring(0, 5); // Limita a 5 dígitos
+        return value;
+    };
+
+    $('[name="n-casa-login-agenda"]').on("input", function () {
+        const maskedValue = maskNumeroCasa($(this).val());
+        $(this).val(maskedValue);
     });
 
     $(formSelector).on("submit", function (event) {
@@ -83,7 +149,7 @@ function validarEConsultarFormulario(config) {
                             $(".js-sucess-modal-agenda-servicos").stop(true, true).fadeIn().delay(5000).fadeOut();
               
                             $('.js-sucess-modal-agenda-servicos .txt-p').text(mensagemSucesso);
-                            formInformacoes(response.dados);
+                            formInformacoes(response.dados, response.endereco);
                         } else {
                              
                             // Esconde mensagem de sucesso (se estiver visível)
@@ -125,7 +191,7 @@ function validarEConsultarFormulario(config) {
         
 }
 
-function formInformacoes(dados){
+function formInformacoes(dados, endereco){
 
     if (dados){
 
@@ -140,8 +206,29 @@ function formInformacoes(dados){
         });
 
         $('.form-informacoes-cliente').slideDown(300);
-
         $('#nome-login-agenda').val(dados.nome);
+        $('#email-login-agenda').val(dados.email);
+
+
+        // Exemplo para preencher o endereço com base no 'endereco_id' (se necessário)
+        if (endereco) {
+              
+            $('#cep-login-agenda').val(endereco.cep);
+            //$('#cidade-login-agenda').val(endereco.cidade);
+            if ($('#cidade-login-agenda option[value="' + endereco.cidade + '"]').length > 0) {
+                // Se a cidade já existe como uma opção, selecione-a
+                $('#cidade-login-agenda').val(endereco.cidade);
+            } else {
+                // Caso contrário, adicione a cidade como uma nova opção e selecione-a
+                $('#cidade-login-agenda').append(new Option(endereco.cidade, endereco.cidade)).val(endereco.cidade);
+            }
+            $('#bairro-login-agenda').val(endereco.bairro);
+            $('#rua-casa-login-agenda').val(endereco.rua);
+            $('#n-casa-login-agenda').val(endereco.numero_casa);
+
+        }
+
+
 
     } else {
 
@@ -158,6 +245,7 @@ function formInformacoes(dados){
         $('.form-informacoes-cliente').slideDown(300);
 
         $('.form-informacoes-cliente input[type=text]').val('');
+        $('.form-informacoes-cliente input[type=email]').val('');
     }
     
 }

@@ -2420,7 +2420,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 				<p class="txt-p">Texto exemplo</p>
 			</div><!--error-->
 
-		<!--INICIO BOX AGENDA SERVIÇO NOVO SERVIÇO AGENDA PRINCIPAL-BOX-ESTILIZADO-->
+		<!--INICIO BOX AGENDA SERVIÇO NOVO SERVIÇO AGENDA PRINCIPAL-BOX-ESTILIZADO
+	
+		-->
 
 		<div class="wraper-modal js-modal-agenda-servicos" style="display: ;">
 
@@ -4401,39 +4403,45 @@ HTML;
 			      </div>
 
 			      <div class="wraper-form-single">
-			        <p class="txt-p">Endereço de Atendimento</p>
+			        <input type="email" id="email-login-agenda" name="email-cliente" placeholder=" " required>
+			        <label for="nome">Seu melhor E-mail</label>
 			      </div>
 
+			      <div class="wraper-h" style="margin: 10px 0 40px 0;">
+					 <h3 class="titulo-h">Endereço de <span class="rosa-span">Atendimento</span></h3>
+					 <span class="line-h"></span>
+				  </div><!--wraper-->
+
 			      <div class="wraper-form-single">
-			        <input type="text" id="cep-login-agenda" name="CEP" placeholder=" ">
+			        <input type="text" id="cep-login-agenda" name="cep-login-agenda" placeholder=" ">
 			        <label for="CEP">CEP</label>
 			      </div>
 
 			      <div class="wraper-form-single">
 			        <select name="cidade" id="cidade-login-agenda">
 			          <option value="Cidade" selected disabled>Cidade:</option>
-			          <option value="itupeva">Itupeva</option>
-			          <option value="jundiai">Jundiaí</option>
+			          <option value="Itupeva">Itupeva</option>
+			          <option value="Jundiai">Jundiaí</option>
 			        </select>
 			      </div>
 
 			      <div class="wraper-form-single" style="margin-top: 20px;">
-			        <input type="text" id="bairro-login-agenda" name="bairro" placeholder=" ">
+			        <input type="text" id="bairro-login-agenda" name="bairro-login-agenda" placeholder=" ">
 			        <label for="bairro">Bairro</label>
 			      </div>
 
 			      <div class="wraper-form-single" style="margin-top: 20px;">
-			        <input type="text" id="rua-casa-login-agenda" name="rua-casa" placeholder=" ">
+			        <input type="text" id="rua-casa-login-agenda" name="rua-casa-login-agenda" placeholder=" ">
 			        <label for="rua-casa">Rua</label>
 			      </div>
 
 			      <div class="wraper-form-single" style="margin-top: 20px;">
-			        <input type="text" id="n-casa-login-agenda" name="n-casa" placeholder=" ">
+			        <input type="text" id="n-casa-login-agenda" name="n-casa-login-agenda" placeholder=" ">
 			        <label for="n-casa">Número</label>
 			      </div>
 
 			      <div class="wraper-form-single">
-			        <input type="submit" name="acao-novo-cadastro" value="Avançar" class="acao-novo-cadastro">
+			        <input type="submit" name="acao-novo-cadastro" value="Confirmar" class="acao-novo-cadastro">
 			      </div>
 
 			    </fieldset>
