@@ -1596,6 +1596,10 @@ span.preco-single{
 	resize: none;
 }
 
+.form-login-senha-agenda{
+	display: none;
+}
+
 /* Estilização de <select> */
 .wraper-login select {
   appearance: none;

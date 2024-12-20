@@ -43,8 +43,28 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="<?php echo INCLUDE_PATH;?>css/slick.css" />
+
+	<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '963368409173053');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=963368409173053&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
 	 
 </head>
+
+
 
 <!--
 <div id="preloader">
@@ -52,7 +72,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <div id="preloader-text">Carregando agora</div>
 </div>
 -->
+
 <!--
+
 <body>
 
 	<div class="container">
@@ -85,9 +107,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 </body>
 
+
 -->
-
-
 
 <body>
 
@@ -4373,20 +4394,35 @@ HTML;
 				<span class="line-h"></span>
 			</div><!--wraper-->
 
-			<form class="form-telefone-login form-login-agenda">
-			    <fieldset>
-			      <legend class="color-p">Identifique-se com seu Número</legend>
+			<div class="form-telefone-login form-login-js">
+				<form class="form-login-agenda">
+				    <fieldset>
+				      <legend class="color-p">Identifique-se com seu Número</legend>
 
-			      <div class="wraper-form-single">
-			        <input type="text" id="telefone-login-agenda" name="telefone-login-agenda" placeholder=" " required>
-			        <label for="telefone">Número de Telefone</label>
-			      </div>
+				      <div class="wraper-form-single">
+				        <input type="text" id="telefone-login-agenda" name="telefone-login-agenda" placeholder=" " required>
+				        <label for="telefone">Número de Telefone</label>
+				      </div>
 
-			      <div class="wraper-form-single">
-			        <input type="submit" name="acao-validar-telefone-login-agenda" value="Validar">
-			      </div>
-			    </fieldset>
-			</form><!--form-telefone-login-->
+				      <div class="wraper-form-single">
+				        <input type="submit" name="acao-validar-telefone-login-agenda" value="Validar">
+				      </div>
+
+				    </fieldset>
+				</form><!--form-login-agenda-->
+				<form class="form-login-senha-agenda">
+
+					  <div class="wraper-form-single senha-input-login-js">
+				        <input type="text" id="senha-login-agenda" name="senha-cliente" placeholder=" " required>
+				        <label for="nome">Sua Senha</label>
+				      </div>
+
+				      <div class="wraper-form-single">
+				        <input type="submit" name="acao-validar-telefone-login-agenda" value="Validar">
+				      </div>
+
+				</form><!--form-senha-agenda-->
+			</div><!--form-telefone-login-->
 
 			 <form class="form-informacoes-cliente">
 			 	<div class="wraper-h" style="margin: 10px 0 40px 0;">
@@ -4396,6 +4432,11 @@ HTML;
 			    <fieldset>
 			    
 			      <legend class="color-p">Informações do Cadastro</legend>
+
+			      <div class="wraper-form-single">
+			        <input type="text" id="senha-cadastro-agenda" name="senha-cliente" placeholder=" " required>
+			        <label for="nome">Sua Senha</label>
+			      </div>
 
 			      <div class="wraper-form-single">
 			        <input type="text" id="nome-login-agenda" name="nome-cliente" placeholder=" " required>
@@ -5065,25 +5106,16 @@ HTML;
 -->
 <script>
 	
-    $(window).on('load', function() {
-        // Remove a tela de carregamento
-        // Adiciona um atraso de 2 segundos (2000ms) após o carregamento completo
-/*
-        setTimeout(function(){
+    
 
-	        $('#preloader').fadeOut('slow', function() {
-	            $(this).remove(); // Remove completamente a tela de carregamento do DOM
-	        });
+  
 
-	        // Remove a classe de carregamento do body
-	        $('body').removeClass('loading-page');
-	    }, 1000);*/
-
-    });
 </script>
 <!--final scripts particulas-->
 
 
 </body>
+
+
 
 </html>

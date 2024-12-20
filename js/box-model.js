@@ -692,6 +692,27 @@ function closeModal() {
         console.error("Erro na função closeModal:", error);
     }
 
+    $('.form-login-js').css({
+        position: 'relative',
+        left: '50%',
+        top: '42%',
+        transform: 'translate(-50%, -50%)'
+    });
+
+    $('.form-login-js').css({
+      position: 'static',
+      transform: 'translate(0,0)',
+    });
+
+    $('.form-informacoes-cliente').hide();
+
+    $('.form-informacoes-cliente input[type=text]').val('');
+
+    $('.form-login-senha-agenda input[type=text]').val('');
+
+    $(".form-login-senha-agenda").slideUp();
+
+
 
 }
 //localStorage.clear(); // Cuidado! Remove todos os itens do localStorage.

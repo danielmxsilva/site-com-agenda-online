@@ -3,8 +3,9 @@ $(document).ready(function(){
   // Exemplo de uso para diferentes formulários
   validarEConsultarFormulario({
       formSelector: '.form-telefone-login',
+      formSenha: '.form-login-senha-agenda',
       telefoneInputSelector: '[name="telefone-login-agenda"]',
-      mensagemSucesso: 'Cadastro encontrado! Seus dados foram preenchidos abaixo. Você pode editá-los ou confirmar para prosseguir',
+      mensagemSucesso: 'Cadastro encontrado! entre com sua senha para prosseguir',
       mensagemErro: 'Cadastro NÃO encontrado! Preencha todos os campos obrigatórios para criar um cadastro',
       endpoint: 'ajax/validacao-form.php',
       divPai: '.login-agenda'
@@ -16,7 +17,8 @@ $(document).ready(function(){
       telefoneInputSelector: '[name="telefone-outro"]',
       mensagemSucesso: 'Cadastro válido encontrado!',
       mensagemErro: 'Nenhum cadastro correspondente foi encontrado.',
-      endpoint: 'ajax/validacao-outro.php'
+      endpoint: 'ajax/validacao-outro.php',
+      divPai: ' '
   });
 
 })
@@ -25,7 +27,7 @@ function validarEConsultarFormulario(config) {
 
 
 
-    const { formSelector, telefoneInputSelector, mensagemSucesso, mensagemErro, endpoint, divPai } = config;
+    const { formSelector, formSenha, telefoneInputSelector, mensagemSucesso, mensagemErro, endpoint, divPai } = config;
 
     const maskTelefone = (value) => {
         value = value.replace(/\D/g, ""); // Remove tudo que não é número
@@ -43,6 +45,7 @@ function validarEConsultarFormulario(config) {
     // Reexibe o botão de submit ao interagir com o campo de telefone
     $(telefoneInputSelector).on("input", function () {
        $(`${formSelector}`).find('input[type="submit"]').fadeIn();
+       $(`${formSenha}`).slideUp();
     });
 
 
@@ -142,16 +145,20 @@ function validarEConsultarFormulario(config) {
                         $(`${formSelector}`).find('input[type="submit"]').fadeOut();
                         // Verifica a resposta do PHP
                         if (response.cadastroEncontrado) {
-                                                      
+                            //CADASTRO ENCONTRADO                   
                             $(".js-error-modal-agenda-servicos").stop(true, true).fadeOut(0);
 
                              // Exibe mensagem de sucesso
                             $(".js-sucess-modal-agenda-servicos").stop(true, true).fadeIn().delay(5000).fadeOut();
-              
+                            
+                            $(".form-login-senha-agenda").slideDown();
+
                             $('.js-sucess-modal-agenda-servicos .txt-p').text(mensagemSucesso);
+
+                            //formInformacoesHide();
                             formInformacoes(response.dados, response.endereco);
                         } else {
-                             
+                            //CADASTRO NÃO ENCONTRADO
                             // Esconde mensagem de sucesso (se estiver visível)
                             $(".js-sucess-modal-agenda-servicos").stop(true, true).fadeOut(0);
 
@@ -170,7 +177,7 @@ function validarEConsultarFormulario(config) {
                         $(".js-error-modal-agenda-servicos").stop(true, true).fadeIn().delay(5000).fadeOut();
                         
                         $('.js-error-modal-agenda-servicos .txt-p').text('Erro ao consultar o banco de dados. Tente novamente mais tarde.');
-                        formInformacoesHide();
+                        //formInformacoesHide();
                     },  
                     
                 });
@@ -182,7 +189,7 @@ function validarEConsultarFormulario(config) {
                   $(".js-error-modal-agenda-servicos").stop(true, true).fadeIn().delay(5000).fadeOut();
                   
                   $('.js-error-modal-agenda-servicos .txt-p').text('O número fornecido é inválido. Por favor, revise e tente novamente.');
-                  formInformacoesHide();
+                  //formInformacoesHide();
               }
         }, 1000); 
         
@@ -197,15 +204,16 @@ function formInformacoes(dados, endereco){
 
         console.log("tenho dados!");
 
+        /*
         $('.form-login-agenda').css({
           position: 'static',
           transform: 'translate(0,0)',
           left: '0',
           top: '0',
           marginBottom: '20px'
-        });
+        });*/
 
-        $('.form-informacoes-cliente').slideDown(300);
+        //$('.form-informacoes-cliente').slideDown(300);
         $('#nome-login-agenda').val(dados.nome);
         $('#email-login-agenda').val(dados.email);
 
@@ -234,7 +242,7 @@ function formInformacoes(dados, endereco){
 
         console.log("não tenho nada!");
 
-        $('.form-login-agenda').css({
+        $('.form-login-js').css({
           position: 'static',
           transform: 'translate(0,0)',
           left: '0',
@@ -242,18 +250,44 @@ function formInformacoes(dados, endereco){
           marginBottom: '20px'
         });
 
-        $('.form-informacoes-cliente').slideDown(300);
+        //$('.form-login-senha-agenda').slideDown(300);
+        inputOpt($('.form-login-senha-agenda'), null, null, null);
 
-        $('.form-informacoes-cliente input[type=text]').val('');
-        $('.form-informacoes-cliente input[type=email]').val('');
+        $('.form-login-senha-agenda input[type=text]').val('');
+        $('.form-login-senha-agenda input[type=email]').val('');
     }
     
+}
+
+
+// Exemplo de uso inputHide($('.form-login-senha-agenda'), null, $('.btn-submit-open'), $('.btn-submit-none'));
+
+function inputOpt(inputOpen, inputNone, submitOpen, submitNone){
+    // Se inputOpen for passado, mostra o elemento com efeito de deslizamento
+    if(inputOpen){
+      $(inputOpen).slideDown(300);
+    }
+    
+    // Se inputNone for passado, esconde o elemento com efeito de deslizamento
+    if(inputNone){
+      $(inputNone).slideUp(300);
+    }
+    
+    // Se submitOpen for passado, mostra o botão de envio com efeito de deslizamento
+    if(submitOpen){
+      $(submitOpen).slideDown(300);
+    }
+    
+    // Se submitNone for passado, esconde o botão de envio com efeito de deslizamento
+    if(submitNone){
+      $(submitNone).slideUp(300);
+    }
 }
 
 function formInformacoesHide(){
 
 
-        $('.form-login-agenda').css({
+        $('.form-login-js').css({
             position: 'relative',
             left: '50%',
             top: '42%',

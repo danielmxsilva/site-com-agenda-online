@@ -2,16 +2,40 @@ $(document).ready(function() {
 
   const feriadosNacionais = ["01-01", "04-21", "05-01", "09-07", "10-12", "11-02", "11-15", "11-20", "12-25", "12-31"];
 
+  function toTimeZoneDate(data, timeZone = 'America/Sao_Paulo') {
+    const formatter = new Intl.DateTimeFormat('pt-BR', { 
+        timeZone, 
+        year: 'numeric', 
+        month: '2-digit', 
+        day: '2-digit', 
+        hour: '2-digit', 
+        minute: '2-digit', 
+        second: '2-digit' 
+      });
+      const parts = formatter.formatToParts(data);
+      const dateParts = {};
+      parts.forEach(({ type, value }) => {
+        if (type !== 'literal') dateParts[type] = value;
+    });
+
+    return new Date(
+      `${dateParts.year}-${dateParts.month}-${dateParts.day}T${dateParts.hour}:${dateParts.minute}:${dateParts.second}`
+    );
+
+  }
+
   function isDiaEspecial(data) {
-    const diaSemana = data.getDay();
-    const mesDia = `${String(data.getMonth() + 1).padStart(2, '0')}-${String(data.getDate()).padStart(2, '0')}`;
+    const diaComFuso = toTimeZoneDate(data);
+    const diaSemana = diaComFuso.getDay();
+    const mesDia = `${String(diaComFuso.getMonth() + 1).padStart(2, '0')}-${String(diaComFuso.getDate()).padStart(2, '0')}`;
     return diaSemana === 0 || feriadosNacionais.includes(mesDia);
   }
 
   function formatarDataLocal(data) {
-      const ano = data.getFullYear();
-      const mes = String(data.getMonth() + 1).padStart(2, '0');
-      const dia = String(data.getDate()).padStart(2, '0');
+      const dataComFuso = toTimeZoneDate(data);
+      const ano = dataComFuso.getFullYear();
+      const mes = String(dataComFuso.getMonth() + 1).padStart(2, '0');
+      const dia = String(dataComFuso.getDate()).padStart(2, '0');
       return `${ano}-${mes}-${dia}`;
   }
 
@@ -33,10 +57,10 @@ $(document).ready(function() {
     const totalHorarios = 13; // Total de horários possíveis no dia
 
     // Obter o dia atual e a hora atual
-    const hoje = new Date();
-    const diaAtual = hoje.toISOString().split('T')[0];
-    const horaAtual = hoje.getHours();
-    const minutoAtual = hoje.getMinutes();
+    const hojeComFuso = toTimeZoneDate(new Date());
+    const diaAtual = formatarDataLocal(hojeComFuso);
+    const horaAtual = hojeComFuso.getHours();
+    const minutoAtual = hojeComFuso.getMinutes();
 
     // Recuperar a data do elemento HTML
     const diaTexto = diaDiv.find('.data').text().trim(); // Exemplo: "14/12/2024"
@@ -64,15 +88,28 @@ $(document).ready(function() {
     disponibilidadeDiv.css('width', `${porcentagem}%`);
 
     if (porcentagem === 0) {
-      diaDiv.addClass('desativado');
-      disponibilidadeDiv.hide();
-    } else if (porcentagem <= 30) {
-      disponibilidadeDiv.css('background-color', '#FF677D'); // Vermelho para poucos horários
-    } else if (porcentagem <= 70) {
-      disponibilidadeDiv.css('background-color', '#FFD700'); // Amarelo para metade dos horários
+    // Apenas desative o dia atual quando não houver horários
+        if (diaBarraFormatado === diaAtual) {
+            diaDiv.addClass('desativado');
+        }
+        disponibilidadeDiv.hide();
     } else {
-      disponibilidadeDiv.css('background-color', '#3FCB4D'); // Verde para muitos horários
+        disponibilidadeDiv.show(); // Certifique-se de exibir a barra quando há horários disponíveis
+
+      if (porcentagem <= 30) {
+        disponibilidadeDiv.css('background-color', '#FF677D'); // Vermelho para poucos horários
+      } else if (porcentagem <= 70) {
+        disponibilidadeDiv.css('background-color', '#FFD700'); // Amarelo para metade dos horários
+      } else {
+        disponibilidadeDiv.css('background-color', '#3FCB4D'); // Verde para muitos horários
+      }
     }
+
+    console.log("Data da barra formatada:", diaBarraFormatado);
+    console.log("Data atual:", diaAtual);
+    console.log("Horários disponíveis:", horariosDisponiveis);
+    console.log("Horários futuros calculados:", horariosFuturos);
+    console.log("Porcentagem de disponibilidade:", porcentagem);
   }
 
  function atualizarHorariosDisponiveis(diaSelecionado) {
