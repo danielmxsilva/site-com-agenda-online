@@ -650,7 +650,7 @@ function closeModal() {
     console.log("Modal inicial exibido");
 
     // Ajustar estilos dos formulários
-    $('.form-login-agenda, .form-login-consulta, .form-login-depoimento').css({
+    $('.form-login-consulta, .form-login-depoimento').css({
         position: 'relative',
         left: '50%',
         top: '42%',
@@ -693,16 +693,20 @@ function closeModal() {
     }
 
     $('.form-login-js').css({
-        position: 'relative',
-        left: '50%',
-        top: '42%',
-        transform: 'translate(-50%, -50%)'
+      position: ' ',
+      transform: ' ',
+      left: ' ',
+      top: ' ',
     });
 
-    $('.form-login-js').css({
-      position: 'static',
-      transform: 'translate(0,0)',
+    $('.form-login-agenda').css({
+        position: ' ',
+        left: ' ',
+        top: ' ',
+        transform: ' '
     });
+
+    $('.login-agenda').removeClass('carregando'); 
 
     $('.form-informacoes-cliente').hide();
 
@@ -711,6 +715,8 @@ function closeModal() {
     $('.form-login-senha-agenda input[type=text]').val('');
 
     $(".form-login-senha-agenda").slideUp();
+
+    $(".login-agenda").removeClass('carregando');
 
 
 

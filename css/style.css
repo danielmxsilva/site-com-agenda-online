@@ -24,6 +24,10 @@ li{list-style:none}
 
 /**FINAL RESET PARTICULAS**/
 
+.carregando{
+	opacity: 0.5;
+}
+
  #preloader {
     position: fixed;
     top: 0;
@@ -1513,7 +1517,7 @@ span.preco-single{
 .wraper-form-single {
   position: relative;
   margin-bottom: 20px;
-  margin-top: 10px;
+  margin-top: 15px;
 }
 
 /* Input básico e estilo de placeholder flutuante */

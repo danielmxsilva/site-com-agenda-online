@@ -11,18 +11,12 @@ $(document).ready(function(){
       divPai: '.login-agenda'
   });
 
-  validarFormularioSenha({
-     formSenha: '.form-login-senha-agenda',
-     telefoneInputSelector: '[name="telefone-login-agenda"]',
-     senhaInputSelector: '[name="senha-login-agenda"]',
-     endpointSenha: 'ajax/validacao-form.php',
-     divPai: '.login-agenda'
-  });
-
 
 })
 
 function validarEConsultarFormulario(config) {
+
+
 
     const { formSelector, formSenha, telefoneInputSelector, mensagemSucesso, mensagemErro, endpoint, divPai } = config;
 
@@ -121,13 +115,13 @@ function validarEConsultarFormulario(config) {
         phoneInput = phoneInput.replace('+', '');
 
         // Indicar o carregamento ajustando a opacidade da div pai
-        //$(divPai).css('opacity', '0.5'); // Define opacidade para indicar carregamento
+        $(divPai).css('opacity', '0.5'); // Define opacidade para indicar carregamento
         $(divPai).addClass('carregando'); // Classe para desativar interações, se necessário
 
         // Simular o tempo para a consulta (ex.: 2 segundos)
         setTimeout(() => {
           // Restaurar a opacidade após o carregamento
-          //$(divPai).css('opacity', '1');
+          $(divPai).css('opacity', '1');
           $(divPai).removeClass('carregando');
 
               if (phoneRegex.test(phoneInput)) {
@@ -296,51 +290,21 @@ function formInformacoesHide(){
 
 }
 
-function validarFormularioSenha(config) {
-    const { formSenha, telefoneInputSelector, senhaInputSelector, endpointSenha, divPai } = config;
-
-    $(formSenha).on("submit", function (event) {
-        event.preventDefault();
-
-        // Recuperar o telefone validado do formulário anterior
-        const telefoneValidado = $(telefoneInputSelector).val();
-        const senha = $(senhaInputSelector).val();
-
-        if (!telefoneValidado) {
-            alert("Por favor, valide o telefone antes de prosseguir.");
-            return;
-        }
-
-        if (!senha) {
-            alert("Por favor, insira a senha.");
-            return;
-        }
 
 
-        // Validação da senha no backend
-        $.ajax({
-            url: endpointSenha,
-            method: 'POST',
-            data: { telefone: telefoneValidado, senha },
-            beforeSend: function () {
+/*
+function validaTelefoneConsulta(){
+  $('.form-login-consulta').on('submit', function (e) {
+    e.preventDefault(); // Impede o envio do formulário para fins de teste
 
-                //$(divPai).css('opacity', '0.5'); // Define opacidade para indicar carregamento
-                $(divPai).addClass('carregando'); // Classe para desativar interações, se necessário
-            
-            },
-            success: function (response) {
-                //$(divPai).removeClass('carregando');
-                if (response.loginValido) {
-                    alert('Login efetuado com sucesso!');
-                    // Redirecionar ou executar ação adicional
-                } else {
-                    alert('Senha incorreta. Tente novamente.');
-                }
-            },
-            error: function () {
-                //$(divPai).removeClass('carregando');
-                alert('Erro ao validar a senha. Tente novamente mais tarde.');
-            }
-        });
-    });
+    console.log("click form");
+  });
 }
+
+function validaTelefoneDepoimento(){
+  $('.form-login-depoimento').on('submit', function (e) {
+    e.preventDefault(); // Impede o envio do formulário para fins de teste
+
+    console.log("click form depoimento");
+  });
+}*/

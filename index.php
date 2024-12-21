@@ -4404,7 +4404,7 @@ HTML;
 				        <label for="telefone">Número de Telefone</label>
 				      </div>
 
-				      <div class="wraper-form-single">
+				      <div class="wraper-form-single" style="margin-top: 35px;">
 				        <input type="submit" name="acao-validar-telefone-login-agenda" value="Validar">
 				      </div>
 
@@ -4413,7 +4413,7 @@ HTML;
 				<form class="form-login-senha-agenda">
 
 					  <div class="wraper-form-single senha-input-login-js">
-				        <input type="text" id="senha-login-agenda" name="senha-cliente" placeholder=" " required>
+				        <input type="text" id="senha-login-agenda" name="senha-login-agenda" placeholder=" " required>
 				        <label for="nome">Sua Senha</label>
 				      </div>
 

@@ -7,11 +7,12 @@
 
 	// Obtém os parâmetros enviados pelo AJAX
 	$telefone = filter_input(INPUT_POST, 'telefone', FILTER_SANITIZE_STRING);
+	$senha = filter_input(INPUT_POST, 'senha', FILTER_SANITIZE_STRING);
 
 	// Obtém o endereço_id enviado via POST
 	//$endereco_id = filter_input(INPUT_POST, 'endereco_id', FILTER_SANITIZE_NUMBER_INT);
 
-	if ($telefone) {
+	if ($telefone && !$senha) {
 
 		$telefone = str_replace('+', '', $telefone);
 		// Remover todos os caracteres não numéricos
@@ -86,8 +87,49 @@
 		        'mensagem' => 'Erro ao consultar o banco de dados. Tente novamente mais tarde.'
 		    ]);
 		}
+	} elseif ($telefone && $senha) { // NOVA LÓGICA PARA VALIDAÇÃO DE SENHA
+	    $telefone = str_replace('+', '', $telefone);
+	    $telefone = preg_replace('/\D/', '', $telefone);
+
+	    if (!$telefone) {
+	        echo json_encode(['loginValido' => false, 'mensagem' => 'Número de telefone inválido.']);
+	        exit;
+	    }
+
+	    try {
+	        $pdo = Mysql::conectar();
+	        $sql = "SELECT * FROM tb_clientes WHERE telefone = ?";
+	        $stmt = $pdo->prepare($sql);
+	        $stmt->execute([$telefone]);
+	        $registro = $stmt->fetch(PDO::FETCH_ASSOC);
+
+	        if ($registro) {
+	            if (password_verify($senha, $registro['senha_login'])) {
+	                echo json_encode([
+	                    'loginValido' => true,
+	                    'mensagem' => 'Login efetuado com sucesso.',
+	                    'dados' => $registro
+	                ]);
+	            } else {
+	                echo json_encode([
+	                    'loginValido' => false,
+	                    'mensagem' => 'Senha inválida.'
+	                ]);
+	            }
+	        } else {
+	            echo json_encode([
+	                'loginValido' => false,
+	                'mensagem' => 'Número de telefone não encontrado.'
+	            ]);
+	        }
+	    } catch (Exception $e) {
+	        echo json_encode([
+	            'loginValido' => false,
+	            'mensagem' => 'Erro ao consultar o banco de dados. Tente novamente mais tarde.'
+	        ]);
+	    }
 	} else {
-	    echo json_encode(['error' => 'parametro de telefone inválido.']);
+	    echo json_encode(['error' => 'parametros inválidos.']);
 	}
 
 	
