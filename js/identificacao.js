@@ -122,13 +122,13 @@ function validarEConsultarFormulario(config) {
 
         // Indicar o carregamento ajustando a opacidade da div pai
         //$(divPai).css('opacity', '0.5'); // Define opacidade para indicar carregamento
-        $(divPai).addClass('carregando'); // Classe para desativar interações, se necessário
+        //$(divPai).addClass('carregando'); // Classe para desativar interações, se necessário
 
         // Simular o tempo para a consulta (ex.: 2 segundos)
-        setTimeout(() => {
+        //setTimeout(() => {
           // Restaurar a opacidade após o carregamento
           //$(divPai).css('opacity', '1');
-          $(divPai).removeClass('carregando');
+          //$(divPai).removeClass('carregando');
 
               if (phoneRegex.test(phoneInput)) {
                     // Lógica para consulta ao banco via AJAX
@@ -137,6 +137,10 @@ function validarEConsultarFormulario(config) {
                     url: endpoint, // Endpoint do PHP para validar os dados
                     method: 'POST',
                     data: { telefone: phoneInput },
+                    beforeSend: function () {
+                        // Adiciona a classe 'carregando' antes de iniciar a requisição
+                        $(divPai).addClass('carregando');
+                    },
                     success: function (response) {
                         // Oculta o botão de submit
                         $(`${formSelector}`).find('input[type="submit"]').fadeOut();
@@ -176,6 +180,11 @@ function validarEConsultarFormulario(config) {
                         $('.js-error-modal-agenda-servicos .txt-p').text('Erro ao consultar o banco de dados. Tente novamente mais tarde.');
                         //formInformacoesHide();
                     },  
+
+                    complete: function () {
+                        // Remove a classe 'carregando' após o término da requisição (sucesso ou erro)
+                        $(divPai).removeClass('carregando');
+                    }
                     
                 });
               } else {
@@ -188,7 +197,7 @@ function validarEConsultarFormulario(config) {
                   $('.js-error-modal-agenda-servicos .txt-p').text('O número fornecido é inválido. Por favor, revise e tente novamente.');
                   //formInformacoesHide();
               }
-        }, 1000); 
+        //}, 1000); 
         
     });
 

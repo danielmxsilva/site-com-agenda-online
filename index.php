@@ -124,7 +124,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 		<div class="container flex" style="align-items: center;">
 			<div class="logo">
 				<a href="#home">
-					<img src="<?php echo INCLUDE_PATH;?>img/logo/logo-limpo-color-nova.png" alt="logo empresa">
+					<img src="<?php echo INCLUDE_PATH;?>img/logo/NOVO-LOGO-SITE.png" alt="logo empresa">
 				</a><!--#home-->
 			</div><!--logo-->
 			<div class="menu">
@@ -4401,7 +4401,7 @@ HTML;
 
 				      <div class="wraper-form-single">
 				        <input type="text" id="telefone-login-agenda" name="telefone-login-agenda" placeholder=" " required>
-				        <label for="telefone">Número de Telefone</label>
+				        <label for="telefone-login-agenda">Número de Telefone</label>
 				      </div>
 
 				      <div class="wraper-form-single" style="margin-top: 35px;">
@@ -4410,11 +4410,17 @@ HTML;
 
 				    </fieldset>
 				</form><!--form-login-agenda-->
-				<form class="form-login-senha-agenda">
+				<form class="form-login-senha-agenda" style="position: relative; top: -20px;">
 
-					  <div class="wraper-form-single senha-input-login-js">
-				        <input type="text" id="senha-login-agenda" name="senha-login-agenda" placeholder=" " required>
-				        <label for="nome">Sua Senha</label>
+					  <div class="wraper-form-single senha-css senha-input-login-js">
+					  	<label style="position: static; color: #333; display: block; margin-left: 10px;">Senha</label>
+				        <input style="height: 45px;" type="password" id="senha-login-agenda" name="senha-login-agenda" placeholder=" " required>
+			
+				        <span class="toggle-password" onclick="togglePasswordVisibility()"><i class="fa-solid fa-eye-slash"></i></span>
+				      </div>
+
+				      <div class="wraper-form-single checkbox-login-lembrar">
+				        <input type="checkbox" name="Lembrar Login"> <span>Lembrar Login</span>
 				      </div>
 
 				      <div class="wraper-form-single">
@@ -5069,9 +5075,9 @@ HTML;
       <div class="footer-social">
         <h4>Siga-nos</h4>
         <div class="social-icons">
-          <a href="https://instagram.com" target="_blank" class="social-icon"><i class="fa-brands fa-instagram"></i></a>
-          <a href="https://facebook.com" target="_blank" class="social-icon"><i class="fa-brands fa-facebook"></i></a>
-          <a href="https://wa.me/XXXXXXXXXXXXXX" target="_blank" class="social-icon"><i class="fa-brands fa-whatsapp"></i></a>
+          <a href="https://instagram.com/paula_rosangela_nails" target="_blank" class="social-icon"><i class="fa-brands fa-instagram"></i></a>
+          <a href="https://www.facebook.com/paularosangelanails" target="_blank" class="social-icon"><i class="fa-brands fa-facebook"></i></a>
+          <a href="https://wa.me/+5511934654813" target="_blank" class="social-icon"><i class="fa-brands fa-whatsapp"></i></a>
         </div>
       </div>
     </div>
@@ -5104,7 +5110,22 @@ HTML;
 </script>
 
 -->
+
 <script>
+	function togglePasswordVisibility() {
+	    const passwordInput = document.getElementById("senha-login-agenda");
+	    const toggleIcon = document.querySelector(".toggle-password i");
+
+	    // Alterna o tipo do input
+	    const isPassword = passwordInput.type === "password";
+	    passwordInput.type = isPassword ? "text" : "password";
+
+	    // Alterna o ícone
+	    toggleIcon.className = isPassword ? "fa-solid fa-eye" : "fa-solid fa-eye-slash";
+	}
+	//<i class="fa-solid fa-eye"></i> = aberto
+	//<i class="fa-solid fa-eye-slash"></i> = fechado
+</script>
 	
     
 

@@ -1071,7 +1071,7 @@ function validarTempoAgendamento() {
     console.log("Limite máximo calculado:", limiteMaximo);
 
     if (minutosTotaisSelecionados > limiteMaximo) {
-         return `O tempo selecionado (${minutosTotaisSelecionados} minutos) é muito maior do que o necessário (${limiteMaximo} minutos).`;
+         return `O tempo selecionado (${minutosTotaisSelecionados} minutos) é maior do que o necessário para os serviços escolhidos (${limiteMaximo} minutos), Verifique se você selecionou os serviços corretamente. Caso nenhum serviço tenha sido escolhido, qualquer duração será considerada inválida.`;
     }
 
     console.log("Validação bem-sucedida. Tempo suficiente e adequado.");
@@ -1156,12 +1156,13 @@ function ClickbtnAvancarAgendamento(){
                 // Oculta a mensagem de erro após 5 segundos
                 setTimeout(() => {
                     $('.js-error-modal-agenda-servicos').fadeOut();
-                }, 5000); // 5 segundos
+                }, 7000); // 5 segundos
 
             } else {
                 // Se a validação passar, execute outras ações, como:
-                $('.js-modal-agenda-servicos').css('display', 'none');
-                $('.login-agenda').fadeIn();
+                $('.js-modal-agenda-servicos').fadeOut(100, function () {
+                    $('.login-agenda').fadeIn(100);
+                });
 
                 // Garante que a mensagem de erro seja escondida, caso ainda esteja visível
                 $('.js-error-modal-agenda-servicos').fadeOut();
