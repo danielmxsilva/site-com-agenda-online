@@ -4440,22 +4440,22 @@ HTML;
 			      <legend class="color-p">Informações do Cadastro</legend>
 
 			      <div class="wraper-form-single">
-			        <input type="password" id="senha-cadastro-agenda" name="senha-cadastro-agenda" placeholder=" " required>
+			        <input type="password" id="senha-cadastro-agenda" name="senha-cadastro-agenda" placeholder=" ">
 			        <label for="senha-cadastro-agenda">Sua Senha</label>
 			      </div>
 
 			      <div class="wraper-form-single">
-			        <input type="password" id="senha-cadastro-agenda-confirmacao" name="senha-cadastro-agenda-confirmacao" placeholder=" " required>
+			        <input type="password" id="senha-cadastro-agenda-confirmacao" name="senha-cadastro-agenda-confirmacao" placeholder=" ">
 			        <label for="senha-cadastro-agenda">Repita sua Senha</label>
 			      </div>
 
 			      <div class="wraper-form-single">
-			        <input type="text" id="nome-login-agenda" name="nome-cliente" placeholder=" " required>
+			        <input type="text" id="nome-login-agenda" name="nome-login-agenda" placeholder=" ">
 			        <label for="nome-login-agenda">Nome Completo</label>
 			      </div>
 
 			      <div class="wraper-form-single">
-			        <input type="email" id="email-login-agenda" name="email-cliente" placeholder=" " required>
+			        <input type="email" id="email-login-agenda" name="email-login-agenda" placeholder=" ">
 			        <label for="emaill-login-agenda">Seu melhor E-mail</label>
 			      </div>
 
@@ -4470,8 +4470,8 @@ HTML;
 			      </div>
 
 			      <div class="wraper-form-single">
-			        <select name="cidade" id="cidade-login-agenda">
-			          <option value="Cidade" selected disabled>Cidade:</option>
+			        <select name="cidade-login-agenda" id="cidade-login-agenda">
+			          <option value="cidade" selected disabled>Cidade:</option>
 			          <option value="Itupeva">Itupeva</option>
 			          <option value="Jundiai">Jundiaí</option>
 			        </select>

@@ -1208,10 +1208,6 @@ function ClickbtnAvancarAgendamento(){
 
     })
 
-    $('.acao-novo-cadastro').click(function(){
-        $('.login-agenda').css('display','none');
-        $('.js-box-pagamento-agenda').fadeIn();
-    })
 
     $('.js-btn-editar-servico-consultar .btn-chamada a').on('click', function(event) {
         event.preventDefault(); // Impede a ação padrão do link

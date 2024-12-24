@@ -217,37 +217,6 @@ function formInformacoes(dados, endereco){
 
         inputOpt(null, null, $('.form-informacoes-cliente'), null);
 
-        var senha_cadastro = $('input[name="senha-cadastro-agenda"]');
-        var senha_cadastro_confirmar = $('input[name="senha-cadastro-agenda-confirmacao"]');
-
-        if (!senha_cadastro || !senha_cadastro_confirmar) {
-            exibirNotificacao('erro', "Por favor, preencha ambos os campos de senha.");
-            return; // Para a validação se algum campo estiver vazio
-        }
-        
-        // 1. Validar se as senhas coincidem (PRIMEIRA ETAPA)
-        if (senha_cadastro !== senha_cadastro_confirmar) {
-            exibirNotificacao('erro', "As senhas não coincidem.");
-            return; // Para a validação se as senhas não coincidem
-        }
-
-        const errosSenha = validarSenha(senha_cadastro, senha_cadastro_confirmar);
-        if (errosSenha.length > 0) {
-            exibirNotificacao('erro', errosSenha.join("<br>"));
-            return;
-        }
-
-        // 2. Validar sequências (SEGUNDA ETAPA - SÓ EXECUTA SE PASSOU NA ETAPA 1)
-        if (contemSequencia(senha_cadastro)) {
-            exibirNotificacao('erro', "A senha não pode conter sequências!");
-            return; // Para a validação se encontrar sequências
-        }
-
-        // 3. Validar senhas óbvias (TERCEIRA ETAPA - SÓ EXECUTA SE PASSOU NAS ETAPAS ANTERIORES)
-        if (senhaEhObvia(senha_cadastro)) {
-            exibirNotificacao('erro', "A senha é muito óbvia!");
-            return; // Para a validação se a senha for óbvia
-        }
     }
     
 }
