@@ -4420,7 +4420,7 @@ HTML;
 				      </div>
 
 				      <div class="wraper-form-single checkbox-login-lembrar">
-				        <input type="checkbox" name="Lembrar Login"> <span>Lembrar Login</span>
+				        <input type="checkbox" name="lembrar_login"> <span>Lembrar Login</span>
 				      </div>
 
 				      <div class="wraper-form-single">

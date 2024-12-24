@@ -718,7 +718,7 @@ function closeModal() {
 
     $(".login-agenda").removeClass('carregando');
 
-
+    localStorage.clear();
 
 }
 //localStorage.clear(); // Cuidado! Remove todos os itens do localStorage.

@@ -15,6 +15,8 @@ $(document).ready(function(){
      formSenha: '.form-login-senha-agenda',
      telefoneInputSelector: '[name="telefone-login-agenda"]',
      senhaInputSelector: '[name="senha-login-agenda"]',
+     mensagemSucesso: 'Login efetuado com Sucesso!',
+     mensagemErro: 'Senha Incorreta, por favor tente novamente ou recupere sua senha.',
      endpointSenha: 'ajax/validacao-form.php',
      divPai: '.login-agenda'
   });
@@ -146,7 +148,9 @@ function validarEConsultarFormulario(config) {
                         $(`${formSelector}`).find('input[type="submit"]').fadeOut();
                         // Verifica a resposta do PHP
                         if (response.cadastroEncontrado) {
-                            //CADASTRO ENCONTRADO                   
+                            //CADASTRO ENCONTRADO           
+                            //exibirNotificacao('sucesso', 'Cadastro encontrado com sucesso!');  
+                            //exibirNotificacao('erro', 'Erro ao consultar o banco de dados. Tente novamente mais tarde.');      
                             $(".js-error-modal-agenda-servicos").stop(true, true).fadeOut(0);
 
                              // Exibe mensagem de sucesso
@@ -202,6 +206,22 @@ function validarEConsultarFormulario(config) {
     });
 
         
+}
+
+function exibirNotificacao(tipo, mensagem) {
+    // Define o seletor com base no tipo de notificação ('sucesso' ou 'erro')
+    const seletor = tipo === 'sucesso' 
+        ? '.js-sucess-modal-agenda-servicos' 
+        : '.js-error-modal-agenda-servicos';
+
+    // Garante que ambas as notificações sejam ocultadas antes de exibir a nova
+    $(".js-sucess-modal-agenda-servicos, .js-error-modal-agenda-servicos").stop(true, true).fadeOut(0);
+
+    // Atualiza o texto da notificação
+    $(`${seletor} .txt-p`).text(mensagem);
+
+    // Exibe a notificação com efeito fadeIn e define um tempo para sumir
+    $(seletor).stop(true, true).fadeIn().delay(5000).fadeOut();
 }
 
 function formInformacoes(dados, endereco){
@@ -306,7 +326,7 @@ function formInformacoesHide(){
 }
 
 function validarFormularioSenha(config) {
-    const { formSenha, telefoneInputSelector, senhaInputSelector, endpointSenha, divPai } = config;
+    const { formSenha, telefoneInputSelector, senhaInputSelector, mensagemSucesso, mensagemErro, endpointSenha, divPai } = config;
 
     $(formSenha).on("submit", function (event) {
         event.preventDefault();
@@ -340,16 +360,91 @@ function validarFormularioSenha(config) {
             success: function (response) {
                 //$(divPai).removeClass('carregando');
                 if (response.loginValido) {
-                    alert('Login efetuado com sucesso!');
+                    //alert('Login efetuado com sucesso!');
+
+                    $('.js-sucess-modal-agenda-servicos .txt-p').text(mensagemSucesso);
+
+                     // Verifica se o checkbox "Lembrar Login" está selecionado
+                    const lembrarLogin = $('input[name="lembrar_login"]').is(':checked');
+                    const dadosCliente = {
+                        telefone: response.dados.telefone,
+                    };
+
+                    const nomeCliente = response.dados.nome || 'Cliente';
+
+                    // Define a mensagem de sucesso
+                    const notificacaoSucesso = `Login efetuado! Bem-vindo(a), ${nomeCliente}!`;
+
+                    if (lembrarLogin) {
+                        // Salvar nos cookies por 1 ano
+                        for (const key in dadosCliente) {
+                             setCookie(key, dadosCliente[key], 365); // Salva cada propriedade no cookie
+                        }
+                    } else {
+                        // Salva no localStorage
+                        for (const key in dadosCliente) {
+                            localStorage.setItem(key, dadosCliente[key]);
+                        }
+                    }
+
+                    trocarBox(".login-agenda", ".js-box-pagamento-agenda");
+
+                    exibirNotificacao('sucesso', notificacaoSucesso);
+
+
                     // Redirecionar ou executar ação adicional
                 } else {
-                    alert('Senha incorreta. Tente novamente.');
+                    //alert("Senha invalida!");
+                    $(divPai).removeClass('carregando'); 
+                    exibirNotificacao('erro', 'Senha incorreta!');
                 }
             },
             error: function () {
                 //$(divPai).removeClass('carregando');
-                alert('Erro ao validar a senha. Tente novamente mais tarde.');
+                $(".js-sucess-modal-agenda-servicos").stop(true, true).fadeOut(0);
+
+                // Exibe mensagem de erro genérica
+                $(".js-error-modal-agenda-servicos").stop(true, true).fadeIn().delay(5000).fadeOut();
+
+                $('.js-error-modal-agenda-servicos .txt-p').text('Ah ocorreu algum erro :( por favor tente em outro dispositivo, ou volte mais tarde.');
             }
         });
     });
+}
+
+function trocarBox(boxAtual, boxNova, duracao = 400) {
+    // Esconde a box atual com transição suave
+    $(boxAtual).fadeOut(duracao, function () {
+        // Após a animação de saída, exibe a nova box
+        $(boxNova).fadeIn(duracao);
+    });
+}
+
+function setCookie(name, value, days) {
+    const date = new Date();
+    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+    const expires = "expires=" + date.toUTCString();
+    document.cookie = name + "=" + encodeURIComponent(value) + ";" + expires + ";path=/";
+}
+
+
+function getCookie(name) {
+    const nameEQ = `${name}=`;
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+        let c = cookies[i];
+        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) === 0) return decodeURIComponent(c.substring(nameEQ.length, c.length));
+    }
+    return null;
+}
+
+function clearCookies() {
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i];
+        const eqPos = cookie.indexOf('=');
+        const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+        document.cookie = `${name}=; max-age=0; path=/;`;
+    }
 }
