@@ -1568,7 +1568,8 @@ span.preco-single{
 /* Placeholder flutuante */
 .wraper-form-single input[type="text"]::placeholder,
 .wraper-form-single textarea::placeholder,
-.wraper-form-single input[type="email"]::placeholder {
+.wraper-form-single input[type="email"]::placeholder,
+.wraper-form-single input[type="password"]::placeholder {
   color: transparent;
 }
 
@@ -1605,7 +1606,9 @@ span.preco-single{
 .wraper-form-single textarea:focus + label,
 .wraper-form-single textarea:not(:placeholder-shown) + label,
 .wraper-form-single input[type="email"]:focus + label,
-.wraper-form-single input[type="email"]:not(:placeholder-shown) + label {
+.wraper-form-single input[type="email"]:not(:placeholder-shown) + label,
+.wraper-form-single input[type="password"]:focus + label,
+.wraper-form-single input[type="password"]:not(:placeholder-shown) + label  {
   top: -10px;
   left: 10px;
   font-size: 0.75em;

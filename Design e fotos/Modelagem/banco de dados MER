@@ -103,8 +103,17 @@ creditos {
     data_do_credito date
 }
 
-
-
+tb_tokens (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    token VARCHAR(255) NOT NULL,
+    tipo ENUM('login', 'reset', 'verificacao') NOT NULL,
+    expira_em DATETIME NOT NULL,
+    usado TINYINT(1) DEFAULT 0,
+    criado_em DATETIME DEFAULT CURRENT_TIMESTAMP,
+    ip_origem VARCHAR(45),
+    FOREIGN KEY (user_id) REFERENCES tb_clientes(id) ON DELETE CASCADE
+);
 
 
 

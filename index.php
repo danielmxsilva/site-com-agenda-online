@@ -4440,18 +4440,23 @@ HTML;
 			      <legend class="color-p">Informações do Cadastro</legend>
 
 			      <div class="wraper-form-single">
-			        <input type="text" id="senha-cadastro-agenda" name="senha-cliente" placeholder=" " required>
-			        <label for="nome">Sua Senha</label>
+			        <input type="password" id="senha-cadastro-agenda" name="senha-cadastro-agenda" placeholder=" " required>
+			        <label for="senha-cadastro-agenda">Sua Senha</label>
+			      </div>
+
+			      <div class="wraper-form-single">
+			        <input type="password" id="senha-cadastro-agenda-confirmacao" name="senha-cadastro-agenda-confirmacao" placeholder=" " required>
+			        <label for="senha-cadastro-agenda">Repita sua Senha</label>
 			      </div>
 
 			      <div class="wraper-form-single">
 			        <input type="text" id="nome-login-agenda" name="nome-cliente" placeholder=" " required>
-			        <label for="nome">Nome Completo</label>
+			        <label for="nome-login-agenda">Nome Completo</label>
 			      </div>
 
 			      <div class="wraper-form-single">
 			        <input type="email" id="email-login-agenda" name="email-cliente" placeholder=" " required>
-			        <label for="nome">Seu melhor E-mail</label>
+			        <label for="emaill-login-agenda">Seu melhor E-mail</label>
 			      </div>
 
 			      <div class="wraper-h" style="margin: 10px 0 40px 0;">
@@ -4461,7 +4466,7 @@ HTML;
 
 			      <div class="wraper-form-single">
 			        <input type="text" id="cep-login-agenda" name="cep-login-agenda" placeholder=" ">
-			        <label for="CEP">CEP</label>
+			        <label for="cep-login-agenda">CEP</label>
 			      </div>
 
 			      <div class="wraper-form-single">
@@ -4474,17 +4479,17 @@ HTML;
 
 			      <div class="wraper-form-single" style="margin-top: 20px;">
 			        <input type="text" id="bairro-login-agenda" name="bairro-login-agenda" placeholder=" ">
-			        <label for="bairro">Bairro</label>
+			        <label for="bairro-login-agenda">Bairro</label>
 			      </div>
 
 			      <div class="wraper-form-single" style="margin-top: 20px;">
 			        <input type="text" id="rua-casa-login-agenda" name="rua-casa-login-agenda" placeholder=" ">
-			        <label for="rua-casa">Rua</label>
+			        <label for="rua-casa-login-agenda">Rua</label>
 			      </div>
 
 			      <div class="wraper-form-single" style="margin-top: 20px;">
 			        <input type="text" id="n-casa-login-agenda" name="n-casa-login-agenda" placeholder=" ">
-			        <label for="n-casa">Número</label>
+			        <label for="n-casa-login-agenda">Número</label>
 			      </div>
 
 			      <div class="wraper-form-single">
@@ -5098,6 +5103,7 @@ HTML;
 <!--<script src="<?php //echo INCLUDE_PATH;?>js/validacao-form.js"></script>-->
 <script src="<?php echo INCLUDE_PATH;?>js/box-model.js"></script>
 <script src="<?php echo INCLUDE_PATH;?>js/Identificacao.js"></script>
+<script src="<?php echo INCLUDE_PATH;?>js/cadastro.js"></script>
 <!-- scripts particulas -->
 <!--
 <script src="<?php //echo INCLUDE_PATH;?>js/particles.js"></script>

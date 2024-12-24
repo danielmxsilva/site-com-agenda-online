@@ -686,6 +686,7 @@ function closeModal() {
     $('.js-tempo-servico .tempo-estimado').html('0:00');
 
     $('input[type=text]').val('');
+    $('input[type=password]').val('');
     $('input[type=submit]').fadeIn();
 
     } catch (error){
@@ -693,10 +694,10 @@ function closeModal() {
     }
 
     $('.form-login-js').css({
-      position: ' ',
-      transform: ' ',
-      left: ' ',
-      top: ' ',
+      position: 'relative',
+      transform: 'translate(-50%,-50%)',
+      left: '50%',
+      top: '42%',
     });
 
     $('.form-login-agenda').css({
@@ -1145,24 +1146,54 @@ function ClickbtnAvancarAgendamento(){
             // Valida o tempo de agendamento
             if (mensagemErro) {
                 // Define o texto dinâmico
-                $('.js-error-modal-agenda-servicos .txt-p').text(mensagemErro);
-
-                // Exibe a div de erro
-                $('.js-error-modal-agenda-servicos').fadeIn();
+                exibirNotificacao('erro', mensagemErro)
                 
                 // Restaura a opacidade
                 $('.js-modal-agenda-servicos').css('opacity', '1');
 
                 // Oculta a mensagem de erro após 5 segundos
-                setTimeout(() => {
-                    $('.js-error-modal-agenda-servicos').fadeOut();
-                }, 7000); // 5 segundos
+            
 
             } else {
-                // Se a validação passar, execute outras ações, como:
-                $('.js-modal-agenda-servicos').fadeOut(100, function () {
-                    $('.login-agenda').fadeIn(100);
-                });
+                // Validação passou, verifica o token no cookie
+
+                const token = getCookie('token'); // Assumindo que o token está no cookie 'token'
+                
+
+                if (token) {
+                    // Token encontrado no cookie, realiza a consulta no backend
+                    $.ajax({
+                        url: 'ajax/validacao-form.php', // Crie este arquivo PHP
+                        method: 'POST',
+                        data: { token: token },
+                        beforeSend: function(){
+                            $('.js-modal-agenda-servicos').addClass('carregando');
+                        },
+                        success: function(response) {
+                            $('.js-modal-agenda-servicos').removeClass('carregando');
+                            if (response.tokenValido) {
+                                // Token válido, recupera os dados do usuário e troca a box
+                                // Aqui você deve usar response.dados para preencher as informações na próxima box
+                                // Exemplo:
+                                // $('#nome-usuario').text(response.dados.nome);
+                                // $('#email-usuario').text(response.dados.email);
+                                trocarBox('.js-modal-agenda-servicos', '.js-box-pagamento-agenda'); // Substitua '.sua-proxima-box' pelo seletor correto
+                            } else {
+                                // Token inválido, remove o cookie e prossegue para o login normal
+                                clearCookies(); // Limpa os cookies
+                                trocarBox('.js-modal-agenda-servicos', '.login-agenda');
+                            }
+                        },
+                        error: function() {
+                            $('.js-modal-agenda-servicos').removeClass('carregando');
+                            exibirNotificacao('erro', 'Erro ao validar o token. Tente novamente.');
+                            trocarBox('.js-modal-agenda-servicos', '.login-agenda');
+                        }
+                    });
+                } else {
+                    // Nenhum token no cookie, prossegue para o login normal
+                    trocarBox('.js-modal-agenda-servicos', '.login-agenda');
+                }
 
                 // Garante que a mensagem de erro seja escondida, caso ainda esteja visível
                 $('.js-error-modal-agenda-servicos').fadeOut();
@@ -1187,6 +1218,31 @@ function ClickbtnAvancarAgendamento(){
         console.log("click btn editar do box consultar");
     });
     
+}
+
+function trocarBox(boxAtual, boxNova, duracao = 400) {
+    // Esconde a box atual com transição suave
+    $(boxAtual).fadeOut(duracao, function () {
+        // Após a animação de saída, exibe a nova box
+        $(boxNova).fadeIn(duracao);
+    });
+}
+
+
+function exibirNotificacao(tipo, mensagem) {
+    // Define o seletor com base no tipo de notificação ('sucesso' ou 'erro')
+    const seletor = tipo === 'sucesso' 
+        ? '.js-sucess-modal-agenda-servicos' 
+        : '.js-error-modal-agenda-servicos';
+
+    // Garante que ambas as notificações sejam ocultadas antes de exibir a nova
+    $(".js-sucess-modal-agenda-servicos, .js-error-modal-agenda-servicos").stop(true, true).fadeOut(0);
+
+    // Atualiza o texto da notificação
+    $(`${seletor} .txt-p`).text(mensagem);
+
+    // Exibe a notificação com efeito fadeIn e define um tempo para sumir
+    $(seletor).stop(true, true).fadeIn().delay(5000).fadeOut();
 }
 
 function clickBtnDepoimento(){

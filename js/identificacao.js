@@ -1,5 +1,7 @@
 $(document).ready(function(){
 
+  const TOKEN_KEY = 'auth_token'; // Chave constante para armazenar o token
+
   // Exemplo de uso para diferentes formulários
   validarEConsultarFormulario({
       formSelector: '.form-login-agenda',
@@ -24,94 +26,32 @@ $(document).ready(function(){
 
 })
 
+function aplicarMascaraTelefone(seletor) {
+    const maskTelefone = (value) => {
+        value = value.replace(/\D/g, "");
+        value = value.substring(0, 11);
+        return value.replace(/^(\d{2})(\d)/g, "($1) $2").replace(/(\d{5})(\d{4})$/, "$1-$2");
+    };
+
+    $(seletor).on("input", function () {
+        const maskedValue = maskTelefone($(this).val());
+        $(this).val(maskedValue);
+    });
+}
+
 function validarEConsultarFormulario(config) {
 
     const { formSelector, formSenha, telefoneInputSelector, mensagemSucesso, mensagemErro, endpoint, divPai } = config;
 
-    const maskTelefone = (value) => {
-        value = value.replace(/\D/g, ""); // Remove tudo que não é número
-        value = value.substring(0, 11); // Limita a 11 números
-        value = value.replace(/^(\d{2})(\d)/g, "($1) $2"); // Adiciona parênteses no DDD
-        value = value.replace(/(\d{5})(\d{4})$/, "$1-$2"); // Adiciona o traço
-        return value;
-    };
-
-    $(telefoneInputSelector).on("input", function () {
-        const maskedValue = maskTelefone($(this).val());
-        $(this).val(maskedValue);
-    });
+    aplicarMascaraTelefone(telefoneInputSelector);
 
     // Reexibe o botão de submit ao interagir com o campo de telefone
     $(telefoneInputSelector).on("input", function () {
        $(`${formSelector}`).find('input[type="submit"]').fadeIn();
        $(`${formSenha}`).slideUp();
+       formInformacoesHide('.form-informacoes-cliente', '.form-login-js', true)
     });
 
-
-    // Máscara para nome completo (letras, espaços e acentos)
-    const maskNomeCompleto = (value) => {
-        return value
-            .replace(/[^a-zA-Z\u00C0-\u00FF\s]/g, "") // Permite apenas letras, espaços e acentos
-            .replace(/\s{2,}/g, " "); // Substitui múltiplos espaços por um único espaço
-    };
-
-    $('[name="nome-cliente"]').on("input", function () {
-        const cursorPos = this.selectionStart; // Obtém a posição do cursor
-        const maskedValue = maskNomeCompleto($(this).val());
-        $(this).val(maskedValue);
-        this.setSelectionRange(cursorPos, cursorPos); // Mantém o cursor na posição correta
-    });
-  
-    // Máscara para e-mail (apenas validação visual básica)
-    const maskEmail = (value) => {
-        return value.replace(/[^a-zA-Z0-9@._-]/g, "");
-    };
-
-    $('[name="email-cliente"]').on("input", function () {
-        const maskedValue = maskEmail($(this).val());
-        $(this).val(maskedValue);
-    });
-
-    // Máscara para CEP (formato 00000-000)
-    const maskCep = (value) => {
-        value = value.replace(/\D/g, ""); // Remove tudo que não é número
-        value = value.substring(0, 8); // Limita a 8 números
-        value = value.replace(/^(\d{5})(\d)/, "$1-$2"); // Adiciona o traço
-        return value;
-    };
-
-    $('[name="cep-login-agenda"]').on("input", function () {
-        const maskedValue = maskCep($(this).val());
-        $(this).val(maskedValue);
-    });
-
-    // Máscara para bairro (apenas letras e espaços)
-
-    $('[name="bairro-login-agenda"]').on("input", function () {
-        const cursorPos = this.selectionStart; // Obtém a posição do cursor
-        const maskedValue = maskNomeCompleto($(this).val());
-        $(this).val(maskedValue);
-        this.setSelectionRange(cursorPos, cursorPos); // Mantém o cursor na posição correta
-    });
-
-    $('[name="rua-casa-login-agenda"]').on("input", function () {
-        const cursorPos = this.selectionStart; // Obtém a posição do cursor
-        const maskedValue = maskNomeCompleto($(this).val());
-        $(this).val(maskedValue);
-        this.setSelectionRange(cursorPos, cursorPos); // Mantém o cursor na posição correta
-    });
-
-    // Máscara para número da casa (apenas números)
-    const maskNumeroCasa = (value) => {
-        value = value.replace(/\D/g, ""); // Remove tudo que não é número
-        value = value.substring(0, 5); // Limita a 5 dígitos
-        return value;
-    };
-
-    $('[name="n-casa-login-agenda"]').on("input", function () {
-        const maskedValue = maskNumeroCasa($(this).val());
-        $(this).val(maskedValue);
-    });
 
     $(formSelector).on("submit", function (event) {
         event.preventDefault();
@@ -172,6 +112,7 @@ function validarEConsultarFormulario(config) {
 
                             $('.js-error-modal-agenda-servicos .txt-p').text(mensagemErro);
                             formInformacoes();
+
                         }
                     },
                     error: function () {
@@ -240,6 +181,7 @@ function formInformacoes(dados, endereco){
         });*/
 
         //$('.form-informacoes-cliente').slideDown(300);
+        /*
         $('#nome-login-agenda').val(dados.nome);
         $('#email-login-agenda').val(dados.email);
 
@@ -261,26 +203,51 @@ function formInformacoes(dados, endereco){
             $('#n-casa-login-agenda').val(endereco.numero_casa);
 
         }
-
+*/
 
 
     } else {
 
         console.log("não tenho nada!");
 
-        $('.form-login-js').css({
-          position: 'static',
-          transform: 'translate(0,0)',
-          left: '0',
-          top: '0',
-          marginBottom: '20px'
-        });
+        formInformacoesHide( null, '.form-login-js', false);
 
         //$('.form-login-senha-agenda').slideDown(300);
-        inputOpt($('.form-login-senha-agenda'), null, null, null);
+        inputOpt(null,$('.form-login-senha-agenda'), null, null);
 
-        $('.form-login-senha-agenda input[type=text]').val('');
-        $('.form-login-senha-agenda input[type=email]').val('');
+        inputOpt(null, null, $('.form-informacoes-cliente'), null);
+
+        var senha_cadastro = $('input[name="senha-cadastro-agenda"]');
+        var senha_cadastro_confirmar = $('input[name="senha-cadastro-agenda-confirmacao"]');
+
+        if (!senha_cadastro || !senha_cadastro_confirmar) {
+            exibirNotificacao('erro', "Por favor, preencha ambos os campos de senha.");
+            return; // Para a validação se algum campo estiver vazio
+        }
+        
+        // 1. Validar se as senhas coincidem (PRIMEIRA ETAPA)
+        if (senha_cadastro !== senha_cadastro_confirmar) {
+            exibirNotificacao('erro', "As senhas não coincidem.");
+            return; // Para a validação se as senhas não coincidem
+        }
+
+        const errosSenha = validarSenha(senha_cadastro, senha_cadastro_confirmar);
+        if (errosSenha.length > 0) {
+            exibirNotificacao('erro', errosSenha.join("<br>"));
+            return;
+        }
+
+        // 2. Validar sequências (SEGUNDA ETAPA - SÓ EXECUTA SE PASSOU NA ETAPA 1)
+        if (contemSequencia(senha_cadastro)) {
+            exibirNotificacao('erro', "A senha não pode conter sequências!");
+            return; // Para a validação se encontrar sequências
+        }
+
+        // 3. Validar senhas óbvias (TERCEIRA ETAPA - SÓ EXECUTA SE PASSOU NAS ETAPAS ANTERIORES)
+        if (senhaEhObvia(senha_cadastro)) {
+            exibirNotificacao('erro', "A senha é muito óbvia!");
+            return; // Para a validação se a senha for óbvia
+        }
     }
     
 }
@@ -310,19 +277,43 @@ function inputOpt(inputOpen, inputNone, submitOpen, submitNone){
     }
 }
 
-function formInformacoesHide(){
+function formInformacoesHide(divParaEsconder, divParaReposicionar, reposicionar) {
 
+    /*
 
-        $('.form-login-js').css({
+    Esconder .form-informacoes-cliente e centralizar .form-login-js:
+    formInformacoesHide('.form-informacoes-cliente', '.form-login-js', true);
+
+    Esconder .outra-div e voltar .form-principal ao posicionamento padrão:
+    formInformacoesHide('.outra-div', '.form-principal', false);
+    
+    formInformacoesHide( null, '.form-login-js', false);
+
+    */
+
+    $(divParaEsconder).hide();
+    $(divParaEsconder + ' input[type=text]').val('');
+    $(divParaEsconder + ' input[type=email]').val('');
+    $(divParaEsconder + ' input[type=password]').val('');
+
+    if (reposicionar) {
+        // Aplica estilos para posicionamento centralizado
+        $(divParaReposicionar).css({
             position: 'relative',
             left: '50%',
             top: '42%',
             transform: 'translate(-50%, -50%)'
         });
-        $('.form-informacoes-cliente').hide();
-
-        $('.form-informacoes-cliente input[type=text]').val('');
-
+    } else {
+        // Aplica estilos para voltar ao posicionamento padrão (static)
+        $(divParaReposicionar).css({
+            position: 'static',
+            transform: 'translate(0,0)',
+            left: '0',
+            top: '0',
+            marginBottom: '20px'
+        });
+    }
 }
 
 function validarFormularioSenha(config) {
@@ -361,30 +352,38 @@ function validarFormularioSenha(config) {
                 //$(divPai).removeClass('carregando');
                 if (response.loginValido) {
                     //alert('Login efetuado com sucesso!');
-
-                    $('.js-sucess-modal-agenda-servicos .txt-p').text(mensagemSucesso);
-
-                     // Verifica se o checkbox "Lembrar Login" está selecionado
-                    const lembrarLogin = $('input[name="lembrar_login"]').is(':checked');
-                    const dadosCliente = {
-                        telefone: response.dados.telefone,
-                    };
-
                     const nomeCliente = response.dados.nome || 'Cliente';
+
+                    const token = response.token; // Recebe o token do backend
+                    const dadosCliente = {
+                        nome: nomeCliente,
+                        token: token
+                    };
 
                     // Define a mensagem de sucesso
                     const notificacaoSucesso = `Login efetuado! Bem-vindo(a), ${nomeCliente}!`;
 
-                    if (lembrarLogin) {
-                        // Salvar nos cookies por 1 ano
-                        for (const key in dadosCliente) {
-                             setCookie(key, dadosCliente[key], 365); // Salva cada propriedade no cookie
+                    if (token) {
+                        // Verifica se o checkbox "Lembrar Login" está selecionado
+                        const lembrarLogin = $('input[name="lembrar_login"]').is(':checked');
+                        if (lembrarLogin) {
+                            // Salvar nos cookies por 1 ano
+                            console.log("ENTREI NO SALVAR lembrarLogin");
+                            for (const key in dadosCliente) {
+                                 setCookie(key, dadosCliente[key], 365); // Salva cada propriedade no cookie
+                            }
+                        } else {
+                            // Salva no localStorage
+                            console.log("ENTREI NO SALVAR LOCALSTORAGE");
+                            for (const key in dadosCliente) {
+                                localStorage.setItem(key, dadosCliente[key]);
+                            }
                         }
+                        console.log("ENTREI NO IF TOKEN");
+                        trocarBox(".login-agenda", ".js-box-pagamento-agenda");
+                        exibirNotificacao('sucesso', notificacaoSucesso);
                     } else {
-                        // Salva no localStorage
-                        for (const key in dadosCliente) {
-                            localStorage.setItem(key, dadosCliente[key]);
-                        }
+                        exibirNotificacao('erro', 'Erro ao salvar o token. Tente novamente.');
                     }
 
                     trocarBox(".login-agenda", ".js-box-pagamento-agenda");
