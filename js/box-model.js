@@ -719,6 +719,12 @@ function closeModal() {
 
     $(".login-agenda").removeClass('carregando');
 
+    $('#cidade-login-agenda').html(`
+        <option value="cidade" selected disabled>Cidade:</option>
+        <option value="Itupeva">Itupeva</option>
+        <option value="Jundiaí">Jundiaí</option>
+    `).prop('disabled', false);
+
     localStorage.clear();
 
 }

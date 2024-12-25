@@ -4473,7 +4473,7 @@ HTML;
 			        <select name="cidade-login-agenda" id="cidade-login-agenda">
 			          <option value="cidade" selected disabled>Cidade:</option>
 			          <option value="Itupeva">Itupeva</option>
-			          <option value="Jundiai">Jundiaí</option>
+			          <option value="Jundiaí">Jundiaí</option>
 			        </select>
 			      </div>
 
@@ -4490,6 +4490,10 @@ HTML;
 			      <div class="wraper-form-single" style="margin-top: 20px;">
 			        <input type="text" id="n-casa-login-agenda" name="n-casa-login-agenda" placeholder=" ">
 			        <label for="n-casa-login-agenda">Número</label>
+			      </div>
+
+			      <div class="wraper-form-single checkbox-login-lembrar">
+			        <input type="checkbox" name="consentimento" id="consentimento-checkbox"> <span>Li e concordo com a <a href="<?php echo INCLUDE_PATH;?>politica-de-privacidade-e-termos-de-uso" style="text-decoration: underline; color: #333;">Política de Privacidade</a></span>
 			      </div>
 
 			      <div class="wraper-form-single">
@@ -5075,6 +5079,7 @@ HTML;
           <li><a href="#servicos">Serviços</a></li>
           <li><a href="#sessao-agenda">Agende Online</a></li>
           <li><a href="#contato">Contato</a></li>
+          <li><a href="<?php echo INCLUDE_PATH;?>politica-de-privacidade-e-termos-de-uso">Politicas de Privacidade e Termos de Uso</a></li>
         </ul>
       </div>
       <div class="footer-social">

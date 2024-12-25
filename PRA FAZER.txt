@@ -2,4 +2,8 @@
 
 - caso não tenha horarios disponiveis, verificar se o dia fica desabilitado. = Verificar durante o dia = OK
 
-- ajustar respostas = precisa ser na div sucess ou erro e opacity do formulario
+- ajustar respostas = precisa ser na div sucess ou erro e opacity do formulario = OK
+
+- Trocar o nome da tarifa especial, avaliar outro nome que seja especifico =
+
+- Adicionar a opção da pessoa durante o cadastro adicionar uma foto = foto será usado para depoimento

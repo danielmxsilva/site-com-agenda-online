@@ -5,18 +5,46 @@ $(document).ready(function(){
       mensagemSucesso: 'Cadastro concluido com sucesso!',
       endpoint: 'ajax/validacao-form.php',
       divPai: '.login-agenda'
-  });
+    });
 
 	aplicarMascara('[name="nome-login-agenda"]', 'nomeCompleto');
 	aplicarMascara('[name="email-login-agenda"]', 'email');
-	aplicarMascara('[name="cep-login-agenda"]', 'cep');
 	aplicarMascara('[name="bairro-login-agenda"]', 'nomeCompleto');
 	aplicarMascara('[name="rua-casa-login-agenda"]', 'nomeCompleto');
 	aplicarMascara('[name="n-casa-login-agenda"]', 'numeroCasa');
 
 	preencherCep('#cep-login-agenda');
 
+    const cepInput = $("#cep-login-agenda");
+
+    maskCep(cepInput);
+  
+
+    const $checkbox = $('#consentimento-checkbox');
+    const $botaoSubmit = $('.acao-novo-cadastro');
+
+    function atualizarBotao() {
+        if ($checkbox.is(':checked')) {
+            $botaoSubmit.prop('disabled', false);  // Habilita o botão
+            $botaoSubmit.attr('name', 'acao-novo-cadastro'); // Adiciona o atributo name
+            $botaoSubmit.attr('value', 'Confirmar e Proseguir'); // Adiciona o atributo value
+        } else {
+            $botaoSubmit.prop('disabled', true); // Desabilita o botão
+            $botaoSubmit.removeAttr('name'); // Remove o atributo name
+            $botaoSubmit.attr('value', 'Aceite a Politica de Privacidade'); // Remove o atributo value
+        }
+    }
+
+    $checkbox.on('change', function () {
+        atualizarBotao();
+    });
+
+    atualizarBotao();
+
 })
+
+// Verifica o estado inicial do checkbox
+
 
 function preencherCep(cep){
 	 $(cep).on('blur', function () {
@@ -32,7 +60,7 @@ function preencherCep(cep){
                 beforeSend: function () {
                     // Limpa os campos antes da consulta
                     $('.login-agenda').addClass('carregando');
-                    $('#rua-casa-login-agenda, #bairro-login-agenda, #cidade-login-agenda').val('');
+                    $('#rua-casa-login-agenda, #bairro-login-agenda').val('');
                 },
                 success: function (response) {
                 	$('.login-agenda').removeClass('carregando');
@@ -41,7 +69,11 @@ function preencherCep(cep){
                     } else {
                         $('#rua-casa-login-agenda').val(response.logradouro);
                         $('#bairro-login-agenda').val(response.bairro);
-                        $('#cidade-login-agenda').selected(response.localidade);
+                        // Adiciona a cidade no select dinamicamente
+                        $('#cidade-login-agenda')
+                            .html(`<option value="${response.localidade}" selected>${response.localidade}</option>`)
+                            .prop('disabled', false);
+                        console.log("cidade do response" + response.localidade);
                     }
                 },
                 error: function () {
@@ -69,13 +101,15 @@ function novoCadastro(config) {
         var nome_cadastro = $('input[name="nome-login-agenda"]').val();
         var email_cadastro = $('input[name="email-login-agenda"]').val();
         var cep_cadastro = $('input[name="cep-login-agenda"]').val();
-        //var cidade_cadastro = $('select[name="cidade-login-agenda"]').val();
+        var cidade_cadastro = $('select[name="cidade-login-agenda"]').val();
         var bairro_cadastro = $('input[name="bairro-login-agenda"]').val();
         var rua_cadastro = $('input[name="rua-casa-login-agenda"]').val();
         var nmr_casa_cadastro = $('input[name="n-casa-login-agenda"]').val();
 
+
+
         const cidade = $('#cidade-login-agenda').val(); // Obtém o valor selecionado
-        const cidadesPermitidas = ["Itupeva", "Jundiai"];
+        const cidadesPermitidas = ["Itupeva", "Jundiaí"];
 
         console.log("Valor selecionado de cidade:", cidade);
         console.log("Cidades permitidas:", cidadesPermitidas);
@@ -86,20 +120,30 @@ function novoCadastro(config) {
 		    { campo: senha_cadastro_confirmar, mensagemErro: "Por favor, preencha o campo de confirmação de senha." },
 		    { campo: nome_cadastro, mensagemErro: "Por favor, preencha o campo de nome completo." },
 		    { campo: email_cadastro, mensagemErro: "Por favor, preencha o campo de e-mail." },
-		    { campo: cep_cadastro, mensagemErro: "Por favor, preencha o campo de CEP." },
-		    //{ campo: cidade_cadastro, mensagemErro: "Por favor, selecione uma cidade." },
+		    { campo: cidade_cadastro, mensagemErro: "Por favor, selecione uma cidade." },
 		    { campo: bairro_cadastro, mensagemErro: "Por favor, preencha o campo de bairro." },
 		    { campo: rua_cadastro, mensagemErro: "Por favor, preencha o campo de rua." },
 		    { campo: nmr_casa_cadastro, mensagemErro: "Por favor, preencha o campo de número da casa." },
 		];
 
-		if (!cidadesPermitidas.includes(cidade)) {
+        if (cidade === "cidade" || cidade === null || cidade === " "){
+            exibirNotificacao('erro', "Por favor, selecione uma cidade."); // Mensagem de erro caso a opção padrão seja selecionada
+            $(divPai).removeClass('carregando');
+            return; // Impede o envio do formulário
+        } else if (!cidadesPermitidas.includes(cidade)) {
             exibirNotificacao('erro', "Atualmente só atendemos em Itupeva e Jundiai!."); // Mostra o aviso
             $(divPai).removeClass('carregando');
             return; // Impede o envio do formulário
         } else {
 		    console.log("Cidade válida: " + cidade); // Exibe uma mensagem de sucesso no console
 		}
+
+		/*
+
+		PAREI FAZENDO A VALIDAÇÃO DA RECUPERAÇÃO DO SELECT BOX PARA PREENCHER AUTOMATICAMENTE
+
+
+		*/
 
 	    // Valida todos os inputs obrigatórios
 	    const validacaoCampos = validarCampos(inputsObrigatorios);
@@ -188,6 +232,28 @@ function exibirNotificacao(tipo, mensagem) {
     $(seletor).stop(true, true).fadeIn().delay(5000).fadeOut();
 }
 
+function maskCep(inputElement) {
+    inputElement.on("input", function () {
+        const input = this;
+        let value = input.value.replace(/\D/g, ""); // Remove caracteres não numéricos
+        const cursorPosition = input.selectionStart; // Posição do cursor antes de aplicar a máscara
+        const oldValueLength = input.value.length;
+
+        // Limita ao tamanho do CEP
+        value = value.substring(0, 8);
+
+        // Aplica a máscara XXXXX-XXX
+        const maskedValue = value.replace(/^(\d{5})(\d)/, "$1-$2");
+        input.value = maskedValue;
+
+        // Calcula nova posição do cursor
+        const newCursorPosition = cursorPosition + (input.value.length - oldValueLength);
+
+        // Reposiciona o cursor no lugar correto
+        input.setSelectionRange(newCursorPosition, newCursorPosition);
+    });
+}
+
 function aplicarMascara(seletor, tipoMascara) {
 
 	// Máscara para nome completo (letras, espaços e acentos)
@@ -202,13 +268,6 @@ function aplicarMascara(seletor, tipoMascara) {
     switch (tipoMascara) {
         case 'email':
             maskFunction = (value) => value.replace(/[^a-zA-Z0-9@._-]/g, "");
-            break;
-        case 'cep':
-            maskFunction = (value) => {
-                value = value.replace(/\D/g, "");
-                value = value.substring(0, 8);
-                return value.replace(/^(\d{5})(\d)/, "$1-$2");
-            };
             break;
         case 'nomeCompleto': // Usando a função maskNomeCompleto que já existe no seu código
             maskFunction = (value) => maskNomeCompleto(value);
