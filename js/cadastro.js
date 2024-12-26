@@ -72,21 +72,25 @@ function recuperarSenha(){
             dataType: 'json',
             beforeSend: function () {
                 // Limpa os campos antes da consulta
-                console.log("entrei no beforeSend do ajax form recuperar senha");
+                console.log("Requisição está sendo enviada");
                 $('.login-agenda').addClass('carregando');
             },
             success: function (response) {
                 $('.login-agenda').removeClass('carregando');
-                if (response.emailEncontrado) {
+                console.log("Resposta recebida:", response);
+                if (response && response.emailEncontrado) {
                     exibirNotificacao('sucesso', response.mensagem);
                     trocarBox('.form-recuperar-senha-email-js', '.form-recuperar-senha-codigo-js');
                 } else {
                     exibirNotificacao('erro', response.mensagem);
                 }
+                console.log("Resposta recebida:", response);
             },
-            error: function () {
+            error: function (xhr, status, error) {
                 $('.login-agenda').removeClass('carregando');
                 exibirNotificacao('erro','Erro ao enviar o e-mail. Tente novamente.');
+                console.log("Resposta do servidor:", xhr.responseText);
+                console.error("Erro na requisição:", status, error);
             }
         });
     });

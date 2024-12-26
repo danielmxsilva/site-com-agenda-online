@@ -16,8 +16,8 @@
             $mail->SMTPAuth = true;
             $mail->Username = 'contato@paularosangelanails.com.br'; // Seu e-mail
             $mail->Password = 'Kaique#171'; // Sua senha do e-mail
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // Criptografia TLS
-            $mail->Port = 465; // Porta SMTP do Gmail
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; // Criptografia TLS
+            $mail->Port = 465; // Porta SMTP 
 
             // Configurações do e-mail
             $mail->setFrom('contato@paularosangelanails.com.br ', 'Paula Rosangela Nail'); // E-mail e nome do remetente
@@ -35,11 +35,11 @@
             ";
             $mail->AltBody = "Seu código de recuperação de senha é: $codigoRecuperacao"; // Texto plano para clientes que não suportam HTML
 
-            var_dump($mail);
+            //var_dump($mail);
 
             try {
                 $mail->send();
-                echo 'E-mail enviado com sucesso!';
+                //echo 'E-mail enviado com sucesso!';
             } catch (Exception $e) {
                 echo "Erro ao enviar e-mail: {$e->errorMessage()}";
             }

@@ -4,6 +4,11 @@
 
 	// Define o cabeçalho para a resposta ser no formato JSON
 	header('Content-Type: application/json');
+	ob_clean(); // Limpa qualquer saída anterior
+
+	ini_set('display_errors', 1);
+	ini_set('display_startup_errors', 1);
+	error_reporting(E_ALL);
 
 	// Obtém os parâmetros enviados pelo AJAX
 	$telefone = filter_input(INPUT_POST, 'telefone', FILTER_SANITIZE_STRING);
@@ -14,6 +19,8 @@
 	$email_recuperar = filter_input(INPUT_POST, 'email_recuperar', FILTER_SANITIZE_STRING);
 
 	$codigo_recuperacao = filter_input(INPUT_POST, 'codigo_recuperacao', FILTER_SANITIZE_STRING);
+
+	error_log("Dados recebidos: " . print_r($_POST, true));
 
 
 	// Obtém o endereço_id enviado via POST
@@ -81,19 +88,26 @@
 	            }
 
 	            echo json_encode($resposta);
+
+	            exit;
 	            
 		    } else {
 		        echo json_encode([
 		            'cadastroEncontrado' => false,
 		            'mensagem' => $mensagemErro
 		        ]);
+		        exit;
 		    }
 		} catch (Exception $e) {
 		    echo json_encode([
 		        'cadastroEncontrado' => false,
 		        'mensagem' => 'Erro ao consultar o banco de dados. Tente novamente mais tarde.'
 		    ]);
+		    exit;
 		}
+
+		
+
 	} elseif ($telefone && $senha) { // NOVA LÓGICA PARA VALIDAÇÃO DE SENHA
 	    $telefone = str_replace('+', '', $telefone);
 	    $telefone = preg_replace('/\D/', '', $telefone);
@@ -150,23 +164,27 @@
 	                    'dados' => $registro,
 	                    'token' => $token
 	                ]);
+	                exit;
 	            } else {
 	                echo json_encode([
 	                    'loginValido' => false,
 	                    'mensagem' => 'Senha inválida.'
 	                ]);
+	                exit;
 	            }
 	        } else {
 	            echo json_encode([
 	                'loginValido' => false,
 	                'mensagem' => 'Número de telefone não encontrado.'
 	            ]);
+	            exit;
 	        }
 	    } catch (Exception $e) {
 	        echo json_encode([
 	            'loginValido' => false,
 	            'mensagem' => 'Erro ao consultar o banco de dados. Tente novamente mais tarde.'
 	        ]);
+	        exit;
 	    }
 	} elseif ($token) {
 
@@ -182,15 +200,20 @@
 	        if ($registro) {
 	            unset($registro['senha_login']); //Removendo a senha por segurança
 	            echo json_encode(['tokenValido' => true, 'dados' => $registro]);
+	            exit;
 	        } else {
 	            echo json_encode(['tokenValido' => false]);
+	            exit;
 	        }
 	        
 	    } catch (Exception $e) {
 	        echo json_encode(['tokenValido' => false, 'erro' => $e->getMessage()]);
+	        exit;
 	    }
 
 	} elseif ($email_recuperar){
+
+	try{
 
 		$pdo = Mysql::conectar();
 
@@ -211,19 +234,44 @@
             $stmtCodigo->execute([$email_recuperar, $codigo, $expiracao]);
 
             // Enviar o código por e-mail
-            require 'enviar_email.php';
+            require_once 'enviar_email.php';
             if (enviarCodigoRecuperacao($email_recuperar, $codigo)) {
-                echo json_encode(['emailEncontrado' => true, 'mensagem' => 'O código foi enviado ao seu e-mail.']);
+                echo json_encode([
+                	'emailEncontrado' => true, 
+                	'mensagem' => 'O código foi enviado ao seu e-mail.'
+                ]);
+                exit;
             } else {
-                echo json_encode(['emailEncontrado' => false, 'mensagem' => 'Erro ao enviar o e-mail. Tente novamente.']);
+                echo json_encode([
+                	'emailEncontrado' => false, 
+                	'mensagem' => 'Erro ao enviar o e-mail. Tente novamente.'
+                ]);
+                exit;
             }
         } else {
             echo json_encode([
                 'emailEncontrado' => false,
                 'mensagem' => 'Email não encontrado no sistema.'
             ]);
+            exit;
         }
-     
+     } catch (Exception $e) {
+	    error_log("Erro no script validacao-form.php: " . $e->getMessage());
+	    echo json_encode([
+	        'emailEncontrado' => false,
+	        'mensagem' => 'Erro interno no servidor. Por favor, tente novamente mais tarde.'
+	    ]);
+	    exit;
+	} finally {
+	    // Verifica e registra qualquer saída inesperada
+	    $output = ob_get_clean();
+	    if (!empty($output)) {
+	        error_log("Saída inesperada em validacao-form.php: $output");
+	    }
+	    
+	}
+
+	exit;
 		
 
 	} elseif ($codigo_recuperacao) {
@@ -242,11 +290,13 @@
                 'mensagem' => 'Código de recuperação válido.',
                 'email' => $registro['email']
             ]);
+            exit;
         } else {
             echo json_encode([
                 'codigoValido' => false,
                 'mensagem' => 'Código de recuperação inválido ou expirado.'
             ]);
+            exit;
         }
 
     } elseif ($nova_senha) {
@@ -269,15 +319,18 @@
                 'senhaAtualizada' => true,
                 'mensagem' => 'Senha atualizada com sucesso.'
             ]);
+            exit;
         } else {
             echo json_encode([
                 'senhaAtualizada' => false,
                 'mensagem' => 'Erro ao atualizar a senha. Tente novamente.'
             ]);
+            exit;
         }
 
     } else {
 	    echo json_encode(['error' => 'parametros inválidos.']);
+	    exit;
 	}
 
 	
