@@ -7,7 +7,7 @@ $(document).ready(function(){
       divPai: '.login-agenda'
     });
 
-    recuperarSenha();
+    //recuperarSenha();
 
 	aplicarMascara('[name="nome-login-agenda"]', 'nomeCompleto');
 	aplicarMascara('[name="email-login-agenda"]', 'email');
@@ -72,6 +72,7 @@ function recuperarSenha(){
             dataType: 'json',
             beforeSend: function () {
                 // Limpa os campos antes da consulta
+                console.log("entrei no beforeSend do ajax form recuperar senha");
                 $('.login-agenda').addClass('carregando');
             },
             success: function (response) {

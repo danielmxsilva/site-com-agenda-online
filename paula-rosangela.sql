@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 24-Dez-2024 às 19:09
+-- Tempo de geração: 26-Dez-2024 às 22:16
 -- Versão do servidor: 10.4.22-MariaDB
 -- versão do PHP: 7.4.27
 
@@ -92,6 +92,26 @@ CREATE TABLE `tb_cliente_servico` (
   `cliente_id` int(11) NOT NULL,
   `servico_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `tb_codigos_recuperacao`
+--
+
+CREATE TABLE `tb_codigos_recuperacao` (
+  `id` int(11) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `codigo` varchar(6) NOT NULL,
+  `expira_em` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `tb_codigos_recuperacao`
+--
+
+INSERT INTO `tb_codigos_recuperacao` (`id`, `email`, `codigo`, `expira_em`) VALUES
+(15, 'danielmxsilva@gmail.com', '771675', '2024-12-26 18:15:39');
 
 -- --------------------------------------------------------
 
@@ -228,7 +248,7 @@ CREATE TABLE `tb_tokens` (
 --
 
 INSERT INTO `tb_tokens` (`id`, `user_id`, `token`, `tipo`, `expira_em`, `usado`, `criado_em`, `ip_origem`) VALUES
-(7, 1, '8cf7789dd769d60f98f2d9c0fc35d7c8e38ee21f325c885ee9162eff44499d72', 'login', '2025-12-24 14:06:47', 0, '2024-12-24 11:36:27', '127.0.0.1');
+(7, 1, '8cf7789dd769d60f98f2d9c0fc35d7c8e38ee21f325c885ee9162eff44499d72', 'login', '2025-12-25 09:38:18', 0, '2024-12-24 11:36:27', '127.0.0.1');
 
 -- --------------------------------------------------------
 
@@ -271,6 +291,13 @@ ALTER TABLE `tb_clientes_adicionais`
 --
 ALTER TABLE `tb_cliente_servico`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Índices para tabela `tb_codigos_recuperacao`
+--
+ALTER TABLE `tb_codigos_recuperacao`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`);
 
 --
 -- Índices para tabela `tb_endereco`
@@ -336,6 +363,12 @@ ALTER TABLE `tb_clientes_adicionais`
 --
 ALTER TABLE `tb_cliente_servico`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `tb_codigos_recuperacao`
+--
+ALTER TABLE `tb_codigos_recuperacao`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
 
 --
 -- AUTO_INCREMENT de tabela `tb_financeiro`

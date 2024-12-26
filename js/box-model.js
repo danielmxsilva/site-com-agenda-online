@@ -1230,6 +1230,17 @@ function ClickbtnAvancarAgendamento(){
     
 }
 
+function getCookie(name) {
+    const nameEQ = `${name}=`;
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+        let c = cookies[i];
+        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) === 0) return decodeURIComponent(c.substring(nameEQ.length, c.length));
+    }
+    return null;
+}
+
 function trocarBox(boxAtual, boxNova, duracao = 400) {
     // Esconde a box atual com transição suave
     $(boxAtual).fadeOut(duracao, function () {
