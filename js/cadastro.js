@@ -7,8 +7,11 @@ $(document).ready(function(){
       divPai: '.login-agenda'
     });
 
+    recuperarSenha();
+
 	aplicarMascara('[name="nome-login-agenda"]', 'nomeCompleto');
 	aplicarMascara('[name="email-login-agenda"]', 'email');
+    aplicarMascara('[name="email-recuperar-senha"]', 'email');
 	aplicarMascara('[name="bairro-login-agenda"]', 'nomeCompleto');
 	aplicarMascara('[name="rua-casa-login-agenda"]', 'nomeCompleto');
 	aplicarMascara('[name="n-casa-login-agenda"]', 'numeroCasa');
@@ -41,9 +44,122 @@ $(document).ready(function(){
 
     atualizarBotao();
 
+    $('.btn-esqueci-senha').click(function(e){
+        e.preventDefault();
+        trocarBox('.form-login-js', '.form-recuperar-senha-email-js');
+        recuperarSenha();
+    })
+
 })
 
 // Verifica o estado inicial do checkbox
+
+function recuperarSenha(){
+
+    $('.form-recup-senha-email-js').on("submit", function (event) {
+        event.preventDefault();
+
+        const email = $('#email-recuperar-senha').val();
+        if (!email) {
+            exibirNotificacao('erro', 'Por favor, insira um e-mail válido.');
+            return;
+        }
+
+        $.ajax({
+            url: 'ajax/validacao-form.php',
+            method: 'POST',
+            data: { email_recuperar: email },
+            dataType: 'json',
+            beforeSend: function () {
+                // Limpa os campos antes da consulta
+                $('.login-agenda').addClass('carregando');
+            },
+            success: function (response) {
+                $('.login-agenda').removeClass('carregando');
+                if (response.emailEncontrado) {
+                    exibirNotificacao('sucesso', response.mensagem);
+                    trocarBox('.form-recuperar-senha-email-js', '.form-recuperar-senha-codigo-js');
+                } else {
+                    exibirNotificacao('erro', response.mensagem);
+                }
+            },
+            error: function () {
+                $('.login-agenda').removeClass('carregando');
+                exibirNotificacao('erro','Erro ao enviar o e-mail. Tente novamente.');
+            }
+        });
+    });
+
+    // Validar código de recuperação
+    $('.form-recup-senha-codigo-js').on("submit", function (event) {
+        event.preventDefault();
+
+        const codigo = $('#codigo-recuperar-senha').val();
+        if (!codigo) {
+            alert('Por favor, insira o código de recuperação.');
+            return;
+        }
+
+        $.ajax({
+            url: 'ajax/validacao-form.php',
+            method: 'POST',
+            data: { codigo_recuperacao: codigo },
+            dataType: 'json',
+            success: function (response) {
+                if (response.codigoValido) {
+                    alert(response.mensagem);
+                    trocarBox('.form-recuperar-senha-codigo-js', '.form-recuperar-senha-nova-senha-js');
+                } else {
+                    alert(response.mensagem);
+                }
+            },
+            error: function () {
+                alert('Erro ao validar o código. Tente novamente.');
+            }
+        });
+    });
+
+    // Atualizar nova senha
+    $('.form-recup-senha-nova-senha-js').on("submit", function (event) {
+        event.preventDefault();
+
+        const senha = $('#senha-recup-agenda').val();
+        const senhaConfirmacao = $('#senha-recup-agenda-confirmacao').val();
+        const email = $('#email-recuperar-senha').val(); // Pega o e-mail original do input inicial
+
+        if (!senha || !senhaConfirmacao) {
+            alert('Por favor, preencha todos os campos de senha.');
+            return;
+        }
+
+        if (senha !== senhaConfirmacao) {
+            alert('As senhas não coincidem.');
+            return;
+        }
+
+        $.ajax({
+            url: 'ajax/validacao-form.php',
+            method: 'POST',
+            data: {
+                nova_senha: senha,
+                email_nova_senha: email
+            },
+            dataType: 'json',
+            success: function (response) {
+                if (response.senhaAtualizada) {
+                    alert(response.mensagem);
+                    trocarBox('.form-recuperar-senha-nova-senha-js', '.form-login-js'); // Volta ao login
+                } else {
+                    alert(response.mensagem);
+                }
+            },
+            error: function () {
+                alert('Erro ao atualizar a senha. Tente novamente.');
+            }
+        });
+    });
+    
+}
 
 
 function preencherCep(cep){
@@ -77,6 +193,7 @@ function preencherCep(cep){
                     }
                 },
                 error: function () {
+                    $('.login-agenda').removeClass('carregando');
                     exibirNotificacao('erro', 'Erro ao consultar o CEP. Tente novamente.');
                 }
             });

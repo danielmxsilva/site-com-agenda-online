@@ -864,7 +864,7 @@ section{
 }
 
 .valor-especial::before {
-  content: "Tarifa Especial";
+  content: "Tarifa Adicional";
   display: inline-block; /* Mantém o conteúdo em linha */
  	background-color: #cd1973;
   color: #fff;
@@ -1477,7 +1477,7 @@ span.preco-single{
 	transition: 0.5s;
 }
 
-.form-telefone-login, .form-informacoes-cliente {
+.form-telefone-login, .form-informacoes-cliente,.form-recuperar-login {
   margin: 20px 0;
   padding: 20px;
   background: #ffffff;
@@ -1503,7 +1503,7 @@ span.preco-single{
   font-weight: bold;
 }
 
-.form-telefone-login{
+.form-telefone-login,.form-recuperar-login{
 	position: relative;
 	left: 50%;
 	top: 42%;
@@ -1622,6 +1622,22 @@ span.preco-single{
 
 .form-login-senha-agenda{
 	display: none;
+}
+
+.checkbox-login-lembrar{
+	float: left;
+}
+
+.btn-esqueci-senha{
+	float: right;
+}
+
+.btn-esqueci-senha button{
+	all: unset;
+	font-size: 0.9em;
+	color: #333;
+	text-decoration: underline;
+	cursor: pointer;
 }
 
 .checkbox-login-lembrar span{

@@ -4405,7 +4405,7 @@ HTML;
 				      </div>
 
 				      <div class="wraper-form-single" style="margin-top: 35px;">
-				        <input type="submit" name="acao-validar-telefone-login-agenda" value="Validar">
+				        <input type="submit" name="acao-validar-telefone-login-agenda" value="Continuar">
 				      </div>
 
 				    </fieldset>
@@ -4417,17 +4417,80 @@ HTML;
 				        <input style="height: 45px;" type="password" id="senha-login-agenda" name="senha-login-agenda" placeholder=" " required>
 			
 				        <span class="toggle-password" onclick="togglePasswordVisibility()"><i class="fa-solid fa-eye-slash"></i></span>
-				      </div>
+				     </div>
 
 				      <div class="wraper-form-single checkbox-login-lembrar">
 				        <input type="checkbox" name="lembrar_login"> <span>Lembrar Login</span>
 				      </div>
 
-				      <div class="wraper-form-single">
+				      <div class="wraper-form-single btn-esqueci-senha">
+				      	<button class="btn-esqueci-senha">Esqueci minha senha</button>
+				      </div><!--btn-esqueci-senha-->
+
+				      <div class="wraper-form-single" style="position:static;">
 				        <input type="submit" name="acao-validar-telefone-login-agenda" value="Validar">
 				      </div>
 
 				</form><!--form-senha-agenda-->
+			</div><!--form-telefone-login-->
+
+			<div class="form-recuperar-login form-recuperar-senha-email-js" style="display:none;">
+				<form class="form-recuperar-login-form form-recup-senha-email-js">
+				    <fieldset>
+				      <legend class="color-p">Coloque seu E-mail cadastrado</legend>
+
+				      <div class="wraper-form-single">
+				        <input type="email" id="email-recuperar-senha" name="email-recuperar-senha" placeholder=" " required>
+				        <label for="email-recuperar-senha">E-mail</label>
+				      </div>
+
+				      <div class="wraper-form-single" style="margin-top: 35px;">
+				        <input type="submit" name="acao-receber-codigo" value="Enviar Codigo">
+				      </div>
+
+				    </fieldset>
+				</form><!--form-login-agenda-->
+			</div><!--form-telefone-login-->
+
+			<div class="form-recuperar-login form-recuperar-senha-codigo-js" style="display:none;">
+				<form class="form-recuperar-login-form form-recup-senha-codigo-js">
+				    <fieldset>
+				      <legend class="color-p">Digite o código que enviamos ao seu e-mail</legend>
+
+				      <div class="wraper-form-single">
+				        <input type="text" id="codigo-recuperar-senha" name="codigo-recuperar-senha" placeholder=" " required>
+				        <label for="telefone-login-agenda">Código</label>
+				      </div>
+
+				      <div class="wraper-form-single" style="margin-top: 35px;">
+				        <input type="submit" name="acao-digitar-codigo" value="Validar código">
+				      </div>
+
+				    </fieldset>
+				</form><!--form-login-agenda-->
+			</div><!--form-telefone-login-->
+
+			<div class="form-recuperar-login form-recuperar-senha-nova-senha-js" style="display:none;">
+				<form class="form-recuperar-login-form form-recup-senha-nova-senha-js">
+				    <fieldset>
+				      <legend class="color-p">Digite sua nova senha</legend>
+
+				      <div class="wraper-form-single">
+			        	<input type="password" id="senha-recup-agenda" name="senha-recup-agenda" placeholder=" ">
+			        	<label for="senha-cadastro-agenda">Sua Senha</label>
+			      	</div>
+
+				      <div class="wraper-form-single">
+				        <input type="password" id="senha-recup-agenda-confirmacao" name="senha-recup-agenda-confirmacao" placeholder=" ">
+				        <label for="senha-cadastro-agenda">Repita sua Senha</label>
+				      </div>
+
+				      <div class="wraper-form-single" style="margin-top: 35px;">
+				        <input type="submit" name="acao-validar-nova-senha" value="Validar nova senha">
+				      </div>
+
+				    </fieldset>
+				</form><!--form-login-agenda-->
 			</div><!--form-telefone-login-->
 
 			 <form class="form-informacoes-cliente">
@@ -4496,7 +4559,7 @@ HTML;
 			        <input type="checkbox" name="consentimento" id="consentimento-checkbox"> <span>Li e concordo com a <a href="<?php echo INCLUDE_PATH;?>politica-de-privacidade-e-termos-de-uso" style="text-decoration: underline; color: #333;">Política de Privacidade</a></span>
 			      </div>
 
-			      <div class="wraper-form-single">
+			      <div class="wraper-form-single" style="position:static;">
 			        <input type="submit" name="acao-novo-cadastro" value="Confirmar" class="acao-novo-cadastro">
 			      </div>
 

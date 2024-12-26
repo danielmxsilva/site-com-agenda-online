@@ -11,6 +11,11 @@
 
 	$token = filter_input(INPUT_POST, 'token', FILTER_SANITIZE_STRING);
 
+	$email_recuperar = filter_input(INPUT_POST, 'email_recuperar', FILTER_SANITIZE_STRING);
+
+	$codigo_recuperacao = filter_input(INPUT_POST, 'codigo_recuperacao', FILTER_SANITIZE_STRING);
+
+
 	// Obtém o endereço_id enviado via POST
 	//$endereco_id = filter_input(INPUT_POST, 'endereco_id', FILTER_SANITIZE_NUMBER_INT);
 
@@ -185,7 +190,93 @@
 	        echo json_encode(['tokenValido' => false, 'erro' => $e->getMessage()]);
 	    }
 
-	} else {
+	} elseif ($email_recuperar){
+
+		$pdo = Mysql::conectar();
+
+        // Verifica se o email existe no banco de dados
+        $sql = "SELECT * FROM tb_clientes WHERE email = ?";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$email_recuperar]);
+        $registro = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($registro) {
+            // Gera um código de recuperação e salva no banco
+            $codigo = rand(100000, 999999); // Código de 6 dígitos
+            $expiracao = date('Y-m-d H:i:s', strtotime('+15 minutes')); // Expira em 15 minutos
+
+            $sqlCodigo = "INSERT INTO tb_codigos_recuperacao (email, codigo, expira_em) VALUES (?, ?, ?)
+                          ON DUPLICATE KEY UPDATE codigo = VALUES(codigo), expira_em = VALUES(expira_em)";
+            $stmtCodigo = $pdo->prepare($sqlCodigo);
+            $stmtCodigo->execute([$email_recuperar, $codigo, $expiracao]);
+
+            // Enviar o código por e-mail
+            require 'enviar_email.php';
+            if (enviarCodigoRecuperacao($email_recuperar, $codigo)) {
+                echo json_encode(['emailEncontrado' => true, 'mensagem' => 'O código foi enviado ao seu e-mail.']);
+            } else {
+                echo json_encode(['emailEncontrado' => false, 'mensagem' => 'Erro ao enviar o e-mail. Tente novamente.']);
+            }
+        } else {
+            echo json_encode([
+                'emailEncontrado' => false,
+                'mensagem' => 'Email não encontrado no sistema.'
+            ]);
+        }
+     
+		
+
+	} elseif ($codigo_recuperacao) {
+
+		$pdo = Mysql::conectar();
+
+        // Valida o código de recuperação
+        $sql = "SELECT * FROM tb_codigos_recuperacao WHERE codigo = ? AND expira_em > NOW()";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$codigo_recuperacao]);
+        $registro = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($registro) {
+            echo json_encode([
+                'codigoValido' => true,
+                'mensagem' => 'Código de recuperação válido.',
+                'email' => $registro['email']
+            ]);
+        } else {
+            echo json_encode([
+                'codigoValido' => false,
+                'mensagem' => 'Código de recuperação inválido ou expirado.'
+            ]);
+        }
+
+    } elseif ($nova_senha) {
+
+    	$pdo = Mysql::conectar();
+
+        // Atualiza a senha do usuário
+        $email = filter_input(INPUT_POST, 'email_nova_senha', FILTER_SANITIZE_EMAIL);
+        $hashSenha = password_hash($nova_senha, PASSWORD_DEFAULT);
+
+        $sql = "UPDATE tb_clientes SET senha_login = ? WHERE email = ?";
+        $stmt = $pdo->prepare($sql);
+        if ($stmt->execute([$hashSenha, $email])) {
+            // Remove os códigos de recuperação após a redefinição da senha
+            $sqlRemoveCodigos = "DELETE FROM tb_codigos_recuperacao WHERE email = ?";
+            $stmtRemove = $pdo->prepare($sqlRemoveCodigos);
+            $stmtRemove->execute([$email]);
+
+            echo json_encode([
+                'senhaAtualizada' => true,
+                'mensagem' => 'Senha atualizada com sucesso.'
+            ]);
+        } else {
+            echo json_encode([
+                'senhaAtualizada' => false,
+                'mensagem' => 'Erro ao atualizar a senha. Tente novamente.'
+            ]);
+        }
+
+    } else {
 	    echo json_encode(['error' => 'parametros inválidos.']);
 	}
 

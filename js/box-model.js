@@ -32,7 +32,7 @@ function clickDia() {
                 const tarifaEspecial = `
                     <div class="selecao-single flex box-tarifa-especial">
                         <div class="txt-p">
-                            <span class="p-single">Tarifa Especial</span>
+                            <span class="p-single">Tarifa Adicional</span>
                         </div>
                         <div class="duracao">
                             <span class="color-p"></span>
@@ -687,6 +687,8 @@ function closeModal() {
 
     $('input[type=text]').val('');
     $('input[type=password]').val('');
+    $('input[type=email]').val('');
+    $('input[type=file]').val('');
     $('input[type=submit]').fadeIn();
 
     } catch (error){
@@ -724,6 +726,12 @@ function closeModal() {
         <option value="Itupeva">Itupeva</option>
         <option value="Jundiaí">Jundiaí</option>
     `).prop('disabled', false);
+
+    $('.form-recuperar-senha-js').css('display','none');
+    $('.form-recuperar-senha-email-js').css('display','none');
+    $('.form-recuperar-senha-nova-senha-js').css('display','none');
+    $('.form-recuperar-senha-codigo-js').css('display','none');
+    $('.form-login-js').css('display','block');
 
     localStorage.clear();
 
