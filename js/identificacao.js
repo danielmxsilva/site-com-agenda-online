@@ -23,8 +23,160 @@ $(document).ready(function(){
      divPai: '.login-agenda'
   });
 
+  $('.btn-esqueci-senha').click(function(e){
+     e.preventDefault();
+     trocarBox('.form-login-js', '.form-recuperar-senha-email-js');
+  })
+
+  recuperarSenha();
+
 
 })
+
+function recuperarSenha(){
+
+    $('.form-recup-senha-email-js').on('submit', function (e) {
+        
+        e.preventDefault();
+        console.log('evento de click form email recuperar dispararo');
+
+        const email = $('#email-recuperar-senha').val();
+        const submitButton = $(this).find('input[type="submit"]');
+
+        if (!email) {
+            exibirNotificacao('erro', 'Por favor, insira um e-mail válido.');
+            return;
+        }
+
+        submitButton.val('Enviando...').prop('disabled', true);
+        $('.login-agenda').addClass('carregando');
+
+        $.ajax({
+            url: 'ajax/validacao-form.php',
+            method: 'POST',
+            data: { email_recuperar: email },
+            dataType: 'json',
+            beforeSend: function () {
+                // Limpa os campos antes da consulta
+                console.log("Requisição está sendo enviada");
+            },
+            success: function (response) {
+                submitButton.val('Enviar Codigo').prop('disabled', false);
+                $('.login-agenda').removeClass('carregando');
+                console.log("Resposta recebida:", response);
+                if (response && response.emailEncontrado) {
+                    exibirNotificacao('sucesso', response.mensagem);
+                    trocarBox('.form-recuperar-senha-email-js', '.form-recuperar-senha-codigo-js');
+                } else {
+                    exibirNotificacao('erro', response.mensagem);
+                }
+                console.log("Resposta recebida:", response);
+            },
+            error: function (xhr, status, error) {
+                submitButton.val('Enviar Codigo').prop('disabled', false);
+                $('.login-agenda').removeClass('carregando');
+                exibirNotificacao('erro','Erro ao enviar o e-mail. Tente novamente.');
+                console.log("Resposta do servidor:", xhr.responseText);
+                console.error("Erro na requisição:", status, error);
+            }
+        });
+    });
+
+    // Validar código de recuperação
+    $('.form-recup-senha-codigo-js').on("submit", function (event) {
+        event.preventDefault();
+
+        const codigo = $('#codigo-recuperar-senha').val();
+        if (!codigo) {
+            exibirNotificacao('erro','Digite o código que enviamos para o seu e-mail.');
+            return;
+        }
+
+        $.ajax({
+            url: 'ajax/validacao-form.php',
+            method: 'POST',
+            data: { codigo_recuperacao: codigo },
+            dataType: 'json',
+            success: function (response) {
+                if (response.codigoValido) {
+                    exibirNotificacao('sucesso', response.mensagem);
+                    trocarBox('.form-recuperar-senha-codigo-js', '.form-recuperar-senha-nova-senha-js');
+                } else {
+                    exibirNotificacao('erro', response.mensagem);
+                }
+            },
+            error: function () {
+                exibirNotificacao('erro', 'Erro ao validar o código. Tente novamente.');
+            }
+        });
+    });
+
+    // Atualizar nova senha
+    $('.form-recup-senha-nova-senha-js').on("submit", function (event) {
+        event.preventDefault();
+
+        const divPai = $('.form-recuperar-senha-nova-senha-js');
+        const senhaNova = $('#senha-recup-agenda').val();
+        const senhaConfirmacao = $('#senha-recup-agenda-confirmacao').val();
+        const email = $('#email-recuperar-senha').val(); // Pega o e-mail original do input inicial
+
+        if (!senhaNova || !senhaConfirmacao) {
+            exibirNotificacao('erro', 'Por favor, preencha todos os campos de senha.');
+            return;
+        }
+
+        if (senhaNova !== senhaConfirmacao) {
+            exibirNotificacao('erro', 'As senhas não coincidem.');
+            return;
+        }
+
+        const errosNovaSenha = validarSenha(senhaNova, senhaConfirmacao);
+        if (errosNovaSenha.length > 0) {
+            exibirNotificacao('erro', errosNovaSenha.join("<br>"));
+            $(divPai).removeClass('carregando');
+            return;
+        }
+
+        // 2. Validar sequências (SEGUNDA ETAPA - SÓ EXECUTA SE PASSOU NA ETAPA 1)
+        if (contemSequencia(senhaNova)) {
+            exibirNotificacao('erro', "A senha não pode conter sequências!");
+            $(divPai).removeClass('carregando');
+            return; // Para a validação se encontrar sequências
+        }
+
+        // 3. Validar senhas óbvias (TERCEIRA ETAPA - SÓ EXECUTA SE PASSOU NAS ETAPAS ANTERIORES)
+        if (senhaEhObvia(senhaNova)) {
+            exibirNotificacao('erro', "A senha é muito óbvia!");
+            $(divPai).removeClass('carregando');
+            return; // Para a validação se a senha for óbvia
+        }
+
+
+        $.ajax({
+            url: 'ajax/validacao-form.php',
+            method: 'POST',
+            data: {
+                nova_senha: senhaNova,
+                email_nova_senha: email
+            },
+            dataType: 'json',
+            success: function (response) {
+                if (response.senhaAtualizada) {
+                    exibirNotificacao('sucesso', response.mensagem);
+                    $('#senha-login-agenda').val('');
+                    trocarBox('.form-recuperar-senha-nova-senha-js', '.form-login-js'); // Volta ao login
+                } else {
+                    exibirNotificacao('erro', response.mensagem);
+                }
+            },
+            error: function () {
+                exibirNotificacao('erro', 'Erro ao atualizar a senha. Tente novamente.');
+            }
+        });
+    });
+    
+}
+
 
 function aplicarMascaraTelefone(seletor) {
     const maskTelefone = (value) => {

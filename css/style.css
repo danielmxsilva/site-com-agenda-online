@@ -1644,8 +1644,7 @@ legend.codigo-info .codigo-dica {
 	float: right;
 }
 
-.btn-esqueci-senha button{
-	all: unset;
+.btn-esqueci-senha a{
 	font-size: 0.9em;
 	color: #333;
 	text-decoration: underline;

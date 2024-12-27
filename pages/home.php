@@ -4305,7 +4305,7 @@ HTML;
 				      </div>
 
 				      <div class="wraper-form-single btn-esqueci-senha">
-				      	<button class="btn-esqueci-senha">Esqueci minha senha</button>
+				      	<a class="btn-esqueci-senha">Esqueci minha senha</a>
 				      </div><!--btn-esqueci-senha-->
 
 				      <div class="wraper-form-single" style="position:static;">

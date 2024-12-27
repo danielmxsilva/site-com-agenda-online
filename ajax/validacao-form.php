@@ -347,34 +347,56 @@
             exit;
         }
 
-    } elseif ($nova_senha) {
+    } elseif (isset($_POST['nova_senha']) && isset($_POST['email_nova_senha'])) {
 
-    	$pdo = Mysql::conectar();
-
+    	$nova_senha = filter_input(INPUT_POST, 'nova_senha', FILTER_SANITIZE_STRING);
         // Atualiza a senha do usuário
         $email = filter_input(INPUT_POST, 'email_nova_senha', FILTER_SANITIZE_EMAIL);
-        $hashSenha = password_hash($nova_senha, PASSWORD_DEFAULT);
+        
+        if (!$nova_senha || !$email) {
+	        echo json_encode([
+	            'error' => 'parametros inválidos.'
+	        ]);
+	        exit;
+	    }
 
-        $sql = "UPDATE tb_clientes SET senha_login = ? WHERE email = ?";
-        $stmt = $pdo->prepare($sql);
-        if ($stmt->execute([$hashSenha, $email])) {
-            // Remove os códigos de recuperação após a redefinição da senha
-            $sqlRemoveCodigos = "DELETE FROM tb_codigos_recuperacao WHERE email = ?";
-            $stmtRemove = $pdo->prepare($sqlRemoveCodigos);
-            $stmtRemove->execute([$email]);
+	    try{
 
-            echo json_encode([
-                'senhaAtualizada' => true,
-                'mensagem' => 'Senha atualizada com sucesso.'
-            ]);
-            exit;
-        } else {
-            echo json_encode([
-                'senhaAtualizada' => false,
-                'mensagem' => 'Erro ao atualizar a senha. Tente novamente.'
-            ]);
-            exit;
-        }
+	    	$pdo = Mysql::conectar();
+
+	    
+
+        	$hashSenha = password_hash($nova_senha, PASSWORD_DEFAULT);
+
+        	$sql = "UPDATE tb_clientes SET senha_login = ? WHERE email = ?";
+        	$stmt = $pdo->prepare($sql);
+	        if ($stmt->execute([$hashSenha, $email])) {
+	            // Remove os códigos de recuperação após a redefinição da senha
+	            $sqlRemoveCodigos = "DELETE FROM tb_codigos_recuperacao WHERE email = ?";
+	            $stmtRemove = $pdo->prepare($sqlRemoveCodigos);
+	            $stmtRemove->execute([$email]);
+
+	            echo json_encode([
+	                'senhaAtualizada' => true,
+	                'mensagem' => 'Senha atualizada com sucesso.'
+	            ]);
+	            exit;
+	        } else {
+	            echo json_encode([
+	                'senhaAtualizada' => false,
+	                'mensagem' => 'Erro ao atualizar a senha. Tente novamente.'
+	            ]);
+	            exit;
+	        }
+
+	     } catch (Exception $e) {
+        	error_log("Erro na redefinição de senha: " . $e->getMessage());
+	        echo json_encode([
+	            'senhaAtualizada' => false,
+	            'mensagem' => 'Erro no servidor. Por favor, tente novamente.'
+	        ]);
+	        exit;
+	      }
 
     } else {
 	    echo json_encode(['error' => 'parametros inválidos.']);
