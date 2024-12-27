@@ -2,6 +2,8 @@
 
 	include('../config.php');
 
+	file_put_contents('log.txt', "validacao-form.php chamado em " . date('Y-m-d H:i:s') . "\n", FILE_APPEND);
+
 	// Define o cabeçalho para a resposta ser no formato JSON
 	header('Content-Type: application/json');
 	ob_clean(); // Limpa qualquer saída anterior
@@ -224,31 +226,77 @@
         $registro = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($registro) {
-            // Gera um código de recuperação e salva no banco
-            $codigo = rand(100000, 999999); // Código de 6 dígitos
-            $expiracao = date('Y-m-d H:i:s', strtotime('+15 minutes')); // Expira em 15 minutos
 
-            $sqlCodigo = "INSERT INTO tb_codigos_recuperacao (email, codigo, expira_em) VALUES (?, ?, ?)
-                          ON DUPLICATE KEY UPDATE codigo = VALUES(codigo), expira_em = VALUES(expira_em)";
-            $stmtCodigo = $pdo->prepare($sqlCodigo);
-            $stmtCodigo->execute([$email_recuperar, $codigo, $expiracao]);
+        	$sqlCodigo = "SELECT * FROM tb_codigos_recuperacao WHERE email = ?";
+			$stmtCodigo = $pdo->prepare($sqlCodigo);
+			$stmtCodigo->execute([$email_recuperar]);
+			$registroCodigo = $stmtCodigo->fetch(PDO::FETCH_ASSOC);
 
-            // Enviar o código por e-mail
-            require_once 'enviar_email.php';
-            if (enviarCodigoRecuperacao($email_recuperar, $codigo)) {
-                echo json_encode([
-                	'emailEncontrado' => true, 
-                	'mensagem' => 'O código foi enviado ao seu e-mail.'
-                ]);
-                exit;
-            } else {
-                echo json_encode([
-                	'emailEncontrado' => false, 
-                	'mensagem' => 'Erro ao enviar o e-mail. Tente novamente.'
-                ]);
-                exit;
-            }
-        } else {
+			if ($registroCodigo) {
+			    // Se já existir um código, verifique se ele ainda está válido
+			    if (strtotime($registroCodigo['expira_em']) > time()) {
+			        // Código ainda válido, não gera novo
+			        echo json_encode([
+			            'emailEncontrado' => false,
+			            'mensagem' => 'Você já solicitou um código de recuperação recentemente. Tente novamente em 15 minutos.'
+			        ]);
+			        exit;
+			    } else {
+
+		            // Gera um código de recuperação e salva no banco
+		            $codigo = rand(100000, 999999); // Código de 6 dígitos
+		            $expiracao = date('Y-m-d H:i:s', strtotime('+15 minutes')); // Expira em 15 minutos
+
+		            $sqlUpdate = "UPDATE tb_codigos_recuperacao SET codigo = ?, expira_em = ? WHERE email = ?";
+		            $stmtUpdate = $pdo->prepare($sqlUpdate);
+		        	$stmtUpdate->execute([$codigo, $expiracao, $email_recuperar]);
+
+		        	// Enviar o código por e-mail
+		            require_once 'enviar_email.php';
+		            if (enviarCodigoRecuperacao($email_recuperar, $codigo)) {
+		                echo json_encode([
+		                	'emailEncontrado' => true, 
+		                	'mensagem' => 'O código foi enviado ao seu e-mail.'
+		                ]);
+		                exit;
+		            } else {
+		                echo json_encode([
+		                	'emailEncontrado' => false, 
+		                	'mensagem' => 'Erro ao enviar o e-mail. Tente novamente.'
+		                ]);
+		                exit;
+		            }
+		        }
+
+            
+	        } else {
+			    // Se não existir, insira um novo código
+			    $codigo = rand(100000, 999999); // Gera um código de 6 dígitos
+			    $expiracao = date('Y-m-d H:i:s', strtotime('+15 minutes')); // Expira em 15 minutos
+
+			    $sqlInsert = "INSERT INTO tb_codigos_recuperacao (email, codigo, expira_em) VALUES (?, ?, ?)";
+			    $stmtInsert = $pdo->prepare($sqlInsert);
+			    $stmtInsert->execute([$email_recuperar, $codigo, $expiracao]);
+
+			    // Enviar o código por e-mail
+	            require_once 'enviar_email.php';
+	            if (enviarCodigoRecuperacao($email_recuperar, $codigo)) {
+	                echo json_encode([
+	                	'emailEncontrado' => true, 
+	                	'mensagem' => 'O código foi enviado ao seu e-mail.'
+	                ]);
+	                exit;
+	            } else {
+	                echo json_encode([
+	                	'emailEncontrado' => false, 
+	                	'mensagem' => 'Erro ao enviar o e-mail. Tente novamente.'
+	                ]);
+	                exit;
+	            }
+
+			} 
+
+		}else {
             echo json_encode([
                 'emailEncontrado' => false,
                 'mensagem' => 'Email não encontrado no sistema.'

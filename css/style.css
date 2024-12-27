@@ -1503,6 +1503,18 @@ span.preco-single{
   font-weight: bold;
 }
 
+legend.codigo-info {
+    
+}
+
+legend.codigo-info .codigo-dica {
+    display: block;
+    font-size: 12px;
+    color: #555;
+    margin-top: 7px;
+    font-style: italic;
+}
+
 .form-telefone-login,.form-recuperar-login{
 	position: relative;
 	left: 50%;

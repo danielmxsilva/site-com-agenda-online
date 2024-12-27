@@ -44,10 +44,11 @@ $(document).ready(function(){
 
     atualizarBotao();
 
+    recuperarSenha();
+
     $('.btn-esqueci-senha').click(function(e){
         e.preventDefault();
         trocarBox('.form-login-js', '.form-recuperar-senha-email-js');
-        recuperarSenha();
     })
 
 })
@@ -56,14 +57,21 @@ $(document).ready(function(){
 
 function recuperarSenha(){
 
-    $('.form-recup-senha-email-js').on("submit", function (event) {
-        event.preventDefault();
+    $('.form-recup-senha-email-js').on('submit', function (e) {
+        
+        e.preventDefault();
+        console.log('evento de click form email recuperar dispararo');
 
         const email = $('#email-recuperar-senha').val();
+        const submitButton = $(this).find('input[type="submit"]');
+
         if (!email) {
             exibirNotificacao('erro', 'Por favor, insira um e-mail válido.');
             return;
         }
+
+        submitButton.val('Enviando...').prop('disabled', true);
+        $('.login-agenda').addClass('carregando');
 
         $.ajax({
             url: 'ajax/validacao-form.php',
@@ -73,9 +81,9 @@ function recuperarSenha(){
             beforeSend: function () {
                 // Limpa os campos antes da consulta
                 console.log("Requisição está sendo enviada");
-                $('.login-agenda').addClass('carregando');
             },
             success: function (response) {
+                submitButton.val('Enviar Codigo').prop('disabled', false);
                 $('.login-agenda').removeClass('carregando');
                 console.log("Resposta recebida:", response);
                 if (response && response.emailEncontrado) {
@@ -87,6 +95,7 @@ function recuperarSenha(){
                 console.log("Resposta recebida:", response);
             },
             error: function (xhr, status, error) {
+                submitButton.val('Enviar Codigo').prop('disabled', false);
                 $('.login-agenda').removeClass('carregando');
                 exibirNotificacao('erro','Erro ao enviar o e-mail. Tente novamente.');
                 console.log("Resposta do servidor:", xhr.responseText);

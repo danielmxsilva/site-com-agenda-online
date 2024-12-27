@@ -4336,7 +4336,9 @@ HTML;
 			<div class="form-recuperar-login form-recuperar-senha-codigo-js" style="display:none;">
 				<form class="form-recuperar-login-form form-recup-senha-codigo-js">
 				    <fieldset>
-				      <legend class="color-p">Digite o código que enviamos ao seu e-mail</legend>
+				      	<legend class="codigo-info">Digite o código que enviamos ao seu e-mail 
+					        <span class="codigo-dica">Aguarde! Normalmente, você recebe o código em menos de 1 minuto.</span>
+					    </legend>
 
 				      <div class="wraper-form-single">
 				        <input type="text" id="codigo-recuperar-senha" name="codigo-recuperar-senha" placeholder=" " required>
