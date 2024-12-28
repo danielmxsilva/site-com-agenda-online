@@ -324,12 +324,17 @@
 
 	} elseif ($codigo_recuperacao) {
 
+		//date_default_timezone_set('America/Sao_Paulo');
+
+		$hora_atual = date('Y-m-d H:i:s');
+
 		$pdo = Mysql::conectar();
 
         // Valida o código de recuperação
-        $sql = "SELECT * FROM tb_codigos_recuperacao WHERE codigo = ? AND expira_em > NOW()";
+        $sql = "SELECT * FROM tb_codigos_recuperacao WHERE codigo = ? AND expira_em > ?";
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([$codigo_recuperacao]);
+        $stmt->execute([$codigo_recuperacao, $hora_atual]);
+
         $registro = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($registro) {
