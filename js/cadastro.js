@@ -1,10 +1,12 @@
 $(document).ready(function(){
 
+    fotoValidacao('input[name="foto-cadastro"]');
+
 	novoCadastro({
       formSelector: '.form-informacoes-cliente',
       mensagemSucesso: 'Cadastro concluido com sucesso!',
       endpoint: 'ajax/validacao-form.php',
-      divPai: '.login-agenda'
+      divPai: '.login-agenda',
     });
 
     //recuperarSenha();
@@ -51,6 +53,55 @@ $(document).ready(function(){
 
 // Verifica o estado inicial do checkbox
 
+function fotoValidacao(input){
+
+    // Clique no preview da imagem
+    $('#image-preview').on('click', function () {
+        $(input).click();
+    });
+
+    // Clique no texto "Nenhum arquivo selecionado"
+    $('#file-name').on('click', function () {
+        $(input).click();
+    });
+
+    $(input).on('change', function (e) {
+        const file = e.target.files[0]; // Obtém o arquivo selecionado
+
+        if (file) {
+
+            const validExtensions = ['jpg', 'jpeg', 'png']; // Extensões permitidas
+            const fileExtension = file.name.split('.').pop().toLowerCase(); // Obtém a extensão do arquivo
+
+            // Verifica se a extensão do arquivo é válida
+            if (!validExtensions.includes(fileExtension)) {
+                // Exibe erro e reseta o input
+                exibirNotificacao('erro', "Apenas imagem .jpg, .jpeg ou .png são permitidos.");
+                $(this).val(''); // Limpa o input file
+                $('#preview-foto').hide(); // Esconde o preview
+                $('#file-name').text('Nenhum arquivo selecionado'); // Reseta o texto
+                return; // Sai da função
+            }
+
+            const reader = new FileReader();
+
+            // Atualiza o preview
+            reader.onload = function (e) {
+                $('#preview-foto').attr('src', e.target.result).show(); // Mostra o preview
+            };
+
+            reader.readAsDataURL(file); // Lê o arquivo como URL de dados
+
+            // Atualiza o nome do arquivo no texto
+            $('#file-name').text(file.name);
+        } else {
+            $('#preview-foto').hide(); // Esconde o preview se nenhum arquivo for selecionado
+            $('#file-name').text('Nenhum arquivo selecionado'); // Reseta o texto
+        }
+    });
+
+}
+
 function preencherCep(cep){
 	 $(cep).on('blur', function () {
         const cep = $(this).val().replace(/\D/g, '');
@@ -94,11 +145,22 @@ function preencherCep(cep){
 
 function novoCadastro(config) {
 
-    const { formSelector, mensagemSucesso, endpoint, divPai } = config;
+    const { formSelector, mensagemSucesso, endpoint, divPai} = config;
 
     $(formSelector).on("submit", function (event) {
 
         event.preventDefault();
+
+        // Recupera o valor do telefone antes de enviar o formulário
+        const telefoneCadastroValor = localStorage.getItem('telefone_cadastro') || '';
+        console.log('Telefone recuperado do localStorage:', telefoneCadastroValor);
+
+        // Valida se o telefone foi preenchido corretamente
+        if (!telefoneCadastroValor) {
+            exibirNotificacao('erro', 'Número de telefone ausente ou ocorreu um erro. Por favor, atualize o site e tente novamente.');
+            console.log('Telefone recuperado do localStorage:', telefoneCadastroValor);
+            return;
+        }
 
         $(divPai).addClass('carregando');
 
@@ -112,7 +174,10 @@ function novoCadastro(config) {
         var rua_cadastro = $('input[name="rua-casa-login-agenda"]').val();
         var nmr_casa_cadastro = $('input[name="n-casa-login-agenda"]').val();
 
+        var foto_perfil = $('input[name="foto-cadastro"]');
+        var arquivo = foto_perfil[0].files[0];
 
+        
 
         const cidade = $('#cidade-login-agenda').val(); // Obtém o valor selecionado
         const cidadesPermitidas = ["Itupeva", "Jundiaí"];
@@ -192,10 +257,63 @@ function novoCadastro(config) {
             return; // Impede o envio do formulário
         }
 
-        trocarBox('.login-agenda', '.js-box-pagamento-agenda', duracao = 400);
-        exibirNotificacao('sucesso', 'Cadastro Criado!');
+        const formData = new FormData($(formSelector)[0]);
 
-        $(divPai).removeClass('carregando'); // Remove a classe após sucesso
+        formData.append('telefone_cadastro', telefoneCadastroValor);
+        formData.append('senha_cadastro', senha_cadastro);
+        formData.append('senha_cadastro_confirmar', senha_cadastro_confirmar);
+        formData.append('nome_cadastro', nome_cadastro);
+        formData.append('email_cadastro', email_cadastro);
+        formData.append('cep_cadastro', cep_cadastro);
+        formData.append('cidade_cadastro', cidade_cadastro);
+        formData.append('bairro_cadastro', bairro_cadastro);
+        formData.append('rua_cadastro', rua_cadastro);
+        formData.append('nmr_casa_cadastro', nmr_casa_cadastro);
+
+
+        if (arquivo) {
+            // Caso tenha uma foto
+            formData.append('foto_cadastro', arquivo); // Adiciona o arquivo ao FormData
+            console.log("Foto adicionada:", arquivo);
+        } else {
+            // Caso não tenha uma foto
+            formData.append('foto_cadastro', null); // Adiciona um valor nulo para indicar ausência de foto
+            console.log("Nenhuma foto foi adicionada.");
+        }
+
+        // Adiciona um identificador para o backend saber que tipo de formulário está enviando
+        formData.append('formulario', 'cadastro_cliente');
+
+        // Imprime os valores do formData no console
+    
+        // Envia o POST via AJAX
+        
+        $.ajax({
+            url: 'ajax/validacao-form.php',
+            method: 'POST',
+            data: formData,
+            contentType: false, // Necessário para enviar arquivos
+            processData: false, // Necessário para enviar arquivos
+            dataType: 'json',
+            success: function (response) {
+                if (response.success) {
+                    exibirNotificacao('sucesso', response.mensagem);
+                    trocarBox('.login-agenda', '.js-box-pagamento-agenda', 400); // Exemplo de navegação
+                } else {
+                    exibirNotificacao('erro', response.mensagem);
+                }
+                //$(divPai).removeClass('carregando');
+            },
+            error: function () {
+                exibirNotificacao('erro', 'Erro ao enviar o formulário. Tente novamente.');
+                $(divPai).removeClass('carregando');
+            },
+            complete: function () {
+                $(divPai).removeClass('carregando'); // Remove a classe carregando ao finalizar
+            }
+        });
+
+        
 
     })
 

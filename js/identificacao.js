@@ -263,6 +263,10 @@ function validarEConsultarFormulario(config) {
                             $(".js-error-modal-agenda-servicos").stop(true, true).fadeIn().delay(5000).fadeOut();
 
                             $('.js-error-modal-agenda-servicos .txt-p').text(mensagemErro);
+
+                            // Salva o telefone no localStorage
+                            localStorage.setItem('telefone_cadastro', phoneInput);
+                            
                             formInformacoes();
 
                         }

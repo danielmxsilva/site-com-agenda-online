@@ -398,6 +398,111 @@
 	        exit;
 	      }
 
+    } elseif (isset($_POST['formulario']) && $_POST['formulario'] === 'cadastro_cliente'){
+
+    	// Receber os dados do formulário
+    	$telefone = filter_input(INPUT_POST, 'telefone_cadastro', FILTER_SANITIZE_STRING);
+        $senha = filter_input(INPUT_POST, 'senha_cadastro', FILTER_SANITIZE_STRING); // Sanitiza a senha
+		$senhaConfirmar = filter_input(INPUT_POST, 'senha_cadastro_confirmar', FILTER_SANITIZE_STRING); // Sanitiza a confirmação da senha
+		$nome = filter_input(INPUT_POST, 'nome_cadastro', FILTER_SANITIZE_STRING); // Sanitiza o nome
+		$email = filter_input(INPUT_POST, 'email_cadastro', FILTER_VALIDATE_EMAIL); // Valida e-mail
+		$cep = filter_input(INPUT_POST, 'cep_cadastro', FILTER_SANITIZE_STRING); // Sanitiza o CEP
+		$cidade = filter_input(INPUT_POST, 'cidade_cadastro', FILTER_SANITIZE_STRING); // Sanitiza a cidade
+		$bairro = filter_input(INPUT_POST, 'bairro_cadastro', FILTER_SANITIZE_STRING); // Sanitiza o bairro
+		$rua = filter_input(INPUT_POST, 'rua_cadastro', FILTER_SANITIZE_STRING); // Sanitiza a rua
+		$nmrCasa = filter_input(INPUT_POST, 'nmr_casa_cadastro', FILTER_VALIDATE_INT); // Valida número como inteiro
+
+        // Verifica a foto enviada
+        if (!empty($_FILES['foto_cadastro']['name'])) {
+            $foto = $_FILES['foto_cadastro'];
+
+            // Validação do tipo de arquivo
+            $extensoesPermitidas = ['jpg', 'jpeg', 'png'];
+            $extensao = pathinfo($foto['name'], PATHINFO_EXTENSION);
+
+            if (!in_array(strtolower($extensao), $extensoesPermitidas)) {
+                echo json_encode(['success' => false, 'mensagem' => 'Formato de foto inválido. Apenas JPG, JPEG e PNG são aceitos.']);
+                exit;
+            }
+
+            // Movendo o arquivo para a pasta desejada
+            $nomeArquivo = uniqid('foto_', true) . '.' . $extensao;
+            $caminhoDestino = BASE_DIR_PAINEL . '/uploads/' . $nomeArquivo;
+
+	            if (!move_uploaded_file($foto['tmp_name'], $caminhoDestino)) {
+	                echo json_encode(['success' => false, 'mensagem' => 'Erro ao salvar a foto. Tente novamente.']);
+	                exit;
+	            }
+        } else {
+            $nomeArquivo = null; // Sem foto enviada
+        }
+
+        if (!$email) {
+	        echo json_encode([
+	            'sucesso' => false,
+	            'mensagem' => 'E-mail inválido.'
+	        ]);
+	        exit;
+	    }
+
+	    try {
+		    // Conexão com o banco de dados
+		    $pdo = Mysql::conectar();
+
+		    // Verificar se o e-mail já existe no banco de dados
+		    $stmtEmail = $pdo->prepare("SELECT COUNT(*) FROM tb_clientes WHERE email = ?");
+		    $stmtEmail->execute([$email]);
+		    $emailExiste = $stmtEmail->fetchColumn();
+
+		    if ($emailExiste) {
+		        echo json_encode([
+		            'sucesso' => false,
+		            'mensagem' => 'Já existe um cadastro com esse e-mail.'
+		        ]);
+		        exit;
+		    }
+
+		    // Inserir dados na tabela tb_endereco
+		    $sqlEndereco = "INSERT INTO tb_endereco (cep, cidade, bairro, rua, numero_casa) VALUES (?, ?, ?, ?, ?)";
+		    $stmtEndereco = $pdo->prepare($sqlEndereco);
+		    $stmtEndereco->execute([$cep, $cidade, $bairro, $rua, $nmrCasa]);
+
+		    // Obter o id do último endereço inserido
+		    $enderecoId = $pdo->lastInsertId();
+
+		    // Inserir dados na tabela tb_clientes
+		    $senhaHash = password_hash($senha, PASSWORD_DEFAULT); // Armazenar a senha de forma segura
+		    $sqlCliente = "INSERT INTO tb_clientes (endereco_id, nome, senha_login, email, foto_perfil_cliente, telefone, data_cadastro, atendido, add_cliente) 
+		                   VALUES (?, ?, ?, ?, ?, ?, NOW(), '0', '1')";
+		    $stmtCliente = $pdo->prepare($sqlCliente);
+		    $stmtCliente->execute([$enderecoId, $nome, $senhaHash, $email, $nomeArquivo ?? null, $telefone]);
+
+		    // Resposta de sucesso
+		    echo json_encode([
+		        'sucesso' => true,
+		        'mensagem' => 'Cadastro realizado com sucesso!'
+		    ]);
+
+		} catch (PDOException $e) {
+		    // Caso ocorra um erro na conexão ou nas consultas
+		    error_log("Erro no banco de dados: " . $e->getMessage());
+		    echo json_encode([
+		        'sucesso' => false,
+		        'mensagem' => 'Erro ao conectar ou processar os dados no banco de dados.'
+		    ]);
+		    exit;
+		}
+
+        // Processar os outros dados do formulário (salvar no banco de dados, etc.)
+
+        // Debug fora das variáveis
+		
+
+
+        // Exemplo de retorno de sucesso
+        echo json_encode(['success' => true, 'mensagem' => 'Cadastro realizado com sucesso!']);
+        exit;
+
     } else {
 	    echo json_encode(['error' => 'parametros inválidos.']);
 	    exit;

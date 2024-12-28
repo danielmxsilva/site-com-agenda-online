@@ -25,7 +25,7 @@ usuarios {
 }
 
 
-enderecos {
+tb_endereco {
     id int pk
     cep varchar
     cidade varchar
@@ -80,10 +80,13 @@ financeiro {
     atualizado_em datetime
 }
 
-clientes {
+tb_clientes {
     id int pk
-    endereco_id int > enderecos.id
+    endereco_id int > tb_endereco.id
     nome varchar
+    senha_login varchar
+    email varchar
+    foto_perfil_cliente
     data_cadastro date
     telefone varchar
     atendido enum

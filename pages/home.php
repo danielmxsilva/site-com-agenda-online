@@ -4405,6 +4405,30 @@ HTML;
 			        <label for="emaill-login-agenda">Seu melhor E-mail</label>
 			      </div>
 
+			     <div class="wraper-form-single file-css">
+
+				    <label for="foto-cadastro" style="position: static; color: #333; display: block; margin-left: 10px; cursor: pointer;">
+				        Foto do Perfil (Opcional)
+				    </label>
+
+				    <div class="flex-file">
+
+				    	<input style="display: none;" type="file" id="foto-cadastro" name="foto-cadastro" placeholder=" " accept="image/*">
+
+					    <div class="image-preview" id="image-preview" style="cursor: pointer; text-align: center;">
+
+					        <img id="preview-foto" src="#" alt="Preview da Foto" style="display: none;">
+
+					        <i class="fa-solid fa-user" style="font-size: 30px;text-align: center;padding-top: 10px; color: #9d9c9c;"></i>
+
+					    </div>
+
+				    	<span id="file-name" style="color: #555; cursor: pointer;">Nenhum arquivo selecionado</span>
+
+					</div><!--flex-file-->
+
+				 </div>
+
 			      <div class="wraper-h" style="margin: 10px 0 40px 0;">
 					 <h3 class="titulo-h">Endereço de <span class="rosa-span">Atendimento</span></h3>
 					 <span class="line-h"></span>
@@ -4443,7 +4467,7 @@ HTML;
 			      </div>
 
 			      <div class="wraper-form-single" style="position:static;">
-			        <input type="submit" name="acao-novo-cadastro" value="Confirmar" class="acao-novo-cadastro">
+			        <input type="submit" disabled value="Aceite a Politica de Privacidade" class="acao-novo-cadastro">
 			      </div>
 
 			    </fieldset>

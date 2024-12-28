@@ -691,6 +691,9 @@ function closeModal() {
     $('input[type=file]').val('');
     $('input[type=submit]').fadeIn();
 
+    $('#preview-foto').hide(); // Esconde o preview
+    $('#file-name').text('Nenhum arquivo selecionado'); // Reseta o texto
+
     } catch (error){
         console.error("Erro na função closeModal:", error);
     }
