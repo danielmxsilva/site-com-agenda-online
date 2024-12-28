@@ -296,7 +296,7 @@ function novoCadastro(config) {
             processData: false, // Necessário para enviar arquivos
             dataType: 'json',
             success: function (response) {
-                if (response.success) {
+                if (response.sucesso) {
                     exibirNotificacao('sucesso', response.mensagem);
                     trocarBox('.login-agenda', '.js-box-pagamento-agenda', 400); // Exemplo de navegação
                 } else {

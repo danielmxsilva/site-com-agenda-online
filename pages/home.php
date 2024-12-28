@@ -4318,7 +4318,7 @@ HTML;
 			<div class="form-recuperar-login form-recuperar-senha-email-js" style="display:none;">
 				<form class="form-recuperar-login-form form-recup-senha-email-js">
 				    <fieldset>
-				      <legend class="color-p">Coloque seu E-mail cadastrado</legend>
+				      <legend class="codigo-info">Coloque seu E-mail cadastrado <span class="codigo-dica">Vamos enviar um código para você recuperar a senha!</span></legend>
 
 				      <div class="wraper-form-single">
 				        <input type="email" id="email-recuperar-senha" name="email-recuperar-senha" placeholder=" " required>

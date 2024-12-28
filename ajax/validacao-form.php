@@ -400,8 +400,14 @@
 
     } elseif (isset($_POST['formulario']) && $_POST['formulario'] === 'cadastro_cliente'){
 
+
     	// Receber os dados do formulário
     	$telefone = filter_input(INPUT_POST, 'telefone_cadastro', FILTER_SANITIZE_STRING);
+
+    	$telefone = str_replace('+', '', $telefone);
+		// Remover todos os caracteres não numéricos
+		$telefone = preg_replace('/\D/', '', $telefone);
+
         $senha = filter_input(INPUT_POST, 'senha_cadastro', FILTER_SANITIZE_STRING); // Sanitiza a senha
 		$senhaConfirmar = filter_input(INPUT_POST, 'senha_cadastro_confirmar', FILTER_SANITIZE_STRING); // Sanitiza a confirmação da senha
 		$nome = filter_input(INPUT_POST, 'nome_cadastro', FILTER_SANITIZE_STRING); // Sanitiza o nome
@@ -412,6 +418,19 @@
 		$rua = filter_input(INPUT_POST, 'rua_cadastro', FILTER_SANITIZE_STRING); // Sanitiza a rua
 		$nmrCasa = filter_input(INPUT_POST, 'nmr_casa_cadastro', FILTER_VALIDATE_INT); // Valida número como inteiro
 
+		// Verifica se o e-mail é válido
+        if (!$email) {
+            echo json_encode(['sucesso' => false, 'mensagem' => 'E-mail inválido.']);
+            exit;
+        }
+
+        // Verificar se a senha e a confirmação são iguais
+        if ($senha !== $senhaConfirmar) {
+            echo json_encode(['sucesso' => false, 'mensagem' => 'As senhas não conferem.']);
+            exit;
+        }
+
+        $nomeArquivo = null; //Sem foto enviada padrão
         // Verifica a foto enviada
         if (!empty($_FILES['foto_cadastro']['name'])) {
             $foto = $_FILES['foto_cadastro'];
@@ -433,17 +452,8 @@
 	                echo json_encode(['success' => false, 'mensagem' => 'Erro ao salvar a foto. Tente novamente.']);
 	                exit;
 	            }
-        } else {
-            $nomeArquivo = null; // Sem foto enviada
-        }
+        } 
 
-        if (!$email) {
-	        echo json_encode([
-	            'sucesso' => false,
-	            'mensagem' => 'E-mail inválido.'
-	        ]);
-	        exit;
-	    }
 
 	    try {
 		    // Conexão com o banco de dados
@@ -462,37 +472,58 @@
 		        exit;
 		    }
 
-		    // Inserir dados na tabela tb_endereco
-		    $sqlEndereco = "INSERT INTO tb_endereco (cep, cidade, bairro, rua, numero_casa) VALUES (?, ?, ?, ?, ?)";
-		    $stmtEndereco = $pdo->prepare($sqlEndereco);
-		    $stmtEndereco->execute([$cep, $cidade, $bairro, $rua, $nmrCasa]);
+		    // Verificar se o endereço já existe na tabela
+			$stmtEnderecoCheck = $pdo->prepare("SELECT id FROM tb_endereco WHERE cep = ? AND cidade = ? AND bairro = ? AND rua = ? AND numero_casa = ?");
+			$stmtEnderecoCheck->execute([$cep, $cidade, $bairro, $rua, $nmrCasa]);
+			$enderecoExistente = $stmtEnderecoCheck->fetchColumn();
 
-		    // Obter o id do último endereço inserido
-		    $enderecoId = $pdo->lastInsertId();
+			if ($enderecoExistente) {
+			    $enderecoId = $enderecoExistente; // Reutilizar o ID do endereço existente
+			} else {
+			    // Inserir dados na tabela tb_endereco
+			    $sqlEndereco = "INSERT INTO tb_endereco (cep, cidade, bairro, rua, numero_casa) VALUES (?, ?, ?, ?, ?)";
+			    $stmtEndereco = $pdo->prepare($sqlEndereco);
+			    $stmtEndereco->execute([$cep, $cidade, $bairro, $rua, $nmrCasa]);
+
+			    // Obter o id do último endereço inserido
+			    $enderecoId = $pdo->lastInsertId();
+			}
 
 		    // Inserir dados na tabela tb_clientes
 		    $senhaHash = password_hash($senha, PASSWORD_DEFAULT); // Armazenar a senha de forma segura
-		    $sqlCliente = "INSERT INTO tb_clientes (endereco_id, nome, senha_login, email, foto_perfil_cliente, telefone, data_cadastro, atendido, add_cliente) 
+		    $sqlCliente = "INSERT INTO tb_clientes (endereco_id, nome, senha_login, email, foto_perfil_cliente, telefone, data_cadastro, atendido, add_cliente_site) 
 		                   VALUES (?, ?, ?, ?, ?, ?, NOW(), '0', '1')";
 		    $stmtCliente = $pdo->prepare($sqlCliente);
-		    $stmtCliente->execute([$enderecoId, $nome, $senhaHash, $email, $nomeArquivo ?? null, $telefone]);
+		    $stmtCliente->execute([
+		    	$enderecoId,
+		    	$nome, 
+		    	$senhaHash, 
+		    	$email,
+		    	$nomeArquivo ?: null, 
+		    	$telefone
+		    ]);
 
 		    // Resposta de sucesso
 		    echo json_encode([
 		        'sucesso' => true,
 		        'mensagem' => 'Cadastro realizado com sucesso!'
+
 		    ]);
+		    exit();
 
 		} catch (PDOException $e) {
 		    // Caso ocorra um erro na conexão ou nas consultas
+		    // Excluir a foto caso tenha sido enviada
+	        if ($nomeArquivo && file_exists(BASE_DIR_PAINEL . '/uploads/' . $nomeArquivo)) {
+	            unlink(BASE_DIR_PAINEL . '/uploads/' . $nomeArquivo);
+	        }
 		    error_log("Erro no banco de dados: " . $e->getMessage());
 		    echo json_encode([
 		        'sucesso' => false,
-		        'mensagem' => 'Erro ao conectar ou processar os dados no banco de dados.'
+		        'mensagem' => 'Erro ao conectar ou processar os dados no banco de dados.' . $e->getMessage()
 		    ]);
 		    exit;
 		}
-
         // Processar os outros dados do formulário (salvar no banco de dados, etc.)
 
         // Debug fora das variáveis
