@@ -304,9 +304,6 @@ function validarEConsultarFormulario(config) {
 
         
 }
-/*
-
-ESTOU CHAMANDO ESSA FUNÇÃO NA BOX-MODEL
 
 function exibirNotificacao(tipo, mensagem) {
     // Define o seletor com base no tipo de notificação ('sucesso' ou 'erro')
@@ -323,7 +320,7 @@ function exibirNotificacao(tipo, mensagem) {
     // Exibe a notificação com efeito fadeIn e define um tempo para sumir
     $(seletor).stop(true, true).fadeIn().delay(5000).fadeOut();
 }
-*/
+
 function formInformacoes(dados, endereco){
 
     if (dados){

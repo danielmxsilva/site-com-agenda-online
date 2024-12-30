@@ -44,6 +44,8 @@ function clickDia() {
                 `;
                 $('.wraper-resumo .selecao-single-total').before(tarifaEspecial);
 
+                localStorage.setItem('tarifaEspecial', true);
+
                 atualizarTotal(); // Atualiza o total após a adição
             }
 
@@ -124,26 +126,14 @@ function selectServicoAgenda() {
 
 // Função para atualizar o resumo de serviços
 function atualizarResumoSelecao(checked, checkboxId) {
-    $(".agenda-resumo-cliente-1").each(function () {
-        $(this).find(".selecao-single:not(.selecao-single-total)").filter(function () {
-            return $(this).find(".p-single").text().trim() !== "Tarifa Especial";
-        }).remove();
-    });
 
-    $(".agenda-resumo-cliente-2").each(function () {
-        $(this).find(".selecao-single:not(.selecao-single-total)").filter(function () {
-            return $(this).find(".p-single").text().trim() !== "Tarifa Especial";
-        }).remove();
-    });
+    // Itera pelos IDs dos clientes
+    ["1", "2", "3", "4"].forEach(clienteId => {
+        const $container = $(`.agenda-resumo-cliente-${clienteId}`);
+        if (!$container.length) return;
 
-    $(".agenda-resumo-cliente-3").each(function () {
-        $(this).find(".selecao-single:not(.selecao-single-total)").filter(function () {
-            return $(this).find(".p-single").text().trim() !== "Tarifa Especial";
-        }).remove();
-    });
-
-    $(".agenda-resumo-cliente-4").each(function () {
-        $(this).find(".selecao-single:not(.selecao-single-total)").filter(function () {
+        // Remove apenas os serviços que não são "Tarifa Especial" nem "Total"
+        $container.find(".selecao-single:not(.selecao-single-total, .box-tarifa-especial)").filter(function () {
             return $(this).find(".p-single").text().trim() !== "Tarifa Especial";
         }).remove();
     });
@@ -1155,6 +1145,14 @@ function ClickbtnAvancarAgendamento(){
 
         $('.js-modal-agenda-servicos').css('opacity','0.3');
 
+        const existeDados = localStorage.getItem('servicosSelecionadosAgenda');
+
+        if (!existeDados || existeDados === "{}"){
+            exibirNotificacao('erro', 'Você precisa selecionar algum serviço para prosseguir!');
+            $('.js-modal-agenda-servicos').css('opacity','1');
+            return;
+        }
+
         calcularTotalMinutosServicos()
 
         // Adiciona atraso para validação (1 segundo)
@@ -1266,7 +1264,7 @@ function exibirNotificacao(tipo, mensagem) {
     $(`${seletor} .txt-p`).text(mensagem);
 
     // Exibe a notificação com efeito fadeIn e define um tempo para sumir
-    $(seletor).stop(true, true).fadeIn().delay(5000).fadeOut();
+    $(seletor).stop(true, true).fadeIn().delay(6000).fadeOut();
 }
 
 function clickBtnDepoimento(){

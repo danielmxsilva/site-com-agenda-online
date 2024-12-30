@@ -339,8 +339,7 @@ function trocarBox(boxAtual, boxNova, duracao = 400) {
         $(boxNova).fadeIn(duracao);
     });
 }
-/*
-ESTOU CHAMANDO ESSA FUNÇÃO NA BOX-MODEL
+
 function exibirNotificacao(tipo, mensagem) {
     // Define o seletor com base no tipo de notificação ('sucesso' ou 'erro')
     const seletor = tipo === 'sucesso' 
@@ -356,7 +355,7 @@ function exibirNotificacao(tipo, mensagem) {
     // Exibe a notificação com efeito fadeIn e define um tempo para sumir
     $(seletor).stop(true, true).fadeIn().delay(5000).fadeOut();
 }
-*/
+
 function maskCep(inputElement) {
     inputElement.on("input", function () {
         const input = this;
