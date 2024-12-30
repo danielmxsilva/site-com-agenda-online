@@ -4475,25 +4475,46 @@ HTML;
 
 		</div><!--wraper-login-->
 
-		<div class="wraper-pagamento js-box-pagamento-agenda" style="display: none;">
+		<div class="wraper-pagamento js-box-pagamento-agenda js-box-resumo-agenda" style="display: none;">
 
 			<div class="wraper-h">
 				<h3 class="titulo-h">Resumo dos <span class="rosa-span">Serviços</span> e opções de <span class="rosa-span">Pagamento</span></h3>
 				<span class="line-h"></span>
 			</div><!--wraper-->
 
-		<div class="resumo-servico">
+		<div class="resumo-servico resumo-servico-js">
 
-		<div class="wraper-resumo box-servicos-select">
+			<div class="wraper-resumo box-servicos-select">
 
-			<div class="selecao-single-topo flex">
-				<div class="txt-p" style="width:46%;"><span class="color-p">Data</span>
-				</div> 
-				<div class="duracao" style="width: 50%;">
-					<span class="color-p">Horarios Selecionados</span>
+				<div class="selecao-single-topo flex">
+					<div class="txt-p" style="width:46%;"><span class="color-p">Data</span>
+					</div> 
+					<div class="duracao" style="width: 50%;">
+						<span class="color-p">Horarios Selecionados</span>
+					</div>
 				</div>
-			</div>
 
+				<div class="resumo-data-horario">
+
+				</div><!--resumo-data-horario-->
+
+				<!--
+				<div class="resumo-data-horario">
+					<div class="selecao-single flex">
+			            <div class="txt-p" style="width: 46%;">
+			                <span class="p-single">20/11/2024</span>
+			            </div>
+			            <div class="duracao" style="width: 50%;">
+							<span class="color-p"><i class="fa-solid fa-clock" aria-hidden="true"></i> 13:00 - 14:00 - 15:00 - 16:00</span>
+						</div>
+			        </div>
+				</div>
+				-->
+
+
+			</div><!--wraper-resumo box-servicos-select resumo-data-horario-->
+
+<!--
 			<div class="selecao-single flex">
 	            <div class="txt-p" style="width: 46%;">
 	                <span class="p-single">20/11/2024</span>
@@ -4502,15 +4523,14 @@ HTML;
 					<span class="color-p"><i class="fa-solid fa-clock" aria-hidden="true"></i> 13:00 - 14:00 - 15:00 - 16:00</span>
 				</div>
 	        </div>
-
-		</div><!--wraper-resumo box-servicos-select-->
+-->
 
 		<!--INICIO RESUMO BOX-SERVICOS FINAL PAGAMENTO AGENDA-->
 
-		<div class="wraper-resumo box-servicos-select ">
+		<div class="wraper-resumo box-servicos-select resumo-servico-1">
 
 					<div class="selecao-single-topo flex">
-						<div class="txt-p"><span class="color-p">Serviço 1</span>
+						<div class="txt-p"><span class="color-p">Serviços Cliente 1</span>
 						</div> 
 						<div class="duracao">
 							<span class="color-p">Duração</span>
@@ -4522,8 +4542,8 @@ HTML;
 						<input type="hidden" name="cliente_1">
 					</div>
 
-
-			   		<div class="selecao-single flex">
+<!--
+			   		<div class="selecao-single flex resumo-servico-cliente-1">
 			            <div class="txt-p">
 			                <span class="p-single">Limpeza Simples de Sobrancelhas</span>
 			            </div>
@@ -4535,20 +4555,9 @@ HTML;
 			                <i class="icone-lixeira fa-solid fa-trash-can"></i>
 			            </div>
 			        </div>
+-->
 
-			        <div class="selecao-single flex">
-			            <div class="txt-p">
-			                <span class="p-single">Tarifa Especial</span>
-			            </div>
-			            <div class="duracao">
-							<span class="color-p"></span>
-						</div>
-			            <div class="preco-lixeira">
-			                <span class="preco-single">R$14,99</span>
-			            </div>
-			        </div>
-
-					<div class="selecao-single-total flex">
+					<div class="selecao-single-total flex total-resumo-servico-cliente-1">
 						<div class="txt-p"><span class="color-p">Total</span>
 						</div> 
 						<div class="duracao">
@@ -4559,9 +4568,10 @@ HTML;
 						</div>
 					</div>
 
-		</div><!--wraper-resumo-->
+		</div><!--wraper-resumo resumo-servico-1-->
 
-		<div class="wraper-resumo box-servicos-select ">
+<?php /*?>
+		<div class="wraper-resumo box-servicos-select resumo-servico-2">
 
 					<div class="selecao-single-topo flex">
 						<div class="txt-p"><span class="color-p">Serviço 2</span>
@@ -4613,9 +4623,9 @@ HTML;
 						</div>
 					</div>
 
-		</div><!--wraper-resumo-->
+		</div><!--wraper-resumo resumo-servico-2-->
 
-		<div class="wraper-resumo box-servicos-select ">
+		<div class="wraper-resumo box-servicos-select resumo-servico-3">
 
 					<div class="selecao-single-topo flex">
 						<div class="txt-p"><span class="color-p">Serviço 3</span>
@@ -4667,9 +4677,9 @@ HTML;
 						</div>
 					</div>
 
-		</div><!--wraper-resumo-->
+		</div><!--wraper-resumo resumo-servico-3-->
 
-		<div class="wraper-resumo box-servicos-select ">
+		<div class="wraper-resumo box-servicos-select resumo-servico-4">
 
 					<div class="selecao-single-topo flex">
 						<div class="txt-p"><span class="color-p">Serviço 4</span>
@@ -4721,8 +4731,8 @@ HTML;
 						</div>
 					</div>
 
-		</div><!--wraper-resumo-->
-
+		</div><!--wraper-resumo resumo-servico-4-->
+<?php */?>
 <!--
 	SE TEM CREDITO DISPONIVEL
 	-->

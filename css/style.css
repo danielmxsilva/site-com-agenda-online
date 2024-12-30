@@ -1238,13 +1238,102 @@ section{
 
 .wraper-resumo .txt-p{
 	border-bottom: 0;
-	width: 40%;
+	width: 55%;
+	padding-right: 1%;
 }
 
 .wraper-resumo .duracao{
 	font-size: 17px;
-	width: 20%;
+	width: 15%;
 }
+
+.wraper-resumo {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.wraper-resumo:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.selecao-single-topo {
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 10px;
+}
+
+.selecao-single {
+    padding: 10px 2%;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.selecao-single:last-child {
+    border-bottom: none;
+}
+
+.selecao-single-total {
+    font-weight: bold;
+    background-color: #f8f9fa;
+    border-top: 2px solid #e0e0e0;
+    padding: 15px 10px;
+    border-radius: 0 0 8px 8px;
+}
+
+
+
+.txt-p span,
+.duracao span,
+.preco-total {
+    display: block;
+    font-size: 16px;
+    color: #555;
+}
+
+.color-p {
+    color: #007bff;
+    font-weight: 500;
+}
+
+.p-single {
+    font-size: 15px;
+    font-weight: 400;
+    color: #444;
+}
+
+.preco-lixeira .icone-lixeira {
+    color: #e74c3c;
+    margin-left: 10px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.preco-lixeira .icone-lixeira:hover {
+    transform: scale(1.1);
+}
+
+.preco-single,
+.preco-total {
+    font-size: 18px;
+    font-weight: 600;
+    color: #28a745;
+}
+
+.fa-cart-shopping {
+    margin-left: 8px;
+    color: #007bff;
+}
+
+.fa-clock {
+    margin-right: 5px;
+    color: #555;
+}
+
+
+
+
+
 
 .horario-necess{
 	text-align: center;
@@ -1256,7 +1345,7 @@ section{
 }
 
 .wraper-resumo .preco-lixeira{
-	width: 36%;
+	width: 25%;
 	text-align: center;
 }
 
@@ -1477,7 +1566,11 @@ span.preco-single{
 	transition: 0.5s;
 }
 
-.form-telefone-login, .form-informacoes-cliente,.form-recuperar-login {
+.form-telefone-login, 
+.form-informacoes-cliente,
+.form-recuperar-login,
+.resumo-servico,
+.payment-summary {
   margin: 20px 0;
   padding: 20px;
   background: #ffffff;
@@ -1757,7 +1850,6 @@ legend.codigo-info .codigo-dica {
   text-align: center;
   font-family: Arial, sans-serif;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 4px 12px rgba(233, 30, 99, 0.71);
 }
 
 .service-details {
@@ -2308,6 +2400,57 @@ legend.codigo-info .codigo-dica {
 	.single-depoimento{
 		margin: 20px 1.5%;
 	}
+
+	.txt-p span,
+  .duracao span,
+  .preco-single {
+      font-size: 14px;
+  }
+
+  .selecao-single{
+  	text-align: center;
+  }
+
+  .selecao-single .txt-p,
+  .selecao-single .duracao,
+  .selecao-single .preco-lixeira{
+  	width: 100%;
+  	margin: 5px 0;
+  	text-align: center;
+  }
+
+  .selecao-single-topo .txt-p,
+  .selecao-single-topo .preco-lixeira,
+  .selecao-single-topo .duracao,
+  .selecao-single-total .txt-p,
+  .selecao-single-total .preco-lixeira,
+  .selecao-single-total .duracao{
+  	width: 30%;
+  }
+  
+  .preco-lixeira .icone-lixeira{
+  	display: block;
+  }
+
+  .selecao-single .duracao,
+  .selecao-single .preco-lixeira,
+  .box-tarifa-especial .txt-p,
+  .box-tarifa-especial .preco-lixeira{
+  	width: 50%;
+  }
+
+  span.preco-single{
+  	font-size: 15px;
+  }
+
+  .servico-single-total .duracao span{
+  	font-size: 18px;
+  }
+
+  .box-tarifa-especial .duracao{
+  	width: 0;
+  }
+
 }
 
 @media screen and (max-width: 580px){

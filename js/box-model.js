@@ -25,6 +25,11 @@ function clickDia() {
     $('.dia').click(function(e) {
         if (!$(this).hasClass('desativado')) {
 
+            const data = this.querySelector('.data').textContent;
+
+            // Salva a data no localStorage
+            localStorage.setItem('dataEscolhida', data);
+
             if ($(this).find('.valor-especial').length > 0) {
                 console.log("Este dia possui tarifa especial.");
                 
@@ -1192,22 +1197,30 @@ function ClickbtnAvancarAgendamento(){
                                 // Exemplo:
                                 // $('#nome-usuario').text(response.dados.nome);
                                 // $('#email-usuario').text(response.dados.email);
-                                trocarBox('.js-modal-agenda-servicos', '.js-box-pagamento-agenda'); // Substitua '.sua-proxima-box' pelo seletor correto
+                                trocarBox('.js-modal-agenda-servicos', '.js-box-pagamento-agenda');
+                                preencherServicosDinamicos();
+                                preencherResumoDataHorario('.resumo-data-horario'); // Substitua '.sua-proxima-box' pelo seletor correto
                             } else {
                                 // Token inválido, remove o cookie e prossegue para o login normal
                                 clearCookies(); // Limpa os cookies
                                 trocarBox('.js-modal-agenda-servicos', '.login-agenda');
+                                preencherServicosDinamicos();
+                                preencherResumoDataHorario('.resumo-data-horario');
                             }
                         },
                         error: function() {
                             $('.js-modal-agenda-servicos').removeClass('carregando');
                             exibirNotificacao('erro', 'Erro ao validar o token. Tente novamente.');
                             trocarBox('.js-modal-agenda-servicos', '.login-agenda');
+                            preencherServicosDinamicos();
+                            preencherResumoDataHorario('.resumo-data-horario');
                         }
                     });
                 } else {
                     // Nenhum token no cookie, prossegue para o login normal
                     trocarBox('.js-modal-agenda-servicos', '.login-agenda');
+                    preencherServicosDinamicos();
+                    preencherResumoDataHorario('.resumo-data-horario');
                 }
 
                 // Garante que a mensagem de erro seja escondida, caso ainda esteja visível
@@ -1217,18 +1230,25 @@ function ClickbtnAvancarAgendamento(){
         
     })
 
-    $('.btn-concluir').click(function(){
-        $('.modal-servicos-agendados').css('display','none');
-        $('.js-box-resumo-consulta-agendamentos').fadeIn();
-
-    })
-
 
     $('.js-btn-editar-servico-consultar .btn-chamada a').on('click', function(event) {
         event.preventDefault(); // Impede a ação padrão do link
         console.log("click btn editar do box consultar");
     });
     
+}
+
+function preencherServicosDinamicos() {
+    // Recupera os serviços do localStorage
+    const servicosSelecionados = JSON.parse(localStorage.getItem("servicosSelecionadosAgenda")) || {};
+
+    // Obtém os IDs únicos dos clientes
+    const clientesIds = [...new Set(Object.values(servicosSelecionados).map(servico => servico.clienteId))];
+
+    // Itera sobre os IDs e chama a função para preencher os serviços
+    clientesIds.forEach(clienteId => {
+        preencherServicosCliente(clienteId);
+    });
 }
 
 function getCookie(name) {
