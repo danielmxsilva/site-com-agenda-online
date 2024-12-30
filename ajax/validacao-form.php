@@ -435,7 +435,7 @@
             exit;
         }
 
-        $nomeArquivo = null; //Sem foto enviada padrão
+        $nomeArquivo = ""; //Sem foto enviada padrão
         // Verifica a foto enviada
         if (!empty($_FILES['foto_cadastro']['name'])) {
             $foto = $_FILES['foto_cadastro'];
@@ -504,7 +504,7 @@
 		    	$nome, 
 		    	$senhaHash, 
 		    	$email,
-		    	$nomeArquivo ?: null, 
+		    	$nomeArquivo, // Sempre passamos uma string, mesmo que seja vazia
 		    	$telefone
 		    ]);
 
