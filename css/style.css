@@ -451,6 +451,10 @@ section{
 	border-bottom: 2px solid hotpink;
 }
 
+.sobre{
+	overflow: hidden;
+}
+
 .sobre,.fundo-box,.depoimentos{
 	background-image: url('../img/sobre/fundo-estrelas.png');
 	background-position: center;
@@ -471,6 +475,7 @@ section{
 .facilidades-single,
 .servicos-single{
 	opacity: 0;
+	transform: translateX(-100%);
 	transition: all 0.5s ease;
 }
 
@@ -1265,6 +1270,7 @@ section{
 }
 
 .selecao-single {
+		background-color: #eee;
     padding: 10px 2%;
     border-bottom: 1px solid #e0e0e0;
 }
@@ -1417,6 +1423,7 @@ span.preco-single{
 }
 
 .horario-single {
+		position: relative;
     display: flex; 
     overflow-x: auto; /* Habilita a rolagem horizontal */
     white-space: nowrap; /* Impede a quebra de linha */

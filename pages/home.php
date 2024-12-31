@@ -2238,35 +2238,7 @@
 						<span class="line-h"></span>
 					</div><!--wraper-h-->
 
-					<div class="horarios-periodo flex" id="horario-consultar">
-
-						<div class="manha select-periodo">
-							<p class="color-p">Manha</p>
-						</div><!--manha-->
-
-						<div class="tarde">
-							<p class="color-p">Tarde</p>
-						</div><!--manha-->
-
-						<div class="noite">
-							<p class="color-p">Noite</p>
-						</div><!--manha-->
-
-					</div><!--horarios-periodo-->
-
-					<div class="msg-tarifa">
-						<p>Tarifa adicional R$15,00</p>
-					</div><!--msg-tarifa-->
-
-					<div class="horario-necess">
-						<p class="color-p horario-total">Tempo estimado necessário &nbsp;&nbsp;&nbsp;<i class="fa-solid fa-clock" aria-hidden="true"></i>&nbsp;&nbsp;<span class="tempo-estimado">2:00</span></p>
-					</div><!--horarios-necess-->
-
-					<div class="horario-single">
-					    <div class="horario-manha"><div class="horarios"><span>07:00</span></div><div class="horarios"><span>08:00</span></div><div class="horarios"><span>09:00</span></div><div class="horarios"><span>10:00</span></div><div class="horarios"><span>11:00</span></div></div><!--horario-manha-->
-					    <div class="horario-tarde"><div class="horarios"><span>13:00</span></div><div class="horarios"><span>14:00</span></div><div class="horarios"><span>15:00</span></div><div class="horarios"><span>16:00</span></div><div class="horarios"><span>17:00</span></div></div><!--horario-tarde-->
-					    <div class="horario-noite"><div class="horarios"><span>18:00</span></div><div class="horarios"><span>19:00</span></div><div class="horarios"><span>20:00</span></div></div><!--horario-noite-->
-					</div><!--horario-single-->
+					
 
 
 

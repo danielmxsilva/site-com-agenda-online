@@ -7,8 +7,8 @@ $(document).ready(function() {
     
     fecharBoxModal();
     clickQuantidadeServico();
-    selectPeriodo();
-    scrollParaPeriodo();
+   
+    //scrollParaPeriodo();
     clickMeusAgendamentos();
     ClickbtnAvancarAgendamento();
     clickBtnDepoimento();
@@ -16,6 +16,8 @@ $(document).ready(function() {
 
    
     selectServicoAgenda();
+
+    //selectPeriodo();
 
     //deleteItemIcone();
     
@@ -49,6 +51,8 @@ function clickDia() {
                 `;
                 $('.wraper-resumo .selecao-single-total').before(tarifaEspecial);
 
+                reposicionarTarifaEspecial();
+
                 localStorage.setItem('tarifaEspecial', true);
 
                 atualizarTotal(); // Atualiza o total após a adição
@@ -63,6 +67,9 @@ function clickDia() {
                 width: '100%'
             });
             $('.box-modal').fadeIn();
+
+            //selectPeriodo();
+
         }
 
     });
@@ -126,6 +133,7 @@ function selectServicoAgenda() {
 
         console.log('Serviços Selecionados agenda:', servicosSelecionadosAgenda); // Exibe o estado atual
         atualizarResumoSelecao(checked, checkboxId); // Atualiza o resumo
+        reposicionarTarifaEspecial();
     });
 }
 
@@ -176,6 +184,8 @@ function atualizarResumoSelecao(checked, checkboxId) {
 
     // Reorganiza o resumo (coloca Tarifa Especial antes do total)
     organizarResumoSelecao();
+
+    reposicionarTarifaEspecial();
 }
 
 // Função para adicionar serviço
@@ -342,6 +352,17 @@ $('.wraper-resumo .selecao-single-total').last().before(novaSelecao);
         atualizarTotal(); // Atualiza o total após remoção
         return null;
     }
+}
+
+function reposicionarTarifaEspecial() {
+    $('.wraper-resumo').each(function() {
+        const tarifaEspecial = $(this).find('.box-tarifa-especial');
+        const totalBox = $(this).find('.selecao-single-total');
+
+        if (tarifaEspecial.length && totalBox.length) {
+            tarifaEspecial.insertBefore(totalBox); // Move a box-tarifa-especial para antes da selecao-single-total
+        }
+    });
 }
 
 // Atualiza os serviços com base em uma interação (selecionar/desmarcar)
@@ -752,6 +773,7 @@ function organizarResumoSelecao() {
             $tarifaEspecial.detach().insertBefore($total);
         }
 
+        reposicionarTarifaEspecial();
         // Garante que "Total" permaneça como o último elemento no container
         $total.detach().appendTo($container);
     });
@@ -877,110 +899,63 @@ function clickQuantidadeServico(){
 
 function selectPeriodo(){
     // Função para rolar até o horário correspondente ao clicar na div de período
-     $('#horario-consultar div').click(function() {
-        console.log("click consultar horario");
-        // Remove a classe select-periodo de todas as divs e adiciona apenas à clicada
-        $('.horarios-periodo div').removeClass('select-periodo');
-        $(this).addClass('select-periodo');
 
-        // Obtém o período selecionado
-        const periodo = $(this).text().trim().toLowerCase(); // "manhã", "tarde" ou "noite"
+    setTimeout(function(){
 
-        // Verifica se o período é "noite" para exibir ou ocultar a div .msg-tarifa
-        if (periodo === 'noite') {
-            $('.msg-tarifa').fadeIn(300); // Mostra a div com efeito de fade
-        } else {
-            $('.msg-tarifa').fadeOut(300); // Oculta a div com efeito de fade
-        }
 
-        // Corrige a primeira letra da classe para corresponder ao HTML
-        const horarioDiv = $('.horario-' + periodo.slice(0, 1) + periodo.slice(1)); // Ex: "horario-manha"
-        const horarioSingle = $('.horario-single');
+         $('#horario-agendamento div').click(function() {
+            console.log("click consultar horario");
+            // Remove a classe select-periodo de todas as divs e adiciona apenas à clicada
+            $('.horarios-periodo div').removeClass('select-periodo');
+            $(this).addClass('select-periodo');
 
-        // Verifica se a div de horário correspondente foi encontrada
-        if (horarioDiv.length === 0) {
-            console.error('Div de horário não encontrada para o período:', periodo);
-            return; // Sai da função se não encontrar a div
-        }
+            // Obtém o período selecionado
+            const periodo = $(this).text().trim().toLowerCase(); // "manhã", "tarde" ou "noite"
 
-        // Exibe as informações de posição
-        console.log('Posição da div selecionada:', horarioDiv.position());
+            // Verifica se o período é "noite" para exibir ou ocultar a div .msg-tarifa
+            if (periodo === 'noite') {
+                $('.msg-tarifa').fadeIn(300); // Mostra a div com efeito de fade
+            } else {
+                $('.msg-tarifa').fadeOut(300); // Oculta a div com efeito de fade
+            }
 
-        // Verifica a posição do horário correspondente e calcula a rolagem
-        const offset = horarioDiv.position().left + horarioSingle.scrollLeft();
-        const marginHorarios = 10; // A margem que você tem nas divs de horário
-        const paddingHorariosSingle = parseInt(horarioSingle.css('padding-left')) + parseInt(horarioSingle.css('padding-right')); // Padding total do horairo-single
+            // Corrige a primeira letra da classe para corresponder ao HTML
+            const horarioDiv = $('.horario-' + periodo.slice(0, 1) + periodo.slice(1)); // Ex: "horario-manha"
+            const horarioSingle = $('.horario-single');
 
-         // Exibe os cálculos para depuração
-        console.log('Offset:', offset);
-        console.log('Largura do horarioSingle:', horarioSingle.width());
-        console.log('ScrollLeft Atual:', horarioSingle.scrollLeft());
+            // Verifica se a div de horário correspondente foi encontrada
+            if (horarioDiv.length === 0) {
+                console.error('Div de horário não encontrada para o período:', periodo);
+                return; // Sai da função se não encontrar a div
+            }
 
-        // Cálculo para centralizar a div no meio
-        const scrollPosition = offset - (horarioSingle.width() / 2) + (horarioDiv.outerWidth() / 2) + marginHorarios / 2 - paddingHorariosSingle;
+            // Exibe as informações de posição
+            console.log('Posição da div selecionada:', horarioDiv.position());
 
-        console.log('Posição de rolagem calculada:', scrollPosition);
+            // Verifica a posição do horário correspondente e calcula a rolagem
+            const offset = horarioDiv.position().left + horarioSingle.scrollLeft();
+            const scrollPosition =
+            offset -
+            (horarioSingle.width() / 2) +
+            (horarioDiv.outerWidth() / 2);
 
-        // Rola suavemente até a posição desejada
-        horarioSingle.animate({
-            scrollLeft: scrollPosition
-        }, 500); // 500ms para a animação
-       });
-}
+            console.log('Posição de rolagem calculada:', scrollPosition);
 
-function scrollParaPeriodo(){
-    // Ao clicar em um dos períodos (manhã, tarde, noite)
-   $('#horario-agendamento div').click(function() {
-        console.log("click agendamento horario");
-        // Remove a classe select-periodo de todas as divs e adiciona apenas à clicada
-        $('.horarios-periodo div').removeClass('select-periodo');
-        $(this).addClass('select-periodo');
+            // Rola suavemente até a posição desejada
+            horarioSingle.animate(
+                {
+                    scrollLeft: scrollPosition,
+                },
+                500 // 500ms para a animação
+            );
 
-        // Obtém o período selecionado
-        const periodo = $(this).text().trim().toLowerCase(); // "manhã", "tarde" ou "noite"
 
-        // Verifica se o período é "noite" para exibir ou ocultar a div .msg-tarifa
-        if (periodo === 'noite') {
-            $('.msg-tarifa').fadeIn(300); // Mostra a div com efeito de fade
-        } else {
-            $('.msg-tarifa').fadeOut(300); // Oculta a div com efeito de fade
-        }
+        });
 
-        // Corrige a primeira letra da classe para corresponder ao HTML
-        const horarioDiv = $('.horario-' + periodo.slice(0, 1) + periodo.slice(1)); // Ex: "horario-manha"
-        const horarioSingle = $('.horario-single');
-
-        // Verifica se a div de horário correspondente foi encontrada
-        if (horarioDiv.length === 0) {
-            console.error('Div de horário não encontrada para o período:', periodo);
-            return; // Sai da função se não encontrar a div
-        }
-
-        // Exibe as informações de posição
-        console.log('Posição da div selecionada:', horarioDiv.position());
-
-        // Verifica a posição do horário correspondente e calcula a rolagem
-        const offset = horarioDiv.position().left + horarioSingle.scrollLeft();
-        const marginHorarios = 10; // A margem que você tem nas divs de horário
-        const paddingHorariosSingle = parseInt(horarioSingle.css('padding-left')) + parseInt(horarioSingle.css('padding-right')); // Padding total do horairo-single
-
-         // Exibe os cálculos para depuração
-        console.log('Offset:', offset);
-        console.log('Largura do horarioSingle:', horarioSingle.width());
-        console.log('ScrollLeft Atual:', horarioSingle.scrollLeft());
-
-        // Cálculo para centralizar a div no meio
-        const scrollPosition = offset - (horarioSingle.width() / 2) + (horarioDiv.outerWidth() / 2) + marginHorarios / 2 - paddingHorariosSingle;
-
-        console.log('Posição de rolagem calculada:', scrollPosition);
-
-        // Rola suavemente até a posição desejada
-        horarioSingle.animate({
-            scrollLeft: scrollPosition
-        }, 500); // 500ms para a animação
-       });
+     }, 2000);
 
 }
+
 
 function clickMeusAgendamentos(){
     $('.meus-agendamentos .btn-chamada a').click(function(){

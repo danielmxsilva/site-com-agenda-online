@@ -49,8 +49,10 @@ $(document).ready(function() {
       success: function(resposta) {
         console.log("Resposta do servidor:", resposta);
         callback(resposta.horarios); // Retorna os horários disponíveis
+        //selectPeriodo();
       }
     });
+
   }
 
   function atualizarBarraDisponibilidade(diaDiv, horariosDisponiveis) {
@@ -174,6 +176,8 @@ $(document).ready(function() {
             }
         });
 
+        selectPeriodo();
+
         $('.horarios').on('click', function() {
             // Alterna a classe `horario-select` ao horário clicado
             $(this).toggleClass('horario-select');
@@ -199,6 +203,9 @@ $(document).ready(function() {
               }
         });
     });
+
+
+
 }
 
 function atualizarHorariosSelecionados() {
