@@ -1042,24 +1042,52 @@ section{
 }
 
 .wraper-carrinho-single{
-	width: 10%;
+	width: 15%;
 	display: flex;
 	align-items: center;
 }
 
 .wraper-carrinho-select{
 	width: 50%;
-	background-color: #da1e7c;
+	background-color: #e74696;
 	padding: 5px;
 	border-radius: 5px;
 	max-width: 28px;
-	opacity: 0;
+	opacity: 1;
 	transition: 0.5s ease;
 }
 
 .wraper-carrinho-select span{
 	font-weight: bold;
 	color: white;
+}
+
+.info-box {
+    position: absolute;
+    top: -30px; /* Posição acima do ícone */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    font-size: 12px;
+    color: #333;
+    /* Evita quebra de linha */
+    z-index: 10;
+    width: 90%;
+}
+
+.info-box::before {
+    content: '';
+    position: absolute;
+    bottom: -8px; /* Posição da seta */
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 8px;
+    border-style: solid;
+    border-color: #fff transparent transparent transparent;
 }
 
 .icone-arrow{
@@ -1203,6 +1231,23 @@ section{
   margin: 25px 0;
 }
 
+.estilo-resumo-servico .selecao-single-topo .txt-p span{
+	font-size: 19px;
+	font-weight: bold;
+}
+
+.estilo-resumo-servico
+.selecao-single-topo
+.duracao{
+	width: 4%;
+}
+
+.estilo-resumo-servico
+.selecao-single-topo
+.txt-p{
+	width: 65%;
+}
+
 .wraper-resumo{
 	border: 2px solid #ccc;
 	margin: 15px auto;
@@ -1210,7 +1255,6 @@ section{
 }
 
 .selecao-single{
-	position: relative;
 	overflow: hidden;
 }
 
@@ -1258,6 +1302,7 @@ section{
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
     transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
 }
 
 .wraper-resumo:hover {
@@ -1337,22 +1382,25 @@ section{
 }
 
 
-
-
-
-
 .horario-necess{
 	text-align: center;
-	margin-bottom: 15px;
+	margin: 20px;
+	background-color: #f9f9f9; /* Fundo claro para contraste */
+  border: 2px solid #ff6394; /* Borda rosa para destaque */
+  border-radius: 8px; /* Cantos arredondados */
+  padding: 10px 15px; /* Espaçamento interno */
+  margin: 15px 0; /* Espaçamento externo */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.horario-necess p{
-	font-size: 17px;
+.horario-necess .color-p {
+    font-size: 16px; /* Aumenta o tamanho do texto */
+    font-weight: bold; /* Deixa o texto em negrito */
+    color: #333; /* Cor do texto */
 }
 
 .wraper-resumo .preco-lixeira{
 	width: 25%;
-	text-align: center;
 }
 
 span.preco-single{
@@ -1388,6 +1436,17 @@ span.preco-single{
 .selecao-single-total .duracao i,
 .horario-necess i{
 	color: #d692b4;
+}
+
+span.tempo-estimado{
+		font-size: 18px; /* Destaque para o tempo */
+    font-weight: bold; /* Negrito para destaque */
+    color: #333; 
+}
+
+.horario-necess i{
+	color: #ff6394; /* Cor do ícone combinando com a borda */
+  font-size: 18px; /* Tamanho do ícone */
 }
 
 .wraper-horarios{
@@ -2434,6 +2493,18 @@ legend.codigo-info .codigo-dica {
   .selecao-single-total .duracao{
   	width: 30%;
   }
+
+  .estilo-resumo-servico .selecao-single-topo .preco-lixeira{
+  	width: 27%;
+  }
+
+  .estilo-resumo-servico .selecao-single-total .duracao{
+  	width: 28%;
+  }
+
+  .estilo-resumo-servico .selecao-single-total .preco-lixeira{
+  	width: 37%;
+  }
   
   .preco-lixeira .icone-lixeira{
   	display: block;
@@ -2443,7 +2514,7 @@ legend.codigo-info .codigo-dica {
   .selecao-single .preco-lixeira,
   .box-tarifa-especial .txt-p,
   .box-tarifa-especial .preco-lixeira{
-  	width: 50%;
+  	width: 47%;
   }
 
   span.preco-single{
@@ -2455,7 +2526,7 @@ legend.codigo-info .codigo-dica {
   }
 
   .box-tarifa-especial .duracao{
-  	width: 0;
+  	width: 6%;
   }
 
 }

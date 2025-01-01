@@ -43,6 +43,8 @@ function preencherResumoDataHorario(seletor) {
     container.innerHTML = dadosHTML;
 }
 
+preencherServicosCliente('1');
+preencherServicosCliente('2');
 
 function preencherServicosCliente(clienteId) {
     // Recupera os serviços do localStorage

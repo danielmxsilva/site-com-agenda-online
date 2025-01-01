@@ -1,5 +1,9 @@
 $(document).ready(function() {
 
+    $('.box-servicos-select').each(function () {
+        atualizarCarrinhoSelect(this);
+    });
+
     carregarLocalStorage();
     atualizarResumoSelecao();
 
@@ -37,15 +41,20 @@ function clickDia() {
                 
                 // Adiciona o HTML da tarifa especial na .wraper-resumo antes de .selecao-single-total
                 const tarifaEspecial = `
-                    <div class="selecao-single flex box-tarifa-especial">
+                    <div class="selecao-single flex box-tarifa-especial" style="position: relative; overflow: unset;">
                         <div class="txt-p">
                             <span class="p-single">Tarifa Adicional</span>
                         </div>
                         <div class="duracao">
-                            <span class="color-p"></span>
+                            <span class="color-p">
+                                <i class="fa-solid fa-circle-question" style="cursor: pointer;"></i>
+                                <div class="info-box" style="display: none;">
+                                    <p>Esta tarifa adicional é aplicada para serviços realizados em domingos e feriados.</p>
+                                </div>
+                            </span>
                         </div>
                         <div class="preco-lixeira">
-                            <span class="preco-single">R$14,99</span>
+                            <span class="preco-single">R$17,99</span>
                         </div>
                     </div>
                 `;
@@ -54,6 +63,9 @@ function clickDia() {
                 reposicionarTarifaEspecial();
 
                 localStorage.setItem('tarifaEspecial', true);
+
+                // Adiciona evento de clique no ícone de informação
+                inicializarEventosInfoBox();
 
                 atualizarTotal(); // Atualiza o total após a adição
             }
@@ -73,7 +85,33 @@ function clickDia() {
         }
 
     });
+
 }
+
+function inicializarEventosInfoBox() {
+    $(".fa-circle-question").each(function () {
+        $(this).off("click").on("click", function (e) {
+            e.stopPropagation();
+
+            const infoBox = $(this).siblings(".info-box");
+            $(".info-box").not(infoBox).hide();
+            infoBox.toggle();
+        });
+    });
+
+    $("body").off("click touchstart").on("click touchstart", function () {
+        $(".info-box").hide();
+    });
+
+    $(".info-box").each(function () {
+        $(this).off("click touchstart").on("click touchstart", function (e) {
+            e.stopPropagation();
+        });
+    });
+    
+}
+
+// Evento global para fechar info-box ao clicar fora
 
 // Objeto global para armazenar os serviços selecionados
 const servicosSelecionadosAgenda = {};
@@ -131,10 +169,42 @@ function selectServicoAgenda() {
         // Atualiza o localStorage com o estado atual
         localStorage.setItem('servicosSelecionadosAgenda', JSON.stringify(servicosSelecionadosAgenda));
 
+        // Atualiza o contador na box atual
+        const boxAtual = $(this).closest('.box-servicos-select');
+        atualizarCarrinhoSelect(boxAtual);
+
         console.log('Serviços Selecionados agenda:', servicosSelecionadosAgenda); // Exibe o estado atual
         atualizarResumoSelecao(checked, checkboxId); // Atualiza o resumo
         reposicionarTarifaEspecial();
     });
+}
+
+// Função para atualizar a quantidade de serviços selecionados em uma box específica
+function atualizarCarrinhoSelect(boxElement) {
+    // Recuperar os serviços selecionados do localStorage
+    const servicosSelecionados = localStorage.getItem('servicosSelecionadosAgenda');
+
+    if (servicosSelecionados) {
+        // Parse dos dados para um objeto
+        const servicosObj = JSON.parse(servicosSelecionados);
+
+        // Identificar os checkboxes dentro da box atual
+        const servicosNaBox = $(boxElement).find('.checkbox-servico').map(function () {
+            return $(this).attr('id'); // Pega os IDs dos checkboxes
+        }).get();
+
+        // Filtrar os serviços selecionados que pertencem à box atual
+        const servicosFiltrados = Object.keys(servicosObj).filter(servicoId => {
+            return servicosNaBox.includes(servicoId);
+        });
+
+        // Atualizar o contador no elemento correspondente
+        const quantidade = servicosFiltrados.length;
+        $(boxElement).find('.wraper-carrinho-select span').text(quantidade);
+    } else {
+        // Se não houver serviços selecionados, exibir 0
+        $(boxElement).find('.wraper-carrinho-select span').text(0);
+    }
 }
 
 // Função para atualizar o resumo de serviços
@@ -339,6 +409,9 @@ $('.wraper-resumo .selecao-single-total').last().before(novaSelecao);
 
               //console.log(checkboxId);
               // Update the total
+              $('.box-servicos-select').each(function () {
+                    atualizarCarrinhoSelect(this);
+                });
               atualizarTotal();
         });
 
@@ -751,6 +824,8 @@ function closeModal() {
     $('.form-recuperar-senha-nova-senha-js').css('display','none');
     $('.form-recuperar-senha-codigo-js').css('display','none');
     $('.form-login-js').css('display','block');
+
+    $('.wraper-carrinho-select span').text(0);
 
     localStorage.clear();
 

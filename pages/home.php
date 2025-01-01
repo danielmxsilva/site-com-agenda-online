@@ -4185,6 +4185,10 @@ HTML;
 						<span class="line-h"></span>
 					</div><!--wraper-h-->
 
+					<div class="horario-necess js-tempo-servico">
+						<p class="color-p horario-total">Necessário: &nbsp&nbsp&nbsp<i class="fa-solid fa-clock" aria-hidden="true"></i>&nbsp&nbsp<span class="tempo-estimado">0:00</span>&nbsp&nbsp para o atendimento.</p>
+					</div><!--horarios-necess-->
+
 					<div class="horarios-periodo flex horarios-agenda" id="horario-agendamento">
 
 						<div class="manha select-periodo">
@@ -4202,12 +4206,10 @@ HTML;
 					</div><!--horarios-periodo-->
 
 					<div class="msg-tarifa">
-						<p>Tarifa adicional R$15,00</p>
+						<p>Acréscimo noturno: R$15,00</p>
 					</div><!--msg-tarifa-->
 
-					<div class="horario-necess js-tempo-servico">
-						<p class="color-p horario-total">Tempo estimado necessário &nbsp&nbsp&nbsp<i class="fa-solid fa-clock" aria-hidden="true"></i>&nbsp&nbsp<span class="tempo-estimado">0:00</span></p>
-					</div><!--horarios-necess-->
+					
 
 					<div class="horario-single">
 					    <div class="horario-manha">
@@ -4456,56 +4458,18 @@ HTML;
 
 		<div class="resumo-servico resumo-servico-js">
 
-			<div class="wraper-resumo box-servicos-select">
-
-				<div class="selecao-single-topo flex">
-					<div class="txt-p" style="width:46%;"><span class="color-p">Data</span>
-					</div> 
-					<div class="duracao" style="width: 50%;">
-						<span class="color-p">Horarios Selecionados</span>
-					</div>
-				</div>
-
-				<div class="resumo-data-horario">
-
-				</div><!--resumo-data-horario-->
-
-				<!--
-				<div class="resumo-data-horario">
-					<div class="selecao-single flex">
-			            <div class="txt-p" style="width: 46%;">
-			                <span class="p-single">20/11/2024</span>
-			            </div>
-			            <div class="duracao" style="width: 50%;">
-							<span class="color-p"><i class="fa-solid fa-clock" aria-hidden="true"></i> 13:00 - 14:00 - 15:00 - 16:00</span>
-						</div>
-			        </div>
-				</div>
-				-->
-
-
-			</div><!--wraper-resumo box-servicos-select resumo-data-horario-->
-
-<!--
-			<div class="selecao-single flex">
-	            <div class="txt-p" style="width: 46%;">
-	                <span class="p-single">20/11/2024</span>
-	            </div>
-	            <div class="duracao" style="width: 50%;">
-					<span class="color-p"><i class="fa-solid fa-clock" aria-hidden="true"></i> 13:00 - 14:00 - 15:00 - 16:00</span>
-				</div>
-	        </div>
--->
 
 		<!--INICIO RESUMO BOX-SERVICOS FINAL PAGAMENTO AGENDA-->
 
-		<div class="wraper-resumo box-servicos-select resumo-servico-1">
+		<div class="wraper-resumo box-servicos-select resumo-servico-1 estilo-resumo-servico">
 
 					<div class="selecao-single-topo flex">
-						<div class="txt-p"><span class="color-p">Serviços Cliente 1</span>
+						<div class="txt-p"><span class="color-p">Serviços Escolhidos <br/> Cliente 1</span>
 						</div> 
 						<div class="duracao">
-							<span class="color-p">Duração</span>
+							<span class="color-p">
+								
+							</span>
 						</div>
 						<div class="preco-lixeira">
 							<span class="preco-single color-p">Valor</span>
@@ -4514,20 +4478,6 @@ HTML;
 						<input type="hidden" name="cliente_1">
 					</div>
 
-<!--
-			   		<div class="selecao-single flex resumo-servico-cliente-1">
-			            <div class="txt-p">
-			                <span class="p-single">Limpeza Simples de Sobrancelhas</span>
-			            </div>
-			            <div class="duracao">
-							<span class="color-p"><i class="fa-solid fa-clock" aria-hidden="true"></i> 0:40</span>
-						</div>
-			            <div class="preco-lixeira">
-			                <span class="preco-single">R$124,99</span>
-			                <i class="icone-lixeira fa-solid fa-trash-can"></i>
-			            </div>
-			        </div>
--->
 
 					<div class="selecao-single-total flex total-resumo-servico-cliente-1">
 						<div class="txt-p"><span class="color-p">Total</span>
@@ -4542,169 +4492,26 @@ HTML;
 
 		</div><!--wraper-resumo resumo-servico-1-->
 
-<?php /*?>
-		<div class="wraper-resumo box-servicos-select resumo-servico-2">
-
-					<div class="selecao-single-topo flex">
-						<div class="txt-p"><span class="color-p">Serviço 2</span>
-						</div> 
-						<div class="duracao">
-							<span class="color-p">Duração</span>
-						</div>
-						<div class="preco-lixeira">
-							<span class="preco-single color-p">Valor</span>
-							<i class="fa-solid fa-cart-shopping"></i>
-						</div>
-						<input type="hidden" name="cliente_1">
-					</div>
 
 
-			   		<div class="selecao-single flex">
-			            <div class="txt-p">
-			                <span class="p-single">Limpeza Simples de Sobrancelhas</span>
-			            </div>
-			            <div class="duracao">
-							<span class="color-p"><i class="fa-solid fa-clock" aria-hidden="true"></i> 0:40</span>
-						</div>
-			            <div class="preco-lixeira">
-			                <span class="preco-single">R$124,99</span>
-			                <i class="icone-lixeira fa-solid fa-trash-can"></i>
-			            </div>
-			        </div>
+		<div class="wraper-resumo box-servicos-select">
 
-			        <div class="selecao-single flex">
-			            <div class="txt-p">
-			                <span class="p-single">Tarifa Especial</span>
-			            </div>
-			            <div class="duracao">
-							<span class="color-p"></span>
-						</div>
-			            <div class="preco-lixeira">
-			                <span class="preco-single">R$14,99</span>
-			            </div>
-			        </div>
+			<div class="selecao-single-topo flex">
+				<div class="txt-p" style="width:46%;"><span class="color-p">Data</span>
+				</div> 
+				<div class="duracao" style="width: 50%;">
+					<span class="color-p">Horarios Selecionados</span>
+				</div>
+			</div>
 
-					<div class="selecao-single-total flex">
-						<div class="txt-p"><span class="color-p">Total</span>
-						</div> 
-						<div class="duracao">
-							<span class="color-p"><i class="fa-solid fa-clock"></i> 2:40</span>
-						</div>
-						<div class="preco-lixeira">
-							<span class="preco-total color-p">R$ 139,98</span>
-						</div>
-					</div>
+			<div class="resumo-data-horario">
 
-		</div><!--wraper-resumo resumo-servico-2-->
-
-		<div class="wraper-resumo box-servicos-select resumo-servico-3">
-
-					<div class="selecao-single-topo flex">
-						<div class="txt-p"><span class="color-p">Serviço 3</span>
-						</div> 
-						<div class="duracao">
-							<span class="color-p">Duração</span>
-						</div>
-						<div class="preco-lixeira">
-							<span class="preco-single color-p">Valor</span>
-							<i class="fa-solid fa-cart-shopping"></i>
-						</div>
-						<input type="hidden" name="cliente_1">
-					</div>
+			</div><!--resumo-data-horario-->
 
 
-			   		<div class="selecao-single flex">
-			            <div class="txt-p">
-			                <span class="p-single">Limpeza Simples de Sobrancelhas</span>
-			            </div>
-			            <div class="duracao">
-							<span class="color-p"><i class="fa-solid fa-clock" aria-hidden="true"></i> 0:40</span>
-						</div>
-			            <div class="preco-lixeira">
-			                <span class="preco-single">R$124,99</span>
-			                <i class="icone-lixeira fa-solid fa-trash-can"></i>
-			            </div>
-			        </div>
-
-			        <div class="selecao-single flex">
-			            <div class="txt-p">
-			                <span class="p-single">Tarifa Especial</span>
-			            </div>
-			            <div class="duracao">
-							<span class="color-p"></span>
-						</div>
-			            <div class="preco-lixeira">
-			                <span class="preco-single">R$14,99</span>
-			            </div>
-			        </div>
-
-					<div class="selecao-single-total flex">
-						<div class="txt-p"><span class="color-p">Total</span>
-						</div> 
-						<div class="duracao">
-							<span class="color-p"><i class="fa-solid fa-clock"></i> 2:40</span>
-						</div>
-						<div class="preco-lixeira">
-							<span class="preco-total color-p">R$ 139,98</span>
-						</div>
-					</div>
-
-		</div><!--wraper-resumo resumo-servico-3-->
-
-		<div class="wraper-resumo box-servicos-select resumo-servico-4">
-
-					<div class="selecao-single-topo flex">
-						<div class="txt-p"><span class="color-p">Serviço 4</span>
-						</div> 
-						<div class="duracao">
-							<span class="color-p">Duração</span>
-						</div>
-						<div class="preco-lixeira">
-							<span class="preco-single color-p">Valor</span>
-							<i class="fa-solid fa-cart-shopping"></i>
-						</div>
-						<input type="hidden" name="cliente_1">
-					</div>
+		</div><!--wraper-resumo box-servicos-select resumo-data-horario-->
 
 
-			   		<div class="selecao-single flex">
-			            <div class="txt-p">
-			                <span class="p-single">Limpeza Simples de Sobrancelhas</span>
-			            </div>
-			            <div class="duracao">
-							<span class="color-p"><i class="fa-solid fa-clock" aria-hidden="true"></i> 0:40</span>
-						</div>
-			            <div class="preco-lixeira">
-			                <span class="preco-single">R$124,99</span>
-			                <i class="icone-lixeira fa-solid fa-trash-can"></i>
-			            </div>
-			        </div>
-
-			        <div class="selecao-single flex">
-			            <div class="txt-p">
-			                <span class="p-single">Tarifa Especial</span>
-			            </div>
-			            <div class="duracao">
-							<span class="color-p"></span>
-						</div>
-			            <div class="preco-lixeira">
-			                <span class="preco-single">R$14,99</span>
-			            </div>
-			        </div>
-
-					<div class="selecao-single-total flex">
-						<div class="txt-p"><span class="color-p">Total</span>
-						</div> 
-						<div class="duracao">
-							<span class="color-p"><i class="fa-solid fa-clock"></i> 2:40</span>
-						</div>
-						<div class="preco-lixeira">
-							<span class="preco-total color-p">R$ 139,98</span>
-						</div>
-					</div>
-
-		</div><!--wraper-resumo resumo-servico-4-->
-<?php */?>
 <!--
 	SE TEM CREDITO DISPONIVEL
 	-->
@@ -5044,6 +4851,6 @@ HTML;
       </div>
     </div>
     <div class="footer-bottom">
-      <p>&copy; 2024 Paula Rosangela Nail Design . Todos os direitos reservados.</p>
+      <p>&copy; 2025 Paula Rosangela Nail Design . Todos os direitos reservados.</p>
     </div>
   </footer>
