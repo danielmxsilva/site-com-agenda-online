@@ -11,7 +11,7 @@
 				        <div class="contact-card">
 				          <div class="contact-icon"><i class="fa-solid fa-envelope"></i></div>
 				          <p><strong>E-mail:</strong></p>
-				          <a href="paularts22@gmail.com.br">paularts22@gmail.com.br</a>
+				          <a href="mailto:contato@paularosangelanails.com.br">contato@paularosangelanails.com.br</a>
 				        </div>
 				        <div class="contact-card">
 				          <div class="contact-icon"><i class="fa-brands fa-whatsapp"></i></div>

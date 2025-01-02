@@ -1,4 +1,5 @@
 
+/*
 function preencherResumoDataHorario(seletor) {
     // Recupera os dados do localStorage
     const dataEscolhida = localStorage.getItem("dataEscolhida");
@@ -43,10 +44,6 @@ function preencherResumoDataHorario(seletor) {
     container.innerHTML = dadosHTML;
 }
 
-//preencherServicosCliente('1');
-//preencherServicosCliente('2');
-
-/*
 function preencherServicosCliente(clienteId) {
     // Recupera os serviços do localStorage
     const servicosSelecionados = JSON.parse(localStorage.getItem("servicosSelecionadosAgenda")) || {};
@@ -61,6 +58,8 @@ function preencherServicosCliente(clienteId) {
         return;
     }
 
+    const tarifaEspecial = localStorage.getItem("tarifaEspecial") === "true";
+
     // Seleciona o container base para o cliente
     const seletorBase = `.wraper-resumo.box-servicos-select.resumo-servico-${clienteId}`;
     const container = $(seletorBase);
@@ -71,10 +70,35 @@ function preencherServicosCliente(clienteId) {
     }
 
     // Limpa o conteúdo atual dos serviços (exceto cabeçalho e total)
-    container.find(`.resumo-servico-cliente-${clienteId}`).remove();
+    container.find(`.selecao-single`).remove();
 
     let duracaoTotal = 0;
     let precoTotal = 0;
+
+    // Se a tarifa especial estiver ativada, adiciona o conteúdo correspondente
+    if (tarifaEspecial) {
+        const tarifaEspecialHTML = `
+            <div class="selecao-single flex box-tarifa-especial" style="position: relative; overflow: unset;">
+                <div class="txt-p">
+                    <span class="p-single">Tarifa Adicional</span>
+                </div>
+                <div class="duracao">
+                    <span class="color-p">
+                        <i class="fa-solid fa-circle-question" style="cursor: pointer;"></i>
+                        <div class="info-box" style="display: none;">
+                            <p>Esta tarifa adicional é aplicada para serviços realizados em domingos e feriados.</p>
+                        </div>
+                    </span>
+                </div>
+                <div class="preco-lixeira">
+                    <span class="preco-single">R$17,99</span>
+                </div>
+            </div>
+        `;
+        // Adiciona o HTML da tarifa especial no container
+        container.append(tarifaEspecialHTML);
+        reposicionarTarifaEspecialResumo(clienteId);
+    }
 
     // Adiciona os serviços dinamicamente
     servicosCliente.forEach((servico) => {
@@ -89,16 +113,18 @@ function preencherServicosCliente(clienteId) {
 
         // Gera o HTML do serviço
         const servicoHTML = `
-            <div class="selecao-single flex resumo-servico-cliente-${clienteId}">
-                <div class="txt-p">
-                    <span class="p-single">${servicoNome}</span>
-                </div>
-                <div class="duracao">
-                    <span class="color-p"><i class="fa-solid fa-clock" aria-hidden="true"></i> ${duracao}</span>
-                </div>
-                <div class="preco-lixeira">
-                    <span class="preco-single">R$${preco}</span>
-                    <i class="icone-lixeira fa-solid fa-trash-can"></i>
+            <div class="js-servico-resumo-agenda">
+                <div class="selecao-single flex resumo-servico-cliente-${clienteId}">
+                    <div class="txt-p">
+                        <span class="p-single">${servicoNome}</span>
+                    </div>
+                    <div class="duracao">
+                        <span class="color-p"><i class="fa-solid fa-clock" aria-hidden="true"></i> ${duracao}</span>
+                    </div>
+                    <div class="preco-lixeira">
+                        <span class="preco-single">R$${preco}</span>
+                        <i class="icone-lixeira fa-solid fa-trash-can"></i>
+                    </div>
                 </div>
             </div>
         `;
@@ -106,6 +132,7 @@ function preencherServicosCliente(clienteId) {
         // Adiciona ao container
         container.append(servicoHTML);
     });
+
 
     // Atualiza o total
     const horasTotais = Math.floor(duracaoTotal / 60);
@@ -115,9 +142,26 @@ function preencherServicosCliente(clienteId) {
         `<i class="fa-solid fa-clock"></i> ${horasTotais}:${minutosTotais.toString().padStart(2, "0")}`
     );
     container.find(`.total-resumo-servico-cliente-${clienteId} .preco-total`).text(`R$ ${precoTotal.toFixed(2).replace(".", ",")}`);
+
+*/
+//}
+
+/*
+
+function reposicionarTarifaEspecialResumo(clienteId) {
+    const seletorBaseTarifaEspecial = `.resumo-servico-${clienteId}`;
+    $(seletorBaseTarifaEspecial).each(function() {
+        const tarifaEspecial = $(this).find('.box-tarifa-especial');
+        const totalBox = $(this).find('.selecao-single-total');
+
+        if (tarifaEspecial.length && totalBox.length) {
+            tarifaEspecial.insertBefore(totalBox); // Move a box-tarifa-especial para antes da selecao-single-total
+        }
+    });
 }
 
 */
+
 
 /*
 

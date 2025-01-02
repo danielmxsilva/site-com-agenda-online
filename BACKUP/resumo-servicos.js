@@ -43,10 +43,9 @@ function preencherResumoDataHorario(seletor) {
     container.innerHTML = dadosHTML;
 }
 
-//preencherServicosCliente('1');
-//preencherServicosCliente('2');
+preencherServicosCliente('1');
+preencherServicosCliente('2');
 
-/*
 function preencherServicosCliente(clienteId) {
     // Recupera os serviços do localStorage
     const servicosSelecionados = JSON.parse(localStorage.getItem("servicosSelecionadosAgenda")) || {};
@@ -117,7 +116,7 @@ function preencherServicosCliente(clienteId) {
     container.find(`.total-resumo-servico-cliente-${clienteId} .preco-total`).text(`R$ ${precoTotal.toFixed(2).replace(".", ",")}`);
 }
 
-*/
+
 
 /*
 

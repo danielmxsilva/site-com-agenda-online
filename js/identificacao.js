@@ -253,7 +253,7 @@ function validarEConsultarFormulario(config) {
                             $('.js-sucess-modal-agenda-servicos .txt-p').text(mensagemSucesso);
 
                             //formInformacoesHide();
-                            formInformacoes(response.dados, response.endereco);
+                            
                         } else {
                             //CADASTRO NÃO ENCONTRADO
                             // Esconde mensagem de sucesso (se estiver visível)
@@ -330,7 +330,13 @@ function formInformacoes(dados, endereco){
 
         console.log("tenho dados!");
 
+        pegarDados(dados, endereco);
+
         /*
+    
+        formInformacoes(response.dados, response.endereco);
+
+
         $('.form-login-agenda').css({
           position: 'static',
           transform: 'translate(0,0)',
@@ -341,8 +347,12 @@ function formInformacoes(dados, endereco){
 
         //$('.form-informacoes-cliente').slideDown(300);
         /*
-        $('#nome-login-agenda').val(dados.nome);
-        $('#email-login-agenda').val(dados.email);
+        $('#nome').val(dados.nome);
+        $('#email').val(dados.email);
+        $('#foto_perfil_cliente').val(dados.foto_perfil_cliente);
+        $('#telefone').val(dados.telefone);
+
+        $(#senha).criptografada com hash, será possível alterar com confirmação da senha
 
 
         // Exemplo para preencher o endereço com base no 'endereco_id' (se necessário)
@@ -513,6 +523,8 @@ function validarFormularioSenha(config) {
                     } else {
                         exibirNotificacao('erro', 'Erro ao salvar o token. Tente novamente.');
                     }
+
+                    formInformacoes(response.dados,response.endereco);
 
                     trocarBox(".login-agenda", ".js-box-pagamento-agenda");
 

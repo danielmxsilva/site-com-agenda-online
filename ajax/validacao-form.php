@@ -160,6 +160,21 @@
                      // Remove a senha antes de enviar para o frontend por segurança
                     unset($registro['senha_login']);
 
+                    // Adiciona a lógica para buscar o endereço
+	                if (!empty($registro['endereco_id'])) {
+	                    $sqlEndereco = "SELECT * FROM tb_endereco WHERE id = ?";
+	                    $stmtEndereco = $pdo->prepare($sqlEndereco);
+	                    $stmtEndereco->execute([$registro['endereco_id']]);
+
+	                    $endereco = $stmtEndereco->fetch(PDO::FETCH_ASSOC);
+
+	                    if ($endereco) {
+	                        $registro['endereco'] = $endereco;
+	                    } else {
+	                        $registro['mensagem'] = 'Endereço não encontrado.';
+	                    }
+	                }
+
 	                echo json_encode([
 	                    'loginValido' => true,
 	                    'mensagem' => 'Login efetuado com sucesso.',
@@ -201,6 +216,21 @@
 
 	        if ($registro) {
 	            unset($registro['senha_login']); //Removendo a senha por segurança
+
+	            // Verifica se o cliente possui um endereco_id
+	            if (!empty($registro['endereco_id'])) {
+	                $sqlEndereco = "SELECT * FROM tb_endereco WHERE id = ?";
+	                $stmtEndereco = $pdo->prepare($sqlEndereco);
+	                $stmtEndereco->execute([$registro['endereco_id']]);
+	                $endereco = $stmtEndereco->fetch(PDO::FETCH_ASSOC);
+
+	                if ($endereco) {
+	                    $registro['endereco'] = $endereco; // Adiciona o endereço à resposta
+	                } else {
+	                    $registro['mensagem'] = 'Endereço não encontrado.';
+	                }
+	            }
+	            
 	            echo json_encode(['tokenValido' => true, 'dados' => $registro]);
 	            exit;
 	        } else {

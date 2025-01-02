@@ -1895,7 +1895,107 @@ legend.codigo-info .codigo-dica {
   margin: 15px 0 5px;
 }
 
+.perfil-cliente {
+    position: relative;
+    display: inline-block;
+    text-align: left;
+    font-family: Arial, sans-serif;
+}
 
+.wraper-perfil{
+	display: inline-block;
+}
+
+.perfil-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 15px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.perfil-box:hover {
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+}
+
+.foto-perfil {
+	  text-align: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid #007BFF; /* Cor chamativa da borda */
+}
+
+.foto-perfil i{
+	font-size: 25px;
+	color: #555;
+	margin-top: 7px;
+}
+
+.foto-perfil img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.nome-cliente {
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+    text-align: center;
+}
+
+.menu-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.3s ease-in-out;
+    z-index: 10;
+}
+
+.menu-dropdown ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.menu-dropdown li {
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.menu-dropdown li:last-child {
+    border-bottom: none;
+}
+
+.menu-dropdown li a {
+    display: block;
+    padding: 10px 15px;
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.menu-dropdown li a:hover {
+    background-color: #f9f9f9;
+}
+
+/* Menu ativo */
+.menu-dropdown.active {
+    transform: scaleY(1);
+}
 
 /************Opções de pagamento stylo 1************/
 

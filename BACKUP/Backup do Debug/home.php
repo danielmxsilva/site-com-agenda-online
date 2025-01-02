@@ -4140,7 +4140,7 @@ HTML;
 							<span class="preco-single color-p">Valor</span>
 							<i class="fa-solid fa-cart-shopping"></i>
 						</div>
-						<input type="hidden" name="cliente_1">
+						
 					</div>
 
 <!--
@@ -4156,7 +4156,7 @@ HTML;
             </div>
         </div>
 -->
-					<div class="selecao-single-total flex">
+					<div class="selecao-single-total pos-total-cliente-4 flex">
 						<div class="txt-p"><span class="color-p">Total</span>
 						</div> 
 						<div class="duracao">
@@ -4451,21 +4451,6 @@ HTML;
 
 		<div class="wraper-pagamento js-box-pagamento-agenda js-box-resumo-agenda" style="display: none;">
 
-			<div class="perfil-cliente">
-				<div class="wraper-perfil">
-				    <div class="perfil-box add-perfil-js" onclick="toggleMenu()">
-				        
-				    </div>
-				    <div class="menu-dropdown">
-				        <ul>
-				            <li><a href="#">Editar Dados</a></li>
-				            <li><a href="#">Histórico</a></li>
-				            <li><a class="btn-sair" href="">Sair</a></li>
-				        </ul>
-				    </div>
-				</div><!--wraper-perfil-->
-			</div><!--perfil-cliente-->
-
 			<div class="wraper-h">
 				<h3 class="titulo-h">Resumo dos <span class="rosa-span">Serviços</span> e opções de <span class="rosa-span">Pagamento</span></h3>
 				<span class="line-h"></span>
@@ -4476,70 +4461,32 @@ HTML;
 
 		<!--INICIO RESUMO BOX-SERVICOS FINAL PAGAMENTO AGENDA-->
 
-		<div class="wraper-resumo box-servicos-select agenda-resumo-cliente-1 estilo-resumo-servico">
+<?php /* ?>
+		<div class="resumo-servico-js-box">
 
-					<div class="selecao-single-topo flex">
-						<div class="txt-p"><span class="color-p">Serviços Escolhidos <br/> Cliente 1</span>
-						</div> 
-						<div class="duracao">
-							<span class="color-p">
-								
-							</span>
+			<div class="wraper-resumo box-servicos-select resumo-servico-1 estilo-resumo-servico">
+
+						<div class="selecao-single-topo flex">
+							<div class="txt-p"><span class="color-p">Serviços Escolhidos <br/> Cliente 1</span>
+							</div> 
+							<div class="duracao">
+								<span class="color-p">
+									
+								</span>
+							</div>
+							<div class="preco-lixeira">
+								<span class="preco-single color-p">Valor</span>
+								<i class="fa-solid fa-cart-shopping"></i>
+							</div>
+							<input type="hidden" name="cliente_1">
 						</div>
-						<div class="preco-lixeira">
-							<span class="preco-single color-p">Valor</span>
-							<i class="fa-solid fa-cart-shopping"></i>
-						</div>
-						<input type="hidden" name="cliente_1">
-					</div>
-
-					<div class="selecao-single-total pos-total-cliente-1 flex">
-						<div class="txt-p"><span class="color-p">Total</span>
-						</div> 
-						<div class="duracao">
-							<span class="color-p"><i class="fa-solid fa-clock"></i> 0:00</span>
-						</div>
-						<div class="preco-lixeira">
-							<span class="preco-total color-p">R$ 00,00</span>
-						</div>
-						<input type="hidden" name="cliente_1" value="resumo-agenda-servico-cliente-1">
-					</div>
-
-				</div><!--wraper-resumo-->
-
-<!--
-		<div class="wraper-resumo box-servicos-select resumo-servico-1 estilo-resumo-servico">
-
-					<div class="selecao-single-topo flex">
-						<div class="txt-p"><span class="color-p">Serviços Escolhidos <br/> Cliente 1</span>
-						</div> 
-						<div class="duracao">
-							<span class="color-p">
-								
-							</span>
-						</div>
-						<div class="preco-lixeira">
-							<span class="preco-single color-p">Valor</span>
-							<i class="fa-solid fa-cart-shopping"></i>
-						</div>
-						<input type="hidden" name="cliente_1">
-					</div>
 
 
-					<div class="selecao-single-total flex total-resumo-servico-cliente-1">
-						<div class="txt-p"><span class="color-p">Total</span>
-						</div> 
-						<div class="duracao">
-							<span class="color-p"><i class="fa-solid fa-clock"></i> 2:40</span>
-						</div>
-						<div class="preco-lixeira">
-							<span class="preco-total color-p">R$ 139,98</span>
-						</div>
-					</div>
+			</div><!--wraper-resumo resumo-servico-1-->
 
-		</div>
+		</div><!--resumo-servico-js-box-->
 
--->
+
 
 		<div class="wraper-resumo box-servicos-select">
 
@@ -4590,7 +4537,7 @@ HTML;
 
 		</div><!--wraper-resumo-->
 
-
+<?php */?>
 		<!--FINAL CREDITO DISPONIVEL-->
 
 		<div class="editar-servico-btn js-btn-editar-servico-agenda">

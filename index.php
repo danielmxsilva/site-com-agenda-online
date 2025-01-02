@@ -93,6 +93,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 		
 ?>
 
+<script>
+    const includePathPainel = "<?php echo INCLUDE_PATH_PAINEL; ?>";
+</script>
 
 <script src="<?php echo INCLUDE_PATH;?>js/jquery.js"></script>
 <script src="<?php echo INCLUDE_PATH;?>js/jquery.ajaxform.js"></script>
@@ -108,6 +111,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script src="<?php echo INCLUDE_PATH;?>js/identificacao.js"></script>
 <script src="<?php echo INCLUDE_PATH;?>js/cadastro.js"></script>
 <script src="<?php echo INCLUDE_PATH;?>js/resumo-servicos.js"></script>
+<script src="<?php echo INCLUDE_PATH;?>js/usuario.js"></script>
 <!-- scripts particulas -->
 <!--
 <script src="<?php //echo INCLUDE_PATH;?>js/particles.js"></script>
@@ -122,6 +126,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 -->
 
 <script>
+
+	function toggleMenu() {
+	    const menu = document.querySelector('.menu-dropdown');
+	    menu.classList.toggle('active');
+	}
+
+
 	function togglePasswordVisibility() {
 	    const passwordInput = document.getElementById("senha-login-agenda");
 	    const toggleIcon = document.querySelector(".toggle-password i");
