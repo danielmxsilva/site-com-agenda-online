@@ -30,6 +30,8 @@ $(document).ready(function(){
 
   recuperarSenha();
 
+  clickBtnSair();
+
 
 })
 
@@ -487,7 +489,7 @@ function validarFormularioSenha(config) {
             
             },
             success: function (response) {
-                //$(divPai).removeClass('carregando');
+                $(divPai).removeClass('carregando');
                 if (response.loginValido) {
                     //alert('Login efetuado com sucesso!');
                     const nomeCliente = response.dados.nome || 'Cliente';
@@ -539,7 +541,7 @@ function validarFormularioSenha(config) {
                 }
             },
             error: function () {
-                //$(divPai).removeClass('carregando');
+                $(divPai).removeClass('carregando');
                 $(".js-sucess-modal-agenda-servicos").stop(true, true).fadeOut(0);
 
                 // Exibe mensagem de erro genérica
@@ -586,4 +588,51 @@ function clearCookies() {
         const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
         document.cookie = `${name}=; max-age=0; path=/;`;
     }
+}
+
+function clickBtnSair(){
+    $('a.btn_sair').click(function(e){
+        e.preventDefault();
+
+        if(localStorage.getItem('token')){
+            localStorage.removeItem('token');
+            console.log('Token removido do localStorage.');
+        }
+      
+        const cookies = document.cookie.split(';');
+        let tokenCookieExists = false;
+
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            const [name] = cookie.split('=');
+            if (name === 'token') {
+                document.cookie = `${name}=; max-age=0; path=/;`;
+                tokenCookieExists = true;
+            }
+        }
+
+        if (tokenCookieExists) {
+            console.log('Token removido dos cookies.');
+            //trocarBox('.wraper-pagamento', '.wraper-modal', duracao = 400);
+            //$('.wraper-modal.js-modal-agenda-servicos').css('opacity','1');
+        } else {
+            console.log('Nenhum token encontrado nos cookies.');
+            //trocarBox('.wraper-pagamento', '.wraper-modal', duracao = 400);
+            //$('.wraper-modal.js-modal-agenda-servicos').css('opacity','1');
+        }
+
+        $('.form-login-js').css({
+          position: 'relative',
+          transform: 'translate(-50%,-50%)',
+          left: '50%',
+          top: '42%',
+        });
+
+        $('.form-informacoes-cliente').hide();
+
+        trocarBox('.wraper-pagamento', '.wraper-modal', duracao = 400);
+        //$('.wraper-modal.js-modal-agenda-servicos').css({ opacity: 1, display: 'block' }).fadeOut(400);
+        //$('.wraper-modal.js-modal-agenda-servicos').css('opacity','1');
+
+    })
 }

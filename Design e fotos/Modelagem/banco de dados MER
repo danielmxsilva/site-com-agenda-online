@@ -39,10 +39,16 @@ agendamentos {
     horario time
     data date
     status enum
-    cliente_servicos integer > cliente_servicos.id
+    cliente_servico integer > cliente_servicos.id
 }
 
-servico {
+cliente_servicos {
+    id int pk
+    cliente_id int > clientes.id
+    servico_id int > servico.id
+}
+
+servico{
     id int pk
     foto_servico varchar
     duracao_servico time
@@ -91,12 +97,6 @@ tb_clientes {
     telefone varchar
     atendido enum
     add_cliente boolean
-}
-
-cliente_servicos {
-    id int pk
-    cliente_id int > clientes.id
-    servico_id int > servicos.id
 }
 
 creditos {

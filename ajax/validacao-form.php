@@ -538,11 +538,24 @@
 		    	$telefone
 		    ]);
 
+		    // Obter o id do cliente recém-inserido
+		    $clienteId = $pdo->lastInsertId();
+
+		    // Buscar os dados completos do cliente inserido
+		    $stmtClienteFetch = $pdo->prepare("
+		        SELECT c.id, c.nome, c.email, c.telefone, c.foto_perfil_cliente, c.data_cadastro, e.cep, e.cidade, e.bairro, e.rua, e.numero_casa
+		        FROM tb_clientes c
+		        JOIN tb_endereco e ON c.endereco_id = e.id
+		        WHERE c.id = ?
+		    ");
+		    $stmtClienteFetch->execute([$clienteId]);
+		    $clienteData = $stmtClienteFetch->fetch(PDO::FETCH_ASSOC);
+
 		    // Resposta de sucesso
 		    echo json_encode([
 		        'sucesso' => true,
-		        'mensagem' => 'Cadastro realizado com sucesso!'
-
+		        'mensagem' => 'Cadastro realizado com sucesso!',
+		        'dados' => $clienteData
 		    ]);
 		    exit();
 
@@ -566,8 +579,8 @@
 
 
         // Exemplo de retorno de sucesso
-        echo json_encode(['success' => true, 'mensagem' => 'Cadastro realizado com sucesso!']);
-        exit;
+        //echo json_encode(['success' => true, 'mensagem' => 'Cadastro realizado com sucesso!']);
+        //exit;
 
     } else {
 	    echo json_encode(['error' => 'parametros inválidos.']);

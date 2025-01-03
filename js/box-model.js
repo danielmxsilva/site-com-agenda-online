@@ -1211,7 +1211,7 @@ function ClickbtnAvancarAgendamento(){
         calcularTotalMinutosServicos()
 
         // Adiciona atraso para validação (1 segundo)
-        setTimeout(() => {
+      
             const mensagemErro = validarTempoAgendamento(); // Recebe a mensagem de erro ou `null`
             // Valida o tempo de agendamento
             if (mensagemErro) {
@@ -1225,6 +1225,8 @@ function ClickbtnAvancarAgendamento(){
             
 
             } else {
+
+                $('.js-modal-agenda-servicos').css('opacity', '1');
                 // Validação passou, verifica o token no cookie
 
                 const token = getCookie('token'); // Assumindo que o token está no cookie 'token'
@@ -1240,6 +1242,7 @@ function ClickbtnAvancarAgendamento(){
                             $('.js-modal-agenda-servicos').addClass('carregando');
                         },
                         success: function(response) {
+                        
                             $('.js-modal-agenda-servicos').removeClass('carregando');
                             if (response.tokenValido) {
                                 // Token válido, recupera os dados do usuário e troca a box
@@ -1247,6 +1250,7 @@ function ClickbtnAvancarAgendamento(){
                                 // Exemplo:
                                 // $('#nome-usuario').text(response.dados.nome);
                                 // $('#email-usuario').text(response.dados.email);
+                                pegarDados(response.dados, response.endereco);
                                 trocarBox('.js-modal-agenda-servicos', '.js-box-pagamento-agenda');
                                 preencherServicosDinamicos();
                                 preencherResumoDataHorario('.resumo-data-horario'); // Substitua '.sua-proxima-box' pelo seletor correto
@@ -1259,13 +1263,15 @@ function ClickbtnAvancarAgendamento(){
                             }
                         },
                         error: function() {
-                            $('.js-modal-agenda-servicos').removeClass('carregando');
+                        
                             exibirNotificacao('erro', 'Erro ao validar o token. Tente novamente.');
                             trocarBox('.js-modal-agenda-servicos', '.login-agenda');
                             preencherServicosDinamicos();
                             preencherResumoDataHorario('.resumo-data-horario');
                         }
                     });
+
+
                 } else {
                     // Nenhum token no cookie, prossegue para o login normal
                     trocarBox('.js-modal-agenda-servicos', '.login-agenda');
@@ -1276,7 +1282,7 @@ function ClickbtnAvancarAgendamento(){
                 // Garante que a mensagem de erro seja escondida, caso ainda esteja visível
                 $('.js-error-modal-agenda-servicos').fadeOut();
             }
-        }, 800); // 0,8 segundo de atraso
+        // 0,8 segundo de atraso
         
     })
 
@@ -1297,7 +1303,7 @@ function preencherServicosDinamicos() {
 
     // Itera sobre os IDs e chama a função para preencher os serviços
     clientesIds.forEach(clienteId => {
-        preencherServicosCliente(clienteId);
+        //preencherServicosCliente(clienteId);
     });
 }
 

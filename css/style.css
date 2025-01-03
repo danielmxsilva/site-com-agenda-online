@@ -1222,15 +1222,6 @@ section{
 	padding: 20px 2%;
 }
 
-.resumo-servico{
-	padding: 5px 5% 20px 5%;
-	background-color: white;
-	border-radius: 8px;
-	transition: background-color 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 4px 12px rgba(233, 30, 99, 0.71);
-  margin: 25px 0;
-}
-
 .estilo-resumo-servico .selecao-single-topo .txt-p span{
 	font-size: 19px;
 	font-weight: bold;
@@ -1636,7 +1627,9 @@ span.tempo-estimado{
 .form-informacoes-cliente,
 .form-recuperar-login,
 .resumo-servico,
-.payment-summary {
+.payment-summary,
+.box-perfil-historico,
+.css-form-editar {
   margin: 20px 0;
   padding: 20px;
   background: #ffffff;
@@ -1646,16 +1639,22 @@ span.tempo-estimado{
   /*transition: transform 0.2s ease;*/
 }
 
+.css-form-editar{
+	margin: 0 0;
+}
+
 .form-telefone-login:hover, .form-informacoes-cliente:hover {
   /*transform: scale(1.02);*/
 }
 
-.wraper-login fieldset ,.login-agendamentos fieldset{
+.wraper-login fieldset ,.login-agendamentos fieldset,
+.css-form-editar fieldset{
   border: none;
   margin-bottom: 15px;
 }
 
-.wraper-login legend ,.login-agendamentos legend{
+.wraper-login legend ,.login-agendamentos legend,
+.css-form-editar legend{
   font-size: 1.2em;
   color: #333;
   margin-bottom: 15px;
@@ -1700,7 +1699,13 @@ legend.codigo-info .codigo-dica {
 .login-agendamentos input[type="text"],
 .login-agendamentos input[type="submit"],
 .login-agendamentos select,
-.login-agendamentos textarea{
+.login-agendamentos textarea,
+.css-form-editar input[type="text"],
+.css-form-editar input[type="email"],
+.css-form-editar input[type="submit"],
+.css-form-editar input[type="password"],
+.css-form-editar select,
+.css-form-editar textarea{
   width: 100%;
   padding: 12px;
   border: 1px solid #ddd;
@@ -1717,12 +1722,17 @@ legend.codigo-info .codigo-dica {
 .wraper-login select:focus,
 .login-agendamentos input[type="text"]:focus,
 .login-agendamentos select:focus,
-.login-agendamentos textarea:focus{
+.login-agendamentos textarea:focus,
+.css-form-editar input[type="text"]:focus,
+.css-form-editar input[type="email"]:focus,
+.css-form-editar select:focus,
+.css-form-editar textarea:focus{
   border-color: #333333;
 }
 
 .wraper-login input[type="submit"],
-.login-agendamentos input[type="submit"] {
+.login-agendamentos input[type="submit"],
+.css-form-editar input[type="submit"] {
   cursor: pointer;
   background-color: #e91e63;
   color: #fff;
@@ -1731,7 +1741,8 @@ legend.codigo-info .codigo-dica {
 }
 
 .wraper-login input[type="submit"]:hover,
-.login-agendamentos input[type="submit"]:hover {
+.login-agendamentos input[type="submit"]:hover,
+.css-form-editar input[type="submit"]:hover {
   border: 1px solid #FF69B4;
   background-color: #F5B7B1;
 }
@@ -1740,7 +1751,9 @@ legend.codigo-info .codigo-dica {
 .wraper-form-single input[type="text"]::placeholder,
 .wraper-form-single textarea::placeholder,
 .wraper-form-single input[type="email"]::placeholder,
-.wraper-form-single input[type="password"]::placeholder {
+.wraper-form-single input[type="password"]::placeholder,
+.css-form-editar input[type="text"]::placeholder,
+.css-form-editar input[type="email"]::placeholder {
   color: transparent;
 }
 
@@ -1896,10 +1909,12 @@ legend.codigo-info .codigo-dica {
 }
 
 .perfil-cliente {
-    position: relative;
+    position: fixed;
     display: inline-block;
     text-align: left;
-    font-family: Arial, sans-serif;
+    z-index: 9;
+    right: 30px;
+    top: 5px;
 }
 
 .wraper-perfil{
@@ -1928,7 +1943,7 @@ legend.codigo-info .codigo-dica {
     height: 50px;
     border-radius: 50%;
     overflow: hidden;
-    border: 3px solid #007BFF; /* Cor chamativa da borda */
+    border: 3px solid #cecece; /* Cor chamativa da borda */
 }
 
 .foto-perfil i{
@@ -1951,6 +1966,7 @@ legend.codigo-info .codigo-dica {
 }
 
 .menu-dropdown {
+		display: none;
     position: absolute;
     top: 100%;
     left: 0;
@@ -1959,7 +1975,6 @@ legend.codigo-info .codigo-dica {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     overflow: hidden;
-    transform: scaleY(0);
     transform-origin: top;
     transition: transform 0.3s ease-in-out;
     z-index: 10;
@@ -1980,6 +1995,7 @@ legend.codigo-info .codigo-dica {
 }
 
 .menu-dropdown li a {
+		cursor: pointer;
     display: block;
     padding: 10px 15px;
     color: #333;
@@ -1997,10 +2013,167 @@ legend.codigo-info .codigo-dica {
     transform: scaleY(1);
 }
 
+.box-perfil-slide{
+	display: none;
+}
+
+.box-perfil-slide{
+	border-radius: 15px;
+	position: absolute;
+  right: 30px;
+  top: 80px;
+  width: 90%;
+  z-index: 9;
+  background: linear-gradient(145deg, #ffffff, #f0f0f0);
+  overflow-y: scroll;
+  border: 4px solid #a17369;
+  height: 400px;
+	scrollbar-width: thin; /* Define a largura da barra de rolagem para Firefox */
+  scrollbar-color: rgba(144, 143, 143, 0.7) #f0f0f0; /* Cor da barra e do fundo */
+}
+
+.box-editar-dados{
+	height: 450px;
+}
+
+.box-historico{
+	padding: 20px;
+}
+
+/* Para navegadores WebKit (Chrome, Safari) */
+.box-perfil-slide::-webkit-scrollbar {
+  height: 5px; /* Altura da barra de rolagem */
+}
+
+.box-perfil-slide::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 1); /* Cor da barra de rolagem */
+  border-radius: 20px; /* Arredondar a barra de rolagem */
+}
+
+.box-perfil-slide::-webkit-scrollbar-track {
+  background: transparent; /* Cor de fundo da trilha do scrollbar */
+  border-radius: 20px;
+}
+
+/* Para ocultar o scrollbar vertical */
+.box-perfil-slide::-webkit-scrollbar:vertical {
+  width: 0; /* Ocultar o scrollbar vertical */
+}
+
+/* Para o scrollbar horizontal */
+.box-perfil-slide::-webkit-scrollbar:horizontal {
+  height: 5px; /* Altura do scrollbar horizontal */
+}
+
+/* Para remover as setas laterais */
+.box-perfil-slide::-webkit-scrollbar-button {
+  display: none; /* Oculta os botões de rolagem */
+}
+
+
+.historico-cliente h2 {
+    font-size: 26px;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 4px solid #3498db; /* Azul destaque */
+    padding-bottom: 10px;
+}
+
+.lista-historico {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.item-historico {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background: #ffffff;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.item-historico:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.data-servico {
+    font-size: 16px;
+    color: #444;
+    font-weight: bold;
+    background: #eee;
+    padding: 5px 10px;
+    border-radius: 6px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.detalhes-servico p {
+    margin: 5px 0;
+    font-size: 16px;
+    color: #555;
+}
+
+.detalhes-servico p strong {
+    color: #222;
+    font-weight: bold;
+}
+
+.detalhes-servico p:nth-child(2) {
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    border-radius: 20px;
+    color: white;
+    display: inline-block;
+    text-align: center;
+}
+
+/* Cores para Status */
+.detalhes-servico p.style-concluido {
+    background-color: #27ae60; /* Verde vibrante */
+    box-shadow: 0 3px 8px rgba(39, 174, 96, 0.5);
+}
+
+.detalhes-servico p.style-agendado {
+    background-color: #2980b9; /* Azul vibrante */
+    box-shadow: 0 3px 8px rgba(41, 128, 185, 0.5);
+}
+
+.detalhes-servico p.style-cancelado {
+    background-color: #c0392b; /* Vermelho vibrante */
+    box-shadow: 0 3px 8px rgba(192, 57, 43, 0.5);
+}
+
+/* Gradiente decorativo para o item */
+.item-historico:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 8px;
+    height: 100%;
+    background: linear-gradient(180deg, #27ae60, #2980b9, #c0392b);
+    border-radius: 4px 0 0 4px;
+}
+
+.item-historico:hover:before {
+    filter: brightness(1.2);
+}
+
+
 /************Opções de pagamento stylo 1************/
 
 .wraper-pagamento{
-	padding: 25px 2%;
+	padding: 60px 2% 25px 2%;
 }
 
 .wraper-pagamento .wraper-resumo{
@@ -2627,6 +2800,21 @@ legend.codigo-info .codigo-dica {
 
   .box-tarifa-especial .duracao{
   	width: 6%;
+  }
+
+  .item-historico {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+  }
+
+  .detalhes-servico {
+      text-align: left;
+  }
+
+  .box-perfil-slide{
+  	width: 98%;
+  	right: 1%;
   }
 
 }

@@ -112,6 +112,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script src="<?php echo INCLUDE_PATH;?>js/cadastro.js"></script>
 <script src="<?php echo INCLUDE_PATH;?>js/resumo-servicos.js"></script>
 <script src="<?php echo INCLUDE_PATH;?>js/usuario.js"></script>
+<script src="<?php echo INCLUDE_PATH;?>js/consultar.js"></script>
 <!-- scripts particulas -->
 <!--
 <script src="<?php //echo INCLUDE_PATH;?>js/particles.js"></script>
@@ -127,10 +128,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <script>
 
-	function toggleMenu() {
-	    const menu = document.querySelector('.menu-dropdown');
-	    menu.classList.toggle('active');
-	}
+	// Fecha o menu ao clicar em qualquer item dentro dele
+	const menuLinks = document.querySelectorAll('.menu-dropdown a');
+	menuLinks.forEach(link => {
+	    link.addEventListener('click', function () {
+	        const menu = document.querySelector('.menu-dropdown');
+	        menu.classList.remove('active');
+	    });
+	});
 
 
 	function togglePasswordVisibility() {

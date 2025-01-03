@@ -1198,7 +1198,7 @@ function ClickbtnAvancarAgendamento(){
 
     $('.btn-avancar').click(function(){
 
-        $('.js-modal-agenda-servicos').css('opacity','0.3');
+        //$('.js-modal-agenda-servicos').css('opacity','0.3');
 
         const existeDados = localStorage.getItem('servicosSelecionadosAgenda');
 
@@ -1211,7 +1211,7 @@ function ClickbtnAvancarAgendamento(){
         calcularTotalMinutosServicos()
 
         // Adiciona atraso para validação (1 segundo)
-        setTimeout(() => {
+        
             const mensagemErro = validarTempoAgendamento(); // Recebe a mensagem de erro ou `null`
             // Valida o tempo de agendamento
             if (mensagemErro) {
@@ -1219,7 +1219,7 @@ function ClickbtnAvancarAgendamento(){
                 exibirNotificacao('erro', mensagemErro)
                 
                 // Restaura a opacidade
-                $('.js-modal-agenda-servicos').css('opacity', '1');
+                //$('.js-modal-agenda-servicos').css('opacity', '1');
 
                 // Oculta a mensagem de erro após 5 segundos
             
@@ -1240,6 +1240,7 @@ function ClickbtnAvancarAgendamento(){
                             $('.js-modal-agenda-servicos').addClass('carregando');
                         },
                         success: function(response) {
+                            $('.wraper-modal.js-modal-agenda-servicos').css({ opacity: 1, display: 'none' }).fadeOut();
                             $('.js-modal-agenda-servicos').removeClass('carregando');
                             if (response.tokenValido) {
                                 // Token válido, recupera os dados do usuário e troca a box
@@ -1277,7 +1278,7 @@ function ClickbtnAvancarAgendamento(){
                 // Garante que a mensagem de erro seja escondida, caso ainda esteja visível
                 $('.js-error-modal-agenda-servicos').fadeOut();
             }
-        }, 800); // 0,8 segundo de atraso
+         // 0,8 segundo de atraso
         
     })
 
@@ -1288,7 +1289,7 @@ function ClickbtnAvancarAgendamento(){
     });
     
 }
-
+/*
 function preencherServicosDinamicos() {
     // Recupera os serviços do localStorage
     const servicosSelecionados = JSON.parse(localStorage.getItem("servicosSelecionadosAgenda")) || {};
@@ -1301,7 +1302,7 @@ function preencherServicosDinamicos() {
         //preencherServicosCliente(clienteId);
     });
 }
-
+*/
 function getCookie(name) {
     const nameEQ = `${name}=`;
     const cookies = document.cookie.split(';');

@@ -297,6 +297,7 @@ function novoCadastro(config) {
             dataType: 'json',
             success: function (response) {
                 if (response.sucesso) {
+                    pegarDados(response.dados, response.endereco)
                     exibirNotificacao('sucesso', response.mensagem);
                     trocarBox('.login-agenda', '.js-box-pagamento-agenda', 400); // Exemplo de navegação
                 } else {

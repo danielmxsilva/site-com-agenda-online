@@ -89,4 +89,60 @@ $(document).ready(function(){
 	    $(".faq-icon").not(icon).text("+");
 	  });
 
+	$('.perfil-cliente').click(function (e) {
+		e.stopPropagation();
+		
+	    const isBoxOpen = $('.box-perfil-slide').is(':visible'); // Verifica se está visível
+
+	    if (isBoxOpen) {
+	        // Se a box estiver aberta, fecha ela e o menu-dropdown
+	        $('.box-perfil-slide').slideUp();
+	        $('.menu-dropdown').slideUp();
+	    } else {
+	        // Caso contrário, apenas abre o menu-dropdown (se necessário)
+	        $('.menu-dropdown').slideToggle();
+	    }
+	});
+
+    // Fechar o menu ao clicar fora da área ou em links
+    $('body, .menu-dropdown a').click(function () {
+        $('.menu-dropdown').slideUp(); // Esconde o menu-dropdown
+    });
+
+    // Impede o fechamento ao clicar dentro do menu-dropdown
+    $('.menu-dropdown').click(function (e) {
+        e.stopPropagation(); // Garante que cliques dentro do menu não fechem ele
+    });
+
+	// Evento de clique nos itens do menu
+    $('.menu-dropdown a').click(function (e) {
+        e.preventDefault();
+
+        // Identifica qual item foi clicado
+        if ($(this).hasClass('editar_dados_cliente')) {
+            openBox('box-editar-dados');
+        } else if ($(this).hasClass('historico_cliente')) {
+            openBox('box-historico');
+        }
+    });
+
+    $('body, a').click(function (e) {
+        const $target = $(e.target);
+        const isInsideMenu = $target.closest('.menu-dropdown, .box-perfil-slide').length > 0;
+        const isInsidePerfil = $target.closest('.perfil-cliente').length > 0;
+
+        // Fecha todas as boxes se o clique não estiver dentro das áreas permitidas
+        if (!isInsideMenu && !isInsidePerfil) {
+            $('.box-perfil-slide').slideUp();
+        }
+    });
+
 })
+
+function openBox(className) {
+    // Fecha todas as boxes abertas
+    $('.box-perfil-slide').not(`.${className}`).slideUp();
+
+    // Abre apenas a box correspondente
+    $(`.${className}`).slideToggle();
+}

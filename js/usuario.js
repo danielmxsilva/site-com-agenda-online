@@ -12,6 +12,8 @@ function pegarDados(dados, endereco){
      // Pega o nome do cliente e verifica se foi fornecido
      const nomeCliente = dados.nome || 'Nome Indisponível';
 
+     const idCliente = dados.id;
+
       // Verifica se há uma foto disponível
      const fotoPerfil = dados.foto_perfil_cliente
 
@@ -28,5 +30,8 @@ function pegarDados(dados, endereco){
 	        <span>${dados.nome}</span>
 	    </div>
 	`;
+
+	carregarHistorico(idCliente);
+
 
 }

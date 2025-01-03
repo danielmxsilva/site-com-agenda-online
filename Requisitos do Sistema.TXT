@@ -29,3 +29,11 @@ Deverá ser possível selecionar 2 subserviços ao mesmo tempo
 Se selecionar serviço completo, deverá desmarcar todos os serviços que tem parte do nome do serviço id no nome. Por exemplo, selecionei agenda-manicure-pedicure-1, deselecionar todos os serviços unitario
 
 Esses meus ids que mandei é so um dos varios que tenho no meu site, por tanto o codigo deverá ser adaptavel para os outros ids, todos ids seguem a mesma estrutura do exemplo a seguir local = agenda. serviço = manicure. subserviço se tiver = corte. e o id do serviço - 1
+
+Implementação no Histórico:
+
+Você pode adicionar esses status no sistema e no histórico do cliente para uma experiência mais rica e detalhada. Além disso, é interessante usar cores ou ícones para tornar os status visualmente intuitivos:
+
+    Verde: Concluído
+    Azul: Agendado
+    Vermelho: Cancelado

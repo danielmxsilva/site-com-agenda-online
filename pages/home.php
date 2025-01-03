@@ -4453,14 +4453,14 @@ HTML;
 
 			<div class="perfil-cliente">
 				<div class="wraper-perfil">
-				    <div class="perfil-box add-perfil-js" onclick="toggleMenu()">
+				    <div class="perfil-box add-perfil-js">
 				        
 				    </div>
 				    <div class="menu-dropdown">
 				        <ul>
-				            <li><a href="#">Editar Dados</a></li>
-				            <li><a href="#">Histórico</a></li>
-				            <li><a class="btn-sair" href="">Sair</a></li>
+				            <li><a class="editar_dados_cliente">Editar Dados</a></li>
+				            <li><a class="historico_cliente">Histórico</a></li>
+				            <li><a class="btn_sair" href="">Sair</a></li>
 				        </ul>
 				    </div>
 				</div><!--wraper-perfil-->
@@ -4645,6 +4645,185 @@ HTML;
 			</div>
 
 		</div><!--wraper-pagamento-->
+
+		<div class="box-perfil-slide box-historico">
+
+				<!--
+					Azul: Agendado = 0
+					Verde: Concluído = 1
+    				Vermelho: Cancelado = 2
+				-->
+
+				<div class="historico-cliente">
+				    <h2>Histórico de Agendamentos</h2>
+
+				    <div class="lista-historico">
+
+<!--
+				        <div class="item-historico">
+				            <div class="data-servico">15/12/2024</div>
+				            <div class="detalhes-servico">
+				                <p><strong>Serviço:</strong> Manicure com esmaltação</p>
+				                <p class="style-agendado"><strong>Status:</strong> Agendado</p>
+				            </div>
+		
+				        </div>
+				        
+				        <div class="item-historico">
+				            <div class="data-servico">10/12/2024</div>
+				            <div class="detalhes-servico">
+				                <p><strong>Serviço:</strong> Pedicure com esmaltação</p>
+				                <p class="style-concluido"><strong>Status:</strong> Concluído</p>
+				            </div>
+				            
+				        </div>
+
+				        <div class="item-historico">
+				            <div class="data-servico">10/12/2024</div>
+				            <div class="detalhes-servico">
+				                <p><strong>Serviço:</strong> Pedicure com esmaltação</p>
+				                <p class="style-cancelado"><strong>Status:</strong> Cancelado</p>
+				            </div>
+				            
+				        </div>
+
+				        <div class="item-historico">
+				            <div class="data-servico">10/12/2024</div>
+				            <div class="detalhes-servico">
+				                <p><strong>Serviço:</strong> Pedicure com esmaltação</p>
+				                <p class="style-concluido"><strong>Status:</strong> Concluído</p>
+				            </div>
+				            
+				        </div>
+
+				        <div class="item-historico">
+				            <div class="data-servico">10/12/2024</div>
+				            <div class="detalhes-servico">
+				                <p><strong>Serviço:</strong> Pedicure com esmaltação</p>
+				                <p class="style-concluido"><strong>Status:</strong> Concluído</p>
+				            </div>
+				            
+				        </div>
+
+				        <div class="item-historico">
+				            <div class="data-servico">10/12/2024</div>
+				            <div class="detalhes-servico">
+				                <p><strong>Serviço:</strong> Pedicure com esmaltação</p>
+				                <p class="style-concluido"><strong>Status:</strong> Concluído</p>
+				            </div>
+				            
+				        </div>
+
+				        <div class="item-historico">
+				            <div class="data-servico">10/12/2024</div>
+				            <div class="detalhes-servico">
+				                <p><strong>Serviço:</strong> Pedicure com esmaltação</p>
+				                <p class="style-concluido"><strong>Status:</strong> Concluído</p>
+				            </div>
+				            
+				        </div>
+
+				        <div class="item-historico">
+				            <div class="data-servico">10/12/2024</div>
+				            <div class="detalhes-servico">
+				                <p><strong>Serviço:</strong> Pedicure com esmaltação</p>
+				                <p class="style-concluido"><strong>Status:</strong> Concluído</p>
+				            </div>
+				            
+				        </div>
+-->
+
+				    </div>
+				</div>
+
+			</div><!--box-historico-->
+
+			<div class="box-perfil-slide box-editar-dados">
+
+			<form class="css-form-editar js-form-editar">
+			 	<div class="wraper-h" style="margin: 10px 0 40px 0;">
+					<h3 class="titulo-h">Seu <span class="rosa-span">Cadastro</span></h3>
+					<span class="line-h"></span>
+				</div><!--wraper-->
+			    <fieldset>
+			    
+			      <legend class="color-p">Informações do Cadastro</legend>
+
+			      <div class="wraper-form-single">
+			        <input type="text" id="nome-login-agenda" name="nome-login-agenda" placeholder=" ">
+			        <label for="nome-login-agenda">Nome Completo</label>
+			      </div>
+
+			      <div class="wraper-form-single">
+			        <input type="email" id="email-login-agenda" name="email-login-agenda" placeholder=" ">
+			        <label for="emaill-login-agenda">Seu melhor E-mail</label>
+			      </div>
+
+			     <div class="wraper-form-single file-css">
+
+				    <label for="foto-cadastro" style="position: static; color: #333; display: block; margin-left: 10px; cursor: pointer;">
+				        Foto do Perfil (Opcional)
+				    </label>
+
+				    <div class="flex-file">
+
+				    	<input style="display: none;" type="file" id="foto-cadastro" name="foto-cadastro" placeholder=" " accept="image/*">
+
+					    <div class="image-preview" id="image-preview" style="cursor: pointer; text-align: center;">
+
+					        <img id="preview-foto" src="#" alt="Preview da Foto" style="display: none;">
+
+					        <i class="fa-solid fa-user" style="font-size: 30px;text-align: center;padding-top: 10px; color: #9d9c9c;"></i>
+
+					    </div>
+
+				    	<span id="file-name" style="color: #555; cursor: pointer;">Nenhum arquivo selecionado</span>
+
+					</div><!--flex-file-->
+
+				 </div>
+
+			      <div class="wraper-h" style="margin: 10px 0 40px 0;">
+					 <h3 class="titulo-h">Endereço de <span class="rosa-span">Atendimento</span></h3>
+					 <span class="line-h"></span>
+				  </div><!--wraper-->
+
+			      <div class="wraper-form-single">
+			        <input type="text" id="cep-login-agenda" name="cep-login-agenda" placeholder=" ">
+			        <label for="cep-login-agenda">CEP</label>
+			      </div>
+
+			      <div class="wraper-form-single">
+			        <select name="cidade-login-agenda" id="cidade-login-agenda">
+			          <option value="cidade" selected disabled>Cidade:</option>
+			          <option value="Itupeva">Itupeva</option>
+			          <option value="Jundiaí">Jundiaí</option>
+			        </select>
+			      </div>
+
+			      <div class="wraper-form-single" style="margin-top: 20px;">
+			        <input type="text" id="bairro-login-agenda" name="bairro-login-agenda" placeholder=" ">
+			        <label for="bairro-login-agenda">Bairro</label>
+			      </div>
+
+			      <div class="wraper-form-single" style="margin-top: 20px;">
+			        <input type="text" id="rua-casa-login-agenda" name="rua-casa-login-agenda" placeholder=" ">
+			        <label for="rua-casa-login-agenda">Rua</label>
+			      </div>
+
+			      <div class="wraper-form-single" style="margin-top: 20px;">
+			        <input type="text" id="n-casa-login-agenda" name="n-casa-login-agenda" placeholder=" ">
+			        <label for="n-casa-login-agenda">Número</label>
+			      </div>
+
+			      <div class="wraper-form-single" style="position:static;">
+			        <input type="submit" disabled value="Aceite a Politica de Privacidade" class="acao-novo-cadastro">
+			      </div>
+
+			    </fieldset>
+			</form><!--form-informacoes-clientes-->
+
+			</div><!--box-editar-dados-->
 		
 	</div><!--box-modal-->
 
