@@ -147,6 +147,8 @@ $(document).ready(function() {
             if (diaSelecionadoFormatado === diaAtual) {
                 const horarioEmMinutos = hora * 60 + minuto;
                 const agoraEmMinutos = horaAtual * 60 + minutoAtual;
+                const limiteEmMinutos = agoraEmMinutos + 60; // Define o limite como 1 hora à frente
+
                 return horarioEmMinutos > agoraEmMinutos && validoParaAgendar;
             }
 
@@ -191,6 +193,34 @@ $(document).ready(function() {
                       console.log('click horario noite');
                       // Exibe a div .msg-tarifa com efeito de fade
                       $('.msg-tarifa').fadeIn(300);
+
+                      // Obtém o preço da tarifa noturna
+                      const precoTarifaNoturnaText = $('.msg-tarifa span').text().trim();
+                      let precoTarifaNoturna = 0;
+
+                      if (precoTarifaNoturnaText) {
+                          // Remove o "R$" e converte a vírgula em ponto
+                          precoTarifaNoturna = parseFloat(precoTarifaNoturnaText.replace('R$', '').replace(',', '.'));
+                      } else {
+                          console.error('Preço da tarifa noturna não encontrado!');
+                      }
+
+                      // Recupera todas as tarifas existentes
+                      // Recupera as tarifas existentes do localStorage
+                      // Recupera as tarifas existentes do localStorage
+                      //let tarifas = JSON.parse(localStorage.getItem('tarifa') || '{}');
+
+                      // Adiciona ou atualiza a Tarifa Noturna
+                      const tarifaNoturna = {
+                          nome: 'Tarifa Noturna',
+                          preco: precoTarifaNoturna,
+                      };
+
+                      // Salva o novo objeto no localStorage
+                      localStorage.setItem('tarifaNoturna', JSON.stringify(tarifaNoturna));
+
+                      $('.resumo-sim-tarifa-noturna').css('display','block');
+
                   } else {
                       console.log('desclick horario noite');
                       // Verifica se ainda há outros horários selecionados na seção de horário-noite
@@ -198,6 +228,13 @@ $(document).ready(function() {
                       if (horariosSelecionados.length === 0) {
                           // Oculta a div .msg-tarifa com efeito de fade se não houver mais horários selecionados
                           $('.msg-tarifa').fadeOut(300);
+
+                            // Recupera todas as tarifas existentes
+                            // Recupera as tarifas existentes do localStorage
+                            localStorage.removeItem('tarifaNoturna');
+
+                            $('.resumo-sim-tarifa-noturna').css('display','none');
+
                       }
                   }
               }

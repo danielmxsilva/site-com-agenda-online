@@ -2773,10 +2773,11 @@ HTML;
 
 					</div><!--resumo-single-css-->
 
+
 					<div style="display:none;" class="resumo-sim-tarifa-especial">
 						<div class="selecao-single flex box-tarifa-especial" style="position: relative; overflow: unset;">
 	                        <div class="txt-p">
-	                            <span class="p-single">Tarifa Adicional</span>
+	                            <span class="p-single"><?php echo htmlspecialchars($infoTarifaAdicional['nome_tarifa']); ?></span>
 	                        </div>
 	                        <div class="duracao">
 	                            <span class="color-p">
@@ -2787,12 +2788,12 @@ HTML;
 	                            </span>
 	                        </div>
 	                        <div class="preco-lixeira">
-	                            <span class="preco-single">R$17,99</span>
+	                            <span class="preco-single"><?php echo 'R$' . htmlspecialchars($infoTarifaAdicional['valor_tarifa']); ?></span>
 	                        </div>
 	                    </div>
 					</div><!--resumo-sim-tarifa-especial-->
 
-
+					
 					<div class="selecao-single-total pos-total-cliente-1 flex">
 						<div class="txt-p"><span class="color-p">Total</span>
 						</div> 
@@ -3254,7 +3255,7 @@ HTML;
 					<div style="display:none;" class="resumo-sim-tarifa-especial">
 						<div class="selecao-single flex box-tarifa-especial" style="position: relative; overflow: unset;">
 	                        <div class="txt-p">
-	                            <span class="p-single">Tarifa Adicional</span>
+	                            <span class="p-single"><?php echo htmlspecialchars($infoTarifaAdicional['nome_tarifa']); ?></span>
 	                        </div>
 	                        <div class="duracao">
 	                            <span class="color-p">
@@ -3265,7 +3266,7 @@ HTML;
 	                            </span>
 	                        </div>
 	                        <div class="preco-lixeira">
-	                            <span class="preco-single">R$17,99</span>
+	                            <span class="preco-single"><?php echo 'R$' . htmlspecialchars($infoTarifaAdicional['valor_tarifa']); ?></span>
 	                        </div>
 	                    </div>
 					</div><!--resumo-sim-tarifa-especial-->
@@ -3726,39 +3727,13 @@ HTML;
 
 					<div class="resumo-single-css resumo-single-js-3">
 
-						<div class="selecao-single flex">
-			                <div class="overlay-delete"></div> <!-- Barra vermelha -->
-			                <div class="txt-p">
-			                    <span class="p-single">Loren Ispun dollor sit Amet Domor Amed</span>
-			                </div>
-			                <div class="duracao">
-			                    <span class="color-p"><i class="fa-solid fa-clock"></i> 2:00</span>
-			                </div>
-			                <div class="preco-lixeira">
-			                    <span class="preco-single">R$49,99</span>
-			                    <i class="icone-lixeira fa-solid fa-trash-can"></i>
-			                </div>
-			            </div>
 
 					</div><!--resumo-single-css-->
-<!--
-   		<div class="selecao-single flex">
-            <div class="txt-p">
-                <span class="p-single">Tarifa Especial</span>
-            </div>
-            <div class="duracao">
-				<span class="color-p"></span>
-			</div>
-            <div class="preco-lixeira">
-                <span class="preco-single">R$14,99</span>
-            </div>
-        </div>
--->
 
 					<div style="display:none;" class="resumo-sim-tarifa-especial">
 						<div class="selecao-single flex box-tarifa-especial" style="position: relative; overflow: unset;">
 	                        <div class="txt-p">
-	                            <span class="p-single">Tarifa Adicional</span>
+	                            <span class="p-single"><?php echo htmlspecialchars($infoTarifaAdicional['nome_tarifa']); ?></span>
 	                        </div>
 	                        <div class="duracao">
 	                            <span class="color-p">
@@ -3769,7 +3744,7 @@ HTML;
 	                            </span>
 	                        </div>
 	                        <div class="preco-lixeira">
-	                            <span class="preco-single">R$17,99</span>
+	                            <span class="preco-single"><?php echo 'R$' . htmlspecialchars($infoTarifaAdicional['valor_tarifa']); ?></span>
 	                        </div>
 	                    </div>
 					</div><!--resumo-sim-tarifa-especial-->
@@ -4234,24 +4209,11 @@ HTML;
 						
 
 					</div><!--resumo-single-css-->
-<!--
-   		<div class="selecao-single flex">
-            <div class="txt-p">
-                <span class="p-single">Tarifa Especial</span>
-            </div>
-            <div class="duracao">
-				<span class="color-p"></span>
-			</div>
-            <div class="preco-lixeira">
-                <span class="preco-single">R$14,99</span>
-            </div>
-        </div>
--->
 					
 					<div style="display:none;" class="resumo-sim-tarifa-especial">
 						<div class="selecao-single flex box-tarifa-especial" style="position: relative; overflow: unset;">
 	                        <div class="txt-p">
-	                            <span class="p-single">Tarifa Adicional</span>
+	                            <span class="p-single"><?php echo htmlspecialchars($infoTarifaAdicional['nome_tarifa']); ?></span>
 	                        </div>
 	                        <div class="duracao">
 	                            <span class="color-p">
@@ -4262,7 +4224,7 @@ HTML;
 	                            </span>
 	                        </div>
 	                        <div class="preco-lixeira">
-	                            <span class="preco-single">R$17,99</span>
+	                            <span class="preco-single"><?php echo 'R$' . htmlspecialchars($infoTarifaAdicional['valor_tarifa']); ?></span>
 	                        </div>
 	                    </div>
 					</div><!--resumo-sim-tarifa-especial-->
@@ -4317,7 +4279,7 @@ HTML;
 					</div><!--horarios-periodo-->
 
 					<div class="msg-tarifa">
-						<p>Acréscimo noturno: R$15,00</p>
+						<p>Acréscimo noturno: <span><?php echo 'R$' . htmlspecialchars($infoTarifaNoturna['valor_tarifa']); ?></span></p>
 					</div><!--msg-tarifa-->
 
 					
@@ -4590,7 +4552,7 @@ HTML;
 			<div class="wraper-resumo box-servicos-select estilo-resumo-servico agenda-resumo-cliente-1">
 
 					<div class="selecao-single-topo flex">
-						<div class="txt-p"><span class="color-p">Serviços Escolhidos <br/> Cliente 1</span>
+						<div class="txt-p"><span class="color-p">Serviços Escolhidos <br/> Cliente: </span><span class="nome-cliente-resumo"></span>
 						</div> 
 						<div class="duracao">
 							<span class="color-p">
@@ -4608,10 +4570,11 @@ HTML;
 
 					</div><!--resumo-single-css-->
 
+
 					<div style="display:none;" class="resumo-sim-tarifa-especial">
 						<div class="selecao-single flex box-tarifa-especial" style="position: relative; overflow: unset;">
 	                        <div class="txt-p">
-	                            <span class="p-single">Tarifa Adicional</span>
+	                            <span class="p-single"><?php echo htmlspecialchars($infoTarifaAdicional['nome_tarifa']); ?></span>
 	                        </div>
 	                        <div class="duracao">
 	                            <span class="color-p">
@@ -4622,10 +4585,28 @@ HTML;
 	                            </span>
 	                        </div>
 	                        <div class="preco-lixeira">
-	                            <span class="preco-single">R$17,99</span>
+	                            <span class="preco-single"><?php echo 'R$' . htmlspecialchars($infoTarifaAdicional['valor_tarifa']); ?></span>
 	                        </div>
 	                    </div>
-					</div><!--resumo-sim-tarifa-especial-->
+					</div><!--resumo-sim-tarifa-noturna-->
+					<div style="display:none;" class="resumo-sim-tarifa-noturna">
+						<div class="selecao-single flex box-tarifa-especial" style="position: relative; overflow: unset;">
+	                        <div class="txt-p">
+	                            <span class="p-single"><?php echo htmlspecialchars($infoTarifaNoturna['nome_tarifa']); ?></span>
+	                        </div>
+	                        <div class="duracao">
+	                            <span class="color-p">
+	                                <i class="fa-solid fa-circle-question" style="cursor: pointer;"></i>
+	                                <div class="info-box" style="display: none;">
+	                                    <p>Este acréscimo é aplicado para serviços realizados durante o período noturno, garantindo atendimento fora do horário comercial.</p>
+	                                </div>
+	                            </span>
+	                        </div>
+	                        <div class="preco-lixeira">
+	                            <span class="preco-single"><?php echo 'R$' . htmlspecialchars($infoTarifaNoturna['valor_tarifa']); ?></span>
+	                        </div>
+	                    </div>
+					</div><!--resumo-sim-tarifa-noturna-->
 
 					<div class="selecao-single-total pos-total-cliente-1 flex">
 						<div class="txt-p"><span class="color-p">Total</span>
@@ -4641,11 +4622,10 @@ HTML;
 
 			</div><!--wraper-resumo-->
 
-<!--
-		<div class="wraper-resumo box-servicos-select resumo-servico-1 estilo-resumo-servico">
+			<div class="wraper-resumo box-servicos-select estilo-resumo-servico agenda-resumo-cliente-2">
 
 					<div class="selecao-single-topo flex">
-						<div class="txt-p"><span class="color-p">Serviços Escolhidos <br/> Cliente 1</span>
+						<div class="txt-p"><span class="color-p">Serviços Escolhidos <br/> Cliente Adicional 2</span>
 						</div> 
 						<div class="duracao">
 							<span class="color-p">
@@ -4656,28 +4636,249 @@ HTML;
 							<span class="preco-single color-p">Valor</span>
 							<i class="fa-solid fa-cart-shopping"></i>
 						</div>
-						<input type="hidden" name="cliente_1">
+						<input type="hidden" name="cliente_2">
 					</div>
 
+					<div class="resumo-single-css resumo-single-js-2">
 
-					<div class="selecao-single-total flex total-resumo-servico-cliente-1">
+					</div><!--resumo-single-css-->
+
+
+					<div style="display:none;" class="resumo-sim-tarifa-especial">
+						<div class="selecao-single flex box-tarifa-especial" style="position: relative; overflow: unset;">
+	                        <div class="txt-p">
+	                            <span class="p-single"><?php echo htmlspecialchars($infoTarifaAdicional['nome_tarifa']); ?></span>
+	                        </div>
+	                        <div class="duracao">
+	                            <span class="color-p">
+	                                <i class="fa-solid fa-circle-question" style="cursor: pointer;"></i>
+	                                <div class="info-box" style="display: none;">
+	                                    <p>Esta tarifa adicional é aplicada para serviços realizados em domingos e feriados.</p>
+	                                </div>
+	                            </span>
+	                        </div>
+	                        <div class="preco-lixeira">
+	                            <span class="preco-single"><?php echo 'R$' . htmlspecialchars($infoTarifaAdicional['valor_tarifa']); ?></span>
+	                        </div>
+	                    </div>
+					</div><!--resumo-sim-tarifa-noturna-->
+					<div style="display:none;" class="resumo-sim-tarifa-noturna">
+						<div class="selecao-single flex box-tarifa-especial" style="position: relative; overflow: unset;">
+	                        <div class="txt-p">
+	                            <span class="p-single"><?php echo htmlspecialchars($infoTarifaNoturna['nome_tarifa']); ?></span>
+	                        </div>
+	                        <div class="duracao">
+	                            <span class="color-p">
+	                                <i class="fa-solid fa-circle-question" style="cursor: pointer;"></i>
+	                                <div class="info-box" style="display: none;">
+	                                    <p>Este acréscimo é aplicado para serviços realizados durante o período noturno, garantindo atendimento fora do horário comercial.</p>
+	                                </div>
+	                            </span>
+	                        </div>
+	                        <div class="preco-lixeira">
+	                            <span class="preco-single"><?php echo 'R$' . htmlspecialchars($infoTarifaNoturna['valor_tarifa']); ?></span>
+	                        </div>
+	                    </div>
+					</div><!--resumo-sim-tarifa-noturna-->
+
+					<div class="selecao-single-total pos-total-cliente-2 flex">
 						<div class="txt-p"><span class="color-p">Total</span>
 						</div> 
 						<div class="duracao">
-							<span class="color-p"><i class="fa-solid fa-clock"></i> 2:40</span>
+							<span class="color-p"><i class="fa-solid fa-clock"></i> 0:00</span>
 						</div>
 						<div class="preco-lixeira">
-							<span class="preco-total color-p">R$ 139,98</span>
+							<span class="preco-total color-p">R$ 00,00</span>
 						</div>
+						<input type="hidden" name="cliente_2" value="resumo-agenda-servico-cliente-2">
 					</div>
 
-		</div>
+			</div><!--wraper-resumo-->
 
--->
+			<div class="wraper-resumo box-servicos-select estilo-resumo-servico agenda-resumo-cliente-3">
 
-		<div class="wraper-resumo box-servicos-select">
+					<div class="selecao-single-topo flex">
+						<div class="txt-p"><span class="color-p">Serviços Escolhidos <br/> Cliente Adicional 3</span>
+						</div> 
+						<div class="duracao">
+							<span class="color-p">
+								
+							</span>
+						</div>
+						<div class="preco-lixeira">
+							<span class="preco-single color-p">Valor</span>
+							<i class="fa-solid fa-cart-shopping"></i>
+						</div>
+						<input type="hidden" name="cliente_3">
+					</div>
+
+					<div class="resumo-single-css resumo-single-js-3">
+
+					</div><!--resumo-single-css-->
+
+
+					<div style="display:none;" class="resumo-sim-tarifa-especial">
+						<div class="selecao-single flex box-tarifa-especial" style="position: relative; overflow: unset;">
+	                        <div class="txt-p">
+	                            <span class="p-single"><?php echo htmlspecialchars($infoTarifaAdicional['nome_tarifa']); ?></span>
+	                        </div>
+	                        <div class="duracao">
+	                            <span class="color-p">
+	                                <i class="fa-solid fa-circle-question" style="cursor: pointer;"></i>
+	                                <div class="info-box" style="display: none;">
+	                                    <p>Esta tarifa adicional é aplicada para serviços realizados em domingos e feriados.</p>
+	                                </div>
+	                            </span>
+	                        </div>
+	                        <div class="preco-lixeira">
+	                            <span class="preco-single"><?php echo 'R$' . htmlspecialchars($infoTarifaAdicional['valor_tarifa']); ?></span>
+	                        </div>
+	                    </div>
+					</div><!--resumo-sim-tarifa-especial-->
+					<div style="display:none;" class="resumo-sim-tarifa-noturna">
+						<div class="selecao-single flex box-tarifa-especial" style="position: relative; overflow: unset;">
+	                        <div class="txt-p">
+	                            <span class="p-single"><?php echo htmlspecialchars($infoTarifaNoturna['nome_tarifa']); ?></span>
+	                        </div>
+	                        <div class="duracao">
+	                            <span class="color-p">
+	                                <i class="fa-solid fa-circle-question" style="cursor: pointer;"></i>
+	                                <div class="info-box" style="display: none;">
+	                                    <p>Este acréscimo é aplicado para serviços realizados durante o período noturno, garantindo atendimento fora do horário comercial.</p>
+	                                </div>
+	                            </span>
+	                        </div>
+	                        <div class="preco-lixeira">
+	                            <span class="preco-single"><?php echo 'R$' . htmlspecialchars($infoTarifaNoturna['valor_tarifa']); ?></span>
+	                        </div>
+	                    </div>
+					</div><!--resumo-sim-tarifa-noturna-->
+
+					<div class="selecao-single-total pos-total-cliente-3 flex">
+						<div class="txt-p"><span class="color-p">Total</span>
+						</div> 
+						<div class="duracao">
+							<span class="color-p"><i class="fa-solid fa-clock"></i> 0:00</span>
+						</div>
+						<div class="preco-lixeira">
+							<span class="preco-total color-p">R$ 00,00</span>
+						</div>
+						<input type="hidden" name="cliente_3" value="resumo-agenda-servico-cliente-3">
+					</div>
+
+			</div><!--wraper-resumo-->
+
+			<div class="wraper-resumo box-servicos-select estilo-resumo-servico agenda-resumo-cliente-4">
+
+					<div class="selecao-single-topo flex">
+						<div class="txt-p"><span class="color-p">Serviços Escolhidos <br/> Cliente Adicional 4</span>
+						</div> 
+						<div class="duracao">
+							<span class="color-p">
+								
+							</span>
+						</div>
+						<div class="preco-lixeira">
+							<span class="preco-single color-p">Valor</span>
+							<i class="fa-solid fa-cart-shopping"></i>
+						</div>
+						<input type="hidden" name="cliente_4">
+					</div>
+
+					<div class="resumo-single-css resumo-single-js-4">
+
+					</div><!--resumo-single-css-->
+
+
+					<div style="display:none;" class="resumo-sim-tarifa-especial">
+						<div class="selecao-single flex box-tarifa-especial" style="position: relative; overflow: unset;">
+	                        <div class="txt-p">
+	                            <span class="p-single"><?php echo htmlspecialchars($infoTarifaAdicional['nome_tarifa']); ?></span>
+	                        </div>
+	                        <div class="duracao">
+	                            <span class="color-p">
+	                                <i class="fa-solid fa-circle-question" style="cursor: pointer;"></i>
+	                                <div class="info-box" style="display: none;">
+	                                    <p>Esta tarifa adicional é aplicada para serviços realizados em domingos e feriados.</p>
+	                                </div>
+	                            </span>
+	                        </div>
+	                        <div class="preco-lixeira">
+	                            <span class="preco-single"><?php echo 'R$' . htmlspecialchars($infoTarifaAdicional['valor_tarifa']); ?></span>
+	                        </div>
+	                    </div>
+					</div><!--resumo-sim-tarifa-especial-->
+					<div style="display:none;" class="resumo-sim-tarifa-noturna">
+						<div class="selecao-single flex box-tarifa-especial" style="position: relative; overflow: unset;">
+	                        <div class="txt-p">
+	                            <span class="p-single"><?php echo htmlspecialchars($infoTarifaNoturna['nome_tarifa']); ?></span>
+	                        </div>
+	                        <div class="duracao">
+	                            <span class="color-p">
+	                                <i class="fa-solid fa-circle-question" style="cursor: pointer;"></i>
+	                                <div class="info-box" style="display: none;">
+	                                    <p>Este acréscimo é aplicado para serviços realizados durante o período noturno, garantindo atendimento fora do horário comercial.</p>
+	                                </div>
+	                            </span>
+	                        </div>
+	                        <div class="preco-lixeira">
+	                            <span class="preco-single"><?php echo 'R$' . htmlspecialchars($infoTarifaNoturna['valor_tarifa']); ?></span>
+	                        </div>
+	                    </div>
+					</div><!--resumo-sim-tarifa-noturna-->
+
+					<div class="selecao-single-total pos-total-cliente-4 flex">
+						<div class="txt-p"><span class="color-p">Total</span>
+						</div> 
+						<div class="duracao">
+							<span class="color-p"><i class="fa-solid fa-clock"></i> 0:00</span>
+						</div>
+						<div class="preco-lixeira">
+							<span class="preco-total color-p">R$ 00,00</span>
+						</div>
+						<input type="hidden" name="cliente_4" value="resumo-agenda-servico-cliente-4">
+					</div>
+
+			</div><!--wraper-resumo agenda-resumo-cliente-4-->
+
+			<div class="editar-servico-btn js-btn-editar-servico-agenda">
+				<div class="btn-chamada-wraper btn-edit-servico">
+
+					<div class="btn-chamada btn-meus-agendamentos"><a href="" class="btn-voltar-do-resumo">Voltar para seleção de serviços</a></div>
+
+				</div><!--btn-chamada-wraper-->
+			</div><!--edit-btn-->
+
+
+		<div class="wraper-resumo box-servicos-select estilo-resumo-servico js-box-resumo-completo" style="display:block;">
 
 			<div class="selecao-single-topo flex">
+				<div class="txt-p"><span class="color-p">Total a Pagar</span>
+				</div> 
+				<div class="duracao">
+					<span class="color-p">
+						
+					</span>
+				</div>
+				<div class="preco-lixeira">
+					<span class="preco-single color-p">Valor</span>
+					
+				</div>	
+			</div>
+
+			<div class="selecao-single-total total-resumo-completo flex">
+				<div class="txt-p"><span class="color-p">Total</span>
+				</div> 
+				<div class="duracao">
+					<span class="color-p"></span>
+				</div>
+				<div class="preco-lixeira">
+					<span class="preco-total color-p">R$ 00,00</span>
+				</div>
+			</div>
+
+
+			<div class="selecao-single-topo flex" style="border-top: 2px solid #e0e0e0;">
 				<div class="txt-p" style="width:46%;"><span class="color-p">Data</span>
 				</div> 
 				<div class="duracao" style="width: 50%;">
@@ -4689,10 +4890,60 @@ HTML;
 
 			</div><!--resumo-data-horario-->
 
+		</div><!--wraper-resumo box-servicos-select resumo-data-horario js-resumo-completo-->
 
-		</div><!--wraper-resumo box-servicos-select resumo-data-horario-->
 
+		<div class="wraper-resumo box-servicos-select estilo-resumo-servico js-print-endereco" style="display:block;">
 
+			<div class="local-atendimento">
+
+				<div class="selecao-single-topo flex">
+					<div class="txt-p" style="width:60%;"><span class="color-p">Endereço de atendimento</span>
+					</div> 
+					<div class="preco-lixeira" style="width: 35%;">
+						<i class="fa-solid fa-pen-to-square btn-edit-endereco"></i>
+					</div>
+				</div>
+				
+				<div class="resumo-endereco flex">
+		            <div class="txt-p" style="width: 46%;">
+		                <span class="p-single">Cidade</span>
+		            </div>
+		            <div class="duracao" style="width: 50%;">
+		                <span class="color-p cidade"> itupeva</span>
+		            </div>
+		        </div>
+
+		        <div class="resumo-endereco flex">
+		            <div class="txt-p" style="width: 46%;">
+		                <span class="p-single">Bairro</span>
+		            </div>
+		            <div class="duracao" style="width: 50%;">
+		                <span class="color-p bairro"> Monte Serrat</span>
+		            </div>
+		        </div>
+
+		        <div class="resumo-endereco flex">
+		            <div class="txt-p" style="width: 46%;">
+		                <span class="p-single rua">Rua</span>
+		            </div>
+		            <div class="duracao" style="width: 50%;">
+		                <span class="color-p"> Avenida Nelson Gulla</span>
+		            </div>
+		        </div>
+
+		        <div class="resumo-endereco flex">
+		            <div class="txt-p" style="width: 46%;">
+		                <span class="p-single">N°</span>
+		            </div>
+		            <div class="duracao" style="width: 50%;">
+		                <span class="color-p n-casa"> 1426</span>
+		            </div>
+		        </div>
+
+			</div><!--local-atendimento-->
+
+		</div>
 <!--
 	SE TEM CREDITO DISPONIVEL
 	-->
@@ -4726,14 +4977,6 @@ HTML;
 
 
 		<!--FINAL CREDITO DISPONIVEL-->
-
-		<div class="editar-servico-btn js-btn-editar-servico-agenda">
-			<div class="btn-chamada-wraper btn-edit-servico">
-
-				<div class="btn-chamada btn-meus-agendamentos"><a href="">Editar Serviços</a></div>
-
-			</div><!--btn-chamada-wraper-->
-		</div><!--edit-btn-->
 
 		</div><!--resumo-servico-->
 

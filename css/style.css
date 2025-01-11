@@ -1246,7 +1246,7 @@ section{
 	padding: 0 0 0 0;
 }
 
-.selecao-single{
+.selecao-single,.resumo-endereco{
 	overflow: hidden;
 }
 
@@ -1266,7 +1266,7 @@ section{
     transition: transform 0.5s ease;
 }
 
-.selecao-single,.selecao-single-topo{
+.selecao-single,.selecao-single-topo,.resumo-endereco{
 	padding: 5px 2%;
 	border-bottom: 2px solid #ccc;
 	align-items: center;
@@ -1306,7 +1306,7 @@ section{
     padding-bottom: 10px;
 }
 
-.selecao-single {
+.selecao-single,.resumo-endereco {
 		background-color: #eee;
     padding: 10px 2%;
     border-bottom: 1px solid #e0e0e0;

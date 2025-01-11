@@ -6,6 +6,18 @@
 	} catch (Exception $e) {
 	    die("Erro ao recuperar os serviços: " . $e->getMessage());
 	}
+
+	try {
+		$infoTarifaAdicional = Painel::select('tb_tarifas', 'id = ?', [1]);			
+	} catch (Exception $e) {
+		die("Erro ao recuperar dados do banco (tarifas Adicionais)" . $e->getMessage());
+	}
+
+	try {
+		$infoTarifaNoturna = Painel::select('tb_tarifas', 'id = ?', [2]);			
+	} catch (Exception $e) {
+		die("Erro ao recuperar dados do banco (tarifas Adicionais)" . $e->getMessage());
+	}
 	 
 ?>
 <!DOCTYPE html>

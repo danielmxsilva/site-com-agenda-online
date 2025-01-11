@@ -3,9 +3,15 @@
 function pegarDados(dados, endereco){
 
 	 const perfilBox = document.querySelector('.add-perfil-js');
+	 const nomeResumo = document.querySelector('.nome-cliente-resumo');
 
 	 if (!perfilBox) {
         console.error('Contêiner ".add-perfil-js" não encontrado.');
+        return;
+     }
+
+     if (!nomeResumo) {
+        console.error('Contêiner ".nome-cliente-resumo" não encontrado.');
         return;
      }
 
@@ -29,6 +35,10 @@ function pegarDados(dados, endereco){
 	    <div class="nome-cliente">
 	        <span>${dados.nome}</span>
 	    </div>
+	`;
+
+	nomeResumo.innerHTML = `
+		${dados.nome}
 	`;
 
 	carregarHistorico(idCliente);

@@ -4,7 +4,7 @@ $(document).ready(function() {
         atualizarCarrinhoSelect(this);
     });
 
-    carregarLocalStorage();
+    //carregarLocalStorage();
     atualizarResumoSelecao();
 
     clickDia();
@@ -24,6 +24,16 @@ $(document).ready(function() {
     //selectPeriodo();
 
     //deleteItemIcone();
+
+    $('.btn-voltar-do-resumo').click(function(e){
+        e.stopPropagation();
+        trocarBox('.wraper-pagamento', '.wraper-modal');
+    })
+
+    $('.btn-edit-endereco').click(function(e){
+        e.stopPropagation();
+        $('.box-editar-dados').slideToggle();
+    })
     
 });
 
@@ -41,7 +51,24 @@ function clickDia() {
                 
                 $('.resumo-sim-tarifa-especial').css('display','block');
 
-                localStorage.setItem('tarifaEspecial', true);
+                // Obtém o preço da tarifa especial
+                const precoElement = $('.resumo-sim-tarifa-especial .preco-single');
+                let precoTarifaEspecial = precoElement.text().trim(); // Obtém o texto do preço
+                
+                if (precoTarifaEspecial) {
+                    // Remove o "R$" e converte a vírgula em ponto
+                    precoTarifaEspecial = parseFloat(precoTarifaEspecial.replace('R$', '').replace(',', '.'));
+                } else {
+                    console.error('Preço da tarifa especial não encontrado!');
+                    precoTarifaEspecial = 0; // Define um valor padrão em caso de erro
+                }
+
+                //localStorage.setItem('tarifaEspecial', 'preco:' precoTarifaEspecial);
+
+                localStorage.setItem('tarifaAdicional', JSON.stringify({
+                    nome: 'Tarifa Adicional',
+                    preco: precoTarifaEspecial,
+                }));
 
                 // Adiciona evento de clique no ícone de informação
                 inicializarEventosInfoBox();
@@ -301,13 +328,14 @@ function atualizarResumoCliente(servicoInfo = null, esconderSomente = false) {
     const clienteContainer = servicoInfo ? $(`.agenda-resumo-cliente-${servicoInfo.clienteId}`) : null;
     const clienteId = servicoInfo ? servicoInfo.clienteId : null;
     
-    const clienteServicos = clienteId ? ServicosSelecionados.getByClienteId(clienteId)
+    const clienteServicos = clienteId ? ServicosSelecionados.getByClienteId(clienteId) : null;
 
     if (esconderSomente) {
         // Se o parâmetro esconderSomente for true, esconde o clienteContainer
         if (clienteContainer && clienteContainer.is(":visible")) {
             clienteContainer.fadeOut(); // Esconde o resumo do cliente
         }
+        return; // Retorna imediatamente, já que não há mais ações necessárias
     } else {
         if (clienteServicos && clienteServicos.length > 0) {
             // Se houver serviços, exibe o resumo do cliente
@@ -481,6 +509,14 @@ function atualizarResumoSelecao(checked, checkboxId) {
     
 }
 
+// Função para sincronizar as instâncias do serviço excluído
+function sincronizarExclusaoServico(serviceId) {
+    // Remove todas as instâncias do serviço em outras boxes
+    $(`.selecao-single[data-id="${serviceId}"]`).fadeOut(300, function () {
+        $(this).remove();
+    });
+}
+
 // Função para adicionar serviço
 function adicionarServico({ serviceId, nomeServico, precoServico, duracaoServico }) {
 
@@ -488,16 +524,19 @@ function adicionarServico({ serviceId, nomeServico, precoServico, duracaoServico
           console.log('click lixeira!');
           const $removedService = $(this).closest('.selecao-single');
           $removedService.addClass('deletando');
-          const removedServiceId = $removedService.data('id');
-          const overlay = $removedService.find('.overlay-delete'); // Seleciona a barra vermelha
 
-          // Anima a barra vermelha para preencher o elemento
-            overlay.css({
-                width: '100%',     // Define a largura como 100% do elemento
-                right: '0',        // Garante que o preenchimento parta do lado direito
-                border: '2px solid rgba(198, 155, 155, 0.8)',
-                borderRadius: '10px',
-            });
+          const removedServiceId = $removedService.data('id');
+
+          // Extraímos o `clienteId` do ID do serviço (último número)
+          const clienteId = removedServiceId.split('-').pop(); // Extrai "1" de "agenda-manicure-pedicure-1"
+
+          const overlay = $removedService.find('.overlay-delete'); // Seleciona a barra vermelha
+          overlay.css({
+             width: '100%',     // Define a largura como 100% do elemento
+             right: '0',        // Garante que o preenchimento parta do lado direito
+             border: '2px solid rgba(198, 155, 155, 0.8)',
+             borderRadius: '10px',
+          });
           
            // Remover o serviço do objeto global e do localStorage
            
@@ -507,6 +546,11 @@ function adicionarServico({ serviceId, nomeServico, precoServico, duracaoServico
                 $removedService.fadeOut(300, function () {
                     $removedService.remove();
                     atualizarTotal();
+
+                    atualizarResumoCliente({ clienteId });
+
+                    // Sincroniza exclusão em outras boxes
+                    sincronizarExclusaoServico(removedServiceId);
                 });
             }, 500);
 
@@ -524,6 +568,7 @@ function adicionarServico({ serviceId, nomeServico, precoServico, duracaoServico
           const $correspondingSelectBox = $(`.servico-single input[type="checkbox"][id="${removedServiceId}"]`).closest('.box-servicos-select');
 
           atualizarCarrinhoSelect($correspondingSelectBox);
+
 
       })
 
@@ -548,20 +593,8 @@ function adicionarServico({ serviceId, nomeServico, precoServico, duracaoServico
         </div>
     `;
 
-        
-        /*
-
-        return novaSelecao;
-
-    } else {
-        // Remove o serviço da lista
-        $('.wraper-resumo .selecao-single').filter(function() {
-            return $(this).find('.p-single').text() === nomeServico;
-        }).remove(); // Remove o serviço correspondente
-        //atualizarTotal(); // Atualiza o total após remoção
-        return null;
-    }*/
 }
+
 
 
 function reposicionarTarifaEspecial() {
@@ -637,7 +670,9 @@ function atualizarTotal() {
     // Recupera os serviços selecionados do localStorage
     const servicosSelecionados = ServicosSelecionados.get();
 
-    const tarifaEspecialAtiva = localStorage.getItem('tarifaEspecial') === "true";
+    // Recupera todas as tarifas do localStorage
+    const tarifaAdicional = JSON.parse(localStorage.getItem('tarifaAdicional') || '{}');
+    const tarifaNoturna = JSON.parse(localStorage.getItem('tarifaNoturna') || '{}');
 
     // Inicializa os totais para cada cliente
     let totais = {
@@ -665,24 +700,18 @@ function atualizarTotal() {
         }
     });
 
-    if (tarifaEspecialAtiva) {
-        $(".resumo-sim-tarifa-especial").each(function () {
-            // Determina o cliente associado à tarifa
-            const clienteClasse = $(this).closest(".wraper-resumo").attr("class");
-            const match = clienteClasse.match(/agenda-resumo-cliente-(\d+)/);
-            const clienteId = match ? parseInt(match[1], 10) : null;
-
-            if (totais[clienteId]) {
-                const precoTarifaTexto = $(this).find(".preco-single").text().replace("R$", "").replace(",", ".");
-                const precoTarifa = parseFloat(precoTarifaTexto);
-
-                if (!isNaN(precoTarifa)) {
-                    totais[clienteId].total += precoTarifa; // Adiciona apenas ao cliente correto
-                }
+    // Adiciona as tarifas apenas para os clientes que possuem serviços
+    Object.keys(totais).forEach(clienteId => {
+        if (totais[clienteId].total > 0) { // Verifica se há serviços para o cliente
+            if (tarifaAdicional && tarifaAdicional.preco) {
+                totais[clienteId].total += parseFloat(tarifaAdicional.preco);
             }
-        });
-    }
-
+            if (tarifaNoturna && tarifaNoturna.preco) {
+                totais[clienteId].total += parseFloat(tarifaNoturna.preco);
+            }
+        }
+    });
+    
     // Atualiza o HTML para cada cliente
     for (const clienteId in totais) {
         const totalContainer = $(`.agenda-resumo-cliente-${clienteId} .selecao-single-total`);
@@ -701,108 +730,27 @@ function atualizarTotal() {
         }
     }
 
+    // Adiciona o resumo total geral
+    let resumoTotal = 0;
+    Object.values(totais).forEach(cliente => {
+        resumoTotal += cliente.total;
+    });
+
+    // Atualiza o HTML do resumo geral
+    const totalResumoCompleto = $(".total-resumo-completo");
+    if (totalResumoCompleto.length) {
+        totalResumoCompleto.html(`
+            <div class="txt-p"><span class="color-p">Total</span></div>
+            <div class="preco-lixeira">
+                <span class="preco-total color-p">R$${resumoTotal.toFixed(2).replace(".", ",")}</span>
+            </div>
+        `);
+    }
+
     // Atualiza o tempo estimado total, se aplicável
     atualizarTempoEstimado();
-
-   // console.error($(".wraper-resumo .agenda-resumo-cliente-1 .selecao-single").length);
-
-/*
-    $(".agenda-resumo-cliente-1 .selecao-single").each(function () {
-        const precoTexto = $(this).find(".preco-single").text().replace("R$", "").replace(",", ".");
-        const preco = parseFloat(precoTexto);
-        if (!isNaN(preco)) {
-            total1 += preco;
-        }
-
-        const duracaoTexto = $(this).find(".duracao span").text().trim();
-        const duracaoMinutos = converterDuracaoParaMinutos(duracaoTexto);
-        totalDuracao1 += duracaoMinutos;
-    });
-
-    $(".agenda-resumo-cliente-2 .selecao-single").each(function () {
-        const precoTexto = $(this).find(".preco-single").text().replace("R$", "").replace(",", ".");
-        const preco = parseFloat(precoTexto);
-        if (!isNaN(preco)) {
-            total2 += preco;
-        }
-
-        const duracaoTexto = $(this).find(".duracao span").text().trim();
-        const duracaoMinutos = converterDuracaoParaMinutos(duracaoTexto);
-        totalDuracao2 += duracaoMinutos;
-    });
-
-    $(".agenda-resumo-cliente-3 .selecao-single").each(function () {
-        const precoTexto = $(this).find(".preco-single").text().replace("R$", "").replace(",", ".");
-        const preco = parseFloat(precoTexto);
-        if (!isNaN(preco)) {
-            total3 += preco;
-        }
-
-        const duracaoTexto = $(this).find(".duracao span").text().trim();
-        const duracaoMinutos = converterDuracaoParaMinutos(duracaoTexto);
-        totalDuracao3 += duracaoMinutos;
-    });
-
-    $(".agenda-resumo-cliente-4 .selecao-single").each(function () {
-        const precoTexto = $(this).find(".preco-single").text().replace("R$", "").replace(",", ".");
-        const preco = parseFloat(precoTexto);
-        if (!isNaN(preco)) {
-            total4 += preco;
-        }
-
-        const duracaoTexto = $(this).find(".duracao span").text().trim();
-        const duracaoMinutos = converterDuracaoParaMinutos(duracaoTexto);
-        totalDuracao4 += duracaoMinutos;
-    });
-
-    const totalContainer1 = $(".agenda-resumo-cliente-1 .selecao-single-total");
-    totalContainer1.html(`
-        <div class="txt-p"><span class="color-p">Total</span></div>
-        <div class="duracao">
-            <span class="color-p"><i class="fa-solid fa-clock"></i> ${converterMinutosParaHoras(totalDuracao1)}</span>
-        </div>
-        <div class="preco-lixeira">
-            <span class="preco-total color-p">R$${total1.toFixed(2).replace(".", ",")}</span>
-        </div>
-    `);
-
-    const totalContainer2 = $(".agenda-resumo-cliente-2 .selecao-single-total");
-    totalContainer2.html(`
-        <div class="txt-p"><span class="color-p">Total</span></div>
-        <div class="duracao">
-            <span class="color-p"><i class="fa-solid fa-clock"></i> ${converterMinutosParaHoras(totalDuracao2)}</span>
-        </div>
-        <div class="preco-lixeira">
-            <span class="preco-total color-p">R$${total2.toFixed(2).replace(".", ",")}</span>
-        </div>
-    `);
-
-    const totalContainer3 = $(".agenda-resumo-cliente-3 .selecao-single-total");
-    totalContainer3.html(`
-        <div class="txt-p"><span class="color-p">Total</span></div>
-        <div class="duracao">
-            <span class="color-p"><i class="fa-solid fa-clock"></i> ${converterMinutosParaHoras(totalDuracao3)}</span>
-        </div>
-        <div class="preco-lixeira">
-            <span class="preco-total color-p">R$${total3.toFixed(2).replace(".", ",")}</span>
-        </div>
-    `);
-
-    const totalContainer4 = $(".agenda-resumo-cliente-4 .selecao-single-total");
-    totalContainer4.html(`
-        <div class="txt-p"><span class="color-p">Total</span></div>
-        <div class="duracao">
-            <span class="color-p"><i class="fa-solid fa-clock"></i> ${converterMinutosParaHoras(totalDuracao4)}</span>
-        </div>
-        <div class="preco-lixeira">
-            <span class="preco-total color-p">R$${total4.toFixed(2).replace(".", ",")}</span>
-        </div>
-    `);
-
-    atualizarTempoEstimado();
-*/
-
 }
+
 
 
 // Função para carregar os dados do LocalStorage
@@ -1032,6 +980,10 @@ function closeModal() {
 
     $('.wraper-carrinho-select span').text(0);
 
+    $('.wraper-resumo:not(.js-box-resumo-completo):not(.js-print-endereco)').css('display', 'none');
+
+    $('.resumo-sim-tarifa-noturna').css('display','none');
+
     localStorage.clear();
 
 }
@@ -1180,8 +1132,6 @@ function clickQuantidadeServico(){
 function selectPeriodo(){
     // Função para rolar até o horário correspondente ao clicar na div de período
 
-    setTimeout(function(){
-
 
          $('#horario-agendamento div').click(function() {
             console.log("click consultar horario");
@@ -1194,9 +1144,9 @@ function selectPeriodo(){
 
             // Verifica se o período é "noite" para exibir ou ocultar a div .msg-tarifa
             if (periodo === 'noite') {
-                $('.msg-tarifa').fadeIn(300); // Mostra a div com efeito de fade
+                //$('.msg-tarifa').fadeIn(300); // Mostra a div com efeito de fade
             } else {
-                $('.msg-tarifa').fadeOut(300); // Oculta a div com efeito de fade
+                //$('.msg-tarifa').fadeOut(300); // Oculta a div com efeito de fade
             }
 
             // Corrige a primeira letra da classe para corresponder ao HTML
@@ -1226,13 +1176,13 @@ function selectPeriodo(){
                 {
                     scrollLeft: scrollPosition,
                 },
-                500 // 500ms para a animação
+                200 // 500ms para a animação
             );
 
 
         });
 
-     }, 500);
+     
 
 }
 
@@ -1314,7 +1264,7 @@ function validarTempoAgendamento() {
 
     // Caso não exista o tempo selecionado, consideramos que o cliente não selecionou o tempo
     if (!minutosTotaisSelecionados || minutosTotaisSelecionados <= 0) {
-        return "Você precisa selecionar um tempo para o serviço.";
+        return "Você precisa selecionar um horario para o serviço.";
     }
 
     // Calcular o tempo total dos serviços selecionados
@@ -1322,24 +1272,25 @@ function validarTempoAgendamento() {
     
      // Verifica se o tempo total dos serviços é maior que o tempo disponível
     if (minutosTotaisServicos > minutosTotaisSelecionados) {
-        return "O tempo necessário para os serviços selecionados excede os horarios escolhidos. Por favor, revise sua seleção e escolha um tempo maior ou ajuste os serviços";
+        return "O tempo necessário para o atendimento é maior do que os horarios selecionado. Ajuste o tempo ou remova alguns serviços para continuar";
     }
 
     // Verifica se algum serviço tem mais tempo selecionado do que o necessário
     
-    let limiteDiferenca = 0.30; // 30% a mais
+    let limiteDiferenca = 0.35; // 30% a mais
+    const margemFixa = 15; // Adiciona 15 minutos como margem fixa
 
     // Para tempos menores que 60 minutos, aplica uma diferença maior (exemplo: 50%)
     if (minutosTotaisServicos < 60) {
         limiteDiferenca = 0.50; // Permite 50% a mais
     }
 
-    const limiteMaximo = minutosTotaisServicos * (1 + limiteDiferenca);
+    const limiteMaximo = minutosTotaisServicos * (1 + limiteDiferenca) + margemFixa;
 
     console.log("Limite máximo calculado:", limiteMaximo);
 
     if (minutosTotaisSelecionados > limiteMaximo) {
-         return `O tempo selecionado (${minutosTotaisSelecionados} minutos) é maior do que o necessário para os serviços escolhidos (${limiteMaximo} minutos), Verifique se você selecionou os serviços corretamente. Caso nenhum serviço tenha sido escolhido, qualquer duração será considerada inválida.`;
+         return `O tempo selecionado (${minutosTotaisSelecionados} minutos) é muito maior do que o necessário para os serviços escolhidos (${limiteMaximo} minutos), Verifique se você selecionou os serviços corretamente. Caso nenhum serviço tenha sido escolhido, qualquer duração será considerada inválida.`;
     }
 
     console.log("Validação bem-sucedida. Tempo suficiente e adequado.");
@@ -1459,20 +1410,22 @@ function ClickbtnAvancarAgendamento(){
                                 trocarBox('.js-modal-agenda-servicos', '.js-box-pagamento-agenda');
                                 preencherServicosDinamicos();
                                 preencherResumoDataHorario('.resumo-data-horario'); // Substitua '.sua-proxima-box' pelo seletor correto
+                                atualizarTotal();
                             } else {
                                 // Token inválido, remove o cookie e prossegue para o login normal
                                 clearCookies(); // Limpa os cookies
                                 trocarBox('.js-modal-agenda-servicos', '.login-agenda');
                                 preencherServicosDinamicos();
                                 preencherResumoDataHorario('.resumo-data-horario');
+                                atualizarTotal();
                             }
                         },
                         error: function() {
-                        
                             exibirNotificacao('erro', 'Erro ao validar o token. Tente novamente.');
                             trocarBox('.js-modal-agenda-servicos', '.login-agenda');
                             preencherServicosDinamicos();
                             preencherResumoDataHorario('.resumo-data-horario');
+                            atualizarTotal();
                         }
                     });
 
@@ -1482,6 +1435,7 @@ function ClickbtnAvancarAgendamento(){
                     trocarBox('.js-modal-agenda-servicos', '.login-agenda');
                     preencherServicosDinamicos();
                     preencherResumoDataHorario('.resumo-data-horario');
+                    atualizarTotal();
                 }
 
                 // Garante que a mensagem de erro seja escondida, caso ainda esteja visível

@@ -13,6 +13,17 @@
 			return $sql->fetchAll();
 		}
 
+		public static function select($tabela,$query = '',$arr = ''){
+			if($query != false){
+				$sql = Mysql::conectar()->prepare("SELECT * FROM `$tabela` WHERE $query");
+				$sql->execute($arr);
+			}else{
+				$sql = Mysql::conectar()->prepare("SELECT * FROM `$tabela`");
+				$sql->execute();
+			}
+			return $sql->fetch();
+		}
+
 	}
 
 ?>
