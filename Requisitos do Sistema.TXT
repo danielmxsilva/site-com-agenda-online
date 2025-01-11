@@ -20,7 +20,12 @@
 -serviço completo = agenda-manicure-pedicure-1
 -serviço unitario completo = agenda-manicure-1
 -subserviços unitario = agenda-manicure-corte-1
--subserviços unitario= agenda-manicure-esmaltacao-1
+-subserviços unitario = agenda-manicure-esmaltacao-1
+-serviço unitario completo = agenda-pedicure-1
+-subserviços unitario = agenda-pedicure-corte-1
+-subserviços unitario = agenda-pedicure-esmaltacao-1
+-subserviços unitario = agenda-pedicure-spa-do-pe-1
+-subserviços unitario = agenda-pedicure-plastica-dos-pes-1
 
 Se selecionar o serviço completo devera desmarcar todos os serviços que tambem tem uma parte do nome do serviço completo, por exemplo se selecionei agenda-manicure-1, deverá desmarcar serviços que tem no id manicure
 
@@ -28,7 +33,7 @@ Deverá ser possível selecionar 2 subserviços ao mesmo tempo
 
 Se selecionar serviço completo, deverá desmarcar todos os serviços que tem parte do nome do serviço id no nome. Por exemplo, selecionei agenda-manicure-pedicure-1, deselecionar todos os serviços unitario
 
-Esses meus ids que mandei é so um dos varios que tenho no meu site, por tanto o codigo deverá ser adaptavel para os outros ids, todos ids seguem a mesma estrutura do exemplo a seguir local = agenda. serviço = manicure. subserviço se tiver = corte. e o id do serviço - 1
+Esses meus exemplo que mandei é so um dos varios que tenho no meu site, por tanto o codigo deverá ser adaptavel para os outros ids, todos ids seguem a mesma estrutura do exemplo a seguir local = agenda. serviço = manicure. subserviço se tiver = corte. e o id do serviço - 1
 
 Implementação no Histórico:
 

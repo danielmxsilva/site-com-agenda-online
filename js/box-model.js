@@ -39,35 +39,14 @@ function clickDia() {
             if ($(this).find('.valor-especial').length > 0) {
                 console.log("Este dia possui tarifa especial.");
                 
-                // Adiciona o HTML da tarifa especial na .wraper-resumo antes de .selecao-single-total
-                const tarifaEspecial = `
-                    <div class="selecao-single flex box-tarifa-especial" style="position: relative; overflow: unset;">
-                        <div class="txt-p">
-                            <span class="p-single">Tarifa Adicional</span>
-                        </div>
-                        <div class="duracao">
-                            <span class="color-p">
-                                <i class="fa-solid fa-circle-question" style="cursor: pointer;"></i>
-                                <div class="info-box" style="display: none;">
-                                    <p>Esta tarifa adicional é aplicada para serviços realizados em domingos e feriados.</p>
-                                </div>
-                            </span>
-                        </div>
-                        <div class="preco-lixeira">
-                            <span class="preco-single">R$17,99</span>
-                        </div>
-                    </div>
-                `;
-                $('.wraper-resumo .selecao-single-total').before(tarifaEspecial);
-
-                reposicionarTarifaEspecial();
+                $('.resumo-sim-tarifa-especial').css('display','block');
 
                 localStorage.setItem('tarifaEspecial', true);
 
                 // Adiciona evento de clique no ícone de informação
                 inicializarEventosInfoBox();
 
-                atualizarTotal(); // Atualiza o total após a adição
+                //atualizarTotal(); // Atualiza o total após a adição
             }
 
             e.stopPropagation();
@@ -114,7 +93,98 @@ function inicializarEventosInfoBox() {
 // Evento global para fechar info-box ao clicar fora
 
 // Objeto global para armazenar os serviços selecionados
-const servicosSelecionadosAgenda = {};
+//const servicosSelecionadosAgenda = {};
+
+const ServicosSelecionados = ServicosSelecionadosManager();
+
+function ServicosSelecionadosManager() {
+    const STORAGE_KEY = 'servicosSelecionadosAgenda';
+
+    // Recupera todos os serviços selecionados do localStorage
+    function get() {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+    }
+
+    // Adiciona um serviço ao localStorage
+    function add(id, info) {
+        const data = get();
+        data[id] = info;
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    }
+
+    // Remove um serviço do localStorage
+    function remove(id) {
+        const data = get();
+        delete data[id];
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    }
+
+    // Verifica se um serviço está selecionado
+    function exists(id) {
+        const data = get();
+        return data.hasOwnProperty(id);
+    }
+
+    // Limpa todos os serviços selecionados do localStorage
+    function clear() {
+        localStorage.removeItem(STORAGE_KEY);
+    }
+
+    // Retorna a contagem de serviços selecionados
+    function count() {
+        return Object.keys(get()).length;
+    }
+
+    function getByClienteId(clienteId) {
+        const data = get();
+        return Object.values(data).filter(servico => servico.clienteId === clienteId);
+    }
+
+    // Retorna todas as funções como um objeto
+    return {
+        get,
+        add,
+        remove,
+        exists,
+        clear,
+        count,
+        getByClienteId,
+    };
+
+    /*
+
+// Exemplo de uso:
+const ServicosSelecionados = ServicosSelecionadosManager();
+
+// Adicionar um serviço
+ServicosSelecionados.add('agenda-manicure-1', {
+    selecao: 'agenda',
+    clienteId: 1,
+    servicoNome: 'Manicure',
+    preco: '25.00',
+    duracao: '30min',
+});
+
+ServicosSelecionados.add(checkboxId, servicoInfo);
+
+// Verificar se um serviço existe
+console.log(ServicosSelecionados.exists('agenda-manicure-1')); // true
+
+// Obter todos os serviços
+console.log(ServicosSelecionados.get());
+
+// Contar serviços
+console.log(ServicosSelecionados.count()); // 1
+
+// Remover um serviço
+ServicosSelecionados.remove('agenda-manicure-1');
+
+// Limpar todos os serviços
+ServicosSelecionados.clear();
+
+
+    */
+}
 
 // Função de seleção de serviço
 function selectServicoAgenda() {
@@ -140,6 +210,8 @@ function selectServicoAgenda() {
             return;  // Retorna para evitar o erro
         }
 
+        // agenda-manicure-pedicure-1 , agenda-manicure-1 , agenda-manicure-corte-1 , agenda-manicure-esmaltacao-1 , agenda-pedicure-1..
+
         // Recupera o nome do serviço (antes do span) e o preço do serviço
         //const servicoNome = $(this).find('.p-single').text().trim(); // Nome do serviço
         const servicoNome = $(this).find('.p-single').contents().filter(function() {
@@ -159,25 +231,173 @@ function selectServicoAgenda() {
         // Aplica a função para o ID do checkbox
         const servicoInfo = getServicoInfo(checkboxId);
 
+        const boxAtual = $(this).closest('.box-servicos-select');
+
         // Adiciona ou remove o serviço do objeto global
+
         if (checked) {
-            servicosSelecionadosAgenda[checkboxId] = servicoInfo;
+            // Adicionar serviço ao localStorage e resumo correspondente
+            ServicosSelecionados.add(checkboxId, servicoInfo);
+            const serviceId = checkboxId;
+            const novaSelecao = adicionarServico({ serviceId, nomeServico: servicoNome, precoServico: preco, duracaoServico: duracao });
+
+            if (novaSelecao) {
+                // Identificar o cliente pelo clienteId no localStorage
+                const clienteResumo = $(`.resumo-single-js-${servicoInfo.clienteId}`);
+
+                if (clienteResumo.length > 0) {
+                    clienteResumo.append(novaSelecao);
+                } else {
+                    console.error("Resumo para clienteId não encontrado:", servicoInfo.clienteId);
+                }
+            }
+
         } else {
-            delete servicosSelecionadosAgenda[checkboxId];
+            ServicosSelecionados.remove(checkboxId);
+            // Remover o serviço do localStorage e do resumo correspondente
+            const clienteResumo = $(`.resumo-single-js-${servicoInfo.clienteId}`);
+            clienteResumo.find(`[data-id="${checkboxId}"]`).remove();
         }
 
-        // Atualiza o localStorage com o estado atual
-        localStorage.setItem('servicosSelecionadosAgenda', JSON.stringify(servicosSelecionadosAgenda));
+        ServicosSelecionados.getByClienteId = function (clienteId) {
+            return Object.values(this.get()).filter(servico => servico.clienteId === clienteId);
+        };
 
-        // Atualiza o contador na box atual
-        const boxAtual = $(this).closest('.box-servicos-select');
+        // Exibir ou esconder o resumo do cliente com efeito fade
+        atualizarResumoCliente(servicoInfo);
+
         atualizarCarrinhoSelect(boxAtual);
 
-        console.log('Serviços Selecionados agenda:', servicosSelecionadosAgenda); // Exibe o estado atual
-        atualizarResumoSelecao(checked, checkboxId); // Atualiza o resumo
-        reposicionarTarifaEspecial();
+        atualizarTotal();
+
+        //ServicosSelecionados.add(checkboxId, servicoInfo);
+        /*
+        
+        if (checked) {
+            //servicosSelecionadosAgenda[checkboxId] = servicoInfo;
+            //gerenciarSelecoes(checkboxId, servicosSelecionadosAgenda);
+            ServicosSelecionados.add(checkboxId, servicoInfo);
+            //gerenciarSelecoes(checkboxId, maxUnitarios = 2)
+            //console.log(checkboxId);
+        } else {
+            ServicosSelecionados.remove(checkboxId);
+            //delete servicosSelecionadosAgenda[checkboxId];
+        }
+*/
+        // Atualiza o localStorage com o estado atual
+        //localStorage.setItem('servicosSelecionadosAgenda', JSON.stringify(servicosSelecionadosAgenda));
+
+        // Atualiza o contador na box atual
+    
+        //console.log('Serviços Selecionados agenda:', servicosSelecionadosAgenda); // Exibe o estado atual
+        //atualizarResumoSelecao(checked, checkboxId); // Atualiza o resumo
+        //reposicionarTarifaEspecial();
     });
 }
+
+function atualizarResumoCliente(servicoInfo = null, esconderSomente = false) {
+
+    // Verifica se servicoInfo foi fornecido e, se não, usa o localStorage diretamente
+    const clienteContainer = servicoInfo ? $(`.agenda-resumo-cliente-${servicoInfo.clienteId}`) : null;
+    const clienteId = servicoInfo ? servicoInfo.clienteId : null;
+    
+    const clienteServicos = clienteId ? ServicosSelecionados.getByClienteId(clienteId)
+
+    if (esconderSomente) {
+        // Se o parâmetro esconderSomente for true, esconde o clienteContainer
+        if (clienteContainer && clienteContainer.is(":visible")) {
+            clienteContainer.fadeOut(); // Esconde o resumo do cliente
+        }
+    } else {
+        if (clienteServicos && clienteServicos.length > 0) {
+            // Se houver serviços, exibe o resumo do cliente
+            if (clienteContainer && !clienteContainer.is(":visible")) {
+                clienteContainer.fadeIn(); // Exibe o resumo do cliente
+            }
+        } else {
+            // Caso contrário, esconde o resumo do cliente
+            if (clienteContainer && clienteContainer.is(":visible")) {
+                clienteContainer.fadeOut(); // Esconde o resumo do cliente
+            }
+        }
+    }
+
+
+    if (ServicosSelecionados.count() === 0) {
+        if (clienteContainer && clienteContainer.is(":visible")) {
+            clienteContainer.fadeOut(); // Esconde o resumo do cliente
+        }
+    }
+
+
+}
+
+function gerenciarSelecoes(checkboxId, maxUnitarios = 2) {
+
+    //const ServicosSelecionados = ServicosSelecionadosManager(); // Inicializa o gerenciador
+    const servicosSelecionados = ServicosSelecionados.get(); // Recupera os serviços do localStorage
+
+    const partes = checkboxId.split("-");
+    const categoria = partes[1]; // Exemplo: "manicure", "pedicure", etc.
+    const tipo = partes[2]; // Exemplo: "corte", "esmaltacao", etc.
+    const idAtual = partes[partes.length - 1]; // Último valor do ID
+    const isCompleto = tipo === "1"; // Checa se é um serviço completo
+    const isUnitarioCompleto = tipo.includes("spa") || tipo.includes("plastica");
+
+    // Filtrar serviços que pertencem ao mesmo ID
+    const servicosMesmoId = Object.keys(servicosSelecionados).filter(id => id.endsWith(`-${idAtual}`));
+
+    // Sempre desmarcar o serviço completo ao selecionar serviços unitários
+    /*
+    if (!isCompleto) {
+        const completoId = servicosMesmoId.find(id => id.includes(categoria) && id.includes("1"));
+        if (completoId) {
+            ServicosSelecionados.remove(completoId); // Remove do localStorage
+            $(`#${completoId}`).prop('checked', false).closest('.servico-single').removeClass('selected'); // Atualiza visualmente
+        }
+    }
+*/
+    if (isCompleto) {
+        // Desmarcar todos os serviços da mesma categoria
+        servicosMesmoId.forEach(id => {
+            if (id.includes(categoria) && id !== checkboxId) {
+                ServicosSelecionados.remove(id); // Remove do localStorage
+                $(`#${id}`).prop('checked', false).closest('.servico-single').removeClass('selected'); // Atualiza visualmente
+            }
+        });
+    } else {
+        // Se for um serviço unitário, apenas adiciona ao localStorage sem afetar o completo
+        console.log(`Selecionado serviço unitário: ${checkboxId}`);
+    }
+    /*else if (!isCompleto && !isUnitarioCompleto) {
+        // Permitir até dois serviços unitários
+        const unitariosSelecionados = servicosMesmoId.filter(id => id.includes(categoria) && !id.includes("1") && id !== checkboxId);
+        if (unitariosSelecionados.length >= maxUnitarios) {
+            // Desmarcar o mais antigo se já houver dois selecionados
+            const maisAntigo = unitariosSelecionados[0];
+            ServicosSelecionados.remove(maisAntigo); // Remove do localStorage
+            $(`#${maisAntigo}`).prop('checked', false).closest('.servico-single').removeClass('selected'); // Atualiza visualmente
+        }
+    }
+
+    if (isUnitarioCompleto) {
+        // Apenas registra a seleção, caso especial
+        console.log(`Selecionado serviço unitário + completo: ${checkboxId}`);
+    }
+*/
+    // Adicionar o serviço atual ao localStorage
+    const servicoInfo = {
+        categoria,
+        tipo,
+        idAtual,
+        checkboxId,
+    };
+
+    ServicosSelecionados.add(checkboxId, servicoInfo); // Adiciona ao localStorage
+
+    console.log('Serviços selecionados atualizados:', ServicosSelecionados.get());
+}
+
 
 // Função para atualizar a quantidade de serviços selecionados em uma box específica
 function atualizarCarrinhoSelect(boxElement) {
@@ -210,6 +430,7 @@ function atualizarCarrinhoSelect(boxElement) {
 // Função para atualizar o resumo de serviços
 function atualizarResumoSelecao(checked, checkboxId) {
 
+/*
     // Itera pelos IDs dos clientes
     ["1", "2", "3", "4"].forEach(clienteId => {
         const $container = $(`.agenda-resumo-cliente-${clienteId}`);
@@ -241,179 +462,94 @@ function atualizarResumoSelecao(checked, checkboxId) {
         }
 
         // Cria a estrutura HTML do serviço
-        const novoServicoHTML = adicionarServico(true, servicoNome, duracao, preco, id);
+        //const novoServicoHTML = adicionarServico(true, servicoNome, duracao, preco, id);
 
         // Adiciona o HTML ao contêiner
+        /*
         if (novoServicoHTML) {
             $container.append(novoServicoHTML);
-        }
-    }
+        }*/
+    //}
 
     // Atualiza o total de serviços selecionados
-    atualizarTotal();
+    //atualizarTotal();
 
     // Reorganiza o resumo (coloca Tarifa Especial antes do total)
-    organizarResumoSelecao();
+    //organizarResumoSelecao();
 
-    reposicionarTarifaEspecial();
+    //reposicionarTarifaEspecial();
+    
 }
 
 // Função para adicionar serviço
-function adicionarServico(checked, nomeServico, duracaoServico, precoServico, checkboxId) {
+function adicionarServico({ serviceId, nomeServico, precoServico, duracaoServico }) {
 
-    // Extrair o ID do serviço sem espaços e em minúsculas
-      const serviceId = checkboxId.split(' ')[0].toLowerCase();
+    $('.wraper-resumo').on('click', '.icone-lixeira', function() {
+          console.log('click lixeira!');
+          const $removedService = $(this).closest('.selecao-single');
+          $removedService.addClass('deletando');
+          const removedServiceId = $removedService.data('id');
+          const overlay = $removedService.find('.overlay-delete'); // Seleciona a barra vermelha
 
-      // Buscar elemento servico-single pelo ID
-      //const $servicoSingle = $(`.servico-single[id="${serviceId}"]`);
-      const $servicoSingle = $(`.servico-single input[type="checkbox"][id="${serviceId}"]`).closest('.servico-single');
+          // Anima a barra vermelha para preencher o elemento
+            overlay.css({
+                width: '100%',     // Define a largura como 100% do elemento
+                right: '0',        // Garante que o preenchimento parta do lado direito
+                border: '2px solid rgba(198, 155, 155, 0.8)',
+                borderRadius: '10px',
+            });
+          
+           // Remover o serviço do objeto global e do localStorage
+           
 
-      console.log('meu servioSingle ', `.servico-single[id="${serviceId}"]`);
-
-        // Verificar se o elemento foi encontrado
-        if ($servicoSingle.length === 0) {
-          console.error('Elemento servico-single não encontrado para o checkboxId:', serviceId);
-          // ...
-        }else{
-            console.error('ENCONTREI O SERVICO SINGLE!!!!!');
-            console.log('Servico Single', $servicoSingle);
-        }
-      // Verificar se o elemento foi encontrado
+            // Remove o elemento DOM após a animação
+            setTimeout(() => {
+                $removedService.fadeOut(300, function () {
+                    $removedService.remove();
+                    atualizarTotal();
+                });
+            }, 500);
 
 
-    if (checked) {
+           // Encontrar o elemento correspondente na lista principal
+          const $correspondingService = $(`.servico-single input[type="checkbox"][id="${removedServiceId}"]`).closest('.servico-single');
 
-        // Adiciona o serviço à lista
-        const novaSelecao = `
-            <div class="selecao-single flex" data-id="${serviceId}">
-                <div class="overlay-delete"></div> <!-- Barra vermelha -->
-                <div class="txt-p">
-                    <span class="p-single">${nomeServico}</span>
-                </div>
-                <div class="duracao">
-                    <span class="color-p"><i class="fa-solid fa-clock"></i> ${duracaoServico}</span>
-                </div>
-                <div class="preco-lixeira">
-                    <span class="preco-single">R$${precoServico}</span>
-                    <i class="icone-lixeira fa-solid fa-trash-can"></i>
-                </div>
-            </div>
-        `;
+          // Atualizar estilos e estado do checkbox apenas para o item correspondente
+          $correspondingService.removeClass('selected');
+          $correspondingService.find('.checkbox-servico').prop('checked', false);
+          $correspondingService.find('.select-icon').hide();
 
-        // Adiciona o novo serviço no DOM
-        // Insere 'novaSelecao' antes da última 'selecao-single-total'
-        //$('.wraper-resumo .selecao-single-total').last().before(novaSelecao);
-       // Reposiciona a div box-tarifa-especial, se ela existir
-/*if ($('.wraper-resumo .box-tarifa-especial').length > 0) {
-    const tarifaEspecial = $('.wraper-resumo .box-tarifa-especial'); // Seleciona a div existente
-   // Verifica se a div já está antes de .selecao-single-total
-    if (!tarifaEspecial.next('.selecao-single-total').length) {
-        $('.wraper-resumo .selecao-single-total').before(tarifaEspecial); // Move para antes da selecao-single-total
+          ServicosSelecionados.remove(removedServiceId);
+
+          const $correspondingSelectBox = $(`.servico-single input[type="checkbox"][id="${removedServiceId}"]`).closest('.box-servicos-select');
+
+          atualizarCarrinhoSelect($correspondingSelectBox);
+
+      })
+
+    if (!serviceId || !nomeServico || !precoServico || !duracaoServico) {
+        console.error("Parâmetros inválidos para adicionarServico");
+        return null;
     }
-}*/
-        // Primeiro, reposiciona a box-tarifa-especial caso ela exista/*
 
+    return `
+        <div class="selecao-single flex" data-id="${serviceId}">
+            <div class="overlay-delete"></div> <!-- Barra vermelha -->
+            <div class="txt-p">
+                <span class="p-single">${nomeServico}</span>
+            </div>
+            <div class="duracao">
+                <span class="color-p"><i class="fa-solid fa-clock"></i> ${duracaoServico}</span>
+            </div>
+            <div class="preco-lixeira">
+                <span class="preco-single">R$${precoServico}</span>
+                <i class="icone-lixeira fa-solid fa-trash-can"></i>
+            </div>
+        </div>
+    `;
+
+        
         /*
-        if ($('.wraper-resumo .box-tarifa-especial').length > 0) {
-            const tarifaEspecial = $('.wraper-resumo .box-tarifa-especial'); // Seleciona a div existente
-
-            // Verifica se a box-tarifa-especial já está posicionada corretamente
-            if (!tarifaEspecial.prev('.selecao-single-total').length) {
-                // Move a box-tarifa-especial antes de .selecao-single-total
-                $('.wraper-resumo .selecao-single-total').before(tarifaEspecial);
-            }
-        }
-
-        // Em seguida, adiciona novaSelecao antes da última selecao-single-total
-        if ($('.wraper-resumo .selecao-single-total').length > 0) {
-            $('.wraper-resumo .selecao-single-total').last().before(novaSelecao);
-        } else {
-            // Caso .selecao-single-total não exista (cenário improvável), adiciona ao final do .wraper-resumo
-            $('.wraper-resumo').append(novaSelecao);
-        }*/
-
-// Adiciona o novo serviço à lista
-$('.wraper-resumo .selecao-single-total').last().before(novaSelecao);
-        // Atualiza o total de serviços selecionados
-        atualizarTotal();
-
-        // Delegação de evento para ícones de lixeira
-        $('.wraper-resumo').on('click', '.icone-lixeira', function() {
-              const $removedService = $(this).closest('.selecao-single');
-              $removedService.addClass('deletando');
-              const removedServiceId = $removedService.data('id');
-              const overlay = $removedService.find('.overlay-delete'); // Seleciona a barra vermelha
-
-              // Anima a barra vermelha para preencher o elemento
-                overlay.css({
-                    width: '100%',     // Define a largura como 100% do elemento
-                    right: '0',        // Garante que o preenchimento parta do lado direito
-                    border: '2px solid rgba(198, 155, 155, 0.8)',
-                    borderRadius: '10px',
-                });
-              
-              delete servicosSelecionadosAgenda[removedServiceId];
-              localStorage.setItem('servicosSelecionadosAgenda', JSON.stringify(servicosSelecionadosAgenda));
-             
-              // Remove the item from the resumo in the DOM
-              // Aguarda a duração da animação antes de remover o elemento
-                setTimeout(() => {
-                    $removedService.fadeOut(300, function () {
-                        //$(this).remove(); // Remove do DOM após o fadeOut
-                        $removedService.remove();
-                        atualizarTotal();
-                    });
-                }, 500); // 500ms é o tempo da animação da barra
-              
-
-               // Encontrar o elemento correspondente na lista principal
-              const $correspondingService = $(`.servico-single input[type="checkbox"][id="${removedServiceId}"]`).closest('.servico-single');
-
-              // Verificar se o elemento foi encontrado
-              if ($servicoSingle.length === 0) {
-                console.error('Elemento servico-single não encontrado para o checkboxId:', serviceId);
-                console.error('serviceId após tratamento:', serviceId);
-                // Verificar se o elemento existe no DOM
-                const elementExists = document.getElementById(serviceId);
-                console.log('Elemento existe no DOM:', elementExists);
-                //return;
-              }else{
-                console.log('meu servioSingle ', `.servico-single[id="${serviceId}"]`);
-              }
-
-              console.log('minha const correspondingService', $correspondingService);
-              
-              // Find the corresponding `servico-single` element
-              /*
-              const $servicoSingle = $('.servico-single').filter(function() {
-                return $(this).find('.checkbox-servico').attr('id') === checkboxId;
-              });*/
-
-              // Atualizar estilos e estado do checkbox apenas para o item correspondente
-              $correspondingService.removeClass('selected');
-              $correspondingService.find('.checkbox-servico').prop('checked', false);
-              $correspondingService.find('.select-icon').hide();
-
-              // Deselect the service, remove the 'selected' class, and hide the icon
-              // Encontrar o elemento pai com a classe 'selected'
-              //const $selectedElement = $servicoSingle.closest('.selected');
-
-              // Remover a classe 'selected' e desmarcar o checkbox
-             // $selectedElement.removeClass('selected');
-             // $selectedElement.find('.checkbox-servico').prop('checked', false);
-             // $selectedElement.find('.select-icon').hide();
-              /*
-              $servicoSingle.removeClass('selected');
-              $servicoSingle.find('.select-icon').hide();
-              $servicoSingle.find('.checkbox-servico').prop('checked', false);*/
-
-              //console.log(checkboxId);
-              // Update the total
-              $('.box-servicos-select').each(function () {
-                    atualizarCarrinhoSelect(this);
-                });
-              atualizarTotal();
-        });
 
         return novaSelecao;
 
@@ -422,10 +558,11 @@ $('.wraper-resumo .selecao-single-total').last().before(novaSelecao);
         $('.wraper-resumo .selecao-single').filter(function() {
             return $(this).find('.p-single').text() === nomeServico;
         }).remove(); // Remove o serviço correspondente
-        atualizarTotal(); // Atualiza o total após remoção
+        //atualizarTotal(); // Atualiza o total após remoção
         return null;
-    }
+    }*/
 }
+
 
 function reposicionarTarifaEspecial() {
     $('.wraper-resumo').each(function() {
@@ -495,19 +632,81 @@ function sincronizarLocalStorage() {
 
 // Função para atualizar o total e a duração
 function atualizarTotal() {
-    console.log("entrei no atualizarTotal")
-    let total1 = 0;
-    let totalDuracao1 = 0;
-    let total2 = 0;
-    let totalDuracao2 = 0;
-    let total3 = 0;
-    let totalDuracao3 = 0;
-    let total4 = 0;
-    let totalDuracao4 = 0;
+    console.log("entrei no atualizarTotal");
+
+    // Recupera os serviços selecionados do localStorage
+    const servicosSelecionados = ServicosSelecionados.get();
+
+    const tarifaEspecialAtiva = localStorage.getItem('tarifaEspecial') === "true";
+
+    // Inicializa os totais para cada cliente
+    let totais = {
+        1: { total: 0, duracaoTotal: 0 },
+        2: { total: 0, duracaoTotal: 0 },
+        3: { total: 0, duracaoTotal: 0 },
+        4: { total: 0, duracaoTotal: 0 },
+    };
+
+    // Itera pelos serviços selecionados
+    Object.values(servicosSelecionados).forEach(servico => {
+        const clienteId = parseInt(servico.clienteId, 10);
+
+        // Verifica se o cliente existe nos totais
+        if (totais[clienteId]) {
+            // Calcula o preço
+            const preco = parseFloat(servico.preco.replace(",", "."));
+            if (!isNaN(preco)) {
+                totais[clienteId].total += preco;
+            }
+
+            // Calcula a duração em minutos
+            const duracaoMinutos = converterDuracaoParaMinutos(servico.duracao);
+            totais[clienteId].duracaoTotal += duracaoMinutos;
+        }
+    });
+
+    if (tarifaEspecialAtiva) {
+        $(".resumo-sim-tarifa-especial").each(function () {
+            // Determina o cliente associado à tarifa
+            const clienteClasse = $(this).closest(".wraper-resumo").attr("class");
+            const match = clienteClasse.match(/agenda-resumo-cliente-(\d+)/);
+            const clienteId = match ? parseInt(match[1], 10) : null;
+
+            if (totais[clienteId]) {
+                const precoTarifaTexto = $(this).find(".preco-single").text().replace("R$", "").replace(",", ".");
+                const precoTarifa = parseFloat(precoTarifaTexto);
+
+                if (!isNaN(precoTarifa)) {
+                    totais[clienteId].total += precoTarifa; // Adiciona apenas ao cliente correto
+                }
+            }
+        });
+    }
+
+    // Atualiza o HTML para cada cliente
+    for (const clienteId in totais) {
+        const totalContainer = $(`.agenda-resumo-cliente-${clienteId} .selecao-single-total`);
+        const { total, duracaoTotal } = totais[clienteId];
+
+        if (totalContainer.length) {
+            totalContainer.html(`
+                <div class="txt-p"><span class="color-p">Total</span></div>
+                <div class="duracao">
+                    <span class="color-p"><i class="fa-solid fa-clock"></i> ${converterMinutosParaHoras(duracaoTotal)}</span>
+                </div>
+                <div class="preco-lixeira">
+                    <span class="preco-total color-p">R$${total.toFixed(2).replace(".", ",")}</span>
+                </div>
+            `);
+        }
+    }
+
+    // Atualiza o tempo estimado total, se aplicável
+    atualizarTempoEstimado();
 
    // console.error($(".wraper-resumo .agenda-resumo-cliente-1 .selecao-single").length);
 
-
+/*
     $(".agenda-resumo-cliente-1 .selecao-single").each(function () {
         const precoTexto = $(this).find(".preco-single").text().replace("R$", "").replace(",", ".");
         const preco = parseFloat(precoTexto);
@@ -601,7 +800,7 @@ function atualizarTotal() {
     `);
 
     atualizarTempoEstimado();
-
+*/
 
 }
 
@@ -668,7 +867,7 @@ function closeModal() {
 
     // Limpar o estado global dos serviços selecionados
     console.log("Antes de resetar servicosSelecionadosAgenda");
-    Object.keys(servicosSelecionadosAgenda).forEach(key => delete servicosSelecionadosAgenda[key]);
+    //Object.keys(servicosSelecionadosAgenda).forEach(key => delete servicosSelecionadosAgenda[key]);
     console.log("Após Serviços selecionados resetados");
 
     // Limpar todos os dados relacionados no localStorage
@@ -706,7 +905,11 @@ function closeModal() {
 
 
     // Resetar o resumo visual e os valores de total
-    $('.wraper-resumo .selecao-single').remove();
+    $('.wraper-resumo .selecao-single').each(function() {
+        if (!$(this).hasClass('box-tarifa-especial')) {
+            $(this).remove();
+        }
+    });
     $('.selecao-single-total').html(`
         <div class="txt-p"><span class="color-p">Total</span></div> 
         <div class="duracao">
@@ -728,6 +931,7 @@ function closeModal() {
     $('.modal-servicos-agendados').hide();
     $('.wraper-login').hide();
     $('.js-box-pagamento-agenda').hide();
+    $('.resumo-sim-tarifa-especial').css('display','none');
     $('.js-box-resumo-consulta-agendamentos').hide();
     $('.modal-depoimento').hide();
     console.log("Modais extras escondidos");
@@ -775,6 +979,7 @@ function closeModal() {
     $('.js-tempo-servico .tempo-estimado').html('0:00');
 
     $('input[type=text]').val('');
+    $('input[type=number]').val('');
     $('input[type=password]').val('');
     $('input[type=email]').val('');
     $('input[type=file]').val('');
@@ -1027,7 +1232,7 @@ function selectPeriodo(){
 
         });
 
-     }, 2000);
+     }, 500);
 
 }
 

@@ -34,21 +34,21 @@ tb_endereco {
     numero_casa varchar
 }
 
-agendamentos {
+tb_agendamento {
     id int pk
     horario time
     data date
     status enum
-    cliente_servico integer > cliente_servicos.id
+    cliente_servico > tb_cliente_servico.id
 }
 
-cliente_servicos {
+tb_cliente_servico {
     id int pk
     cliente_id int > clientes.id
-    servico_id int > servico.id
+    servico_id int > tb_servico.id
 }
 
-servico{
+tb_servico{
     id int pk
     foto_servico varchar
     duracao_servico time

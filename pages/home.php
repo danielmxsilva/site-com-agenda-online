@@ -2768,6 +2768,31 @@ HTML;
 						</div>
 					</div>
 
+
+					<div class="resumo-single-css resumo-single-js-1">
+
+					</div><!--resumo-single-css-->
+
+					<div style="display:none;" class="resumo-sim-tarifa-especial">
+						<div class="selecao-single flex box-tarifa-especial" style="position: relative; overflow: unset;">
+	                        <div class="txt-p">
+	                            <span class="p-single">Tarifa Adicional</span>
+	                        </div>
+	                        <div class="duracao">
+	                            <span class="color-p">
+	                                <i class="fa-solid fa-circle-question" style="cursor: pointer;"></i>
+	                                <div class="info-box" style="display: none;">
+	                                    <p>Esta tarifa adicional é aplicada para serviços realizados em domingos e feriados.</p>
+	                                </div>
+	                            </span>
+	                        </div>
+	                        <div class="preco-lixeira">
+	                            <span class="preco-single">R$17,99</span>
+	                        </div>
+	                    </div>
+					</div><!--resumo-sim-tarifa-especial-->
+
+
 					<div class="selecao-single-total pos-total-cliente-1 flex">
 						<div class="txt-p"><span class="color-p">Total</span>
 						</div> 
@@ -2780,7 +2805,7 @@ HTML;
 						<input type="hidden" name="cliente_1" value="resumo-agenda-servico-cliente-1">
 					</div>
 
-				</div><!--wraper-resumo-->
+				</div><!--wraper-resumo agenda-resumo-cliente-1-->
 
 			</div><!--resumo-servico--> 
 
@@ -3220,6 +3245,30 @@ HTML;
 						</div>
 						
 					</div>
+
+					<div class="resumo-single-css resumo-single-js-2">
+
+						
+					</div><!--resumo-single-css-->
+
+					<div style="display:none;" class="resumo-sim-tarifa-especial">
+						<div class="selecao-single flex box-tarifa-especial" style="position: relative; overflow: unset;">
+	                        <div class="txt-p">
+	                            <span class="p-single">Tarifa Adicional</span>
+	                        </div>
+	                        <div class="duracao">
+	                            <span class="color-p">
+	                                <i class="fa-solid fa-circle-question" style="cursor: pointer;"></i>
+	                                <div class="info-box" style="display: none;">
+	                                    <p>Esta tarifa adicional é aplicada para serviços realizados em domingos e feriados.</p>
+	                                </div>
+	                            </span>
+	                        </div>
+	                        <div class="preco-lixeira">
+	                            <span class="preco-single">R$17,99</span>
+	                        </div>
+	                    </div>
+					</div><!--resumo-sim-tarifa-especial-->
 
 					<div class="selecao-single-total pos-total-cliente-2 flex">
 						<div class="txt-p"><span class="color-p">Total</span>
@@ -3675,7 +3724,23 @@ HTML;
 					</div>
 
 
+					<div class="resumo-single-css resumo-single-js-3">
 
+						<div class="selecao-single flex">
+			                <div class="overlay-delete"></div> <!-- Barra vermelha -->
+			                <div class="txt-p">
+			                    <span class="p-single">Loren Ispun dollor sit Amet Domor Amed</span>
+			                </div>
+			                <div class="duracao">
+			                    <span class="color-p"><i class="fa-solid fa-clock"></i> 2:00</span>
+			                </div>
+			                <div class="preco-lixeira">
+			                    <span class="preco-single">R$49,99</span>
+			                    <i class="icone-lixeira fa-solid fa-trash-can"></i>
+			                </div>
+			            </div>
+
+					</div><!--resumo-single-css-->
 <!--
    		<div class="selecao-single flex">
             <div class="txt-p">
@@ -3689,6 +3754,26 @@ HTML;
             </div>
         </div>
 -->
+
+					<div style="display:none;" class="resumo-sim-tarifa-especial">
+						<div class="selecao-single flex box-tarifa-especial" style="position: relative; overflow: unset;">
+	                        <div class="txt-p">
+	                            <span class="p-single">Tarifa Adicional</span>
+	                        </div>
+	                        <div class="duracao">
+	                            <span class="color-p">
+	                                <i class="fa-solid fa-circle-question" style="cursor: pointer;"></i>
+	                                <div class="info-box" style="display: none;">
+	                                    <p>Esta tarifa adicional é aplicada para serviços realizados em domingos e feriados.</p>
+	                                </div>
+	                            </span>
+	                        </div>
+	                        <div class="preco-lixeira">
+	                            <span class="preco-single">R$17,99</span>
+	                        </div>
+	                    </div>
+					</div><!--resumo-sim-tarifa-especial-->
+
 					<div class="selecao-single-total pos-total-cliente-3 flex">
 						<div class="txt-p"><span class="color-p">Total</span>
 						</div> 
@@ -4143,6 +4228,12 @@ HTML;
 						<input type="hidden" name="cliente_1">
 					</div>
 
+
+					<div class="resumo-single-css resumo-single-js-4">
+
+						
+
+					</div><!--resumo-single-css-->
 <!--
    		<div class="selecao-single flex">
             <div class="txt-p">
@@ -4156,6 +4247,26 @@ HTML;
             </div>
         </div>
 -->
+					
+					<div style="display:none;" class="resumo-sim-tarifa-especial">
+						<div class="selecao-single flex box-tarifa-especial" style="position: relative; overflow: unset;">
+	                        <div class="txt-p">
+	                            <span class="p-single">Tarifa Adicional</span>
+	                        </div>
+	                        <div class="duracao">
+	                            <span class="color-p">
+	                                <i class="fa-solid fa-circle-question" style="cursor: pointer;"></i>
+	                                <div class="info-box" style="display: none;">
+	                                    <p>Esta tarifa adicional é aplicada para serviços realizados em domingos e feriados.</p>
+	                                </div>
+	                            </span>
+	                        </div>
+	                        <div class="preco-lixeira">
+	                            <span class="preco-single">R$17,99</span>
+	                        </div>
+	                    </div>
+					</div><!--resumo-sim-tarifa-especial-->
+
 					<div class="selecao-single-total flex">
 						<div class="txt-p"><span class="color-p">Total</span>
 						</div> 
@@ -4476,7 +4587,7 @@ HTML;
 
 		<!--INICIO RESUMO BOX-SERVICOS FINAL PAGAMENTO AGENDA-->
 
-		<div class="wraper-resumo box-servicos-select agenda-resumo-cliente-1 estilo-resumo-servico">
+			<div class="wraper-resumo box-servicos-select estilo-resumo-servico agenda-resumo-cliente-1">
 
 					<div class="selecao-single-topo flex">
 						<div class="txt-p"><span class="color-p">Serviços Escolhidos <br/> Cliente 1</span>
@@ -4493,6 +4604,29 @@ HTML;
 						<input type="hidden" name="cliente_1">
 					</div>
 
+					<div class="resumo-single-css resumo-single-js-1">
+
+					</div><!--resumo-single-css-->
+
+					<div style="display:none;" class="resumo-sim-tarifa-especial">
+						<div class="selecao-single flex box-tarifa-especial" style="position: relative; overflow: unset;">
+	                        <div class="txt-p">
+	                            <span class="p-single">Tarifa Adicional</span>
+	                        </div>
+	                        <div class="duracao">
+	                            <span class="color-p">
+	                                <i class="fa-solid fa-circle-question" style="cursor: pointer;"></i>
+	                                <div class="info-box" style="display: none;">
+	                                    <p>Esta tarifa adicional é aplicada para serviços realizados em domingos e feriados.</p>
+	                                </div>
+	                            </span>
+	                        </div>
+	                        <div class="preco-lixeira">
+	                            <span class="preco-single">R$17,99</span>
+	                        </div>
+	                    </div>
+					</div><!--resumo-sim-tarifa-especial-->
+
 					<div class="selecao-single-total pos-total-cliente-1 flex">
 						<div class="txt-p"><span class="color-p">Total</span>
 						</div> 
@@ -4505,7 +4639,7 @@ HTML;
 						<input type="hidden" name="cliente_1" value="resumo-agenda-servico-cliente-1">
 					</div>
 
-				</div><!--wraper-resumo-->
+			</div><!--wraper-resumo-->
 
 <!--
 		<div class="wraper-resumo box-servicos-select resumo-servico-1 estilo-resumo-servico">
