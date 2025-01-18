@@ -1,5 +1,7 @@
 $(document).ready(function() {
 
+    localStorage.clear();
+
     $('.box-servicos-select').each(function () {
         atualizarCarrinhoSelect(this);
     });

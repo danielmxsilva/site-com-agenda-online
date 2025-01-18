@@ -11,11 +11,7 @@
 
 
 
-
-
-
-
-usuarios {
+tb_usuario{
     id int pk
     nome varchar
     cargo varchar
@@ -58,21 +54,21 @@ tb_servico{
     nome_servico_id varchar
 }
 
-pacotes {
+tb_pacotes {
     id int pk
-    cliente_id int > clientes.id
-    servicos_id int > servicos.id
-    agendamentos_id int > agendamentos.id
+    cliente_id int > tb_clientes.id
+    servicos_id int > tb_servico.id
+    agendamentos_id int > tb_agendamentos.id
 }
 
-clientes_adicionais {
+tb_clientes_adicionais {
     id int pk
     cliente_adicional_nmr int
     cliente_servicos_id integer > cliente_servicos.id
     servicos_id int > servicos.id
 }
 
-financeiro {
+tb_financeiro {
     id int pk
     clientes_id int > clientes.id
     agendamentos_id int > agendamentos.id
@@ -99,7 +95,7 @@ tb_clientes {
     add_cliente boolean
 }
 
-creditos {
+tb_creditos {
     id int pk
     cliente_id int > clientes.id
     valor_credito float
@@ -118,7 +114,11 @@ tb_tokens (
     FOREIGN KEY (user_id) REFERENCES tb_clientes(id) ON DELETE CASCADE
 );
 
-
+tb_tarifa {
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome_tarifa VARCHAR(255)
+    valor_tarifa VARCHAR(255)
+}
 
 
 

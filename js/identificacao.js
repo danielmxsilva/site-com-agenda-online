@@ -330,9 +330,12 @@ function formInformacoes(dados, endereco){
 
     if (dados){
 
-        console.log("tenho dados!");
+        console.log("Dados recebidos em formInformacoes:", dados);
+        console.log("Endereço recebido em formInformacoes:", endereco);
 
         pegarDados(dados, endereco);
+
+        
 
         /*
     
@@ -491,6 +494,8 @@ function validarFormularioSenha(config) {
             success: function (response) {
                 $(divPai).removeClass('carregando');
                 if (response.loginValido) {
+                    const dados = response.dados;
+                    const endereco = dados.endereco || null;
                     //alert('Login efetuado com sucesso!');
                     const nomeCliente = response.dados.nome || 'Cliente';
 
@@ -526,7 +531,7 @@ function validarFormularioSenha(config) {
                         exibirNotificacao('erro', 'Erro ao salvar o token. Tente novamente.');
                     }
 
-                    formInformacoes(response.dados,response.endereco);
+                    formInformacoes(dados, endereco);
 
                     trocarBox(".login-agenda", ".js-box-pagamento-agenda");
 

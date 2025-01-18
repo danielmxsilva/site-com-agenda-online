@@ -1,5 +1,7 @@
 
 
-- Trocar o nome da tarifa especial, avaliar outro nome que seja especifico =
+- Trocar o nome da tarifa especial, avaliar outro nome que seja especifico = OK
 
-- Adicionar a opção da pessoa durante o cadastro adicionar uma foto = foto será usado para depoimento
+- Adicionar a opção da pessoa durante o cadastro adicionar uma foto = foto será usado para depoimento, optei por colocar como disposição no resumo dos serviços
+
+- Continuar a trabalhar com recuperação de dados ao efetuar login

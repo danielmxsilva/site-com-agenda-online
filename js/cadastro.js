@@ -1,6 +1,16 @@
 $(document).ready(function(){
 
-    fotoValidacao('input[name="foto-cadastro"]');
+    //(input,classPai,fileName,imgFoto)
+
+   fotoValidacao('input[name="foto-cadastro"]'
+        ,'#image-preview'
+        ,'#file-name'
+        ,'#preview-foto');
+
+    fotoValidacao('input[name=foto-edit-cadastro]'
+        ,'#image-perfil-edit'
+        ,'#file-name-edit'
+        ,'#preview-foto-edit');
 
 	novoCadastro({
       formSelector: '.form-informacoes-cliente',
@@ -53,15 +63,15 @@ $(document).ready(function(){
 
 // Verifica o estado inicial do checkbox
 
-function fotoValidacao(input){
+function fotoValidacao(input,classPai,fileName,imgFoto){
 
     // Clique no preview da imagem
-    $('#image-preview').on('click', function () {
+    $(classPai).on('click', function () {
         $(input).click();
     });
 
     // Clique no texto "Nenhum arquivo selecionado"
-    $('#file-name').on('click', function () {
+    $(fileName).on('click', function () {
         $(input).click();
     });
 
@@ -78,8 +88,8 @@ function fotoValidacao(input){
                 // Exibe erro e reseta o input
                 exibirNotificacao('erro', "Apenas imagem .jpg, .jpeg ou .png são permitidos.");
                 $(this).val(''); // Limpa o input file
-                $('#preview-foto').hide(); // Esconde o preview
-                $('#file-name').text('Nenhum arquivo selecionado'); // Reseta o texto
+                $(imgFoto).hide(); // Esconde o preview
+                $(fileName).text('Nenhum arquivo selecionado'); // Reseta o texto
                 return; // Sai da função
             }
 
@@ -87,16 +97,16 @@ function fotoValidacao(input){
 
             // Atualiza o preview
             reader.onload = function (e) {
-                $('#preview-foto').attr('src', e.target.result).show(); // Mostra o preview
+                $(imgFoto).attr('src', e.target.result).show(); // Mostra o preview
             };
 
             reader.readAsDataURL(file); // Lê o arquivo como URL de dados
 
             // Atualiza o nome do arquivo no texto
-            $('#file-name').text(file.name);
+            $(fileName).text(file.name);
         } else {
-            $('#preview-foto').hide(); // Esconde o preview se nenhum arquivo for selecionado
-            $('#file-name').text('Nenhum arquivo selecionado'); // Reseta o texto
+            $(imgFoto).hide(); // Esconde o preview se nenhum arquivo for selecionado
+            $(fileName).text('Nenhum arquivo selecionado'); // Reseta o texto
         }
     });
 
@@ -297,7 +307,9 @@ function novoCadastro(config) {
             dataType: 'json',
             success: function (response) {
                 if (response.sucesso) {
-                    pegarDados(response.dados, response.endereco)
+                    const dados = response.dados;
+                    const endereco = dados.endereco || null;
+                    pegarDados(dados, endereco);
                     exibirNotificacao('sucesso', response.mensagem);
                     trocarBox('.login-agenda', '.js-box-pagamento-agenda', 400); // Exemplo de navegação
                 } else {

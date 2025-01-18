@@ -2793,6 +2793,25 @@ HTML;
 	                    </div>
 					</div><!--resumo-sim-tarifa-especial-->
 
+					<div style="display:none;" class="resumo-sim-tarifa-noturna">
+						<div class="selecao-single flex box-tarifa-especial" style="position: relative; overflow: unset;">
+	                        <div class="txt-p">
+	                            <span class="p-single"><?php echo htmlspecialchars($infoTarifaNoturna['nome_tarifa']); ?></span>
+	                        </div>
+	                        <div class="duracao">
+	                            <span class="color-p">
+	                                <i class="fa-solid fa-circle-question" style="cursor: pointer;"></i>
+	                                <div class="info-box" style="display: none;">
+	                                    <p>Este acréscimo é aplicado para serviços realizados durante o período noturno, garantindo atendimento fora do horário comercial.</p>
+	                                </div>
+	                            </span>
+	                        </div>
+	                        <div class="preco-lixeira">
+	                            <span class="preco-single"><?php echo 'R$' . htmlspecialchars($infoTarifaNoturna['valor_tarifa']); ?></span>
+	                        </div>
+	                    </div>
+					</div><!--resumo-sim-tarifa-noturna-->
+
 					
 					<div class="selecao-single-total pos-total-cliente-1 flex">
 						<div class="txt-p"><span class="color-p">Total</span>
@@ -3271,6 +3290,25 @@ HTML;
 	                    </div>
 					</div><!--resumo-sim-tarifa-especial-->
 
+					<div style="display:none;" class="resumo-sim-tarifa-noturna">
+						<div class="selecao-single flex box-tarifa-especial" style="position: relative; overflow: unset;">
+	                        <div class="txt-p">
+	                            <span class="p-single"><?php echo htmlspecialchars($infoTarifaNoturna['nome_tarifa']); ?></span>
+	                        </div>
+	                        <div class="duracao">
+	                            <span class="color-p">
+	                                <i class="fa-solid fa-circle-question" style="cursor: pointer;"></i>
+	                                <div class="info-box" style="display: none;">
+	                                    <p>Este acréscimo é aplicado para serviços realizados durante o período noturno, garantindo atendimento fora do horário comercial.</p>
+	                                </div>
+	                            </span>
+	                        </div>
+	                        <div class="preco-lixeira">
+	                            <span class="preco-single"><?php echo 'R$' . htmlspecialchars($infoTarifaNoturna['valor_tarifa']); ?></span>
+	                        </div>
+	                    </div>
+					</div><!--resumo-sim-tarifa-noturna-->
+
 					<div class="selecao-single-total pos-total-cliente-2 flex">
 						<div class="txt-p"><span class="color-p">Total</span>
 						</div> 
@@ -3748,6 +3786,25 @@ HTML;
 	                        </div>
 	                    </div>
 					</div><!--resumo-sim-tarifa-especial-->
+
+					<div style="display:none;" class="resumo-sim-tarifa-noturna">
+						<div class="selecao-single flex box-tarifa-especial" style="position: relative; overflow: unset;">
+	                        <div class="txt-p">
+	                            <span class="p-single"><?php echo htmlspecialchars($infoTarifaNoturna['nome_tarifa']); ?></span>
+	                        </div>
+	                        <div class="duracao">
+	                            <span class="color-p">
+	                                <i class="fa-solid fa-circle-question" style="cursor: pointer;"></i>
+	                                <div class="info-box" style="display: none;">
+	                                    <p>Este acréscimo é aplicado para serviços realizados durante o período noturno, garantindo atendimento fora do horário comercial.</p>
+	                                </div>
+	                            </span>
+	                        </div>
+	                        <div class="preco-lixeira">
+	                            <span class="preco-single"><?php echo 'R$' . htmlspecialchars($infoTarifaNoturna['valor_tarifa']); ?></span>
+	                        </div>
+	                    </div>
+					</div><!--resumo-sim-tarifa-noturna-->
 
 					<div class="selecao-single-total pos-total-cliente-3 flex">
 						<div class="txt-p"><span class="color-p">Total</span>
@@ -4229,6 +4286,25 @@ HTML;
 	                    </div>
 					</div><!--resumo-sim-tarifa-especial-->
 
+					<div style="display:none;" class="resumo-sim-tarifa-noturna">
+						<div class="selecao-single flex box-tarifa-especial" style="position: relative; overflow: unset;">
+	                        <div class="txt-p">
+	                            <span class="p-single"><?php echo htmlspecialchars($infoTarifaNoturna['nome_tarifa']); ?></span>
+	                        </div>
+	                        <div class="duracao">
+	                            <span class="color-p">
+	                                <i class="fa-solid fa-circle-question" style="cursor: pointer;"></i>
+	                                <div class="info-box" style="display: none;">
+	                                    <p>Este acréscimo é aplicado para serviços realizados durante o período noturno, garantindo atendimento fora do horário comercial.</p>
+	                                </div>
+	                            </span>
+	                        </div>
+	                        <div class="preco-lixeira">
+	                            <span class="preco-single"><?php echo 'R$' . htmlspecialchars($infoTarifaNoturna['valor_tarifa']); ?></span>
+	                        </div>
+	                    </div>
+					</div><!--resumo-sim-tarifa-noturna-->
+
 					<div class="selecao-single-total flex">
 						<div class="txt-p"><span class="color-p">Total</span>
 						</div> 
@@ -4328,7 +4404,8 @@ HTML;
 				      <legend class="color-p">Identifique-se com seu Número</legend>
 
 				      <div class="wraper-form-single">
-				        <input type="text" id="telefone-login-agenda" name="telefone-login-agenda" placeholder=" " required>
+				        <input type="text"  inputmode="tel"
+  						pattern="^\(\d{2}\)\s\d{5}-\d{4}$" id="telefone-login-agenda" name="telefone-login-agenda" placeholder=" " required>
 				        <label for="telefone-login-agenda">Número de Telefone</label>
 				      </div>
 
@@ -4482,7 +4559,7 @@ HTML;
 				  </div><!--wraper-->
 
 			      <div class="wraper-form-single">
-			        <input type="text" id="cep-login-agenda" name="cep-login-agenda" placeholder=" ">
+			        <input type="text" inputmode="numeric" pattern="^\d{5}-\d{3}$" id="cep-login-agenda" name="cep-login-agenda" placeholder=" ">
 			        <label for="cep-login-agenda">CEP</label>
 			      </div>
 
@@ -4505,7 +4582,7 @@ HTML;
 			      </div>
 
 			      <div class="wraper-form-single" style="margin-top: 20px;">
-			        <input type="text" id="n-casa-login-agenda" name="n-casa-login-agenda" placeholder=" ">
+			        <input type="text" id="n-casa-login-agenda" inputmode="numeric" pattern="^\d{1,5}$" name="n-casa-login-agenda" placeholder=" ">
 			        <label for="n-casa-login-agenda">Número</label>
 			      </div>
 
@@ -4841,42 +4918,8 @@ HTML;
 
 			</div><!--wraper-resumo agenda-resumo-cliente-4-->
 
-			<div class="editar-servico-btn js-btn-editar-servico-agenda">
-				<div class="btn-chamada-wraper btn-edit-servico">
 
-					<div class="btn-chamada btn-meus-agendamentos"><a href="" class="btn-voltar-do-resumo">Voltar para seleção de serviços</a></div>
-
-				</div><!--btn-chamada-wraper-->
-			</div><!--edit-btn-->
-
-
-		<div class="wraper-resumo box-servicos-select estilo-resumo-servico js-box-resumo-completo" style="display:block;">
-
-			<div class="selecao-single-topo flex">
-				<div class="txt-p"><span class="color-p">Total a Pagar</span>
-				</div> 
-				<div class="duracao">
-					<span class="color-p">
-						
-					</span>
-				</div>
-				<div class="preco-lixeira">
-					<span class="preco-single color-p">Valor</span>
-					
-				</div>	
-			</div>
-
-			<div class="selecao-single-total total-resumo-completo flex">
-				<div class="txt-p"><span class="color-p">Total</span>
-				</div> 
-				<div class="duracao">
-					<span class="color-p"></span>
-				</div>
-				<div class="preco-lixeira">
-					<span class="preco-total color-p">R$ 00,00</span>
-				</div>
-			</div>
-
+		<div class="wraper-resumo box-servicos-select estilo-resumo-servico js-box-resumo-completo">
 
 			<div class="selecao-single-topo flex" style="border-top: 2px solid #e0e0e0;">
 				<div class="txt-p" style="width:46%;"><span class="color-p">Data</span>
@@ -4890,8 +4933,41 @@ HTML;
 
 			</div><!--resumo-data-horario-->
 
-		</div><!--wraper-resumo box-servicos-select resumo-data-horario js-resumo-completo-->
+		</div><!--js-box-resumo-completo-->
 
+		<!--
+	SE TEM CREDITO DISPONIVEL
+	-->
+		<div class="wraper-resumo box-servicos-select">
+
+			<div class="selecao-single-topo flex">
+				<div class="txt-p"><span class="color-p">Crédito Disponível</span>
+				</div> 
+				<div class="duracao">
+					<span class="color-p">Serviço Atual</span>
+				</div>
+				<div class="preco-lixeira">
+					<span class="preco-single color-p">Total Descontado</span>
+				</div>
+				<input type="hidden" name="cliente_1">
+			</div>
+
+			<div class="selecao-single flex">
+	            <div class="txt-p">
+	                <span class="p-single">R$ 69,99</span>
+	            </div>
+	            <div class="duracao">
+					<span class="color-p">R$ 139,98</span>
+				</div>
+	            <div class="preco-lixeira">
+	                <span class="preco-single">R$ 70,97</span>
+	            </div>
+	        </div>
+
+		</div><!--wraper-resumo-->
+
+
+		<!--FINAL CREDITO DISPONIVEL-->
 
 		<div class="wraper-resumo box-servicos-select estilo-resumo-servico js-print-endereco" style="display:block;">
 
@@ -4944,39 +5020,48 @@ HTML;
 			</div><!--local-atendimento-->
 
 		</div>
-<!--
-	SE TEM CREDITO DISPONIVEL
-	-->
-		<div class="wraper-resumo box-servicos-select">
+
+			
+
+
+		<div class="wraper-resumo box-servicos-select estilo-resumo-servico js-box-resumo-completo" style="display:block;">
 
 			<div class="selecao-single-topo flex">
-				<div class="txt-p"><span class="color-p">Crédito Disponível</span>
+				<div class="txt-p"><span class="color-p">Total a Pagar</span>
 				</div> 
 				<div class="duracao">
-					<span class="color-p">Serviço Atual</span>
+					<span class="color-p">
+						
+					</span>
 				</div>
 				<div class="preco-lixeira">
-					<span class="preco-single color-p">Total Descontado</span>
-				</div>
-				<input type="hidden" name="cliente_1">
+					<span class="preco-single color-p">Valor</span>
+					
+				</div>	
 			</div>
 
-			<div class="selecao-single flex">
-	            <div class="txt-p">
-	                <span class="p-single">R$ 69,99</span>
-	            </div>
-	            <div class="duracao">
-					<span class="color-p">R$ 139,98</span>
+			<div class="selecao-single-total total-resumo-completo flex">
+				<div class="txt-p"><span class="color-p">Total</span>
+				</div> 
+				<div class="duracao">
+					<span class="color-p"></span>
 				</div>
-	            <div class="preco-lixeira">
-	                <span class="preco-single">R$ 70,97</span>
-	            </div>
-	        </div>
-
-		</div><!--wraper-resumo-->
+				<div class="preco-lixeira">
+					<span class="preco-total color-p">R$ 00,00</span>
+				</div>
+			</div>
 
 
-		<!--FINAL CREDITO DISPONIVEL-->
+		</div><!--wraper-resumo box-servicos-select resumo-data-horario js-resumo-completo-->
+
+		<div class="editar-servico-btn js-btn-editar-servico-agenda">
+			<div class="btn-chamada-wraper btn-edit-servico">
+
+				<div class="btn-chamada btn-meus-agendamentos"><a href="" class="btn-voltar-do-resumo">Voltar para seleção de serviços</a></div>
+
+			</div><!--btn-chamada-wraper-->
+		</div><!--edit-btn-->
+
 
 		</div><!--resumo-servico-->
 
@@ -5117,7 +5202,7 @@ HTML;
 
 			<div class="box-perfil-slide box-editar-dados">
 
-			<form class="css-form-editar js-form-editar">
+			<form class="css-form-editar js-form-editar-perfil">
 			 	<div class="wraper-h" style="margin: 10px 0 40px 0;">
 					<h3 class="titulo-h">Seu <span class="rosa-span">Cadastro</span></h3>
 					<span class="line-h"></span>
@@ -5127,34 +5212,34 @@ HTML;
 			      <legend class="color-p">Informações do Cadastro</legend>
 
 			      <div class="wraper-form-single">
-			        <input type="text" id="nome-login-agenda" name="nome-login-agenda" placeholder=" ">
-			        <label for="nome-login-agenda">Nome Completo</label>
+			        <input type="text" id="nome-perfil-edit" name="nome-perfil-edit" placeholder=" ">
+			        <label for="nome-perfil-edit">Nome Completo</label>
 			      </div>
 
 			      <div class="wraper-form-single">
-			        <input type="email" id="email-login-agenda" name="email-login-agenda" placeholder=" ">
-			        <label for="emaill-login-agenda">Seu melhor E-mail</label>
+			        <input type="email" id="email-perfil-edit" name="email-perfil-edit" placeholder=" ">
+			        <label for="emaill-perfil-edit">Seu E-mail</label>
 			      </div>
 
 			     <div class="wraper-form-single file-css">
 
-				    <label for="foto-cadastro" style="position: static; color: #333; display: block; margin-left: 10px; cursor: pointer;">
-				        Foto do Perfil (Opcional)
+				    <label for="foto-edit-cadastro" style="position: static; color: #333; display: block; margin-left: 10px; cursor: pointer;">
+				        Foto do Perfil
 				    </label>
 
 				    <div class="flex-file">
 
-				    	<input style="display: none;" type="file" id="foto-cadastro" name="foto-cadastro" placeholder=" " accept="image/*">
+				    	<input style="display: none;" type="file" id="foto-edit-cadastro" name="foto-edit-cadastro" placeholder=" " accept="image/*">
 
-					    <div class="image-preview" id="image-preview" style="cursor: pointer; text-align: center;">
+					    <div class="image-preview" id="image-perfil-edit" style="cursor: pointer; text-align: center;">
 
-					        <img id="preview-foto" src="#" alt="Preview da Foto" style="display: none;">
+					        <img id="preview-foto-edit" src="" alt="Preview da Foto" style="display: none;">
 
-					        <i class="fa-solid fa-user" style="font-size: 30px;text-align: center;padding-top: 10px; color: #9d9c9c;"></i>
+					        <i class="icone-perfil fa-solid fa-user" style="font-size: 30px;text-align: center;padding-top: 10px; color: #9d9c9c;"></i>
 
 					    </div>
 
-				    	<span id="file-name" style="color: #555; cursor: pointer;">Nenhum arquivo selecionado</span>
+				    	<span id="file-name-edit" class="file-name-edit" style="color: #555; cursor: pointer;">Nenhum arquivo selecionado</span>
 
 					</div><!--flex-file-->
 
@@ -5166,12 +5251,12 @@ HTML;
 				  </div><!--wraper-->
 
 			      <div class="wraper-form-single">
-			        <input type="text" id="cep-login-agenda" name="cep-login-agenda" placeholder=" ">
-			        <label for="cep-login-agenda">CEP</label>
+			        <input type="text" id="cep-perfil-edit" name="cep-perfil-edit" placeholder=" ">
+			        <label for="cep-perfil-edit">CEP</label>
 			      </div>
 
 			      <div class="wraper-form-single">
-			        <select name="cidade-login-agenda" id="cidade-login-agenda">
+			        <select name="cidade-perfil-edit" id="cidade-perfil-edit">
 			          <option value="cidade" selected disabled>Cidade:</option>
 			          <option value="Itupeva">Itupeva</option>
 			          <option value="Jundiaí">Jundiaí</option>
@@ -5179,18 +5264,18 @@ HTML;
 			      </div>
 
 			      <div class="wraper-form-single" style="margin-top: 20px;">
-			        <input type="text" id="bairro-login-agenda" name="bairro-login-agenda" placeholder=" ">
-			        <label for="bairro-login-agenda">Bairro</label>
+			        <input type="text" id="bairro-perfil-edit" name="bairro-perfil-edit" placeholder=" ">
+			        <label for="bairro-perfil-edit">Bairro</label>
 			      </div>
 
 			      <div class="wraper-form-single" style="margin-top: 20px;">
-			        <input type="text" id="rua-casa-login-agenda" name="rua-casa-login-agenda" placeholder=" ">
-			        <label for="rua-casa-login-agenda">Rua</label>
+			        <input type="text" id="rua-casa-perfil-edit" name="rua-casa-perfil-edit" placeholder=" ">
+			        <label for="rua-casa-perfil-edit">Rua</label>
 			      </div>
 
 			      <div class="wraper-form-single" style="margin-top: 20px;">
-			        <input type="text" id="n-casa-login-agenda" name="n-casa-login-agenda" placeholder=" ">
-			        <label for="n-casa-login-agenda">Número</label>
+			        <input type="text" id="n-casa-perfil-edit" name="n-casa-perfil-edit" placeholder=" ">
+			        <label for="n-casa-perfil-edit">Número</label>
 			      </div>
 
 			      <div class="wraper-form-single" style="position:static;">

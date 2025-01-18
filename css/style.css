@@ -1791,7 +1791,7 @@ legend.codigo-info .codigo-dica {
 	width: 60px;
 }
 
-#file-name{
+#file-name,.file-name-edit{
 	width: calc(100% - 70px);
 	padding: 0 2%;
 }
@@ -1829,7 +1829,7 @@ legend.codigo-info .codigo-dica {
 }
 
 /* Estilo para o texto "Nenhum arquivo selecionado" */
-#file-name {
+#file-name,.file-name-edit {
     font-size: 14px;
     color: #777;
     cursor: pointer;
@@ -1946,7 +1946,7 @@ legend.codigo-info .codigo-dica {
     height: 50px;
     border-radius: 50%;
     overflow: hidden;
-    border: 3px solid #cecece; /* Cor chamativa da borda */
+    border: 3px solid #2e8b57; /* Cor chamativa da borda */
 }
 
 .foto-perfil i{

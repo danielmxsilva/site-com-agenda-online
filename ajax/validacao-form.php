@@ -76,6 +76,7 @@
 
 	            // Se o cliente tiver um endereco_id, consulta os dados do endereço
 	            if (!empty($registro['endereco_id'])) {
+	            	error_log("Endereço ID encontrado: " . $registro['endereco_id']);
 	                $sqlEndereco = "SELECT * FROM tb_endereco WHERE id = ?";
 	                $stmtEndereco = $pdo->prepare($sqlEndereco);
 	                $stmtEndereco->execute([$registro['endereco_id']]);
@@ -83,11 +84,15 @@
 	                $endereco = $stmtEndereco->fetch(PDO::FETCH_ASSOC);
 
 	                if ($endereco) {
+	                	error_log("Endereço encontrado: " . print_r($endereco, true));
 	                    $resposta['endereco'] = $endereco;
 	                } else {
+	                	 error_log("Nenhum endereço encontrado para o ID: " . $registro['endereco_id']);
 	                    $resposta['mensagem'] .= ' Endereço não encontrado.';
 	                }
-	            }
+	            } else {
+				    error_log("Nenhum endereço ID associado ao cliente.");
+				}
 
 	            echo json_encode($resposta);
 
@@ -178,7 +183,8 @@
 	                echo json_encode([
 	                    'loginValido' => true,
 	                    'mensagem' => 'Login efetuado com sucesso.',
-	                    'dados' => $registro,
+	                    'dados' => $registro, // Dados gerais do cliente
+    					'endereco' => $endereco, // Endereço separado
 	                    'token' => $token
 	                ]);
 	                exit;
@@ -230,8 +236,8 @@
 	                    $registro['mensagem'] = 'Endereço não encontrado.';
 	                }
 	            }
-	            
-	            echo json_encode(['tokenValido' => true, 'dados' => $registro]);
+	             // Endereço separado
+	            echo json_encode(['tokenValido' => true, 'dados' => $registro, 'endereco' => $endereco]);
 	            exit;
 	        } else {
 	            echo json_encode(['tokenValido' => false]);
@@ -551,11 +557,24 @@
 		    $stmtClienteFetch->execute([$clienteId]);
 		    $clienteData = $stmtClienteFetch->fetch(PDO::FETCH_ASSOC);
 
+		    // Formatar a resposta para separar os dados gerais do endereço
+			$endereco = [
+			    'cep' => $clienteData['cep'],
+			    'cidade' => $clienteData['cidade'],
+			    'bairro' => $clienteData['bairro'],
+			    'rua' => $clienteData['rua'],
+			    'numero_casa' => $clienteData['numero_casa']
+			];
+
+			// Remover campos de endereço de clienteData
+			unset($clienteData['cep'], $clienteData['cidade'], $clienteData['bairro'], $clienteData['rua'], $clienteData['numero_casa']);
+
 		    // Resposta de sucesso
 		    echo json_encode([
-		        'sucesso' => true,
+		      k  'sucesso' => true,
 		        'mensagem' => 'Cadastro realizado com sucesso!',
-		        'dados' => $clienteData
+		        'dados' => $clienteData,
+		        'endereco' => $endereco
 		    ]);
 		    exit();
 
