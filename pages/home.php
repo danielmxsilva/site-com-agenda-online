@@ -4626,7 +4626,7 @@ HTML;
 
 		<!--INICIO RESUMO BOX-SERVICOS FINAL PAGAMENTO AGENDA-->
 
-			<div class="wraper-resumo box-servicos-select estilo-resumo-servico agenda-resumo-cliente-1">
+			<div class="wraper-resumo box-servicos-select estilo-resumo-servico css-resumo-servico agenda-resumo-cliente-1">
 
 					<div class="selecao-single-topo flex">
 						<div class="txt-p"><span class="color-p">Serviços Escolhidos <br/> Cliente: </span><span class="nome-cliente-resumo"></span>
@@ -4699,7 +4699,7 @@ HTML;
 
 			</div><!--wraper-resumo-->
 
-			<div class="wraper-resumo box-servicos-select estilo-resumo-servico agenda-resumo-cliente-2">
+			<div class="wraper-resumo box-servicos-select estilo-resumo-servico css-resumo-servico agenda-resumo-cliente-2">
 
 					<div class="selecao-single-topo flex">
 						<div class="txt-p"><span class="color-p">Serviços Escolhidos <br/> Cliente Adicional 2</span>
@@ -4772,7 +4772,7 @@ HTML;
 
 			</div><!--wraper-resumo-->
 
-			<div class="wraper-resumo box-servicos-select estilo-resumo-servico agenda-resumo-cliente-3">
+			<div class="wraper-resumo box-servicos-select estilo-resumo-servico css-resumo-servico agenda-resumo-cliente-3">
 
 					<div class="selecao-single-topo flex">
 						<div class="txt-p"><span class="color-p">Serviços Escolhidos <br/> Cliente Adicional 3</span>
@@ -4845,7 +4845,7 @@ HTML;
 
 			</div><!--wraper-resumo-->
 
-			<div class="wraper-resumo box-servicos-select estilo-resumo-servico agenda-resumo-cliente-4">
+			<div class="wraper-resumo box-servicos-select estilo-resumo-servico css-resumo-servico agenda-resumo-cliente-4">
 
 					<div class="selecao-single-topo flex">
 						<div class="txt-p"><span class="color-p">Serviços Escolhidos <br/> Cliente Adicional 4</span>
@@ -4917,9 +4917,9 @@ HTML;
 					</div>
 
 			</div><!--wraper-resumo agenda-resumo-cliente-4-->
+		
 
-
-		<div class="wraper-resumo box-servicos-select estilo-resumo-servico js-box-resumo-completo">
+		<div class="wraper-resumo box-servicos-select estilo-resumo-servico js-box-resumo-completo" style="display:block;">
 
 			<div class="selecao-single-topo flex" style="border-top: 2px solid #e0e0e0;">
 				<div class="txt-p" style="width:46%;"><span class="color-p">Data</span>
@@ -4935,10 +4935,65 @@ HTML;
 
 		</div><!--js-box-resumo-completo-->
 
+
+		<div class="wraper-resumo box-servicos-select estilo-resumo-servico js-print-endereco" style="display:block;">
+
+			<div class="local-atendimento">
+
+				<div class="selecao-single-topo flex">
+					<div class="txt-p" style="width:60%;"><span class="color-p">Endereço de atendimento</span>
+					</div> 
+					<div class="preco-lixeira" style="width: 35%;">
+						<i class="fa-solid fa-pen-to-square btn-edit-endereco"></i>
+					</div>
+				</div>
+				
+				<div class="resumo-endereco flex">
+		            <div class="txt-p" style="width: 46%;">
+		                <span class="p-single">Cidade</span>
+		            </div>
+		            <div class="duracao" style="width: 50%;">
+		                <span class="color-p local-cidade"></span>
+		            </div>
+		        </div>
+
+		        <div class="resumo-endereco flex">
+		            <div class="txt-p" style="width: 46%;">
+		                <span class="p-single">Bairro</span>
+		            </div>
+		            <div class="duracao" style="width: 50%;">
+		                <span class="color-p bairro local-bairro"></span>
+		            </div>
+		        </div>
+
+		        <div class="resumo-endereco flex">
+		            <div class="txt-p" style="width: 46%;">
+		                <span class="p-single rua">Rua</span>
+		            </div>
+		            <div class="duracao" style="width: 50%;">
+		                <span class="color-p local-rua"></span>
+		            </div>
+		        </div>
+
+		        <div class="resumo-endereco flex">
+		            <div class="txt-p" style="width: 46%;">
+		                <span class="p-single">N°</span>
+		            </div>
+		            <div class="duracao" style="width: 50%;">
+		                <span class="color-p n-casa local-numero"></span>
+		            </div>
+		        </div>
+
+			</div><!--local-atendimento-->
+
+		</div>
+
+			
 		<!--
 	SE TEM CREDITO DISPONIVEL
 	-->
-		<div class="wraper-resumo box-servicos-select">
+
+		<div class="wraper-resumo box-servicos-select js-box-credito" style="display: block;">
 
 			<div class="selecao-single-topo flex">
 				<div class="txt-p"><span class="color-p">Crédito Disponível</span>
@@ -4967,62 +5022,95 @@ HTML;
 		</div><!--wraper-resumo-->
 
 
-		<!--FINAL CREDITO DISPONIVEL-->
+		<div class="wraper-resumo box-servicos-select estilo-cupons-servico js-box-cupons" style="display:block;">
 
-		<div class="wraper-resumo box-servicos-select estilo-resumo-servico js-print-endereco" style="display:block;">
+			<div class="selecao-single-topo flex">
+				<div class="txt-p"><span class="color-p">Cupons</span>
+				</div> 
+	
+				<div class="preco-lixeira">
+					<i class="fa-solid fa-ticket"></i>
+				</div>	
+			</div>
 
-			<div class="local-atendimento">
+			<div class="selecao-single-total css-form-cupon flex">
+				<form class="form-cupom">
+					<input type="text" name="cupom_input" placeholder="Digite o seu Cupom">
+					<input type="submit" name="acao_cupon" value="Adicionar Cupom">
+				</form>
+			</div>
 
-				<div class="selecao-single-topo flex">
-					<div class="txt-p" style="width:60%;"><span class="color-p">Endereço de atendimento</span>
-					</div> 
-					<div class="preco-lixeira" style="width: 35%;">
-						<i class="fa-solid fa-pen-to-square btn-edit-endereco"></i>
-					</div>
-				</div>
-				
-				<div class="resumo-endereco flex">
-		            <div class="txt-p" style="width: 46%;">
-		                <span class="p-single">Cidade</span>
-		            </div>
-		            <div class="duracao" style="width: 50%;">
-		                <span class="color-p cidade"> itupeva</span>
-		            </div>
-		        </div>
+			<div class="cupom_selecionados">
 
-		        <div class="resumo-endereco flex">
-		            <div class="txt-p" style="width: 46%;">
-		                <span class="p-single">Bairro</span>
-		            </div>
-		            <div class="duracao" style="width: 50%;">
-		                <span class="color-p bairro"> Monte Serrat</span>
-		            </div>
-		        </div>
+				<div class="resumo-cupom-js resumo-cupom-css">	
+			        <div class="selecao-single flex">
+			            <div class="overlay-delete"></div> <!-- Barra vermelha -->
+			            <div class="txt-p">
+			                <span class="p-single">SEMANALEVE</span>
+			            </div>
+			            <div class="duracao">
+			                <span class="color-p">Valor:</span>
+			            </div>
+			            <div class="preco-lixeira">
+			                <span class="preco-single">R$20,00</span>
+			                <i class="icone-lixeira fa-solid fa-trash-can" aria-hidden="true"></i>
+			            </div>
+			        </div>
+			    </div>
 
-		        <div class="resumo-endereco flex">
-		            <div class="txt-p" style="width: 46%;">
-		                <span class="p-single rua">Rua</span>
-		            </div>
-		            <div class="duracao" style="width: 50%;">
-		                <span class="color-p"> Avenida Nelson Gulla</span>
-		            </div>
-		        </div>
+<?php /*?>
+				<div class="resumo-cupom-js resumo-cupom-css">	
+			        <div class="selecao-single flex">
+			            <div class="overlay-delete"></div> <!-- Barra vermelha -->
+			            <div class="txt-p">
+			                <span class="p-single">SEMANALINDA</span>
+			            </div>
+			            <div class="duracao">
+			                <span class="color-p">Valor:</span>
+			            </div>
+			            <div class="preco-lixeira">
+			                <span class="preco-single">R$20,00</span>
+			                <i class="icone-lixeira fa-solid fa-trash-can" aria-hidden="true"></i>
+			            </div>
+			        </div>
+			    </div>
 
-		        <div class="resumo-endereco flex">
-		            <div class="txt-p" style="width: 46%;">
-		                <span class="p-single">N°</span>
-		            </div>
-		            <div class="duracao" style="width: 50%;">
-		                <span class="color-p n-casa"> 1426</span>
-		            </div>
-		        </div>
+			    <div class="resumo-cupom-js resumo-cupom-css">	
+			        <div class="selecao-single flex">
+			            <div class="overlay-delete"></div> <!-- Barra vermelha -->
+			            <div class="txt-p">
+			                <span class="p-single">QUERODENOVO</span>
+			            </div>
+			            <div class="duracao">
+			                <span class="color-p">Valor:</span>
+			            </div>
+			            <div class="preco-lixeira">
+			                <span class="preco-single">R$20,00</span>
+			                <i class="icone-lixeira fa-solid fa-trash-can" aria-hidden="true"></i>
+			            </div>
+			        </div>
+			    </div>
 
-			</div><!--local-atendimento-->
+			    <div class="resumo-cupom-js resumo-cupom-css">	
+			        <div class="selecao-single flex">
+			            <div class="overlay-delete"></div> <!-- Barra vermelha -->
+			            <div class="txt-p">
+			                <span class="p-single">INFERNO</span>
+			            </div>
+			            <div class="duracao">
+			                <span class="color-p">Valor:</span>
+			            </div>
+			            <div class="preco-lixeira">
+			                <span class="preco-single">R$20,00</span>
+			                <i class="icone-lixeira fa-solid fa-trash-can" aria-hidden="true"></i>
+			            </div>
+			        </div>
+			    </div>
+<?php */?>
+			</div><!--cupom_selecionados-->
 
-		</div>
 
-			
-
+		</div><!--js-box-cupom-->
 
 		<div class="wraper-resumo box-servicos-select estilo-resumo-servico js-box-resumo-completo" style="display:block;">
 

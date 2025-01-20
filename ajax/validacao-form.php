@@ -18,6 +18,8 @@
 
 	$token = filter_input(INPUT_POST, 'token', FILTER_SANITIZE_STRING);
 
+	$token_cupom = filter_input(INPUT_POST, 'token_cupom', FILTER_SANITIZE_STRING);
+
 	$email_recuperar = filter_input(INPUT_POST, 'email_recuperar', FILTER_SANITIZE_STRING);
 
 	$codigo_recuperacao = filter_input(INPUT_POST, 'codigo_recuperacao', FILTER_SANITIZE_STRING);
@@ -119,8 +121,7 @@
 	    $telefone = str_replace('+', '', $telefone);
 	    $telefone = preg_replace('/\D/', '', $telefone);
 
-	    if (!$telefone) {
-	        echo json_encode(['loginValido' => false, 'mensagem' => 'Número de telefone inválido.']);
+	    if (!$telefone) {	        echo json_encode(['loginValido' => false, 'mensagem' => 'Número de telefone inválido.']);
 	        exit;
 	    }
 
@@ -248,6 +249,8 @@
 	        echo json_encode(['tokenValido' => false, 'erro' => $e->getMessage()]);
 	        exit;
 	    }
+
+	} elseif ($token_cupom) {
 
 	} elseif ($email_recuperar){
 
@@ -507,7 +510,7 @@
 
 		    if ($emailExiste) {
 		        echo json_encode([
-		            'sucesso' => false,
+		            'sucess' => false,
 		            'mensagem' => 'Já existe um cadastro com esse e-mail.'
 		        ]);
 		        exit;
@@ -547,6 +550,14 @@
 		    // Obter o id do cliente recém-inserido
 		    $clienteId = $pdo->lastInsertId();
 
+		     // Registro do token para o cliente
+		    $token = bin2hex(random_bytes(32));
+		    $expiracao = date('Y-m-d H:i:s', strtotime('+1 year'));
+		    $ip_origem = $_SERVER['REMOTE_ADDR'];
+		    $sqlToken = "INSERT INTO tb_tokens (user_id, token, tipo, expira_em, ip_origem) VALUES (?, ?, 'cadastro', ?, ?)";
+		    $stmtToken = $pdo->prepare($sqlToken);
+		    $stmtToken->execute([$clienteId, $token, $expiracao, $ip_origem]);
+
 		    // Buscar os dados completos do cliente inserido
 		    $stmtClienteFetch = $pdo->prepare("
 		        SELECT c.id, c.nome, c.email, c.telefone, c.foto_perfil_cliente, c.data_cadastro, e.cep, e.cidade, e.bairro, e.rua, e.numero_casa
@@ -571,10 +582,11 @@
 
 		    // Resposta de sucesso
 		    echo json_encode([
-		      k  'sucesso' => true,
+		        'sucesso' => true,
 		        'mensagem' => 'Cadastro realizado com sucesso!',
 		        'dados' => $clienteData,
-		        'endereco' => $endereco
+		        'endereco' => $endereco,
+		        'token' => $token
 		    ]);
 		    exit();
 

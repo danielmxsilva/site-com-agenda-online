@@ -2,6 +2,8 @@
 //essa função está sendo chamada no identificacao.js, linha 333
 function pegarDados(dados, endereco){
 
+	//cupomValidar();
+
 	console.log("Dados recebidos em pegarDados:", dados);
    console.log("Endereço recebido em pegarDados:", endereco);
 
@@ -79,6 +81,7 @@ function pegarDados(dados, endereco){
 		    // Selecionar a cidade no dropdown
 		    if ($('#cidade-perfil-edit option[value="' + endereco.cidade + '"]').length > 0) {
 		        $('#cidade-perfil-edit').val(endereco.cidade);
+		        $('.local-cidade').text(endereco.cidade);
 		        console.log("Cidade encontrada no dropdown:", endereco.cidade);
 		    } else {
 		        // Adicionar a cidade como nova opção, caso não exista
@@ -88,14 +91,17 @@ function pegarDados(dados, endereco){
 
 		    // Atualizar o campo do bairro
 		    $('#bairro-perfil-edit').val(endereco.bairro);
+		    $('.local-bairro').text(endereco.bairro);
 		    console.log("Bairro atualizado:", endereco.bairro);
 
 		    // Atualizar o campo da rua
 		    $('#rua-casa-perfil-edit').val(endereco.rua);
+		    $('.local-rua').text(endereco.rua);
 		    console.log("Rua atualizada:", endereco.rua);
 
 		    // Atualizar o número da casa
 		    $('#n-casa-perfil-edit').val(endereco.numero_casa);
+		    $('.local-numero').text(endereco.numero_casa);
 		    console.log("Número da casa atualizado:", endereco.numero_casa);
 		
 

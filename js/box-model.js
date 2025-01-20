@@ -23,6 +23,8 @@ $(document).ready(function() {
    
     selectServicoAgenda();
 
+    inicializarEventosInfoBox();
+
     //selectPeriodo();
 
     //deleteItemIcone();
@@ -43,9 +45,12 @@ function clickDia() {
     $('.dia').click(function(e) {
         if (!$(this).hasClass('desativado')) {
 
+            const diaSemana = this.querySelector('.dia-semana').textContent;
+
             const data = this.querySelector('.data').textContent;
 
             // Salva a data no localStorage
+            localStorage.setItem('diaSemana', diaSemana);
             localStorage.setItem('dataEscolhida', data);
 
             if ($(this).find('.valor-especial').length > 0) {
@@ -73,7 +78,7 @@ function clickDia() {
                 }));
 
                 // Adiciona evento de clique no ícone de informação
-                inicializarEventosInfoBox();
+                //inicializarEventosInfoBox();
 
                 //atualizarTotal(); // Atualiza o total após a adição
             }
@@ -738,13 +743,19 @@ function atualizarTotal() {
         resumoTotal += cliente.total;
     });
 
+     // Salva o resumoTotal no localStorage
+    localStorage.setItem('resumoTotal', resumoTotal.toFixed(2));
+
+    // Recupera o resumoTotal salvo no localStorage
+    const resumoTotalSalvo = parseFloat(localStorage.getItem('resumoTotal')) || 0;
+
     // Atualiza o HTML do resumo geral
     const totalResumoCompleto = $(".total-resumo-completo");
     if (totalResumoCompleto.length) {
         totalResumoCompleto.html(`
             <div class="txt-p"><span class="color-p">Total</span></div>
             <div class="preco-lixeira">
-                <span class="preco-total color-p">R$${resumoTotal.toFixed(2).replace(".", ",")}</span>
+                <span class="preco-total color-p">R$${resumoTotalSalvo.toFixed(2).replace(".", ",")}</span>
             </div>
         `);
     }
@@ -982,7 +993,7 @@ function closeModal() {
 
     $('.wraper-carrinho-select span').text(0);
 
-    $('.wraper-resumo:not(.js-box-resumo-completo):not(.js-print-endereco)').css('display', 'none');
+    $('.wraper-resumo:not(.js-box-resumo-completo):not(.js-print-endereco):not(.js-box-cupons)').css('display', 'none');
 
     $('.resumo-sim-tarifa-noturna').css('display','none');
 

@@ -120,11 +120,29 @@ tb_tarifa {
     valor_tarifa VARCHAR(255)
 }
 
+CREATE TABLE tb_cupons (
+    id INT AUTO_INCREMENT PRIMARY KEY,           
+    codigo VARCHAR(50) UNIQUE NOT NULL,         
+    descricao VARCHAR(255),                
+    tipo ENUM('percentual', 'fixo') NOT NULL,   
+    valor DECIMAL(10,2) NOT NULL,               
+    data_inicio DATE NOT NULL,                  
+    data_fim DATE NOT NULL,                     
+    uso_maximo INT DEFAULT NULL,                
+    usos_realizados INT DEFAULT 0,              
+    status ENUM('ativo', 'inativo', 'expirado') DEFAULT 'ativo',
+    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  
+    atualizado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
 
+CREATE TABLE tb_cupons_dias (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    cupom_id INT NOT NULL,
+    dia ENUM('domingo', 'segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado') NOT NULL,
+    FOREIGN KEY (cupom_id) REFERENCES tb_cupons(id) ON DELETE CASCADE
+);
 
-
-
-
+Para garantir que cupons sem dias específicos fiquem disponíveis em qualquer dia, podemos ajustar a implementação para que, caso não haja registro de dias na tabela tb_cupons_dias, o cupom seja válido em qualquer data dentro do período estipulado.
 
 -SINAL = BANCO DE DADOS E LOGICA..
 

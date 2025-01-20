@@ -2,12 +2,12 @@ $(document).ready(function(){
 
     //(input,classPai,fileName,imgFoto)
 
-   fotoValidacao('input[name="foto-cadastro"]'
+    fotoValidacao('#foto-cadastro'
         ,'#image-preview'
         ,'#file-name'
         ,'#preview-foto');
 
-    fotoValidacao('input[name=foto-edit-cadastro]'
+    fotoValidacao('#foto-edit-cadastro'
         ,'#image-perfil-edit'
         ,'#file-name-edit'
         ,'#preview-foto-edit');
@@ -64,6 +64,8 @@ $(document).ready(function(){
 // Verifica o estado inicial do checkbox
 
 function fotoValidacao(input,classPai,fileName,imgFoto){
+
+    console.log("chamei e entrei no meu fotoValidação!!!");
 
     // Clique no preview da imagem
     $(classPai).on('click', function () {
@@ -308,7 +310,9 @@ function novoCadastro(config) {
             success: function (response) {
                 if (response.sucesso) {
                     const dados = response.dados;
-                    const endereco = dados.endereco || null;
+                    const endereco = response.endereco || null;
+                    const token = response.token;
+                    localStorage.setItem('token', token);
                     pegarDados(dados, endereco);
                     exibirNotificacao('sucesso', response.mensagem);
                     trocarBox('.login-agenda', '.js-box-pagamento-agenda', 400); // Exemplo de navegação

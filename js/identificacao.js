@@ -330,6 +330,8 @@ function formInformacoes(dados, endereco){
 
     if (dados){
 
+        cupomValidar();
+
         console.log("Dados recebidos em formInformacoes:", dados);
         console.log("Endereço recebido em formInformacoes:", endereco);
 

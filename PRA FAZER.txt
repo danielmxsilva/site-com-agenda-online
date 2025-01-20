@@ -1,7 +1,15 @@
 
-
-- Trocar o nome da tarifa especial, avaliar outro nome que seja especifico = OK
-
-- Adicionar a opção da pessoa durante o cadastro adicionar uma foto = foto será usado para depoimento, optei por colocar como disposição no resumo dos serviços
-
 - Continuar a trabalhar com recuperação de dados ao efetuar login
+
+
+/***/
+-Estrutura o banco de dados Mysql para estrutura de chave estrangeira
+-Ao sair do login precisa limpar todos os inputs e seleções salvas no localStorage
+-Corrigir a atualização da foto do usuario pelo painel
+-Fazer formulario de atualização de dados do usuario
+-Remover a lixeira do resumo total devido aos horarios selecionados
+-Verificar os dados quando tem cookie do login salvo
+-Ajustar os horarios disponíveis para apenas ser possível agendar horarios com 30 minutos afrenet ex: apartir das 14:30 somente agendar as 16:00
+
+- Fazer a validação e abate do crédito disponivel
+- Verificar se não é pacote
