@@ -2766,7 +2766,7 @@ legend.codigo-info .codigo-dica {
 }
 
 /* Cada cupom aplicado */
-.estilo-cupons-servico .resumo-cupom-js {
+.estilo-cupons-servico .resumo-cupom-css {
     position: relative;
     background: #fff;
     border: 1px solid #ddd;
@@ -2776,8 +2776,16 @@ legend.codigo-info .codigo-dica {
     transition: all 0.3s ease;
 }
 
-.estilo-cupons-servico .resumo-cupom-js:hover {
+.estilo-cupons-servico .resumo-cupom-css:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.estilo-cupons-servico .resumo-cupom-css .txt-p{
+	width: 50%;
+}
+
+.estilo-cupons-servico .resumo-cupom-css .duracao{
+	width: 20%;
 }
 
 /* Barra vermelha lateral para destaque */
@@ -2932,6 +2940,22 @@ legend.codigo-info .codigo-dica {
   .estilo-resumo-servico .selecao-single-total .preco-lixeira{
   	width: 37%;
   }
+
+  .estilo-cupons-servico .resumo-cupom-css .txt-p{
+  	width: 100%;
+  }
+
+  .estilo-cupons-servico .resumo-cupom-css .duracao{
+  	width: 50%;
+  }
+
+  .estilo-cupons-servico .resumo-cupom-css .preco-lixeira{
+  	width: 50%;
+  }
+
+  .estilo-cupons-servico .resumo-cupom-css .preco-lixeira i{
+  	margin-left: 0;
+  }
   
   .preco-lixeira .icone-lixeira{
   	display: block;
@@ -2991,7 +3015,7 @@ legend.codigo-info .codigo-dica {
       margin: 5px 0;
   }
 
-  .estilo-cupons-servico .resumo-cupom-js {
+  .estilo-cupons-servico .resumo-cupom-css {
       flex-direction: column;
       text-align: center;
   }

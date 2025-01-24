@@ -3,23 +3,29 @@ function getCookie(name) {
     return match ? match[2] : null;
 }
 
+function maskCupom(){
+    console.log("chamei a função maskCupom");
+    $('input[name="cupom-input"]').on('input', function() {
+        let valor = $(this).val();
+
+        // Permite apenas letras minúsculas e remove espaços, números e caracteres especiais
+        valor = valor.toUpperCase().replace(/[^A-Z]/g, '');
+
+        if (valor.length > 15) {
+            valor = valor.substring(0, 15);
+        }
+
+        // Atualiza o campo com o valor filtrado
+        $(this).val(valor);
+    });
+}
+
 function cupomValidar(){
 
 	//cupom de segunda e terça = semanaleve
 	//cupom de primeiro agendamento = boasvindas
 	const diaSemana = localStorage.getItem('diaSemana');
 	const idClienteToken = localStorage.getItem('token');
-
-	
-	$('input[name="cupom_input"]').on('input', function() {
-        let valor = $(this).val();
-
-        // Permite apenas letras minúsculas e remove espaços, números e caracteres especiais
-        valor = valor.replace(/[^a-z]/g, '');
-
-        // Atualiza o campo com o valor filtrado
-        $(this).val(valor);
-    });
 
 	const token = getCookie('token') || localStorage.getItem('token') || null;
 
@@ -31,23 +37,27 @@ function cupomValidar(){
     
 
     if (token) {
+        console.log('entrei no if token form');
         // Token encontrado no cookie, realiza a consulta no backend
 
       $('.form-cupom').on('submit', function(e){
 			e.preventDefault();
 
-			let cupom = $('input[name="cupom_input"]');
+			let cupom_codigo = $('input[name="cupom_input"]');
 
-	        if (cupom === '') {
+	        if (cupom_codigo === '') {
 	        	exibirNotificacao('erro', 'Por favor, insira um cupom válido.');
 	            return;
 	        }
 
-	
+
        $.ajax({
             url: 'ajax/validacao-form.php', // Crie este arquivo PHP
             method: 'POST',
-            data: { token_cupom: token },
+            data: { 
+                token_cliente: token_cliente, 
+                cupom_codigo: cupom_codigo 
+            },
             beforeSend: function(){
                 //
             },

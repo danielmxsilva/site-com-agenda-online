@@ -252,6 +252,65 @@
 
 	} elseif ($token_cupom) {
 
+		$pdo = Mysql::conectar();
+
+		$token_cliente = trim($_POST['token_cliente']);
+    	$cupom_codigo = trim($_POST['cupom_codigo']);
+
+    	 // 1. Buscar o ID do usuário baseado no token
+	    $sql_token = $pdo->prepare("SELECT user_id FROM tb_tokens WHERE token = ? AND expira_em > NOW()");
+	    $sql_token->execute([$token_cliente]);
+	    $token_info = $sql_token->fetch(PDO::FETCH_ASSOC);
+
+	    if (!$token_info) {
+	        echo json_encode(['tokenValido' => false, 'message' => 'Token inválido ou expirado.']);
+	        exit;
+	    }
+
+	    $cliente_id = $token_info['user_id'];
+
+	    // 2. Verificar se o cupom existe, está ativo e dentro do período de validade
+	    $sql_cupom = $pdo->prepare("SELECT * FROM tb_cupons WHERE codigo = ? AND status = 'ativo' AND NOW() BETWEEN data_inicio AND data_fim");
+	    $sql_cupom->execute([$cupom_codigo]);
+	    $cupom = $sql_cupom->fetch(PDO::FETCH_ASSOC);
+
+	    if (!$cupom) {
+	        echo json_encode(['tokenValido' => false, 'message' => 'Cupom inválido ou expirado.']);
+	        exit;
+	    }
+
+	    // 3. Verificar se o cliente já utilizou o cupom e se atingiu o limite máximo
+	    $sql_uso = $pdo->prepare("SELECT COUNT(*) as total FROM tb_uso_cupons WHERE cupom_id = ? AND cliente_id = ?");
+	    $sql_uso->execute([$cupom['id'], $cliente_id]);
+	    $uso_count = $sql_uso->fetch(PDO::FETCH_ASSOC)['total'];
+
+	    if ($uso_count >= $cupom['uso_maximo']) {
+	        echo json_encode(['tokenValido' => false, 'message' => 'Limite de uso do cupom atingido.']);
+	        exit;
+	    }
+
+	    // 4. Registrar o uso do cupom no banco de dados
+	    $sql_insert = $pdo->prepare("INSERT INTO tb_uso_cupons (cliente_id, cupom_id, status) VALUES (?, ?, 'usado')");
+	    if ($sql_insert->execute([$cliente_id, $cupom['id']])) {
+	        
+	        // Atualiza o número de usos realizados
+	        $sql_update = $pdo->prepare("UPDATE tb_cupons SET usos_realizados = usos_realizados + 1 WHERE id = ?");
+	        $sql_update->execute([$cupom['id']]);
+
+	        echo json_encode([
+	            'tokenValido' => true,
+	            'dados' => [
+	                'cliente_id' => $cliente_id,
+	                'cupom' => $cupom['codigo'],
+	                'desconto' => $cupom['valor'],
+	                'tipo' => $cupom['tipo']
+	            ]
+	        ]);
+	    } else {
+	        echo json_encode(['tokenValido' => false, 'message' => 'Erro ao registrar o uso do cupom.']);
+	    }
+
+
 	} elseif ($email_recuperar){
 
 	try{

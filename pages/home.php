@@ -5035,7 +5035,7 @@ HTML;
 
 			<div class="selecao-single-total css-form-cupon flex">
 				<form class="form-cupom">
-					<input type="text" name="cupom_input" placeholder="Digite o seu Cupom">
+					<input type="text" name="cupom-input" placeholder="Digite o seu Cupom">
 					<input type="submit" name="acao_cupon" value="Adicionar Cupom">
 				</form>
 			</div>
@@ -5049,7 +5049,7 @@ HTML;
 			                <span class="p-single">SEMANALEVE</span>
 			            </div>
 			            <div class="duracao">
-			                <span class="color-p">Valor:</span>
+			                <span class="color-p">Desconto:</span>
 			            </div>
 			            <div class="preco-lixeira">
 			                <span class="preco-single">R$20,00</span>

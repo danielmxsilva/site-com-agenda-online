@@ -871,7 +871,7 @@ function closeModal() {
             $(this).remove();
         }
     });
-    $('.selecao-single-total').html(`
+    $('.selecao-single-total:not(.css-form-cupon)').html(`
         <div class="txt-p"><span class="color-p">Total</span></div> 
         <div class="duracao">
             <span class="color-p"><i class="fa-solid fa-clock"></i> 0:00</span>
@@ -996,6 +996,8 @@ function closeModal() {
     $('.wraper-resumo:not(.js-box-resumo-completo):not(.js-print-endereco):not(.js-box-cupons)').css('display', 'none');
 
     $('.resumo-sim-tarifa-noturna').css('display','none');
+
+    $('.cupom_selecionados').css('display','none');
 
     localStorage.clear();
 
@@ -1366,6 +1368,9 @@ function ClickbtnAvancarAgendamento(){
     */
 
     $('.btn-avancar').click(function(){
+
+        maskCupom();
+        cupomValidar();
 
         $('.js-modal-agenda-servicos').css('opacity','0.3');
 

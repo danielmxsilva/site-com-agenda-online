@@ -120,7 +120,7 @@ tb_tarifa {
     valor_tarifa VARCHAR(255)
 }
 
-CREATE TABLE tb_cupons (
+tb_cupons (
     id INT AUTO_INCREMENT PRIMARY KEY,           
     codigo VARCHAR(50) UNIQUE NOT NULL,         
     descricao VARCHAR(255),                
@@ -135,11 +135,19 @@ CREATE TABLE tb_cupons (
     atualizado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
-CREATE TABLE tb_cupons_dias (
+tb_cupons_dias (
     id INT AUTO_INCREMENT PRIMARY KEY,
     cupom_id INT NOT NULL,
     dia ENUM('domingo', 'segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado') NOT NULL,
     FOREIGN KEY (cupom_id) REFERENCES tb_cupons(id) ON DELETE CASCADE
+);
+
+tb_uso_cupons (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    cliente_id INT NOT NULL,
+    cupom_id INT NOT NULL,
+    data_uso TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- Data do uso do cupom
+    status ENUM('usado', 'cancelado') DEFAULT 'usado',  -- Status do uso
 );
 
 Para garantir que cupons sem dias específicos fiquem disponíveis em qualquer dia, podemos ajustar a implementação para que, caso não haja registro de dias na tabela tb_cupons_dias, o cupom seja válido em qualquer data dentro do período estipulado.

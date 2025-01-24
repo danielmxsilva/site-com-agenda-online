@@ -3,8 +3,10 @@
 
 
 /***/
+-Adicionar o token no cookie mesmo se não clicar em lembrar login, devido ao uso da validação do cupom
 -Estrutura o banco de dados Mysql para estrutura de chave estrangeira
 -Ao sair do login precisa limpar todos os inputs e seleções salvas no localStorage
+-Ao voltar pelo botão seleção de serviços, caso o cliente não tenha clicado em lembrar-login, deverá pular a sessão de login novamente
 -Corrigir a atualização da foto do usuario pelo painel
 -Fazer formulario de atualização de dados do usuario
 -Remover a lixeira do resumo total devido aos horarios selecionados

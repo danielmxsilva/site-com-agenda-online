@@ -57,6 +57,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 	<link rel="stylesheet" type="text/css" href="<?php echo INCLUDE_PATH;?>css/slick.css" />
 
 	<!-- Meta Pixel Code -->
+	<!--
 <script>
 !function(f,b,e,v,n,t,s)
 {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -72,6 +73,7 @@ fbq('track', 'PageView');
 <noscript><img height="1" width="1" style="display:none"
 src="https://www.facebook.com/tr?id=963368409173053&ev=PageView&noscript=1"
 /></noscript>
+-->
 <!-- End Meta Pixel Code -->
 	 
 </head>
