@@ -5034,79 +5034,31 @@ HTML;
 			</div>
 
 			<div class="selecao-single-total css-form-cupon flex">
-				<form class="form-cupom">
+				<form class="form-cupom" method="POST">
 					<input type="text" name="cupom-input" placeholder="Digite o seu Cupom">
 					<input type="submit" name="acao_cupon" value="Adicionar Cupom">
 				</form>
 			</div>
 
 			<div class="cupom_selecionados">
-
+				<?PHP /*?>
 				<div class="resumo-cupom-js resumo-cupom-css">	
 			        <div class="selecao-single flex">
 			            <div class="overlay-delete"></div> <!-- Barra vermelha -->
 			            <div class="txt-p">
-			                <span class="p-single">SEMANALEVE</span>
+			                <span class="p-single"></span>
 			            </div>
 			            <div class="duracao">
-			                <span class="color-p">Desconto:</span>
+			                <span class="color-p"></span>
 			            </div>
 			            <div class="preco-lixeira">
-			                <span class="preco-single">R$20,00</span>
+			                <span class="preco-single"></span>
 			                <i class="icone-lixeira fa-solid fa-trash-can" aria-hidden="true"></i>
 			            </div>
 			        </div>
 			    </div>
+			    <?PHP */?>
 
-<?php /*?>
-				<div class="resumo-cupom-js resumo-cupom-css">	
-			        <div class="selecao-single flex">
-			            <div class="overlay-delete"></div> <!-- Barra vermelha -->
-			            <div class="txt-p">
-			                <span class="p-single">SEMANALINDA</span>
-			            </div>
-			            <div class="duracao">
-			                <span class="color-p">Valor:</span>
-			            </div>
-			            <div class="preco-lixeira">
-			                <span class="preco-single">R$20,00</span>
-			                <i class="icone-lixeira fa-solid fa-trash-can" aria-hidden="true"></i>
-			            </div>
-			        </div>
-			    </div>
-
-			    <div class="resumo-cupom-js resumo-cupom-css">	
-			        <div class="selecao-single flex">
-			            <div class="overlay-delete"></div> <!-- Barra vermelha -->
-			            <div class="txt-p">
-			                <span class="p-single">QUERODENOVO</span>
-			            </div>
-			            <div class="duracao">
-			                <span class="color-p">Valor:</span>
-			            </div>
-			            <div class="preco-lixeira">
-			                <span class="preco-single">R$20,00</span>
-			                <i class="icone-lixeira fa-solid fa-trash-can" aria-hidden="true"></i>
-			            </div>
-			        </div>
-			    </div>
-
-			    <div class="resumo-cupom-js resumo-cupom-css">	
-			        <div class="selecao-single flex">
-			            <div class="overlay-delete"></div> <!-- Barra vermelha -->
-			            <div class="txt-p">
-			                <span class="p-single">INFERNO</span>
-			            </div>
-			            <div class="duracao">
-			                <span class="color-p">Valor:</span>
-			            </div>
-			            <div class="preco-lixeira">
-			                <span class="preco-single">R$20,00</span>
-			                <i class="icone-lixeira fa-solid fa-trash-can" aria-hidden="true"></i>
-			            </div>
-			        </div>
-			    </div>
-<?php */?>
 			</div><!--cupom_selecionados-->
 
 

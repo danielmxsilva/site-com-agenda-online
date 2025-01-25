@@ -18,7 +18,7 @@
 
 	$token = filter_input(INPUT_POST, 'token', FILTER_SANITIZE_STRING);
 
-	$token_cupom = filter_input(INPUT_POST, 'token_cupom', FILTER_SANITIZE_STRING);
+	$token_cliente = filter_input(INPUT_POST, 'token_cliente', FILTER_SANITIZE_STRING);
 
 	$email_recuperar = filter_input(INPUT_POST, 'email_recuperar', FILTER_SANITIZE_STRING);
 
@@ -250,66 +250,70 @@
 	        exit;
 	    }
 
-	} elseif ($token_cupom) {
+	} elseif ($token_cliente) {
+
+		//consultar o cupom no bd
 
 		$pdo = Mysql::conectar();
 
-		$token_cliente = trim($_POST['token_cliente']);
-    	$cupom_codigo = trim($_POST['cupom_codigo']);
+	    $token_cliente = trim($_POST['token_cliente']);
+	    $cupom_codigo = trim($_POST['cupom_codigo']);
+	    $dia_semana = trim($_POST['dia_semana']);
 
-    	 // 1. Buscar o ID do usuário baseado no token
-	    $sql_token = $pdo->prepare("SELECT user_id FROM tb_tokens WHERE token = ? AND expira_em > NOW()");
-	    $sql_token->execute([$token_cliente]);
-	    $token_info = $sql_token->fetch(PDO::FETCH_ASSOC);
+	    // 1. Buscar o ID do cliente baseado no token
+	    $query_token = $pdo->prepare("SELECT user_id FROM tb_tokens WHERE token = ? AND expira_em > NOW()");
+	    $query_token->execute([$token_cliente]);
+	    $token_data = $query_token->fetch(PDO::FETCH_ASSOC);
 
-	    if (!$token_info) {
-	        echo json_encode(['tokenValido' => false, 'message' => 'Token inválido ou expirado.']);
-	        exit;
+	    if (!$token_data) {
+	        echo json_encode(['sucesso' => false, 'mensagem' => 'Token inválido ou expirado.']);
+	        exit();
 	    }
 
-	    $cliente_id = $token_info['user_id'];
+	    $cliente_id = $token_data['user_id'];
 
-	    // 2. Verificar se o cupom existe, está ativo e dentro do período de validade
-	    $sql_cupom = $pdo->prepare("SELECT * FROM tb_cupons WHERE codigo = ? AND status = 'ativo' AND NOW() BETWEEN data_inicio AND data_fim");
-	    $sql_cupom->execute([$cupom_codigo]);
-	    $cupom = $sql_cupom->fetch(PDO::FETCH_ASSOC);
+	    // 2. Verificar se o cupom é válido e ativo
+	    $query_cupom = $pdo->prepare("SELECT id, codigo, valor, tipo, uso_maximo, usos_realizados FROM tb_cupons 
+	                                  WHERE codigo = ? AND status = 'ativo' AND NOW() BETWEEN data_inicio AND data_fim");
+	    $query_cupom->execute([$cupom_codigo]);
+	    $cupom = $query_cupom->fetch(PDO::FETCH_ASSOC);
 
 	    if (!$cupom) {
-	        echo json_encode(['tokenValido' => false, 'message' => 'Cupom inválido ou expirado.']);
-	        exit;
+	        echo json_encode(['sucesso' => false, 'mensagem' => 'Cupom inválido ou expirado.']);
+	        exit();
 	    }
 
-	    // 3. Verificar se o cliente já utilizou o cupom e se atingiu o limite máximo
-	    $sql_uso = $pdo->prepare("SELECT COUNT(*) as total FROM tb_uso_cupons WHERE cupom_id = ? AND cliente_id = ?");
-	    $sql_uso->execute([$cupom['id'], $cliente_id]);
-	    $uso_count = $sql_uso->fetch(PDO::FETCH_ASSOC)['total'];
-
-	    if ($uso_count >= $cupom['uso_maximo']) {
-	        echo json_encode(['tokenValido' => false, 'message' => 'Limite de uso do cupom atingido.']);
-	        exit;
-	    }
-
-	    // 4. Registrar o uso do cupom no banco de dados
-	    $sql_insert = $pdo->prepare("INSERT INTO tb_uso_cupons (cliente_id, cupom_id, status) VALUES (?, ?, 'usado')");
-	    if ($sql_insert->execute([$cliente_id, $cupom['id']])) {
-	        
-	        // Atualiza o número de usos realizados
-	        $sql_update = $pdo->prepare("UPDATE tb_cupons SET usos_realizados = usos_realizados + 1 WHERE id = ?");
-	        $sql_update->execute([$cupom['id']]);
-
+	    // 3. Verificar se o cupom atingiu o limite máximo de usos
+	    if ($cupom['usos_realizados'] >= $cupom['uso_maximo']) {
 	        echo json_encode([
-	            'tokenValido' => true,
-	            'dados' => [
-	                'cliente_id' => $cliente_id,
-	                'cupom' => $cupom['codigo'],
-	                'desconto' => $cupom['valor'],
-	                'tipo' => $cupom['tipo']
-	            ]
+	        	'sucesso' => false, 
+	        	'mensagem' => 'Cupom esgotado.'
 	        ]);
-	    } else {
-	        echo json_encode(['tokenValido' => false, 'message' => 'Erro ao registrar o uso do cupom.']);
+	        exit();
 	    }
 
+	    // 4. Verificar se o cupom tem restrições de dia de uso
+	    $query_dia = $pdo->prepare("SELECT COUNT(*) as total FROM tb_cupons_dias WHERE cupom_id = ? AND dia = ?");
+	    $query_dia->execute([$cupom['id'], $dia_semana]);
+	    $dia_permitido = $query_dia->fetch(PDO::FETCH_ASSOC)['total'];
+
+	    if ($dia_permitido == 0) {
+	        echo json_encode(['sucesso' => false, 'mensagem' => 'Cupom não disponível para este dia.']);
+	        exit();
+	    }
+
+	    // Retorna os dados do cupom, sem realizar alterações
+	    echo json_encode([
+	        'sucesso' => true,
+	        'dados' => [
+	            'cupom' => $cupom['codigo'],
+	            'desconto' => $cupom['valor'],
+	            'tipo' => $cupom['tipo'],
+	            'usos_realizados' => $cupom['usos_realizados'],
+	            'uso_maximo' => $cupom['uso_maximo']
+	        ]
+	    ]);
+	    exit();
 
 	} elseif ($email_recuperar){
 
@@ -677,7 +681,7 @@
 	    exit;
 	}
 
-	
+	ob_end_flush();
 
 	
 

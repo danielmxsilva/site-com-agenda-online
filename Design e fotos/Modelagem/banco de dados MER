@@ -152,6 +152,13 @@ tb_uso_cupons (
 
 Para garantir que cupons sem dias específicos fiquem disponíveis em qualquer dia, podemos ajustar a implementação para que, caso não haja registro de dias na tabela tb_cupons_dias, o cupom seja válido em qualquer data dentro do período estipulado.
 
+estrutura de uso do cupons
+
+1 buscar o id do cliente baseado no token.
+2 verificar se o cupom é valido e ativo.
+3 verificar se o cliente já usou o cupom e se atingiu o limite de uso do cupon (isso aqui não é o limite para o cliente, conforme o uso do cupom vai indo, será adicionado na tabela tb_cupons na coluna usos_realizados, tmb tenho a coluna com o nome uso_maximo, caso o usos_realizados for igual ao uso maximo não deverá permitir que continue o codigo e deverá me retornar o erro de cupom esgotado
+4 verificar o dia que está vindo do post ajax para validar o dia do cupon na tabela tb_cupons_dias (nem todos os cupons vão ter dias exclusico de uso, os que tiverem, estara salvo nessa tabela os dias que podem ser usados, devera ser feito a validação para verificar isso)
+
 -SINAL = BANCO DE DADOS E LOGICA..
 
 7-11 13-18 = horarios normais

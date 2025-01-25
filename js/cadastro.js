@@ -316,6 +316,7 @@ function novoCadastro(config) {
                     pegarDados(dados, endereco);
                     exibirNotificacao('sucesso', response.mensagem);
                     trocarBox('.login-agenda', '.js-box-pagamento-agenda', 400); // Exemplo de navegação
+                    consultarCupom();
                 } else {
                     exibirNotificacao('erro', response.mensagem);
                 }

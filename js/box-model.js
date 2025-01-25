@@ -52,6 +52,7 @@ function clickDia() {
             // Salva a data no localStorage
             localStorage.setItem('diaSemana', diaSemana);
             localStorage.setItem('dataEscolhida', data);
+             atualizarCuponsNaTela();
 
             if ($(this).find('.valor-especial').length > 0) {
                 console.log("Este dia possui tarifa especial.");
@@ -999,9 +1000,17 @@ function closeModal() {
 
     $('.cupom_selecionados').css('display','none');
 
+    limparCupons();
     localStorage.clear();
-
 }
+
+function limparCupons() {
+    localStorage.removeItem('cupons'); // Remover apenas os cupons, não todo localStorage
+    $('.cupom_selecionados').html(''); // Limpa a interface
+    //consultarCupom(); 
+    console.log("LocalStorage e interface foram limpos!");
+}
+
 //localStorage.clear(); // Cuidado! Remove todos os itens do localStorage.
 function organizarResumoSelecao() {
 
@@ -1354,7 +1363,9 @@ function atualizarTempoEstimado() {
     console.log("Tempo total estimado:", tempoTotalFormatado);
 }
 
-
+function limparInputsFormulario(formulario) {
+    $(formulario).find('input[type="text"]').val('');
+}
 
 function ClickbtnAvancarAgendamento(){
     /*
@@ -1370,7 +1381,7 @@ function ClickbtnAvancarAgendamento(){
     $('.btn-avancar').click(function(){
 
         maskCupom();
-        cupomValidar();
+        consultarCupom();
 
         $('.js-modal-agenda-servicos').css('opacity','0.3');
 

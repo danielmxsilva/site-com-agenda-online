@@ -531,11 +531,14 @@ function validarFormularioSenha(config) {
                         exibirNotificacao('erro', 'Erro ao salvar o token. Tente novamente.');
                     }
 
+                    consultarCupom();
+
                     formInformacoes(dados, endereco);
 
                     trocarBox(".login-agenda", ".js-box-pagamento-agenda");
 
                     exibirNotificacao('sucesso', notificacaoSucesso);
+
 
 
                     // Redirecionar ou executar ação adicional
