@@ -129,7 +129,8 @@ tb_cupons (
     data_inicio DATE NOT NULL,                  
     data_fim DATE NOT NULL,                     
     uso_maximo INT DEFAULT NULL,                
-    usos_realizados INT DEFAULT 0,              
+    usos_realizados INT DEFAULT 0,   
+    reutilizavel BOOLEAN DEFAULT FALSE           
     status ENUM('ativo', 'inativo', 'expirado') DEFAULT 'ativo',
     criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  
     atualizado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP

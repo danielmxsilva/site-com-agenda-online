@@ -273,7 +273,7 @@
 	    $cliente_id = $token_data['user_id'];
 
 	    // 2. Verificar se o cupom é válido e ativo
-	    $query_cupom = $pdo->prepare("SELECT id, codigo, valor, tipo, uso_maximo, usos_realizados FROM tb_cupons 
+	    $query_cupom = $pdo->prepare("SELECT id, codigo, valor, tipo, uso_maximo, usos_realizados, reutilizavel FROM tb_cupons 
 	                                  WHERE codigo = ? AND status = 'ativo' AND NOW() BETWEEN data_inicio AND data_fim");
 	    $query_cupom->execute([$cupom_codigo]);
 	    $cupom = $query_cupom->fetch(PDO::FETCH_ASSOC);
@@ -286,20 +286,39 @@
 	    // 3. Verificar se o cupom atingiu o limite máximo de usos
 	    if ($cupom['usos_realizados'] >= $cupom['uso_maximo']) {
 	        echo json_encode([
-	        	'sucesso' => false, 
-	        	'mensagem' => 'Cupom esgotado.'
+	            'sucesso' => false, 
+	            'mensagem' => 'Cupom esgotado.'
 	        ]);
 	        exit();
 	    }
 
 	    // 4. Verificar se o cupom tem restrições de dia de uso
-	    $query_dia = $pdo->prepare("SELECT COUNT(*) as total FROM tb_cupons_dias WHERE cupom_id = ? AND dia = ?");
-	    $query_dia->execute([$cupom['id'], $dia_semana]);
-	    $dia_permitido = $query_dia->fetch(PDO::FETCH_ASSOC)['total'];
+	    $query_dia = $pdo->prepare("SELECT COUNT(*) as total FROM tb_cupons_dias WHERE cupom_id = ?");
+	    $query_dia->execute([$cupom['id']]);
+	    $tem_restricao_dia = $query_dia->fetch(PDO::FETCH_ASSOC)['total'];
 
-	    if ($dia_permitido == 0) {
-	        echo json_encode(['sucesso' => false, 'mensagem' => 'Cupom não disponível para este dia.']);
-	        exit();
+	    if ($tem_restricao_dia > 0) {
+	        // O cupom tem restrições, verificar se o dia é permitido
+	        $query_dia_permitido = $pdo->prepare("SELECT COUNT(*) as total FROM tb_cupons_dias WHERE cupom_id = ? AND dia = ?");
+	        $query_dia_permitido->execute([$cupom['id'], $dia_semana]);
+	        $dia_permitido = $query_dia_permitido->fetch(PDO::FETCH_ASSOC)['total'];
+
+	        if ($dia_permitido == 0) {
+	            echo json_encode(['sucesso' => false, 'mensagem' => 'Cupom não disponível para este dia.']);
+	            exit();
+	        }
+	    }
+
+	    // 5. Verificar se o cupom é reutilizável ou se já foi usado pelo cliente
+	    if (!$cupom['reutilizavel']) {
+	        $query_uso = $pdo->prepare("SELECT COUNT(*) as total FROM tb_uso_cupons WHERE cupom_id = ? AND cliente_id = ?");
+	        $query_uso->execute([$cupom['id'], $cliente_id]);
+	        $uso_total = $query_uso->fetch(PDO::FETCH_ASSOC)['total'];
+
+	        if ($uso_total > 0) {
+	            echo json_encode(['sucesso' => false, 'mensagem' => 'Você já utilizou este cupom.']);
+	            exit();
+	        }
 	    }
 
 	    // Retorna os dados do cupom, sem realizar alterações
@@ -310,7 +329,8 @@
 	            'desconto' => $cupom['valor'],
 	            'tipo' => $cupom['tipo'],
 	            'usos_realizados' => $cupom['usos_realizados'],
-	            'uso_maximo' => $cupom['uso_maximo']
+	            'uso_maximo' => $cupom['uso_maximo'],
+	            'reutilizavel' => (bool) $cupom['reutilizavel']
 	        ]
 	    ]);
 	    exit();

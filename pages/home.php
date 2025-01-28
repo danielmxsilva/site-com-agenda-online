@@ -4993,7 +4993,7 @@ HTML;
 	SE TEM CREDITO DISPONIVEL
 	-->
 
-		<div class="wraper-resumo box-servicos-select js-box-credito" style="display: block;">
+		<div class="wraper-resumo box-servicos-select js-box-credito box-credito-css" style="display: block;">
 
 			<div class="selecao-single-topo flex">
 				<div class="txt-p"><span class="color-p">Crédito Disponível</span>
@@ -5044,7 +5044,7 @@ HTML;
 				<?PHP /*?>
 				<div class="resumo-cupom-js resumo-cupom-css">	
 			        <div class="selecao-single flex">
-			            <div class="overlay-delete"></div> <!-- Barra vermelha -->
+			            <div class="overlay-delete-css"></div> <!-- Barra vermelha -->
 			            <div class="txt-p">
 			                <span class="p-single"></span>
 			            </div>
@@ -5053,7 +5053,7 @@ HTML;
 			            </div>
 			            <div class="preco-lixeira">
 			                <span class="preco-single"></span>
-			                <i class="icone-lixeira fa-solid fa-trash-can" aria-hidden="true"></i>
+			                <i class="icone-lixeira-css icone-lixeira-js fa-solid fa-trash-can" aria-hidden="true"></i>
 			            </div>
 			        </div>
 			    </div>

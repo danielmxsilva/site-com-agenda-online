@@ -4,6 +4,7 @@
 
 /***/
 -Adicionar o token no cookie mesmo se não clicar em lembrar login, devido ao uso da validação do cupom
+-Remover o icone lixeira do resumo dos serviços, devido aos horarios selecionados = se remover vai precisar de menos horarios, os horarios ja foram selecionados
 -Estrutura o banco de dados Mysql para estrutura de chave estrangeira
 -Ao sair do login precisa limpar todos os inputs e seleções salvas no localStorage
 -Ao voltar pelo botão seleção de serviços, caso o cliente não tenha clicado em lembrar-login, deverá pular a sessão de login novamente
@@ -12,6 +13,6 @@
 -Remover a lixeira do resumo total devido aos horarios selecionados
 -Verificar os dados quando tem cookie do login salvo
 -Ajustar os horarios disponíveis para apenas ser possível agendar horarios com 30 minutos afrenet ex: apartir das 14:30 somente agendar as 16:00
-
+-Corrigir estrutura do BD para chaves estrangeiras e chaves primarias
 - Fazer a validação e abate do crédito disponivel
 - Verificar se não é pacote

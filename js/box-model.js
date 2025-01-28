@@ -681,6 +681,7 @@ function atualizarTotal() {
     // Recupera todas as tarifas do localStorage
     const tarifaAdicional = JSON.parse(localStorage.getItem('tarifaAdicional') || '{}');
     const tarifaNoturna = JSON.parse(localStorage.getItem('tarifaNoturna') || '{}');
+    const cupons = JSON.parse(localStorage.getItem('cupons') || '[]');
 
     // Inicializa os totais para cada cliente
     let totais = {
@@ -743,6 +744,17 @@ function atualizarTotal() {
     Object.values(totais).forEach(cliente => {
         resumoTotal += cliente.total;
     });
+
+     // Aplica cupons ao resumoTotal
+    if (Array.isArray(cupons) && cupons.length > 0) {
+        cupons.forEach(cupom => {
+            if (cupom.tipo === 'percentual') {
+                resumoTotal -= (resumoTotal * parseFloat(cupom.desconto) / 100);
+            } else if (cupom.tipo === 'fixo') {
+                resumoTotal -= parseFloat(cupom.desconto);
+            }
+        });
+    }
 
      // Salva o resumoTotal no localStorage
     localStorage.setItem('resumoTotal', resumoTotal.toFixed(2));

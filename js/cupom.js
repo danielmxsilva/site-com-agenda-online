@@ -57,7 +57,7 @@ function salvarCupomLocalStorage(cupom) {
         const existeNoStorage = cuponsSalvos.some(item => item.codigo === cupom.codigo);
         
         if (!existeNoStorage) {
-            cuponsSalvos.push(cupom);
+            cuponsSalvos = [cupom];
             localStorage.setItem('cupons', JSON.stringify(cuponsSalvos));
             console.log('Cupom salvo com sucesso:', cuponsSalvos);
             atualizarCuponsNaTela();
@@ -137,6 +137,7 @@ function consultarCupom(){
                             };
                             salvarCupomLocalStorage(cupomValidado);
                             atualizarCuponsNaTela(); 
+                            atualizarTotal();
                             console.log("Cupom encontrado:", response.dados);
                         } else {
                             exibirNotificacao('erro', response.mensagem);
@@ -164,6 +165,7 @@ function consultarCupom(){
 }
 
 function atualizarCuponsNaTela() {
+
     let cuponsSalvos = JSON.parse(localStorage.getItem('cupons')) || [];
 
     // Seleciona a div pai que conterá os cupons
@@ -172,13 +174,24 @@ function atualizarCuponsNaTela() {
     // Limpa a div antes de adicionar os cupons novamente
     cupomContainer.html('');
 
+    cupomContainer.fadeIn();
+
     cuponsSalvos.forEach(cupom => {
 
-      if (!$(`.p-single:contains(${cupom.codigo})`).length) {
+    if (cuponsSalvos.length > 0) {
+
+        let cupom = cuponsSalvos[0];
+
+        // Define o texto a ser exibido com base no tipo de cupom
+        let descontoExibido = (cupom.tipo === 'percentual')
+         ? `${parseInt(cupom.desconto)}%` 
+         : `R$${parseFloat(cupom.desconto).toFixed(2).replace(".", ",")}`;
+
+
         let cupomHTML = `
             <div class="resumo-cupom-js resumo-cupom-css">  
                 <div class="selecao-single flex">
-                    <div class="overlay-delete"></div>
+                    <div class="overlay-delete-css"></div>
                     <div class="txt-p">
                         <span class="p-single">${cupom.codigo}</span>
                     </div>
@@ -186,17 +199,45 @@ function atualizarCuponsNaTela() {
                         <span class="color-p">Desconto:</span>
                     </div>
                     <div class="preco-lixeira">
-                        <span class="preco-single">R$${cupom.desconto}</span>
-                        <i class="icone-lixeira fa-solid fa-trash-can" aria-hidden="true" onclick="removerCupom('${cupom.codigo}')"></i>
+                        <span class="preco-single">${descontoExibido}</span>
+                        <i class="icone-lixeira-css icone-lixeira-js-cupom  fa-solid fa-trash-can lixeira-cupom" aria-hidden="true"></i>
                     </div>
                 </div>
             </div>
         `;
 
         cupomContainer.append(cupomHTML);
+
+        removerCupom();
+
       }
 
     });
+
+}
+
+function removerCupom(){
+    $('.icone-lixeira-js-cupom').on("click",function(e){
+        e.preventDefault();
+        console.log("click icone lixeira cupom!!!");
+
+        let cupomElement = $(this).closest('.resumo-cupom-js');
+        cupomElement.find('.overlay-delete-css').animate({ width: '100%' }, 500, function() {
+            cupomElement.fadeOut(300, function() {
+                $(this).remove();
+                localStorage.removeItem('cupons');
+                atualizarTotal();
+                exibirNotificacao('sucesso', 'Cupom removido com sucesso.');
+            });
+        });
+
+    });
+
+}
+
+function excluirCupomLocalStorage() {
+    localStorage.removeItem('cupons');
+    console.log('Cupom removido do localStorage.');
 }
 
 
