@@ -97,9 +97,12 @@ tb_clientes {
 
 tb_creditos {
     id int pk
-    cliente_id int > clientes.id
+    cliente_id int fk > clientes.id
     valor_credito float
-    data_do_credito date
+    saldo_restante float
+    data_criacao datetime
+    data_expiracao date
+    status enum('ativo', 'expirado')
 }
 
 tb_tokens (

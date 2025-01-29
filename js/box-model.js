@@ -778,7 +778,6 @@ function atualizarTotal() {
 }
 
 
-
 // Função para carregar os dados do LocalStorage
 function carregarLocalStorage() {
     const dadosSalvos = localStorage.getItem('servicosSelecionadosAgenda');
@@ -1394,6 +1393,7 @@ function ClickbtnAvancarAgendamento(){
 
         maskCupom();
         consultarCupom();
+        verificarSeTemCredito();
 
         $('.js-modal-agenda-servicos').css('opacity','0.3');
 
@@ -1541,6 +1541,41 @@ function exibirNotificacao(tipo, mensagem) {
 
     // Exibe a notificação com efeito fadeIn e define um tempo para sumir
     $(seletor).stop(true, true).fadeIn().delay(6000).fadeOut();
+}
+
+function obterClienteIdPorToken() {
+    return new Promise((resolve, reject) => {
+        // Recupera o token do localStorage
+        let token = getCookie('token');
+
+        if (!token) {
+            reject('Token não encontrado no localStorage.');
+            return;
+        }
+
+        // Faz a requisição AJAX ao PHP
+        $.ajax({
+            url: 'validacao-form.php', // URL do seu arquivo PHP
+            type: 'POST',
+            dataType: 'json', // Resposta esperada em JSON
+            data: {
+                recuperar_id_cliente: true, // Parâmetro que ativa a lógica no PHP
+                cliente_id_token: token // Envia o token para validação
+            },
+            success: function(response) {
+                if (response.tokenValido) {
+                    // Retorna o cliente_id via resolve
+                    resolve(response.cliente_id);
+                } else {
+                    // Retorna erro via reject
+                    reject('Token inválido ou expirado.');
+                }
+            },
+            error: function(xhr, status, error) {
+                reject('Erro na requisição AJAX: ' + error);
+            }
+        });
+    });
 }
 
 function clickBtnDepoimento(){

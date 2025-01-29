@@ -250,6 +250,35 @@
 	        exit;
 	    }
 
+	} elseif (isset($_POST['recuperar_id_cliente'])){
+
+		$cliente_id_token = filter_input(INPUT_POST, 'cliente_id_token', FILTER_SANITIZE_STRING);
+
+		try {
+	        $pdo = Mysql::conectar();
+
+	        // Consulta apenas o ID do cliente com base no token
+	        $sql = "SELECT c.id AS cliente_id 
+	                FROM tb_tokens t 
+	                INNER JOIN tb_clientes c ON t.user_id = c.id 
+	                WHERE t.token = ? AND t.expira_em > NOW()";
+	        $stmt = $pdo->prepare($sql);
+	        $stmt->execute([$cliente_id_token]);
+	        $registro = $stmt->fetch(PDO::FETCH_ASSOC);
+
+	        if ($registro) {
+	            // Retorna apenas o cliente_id
+	            echo json_encode(['tokenValido' => true, 'cliente_id' => $registro['cliente_id']]);
+	            exit;
+	        } else {
+	            echo json_encode(['tokenValido' => false, 'mensagem' => 'Token inválido ou expirado.']);
+	            exit;
+	        }
+	    } catch (Exception $e) {
+	        echo json_encode(['tokenValido' => false, 'erro' => $e->getMessage()]);
+	        exit;
+	    }
+
 	} elseif ($token_cliente) {
 
 		//consultar o cupom no bd

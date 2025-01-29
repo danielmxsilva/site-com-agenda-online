@@ -128,6 +128,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script src="<?php echo INCLUDE_PATH;?>js/usuario.js"></script>
 <script src="<?php echo INCLUDE_PATH;?>js/consultar.js"></script>
 <script src="<?php echo INCLUDE_PATH;?>js/cupom.js"></script>
+<script src="<?php echo INCLUDE_PATH;?>js/credito.js"></script>
 <!-- scripts particulas -->
 <!--
 <script src="<?php //echo INCLUDE_PATH;?>js/particles.js"></script>

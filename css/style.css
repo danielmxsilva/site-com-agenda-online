@@ -2739,6 +2739,18 @@ legend.codigo-info .codigo-dica {
     font-weight: bold;
 }
 
+.box-credito-css .txt-p{
+	width: 40%;
+}
+
+.box-credito-css .duracao{
+	width: 18%;
+}
+
+.box-credito-css .preco-lixeira{
+	width: 24%;
+}
+
 .box-credito-css .duracao span {
     color: #1a202c; /* Preto suave para o serviço atual */
     font-style: italic; /* Destaque com itálico */
@@ -3033,6 +3045,13 @@ legend.codigo-info .codigo-dica {
       align-items: flex-start;
   }
   
+  .box-credito-css .txt-p,
+  .box-credito-css .duracao,
+  .box-credito-css .preco-lixeira{
+		width: 100%;
+		text-align: center;
+	}
+
   .preco-lixeira .icone-lixeira{
   	display: block;
   }
