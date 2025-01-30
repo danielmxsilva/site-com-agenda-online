@@ -1555,7 +1555,7 @@ function obterClienteIdPorToken() {
 
         // Faz a requisição AJAX ao PHP
         $.ajax({
-            url: 'validacao-form.php', // URL do seu arquivo PHP
+            url: 'ajax/validacao-form.php', // URL do seu arquivo PHP
             type: 'POST',
             dataType: 'json', // Resposta esperada em JSON
             data: {
@@ -1563,6 +1563,7 @@ function obterClienteIdPorToken() {
                 cliente_id_token: token // Envia o token para validação
             },
             success: function(response) {
+                console.log('Resposta bruta:', response); 
                 if (response.tokenValido) {
                     // Retorna o cliente_id via resolve
                     resolve(response.cliente_id);
@@ -1573,6 +1574,7 @@ function obterClienteIdPorToken() {
             },
             error: function(xhr, status, error) {
                 reject('Erro na requisição AJAX: ' + error);
+                console.error('Resposta do servidor:', xhr.responseText); 
             }
         });
     });

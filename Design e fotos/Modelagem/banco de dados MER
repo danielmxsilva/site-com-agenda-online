@@ -98,8 +98,8 @@ tb_clientes {
 tb_creditos {
     id int pk
     cliente_id int fk > clientes.id
-    valor_credito float
-    saldo_restante float
+    valor_credito varchar (100)
+    saldo_restante varchar (100)
     data_criacao datetime
     data_expiracao date
     status enum('ativo', 'expirado')

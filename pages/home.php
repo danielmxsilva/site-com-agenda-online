@@ -686,7 +686,7 @@
 <!--
 	SE TEM CREDITO DISPONIVEL
 	-->
-		<div class="wraper-resumo box-servicos-select">
+		<div class="wraper-resumo box-servicos-select js-credito-box">
 
 			<div class="selecao-single-topo flex">
 				<div class="txt-p"><span class="color-p">Crédito Disponível</span>

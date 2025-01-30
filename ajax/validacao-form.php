@@ -279,7 +279,48 @@
 	        exit;
 	    }
 
-	} elseif ($token_cliente) {
+	} elseif (isset($_POST['acao']) && $_POST['acao'] == 'se_tem_credito'){
+
+		
+		if (!isset($_POST['cliente_id']) || empty($_POST['cliente_id'])) {
+		    echo json_encode(['erro' => 'parametros inválidos.', 'debug' => $_POST]);
+		    exit;
+		}
+
+		$cliente_id = $_POST['cliente_id'];
+
+		if (!$cliente_id) {
+	        echo json_encode(['erro' => 'ID do cliente inválido']);
+	        exit;
+	    }
+
+	    try {
+	        $pdo = Mysql::conectar();
+
+
+	        $sql = "SELECT SUM(saldo_restante) AS total_credito FROM tb_creditos WHERE cliente_id = ? AND saldo_restante > 0  AND status = 'ativo' AND data_expiracao > NOW()";
+	        
+	        $stmt = $pdo->prepare($sql);
+	        $stmt->execute([$cliente_id]);
+	        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+
+	        // Converte saldo para número no PHP (segurança extra)
+	        $saldo = floatval($resultado['total_credito'] ?? '0');
+	        $saldoFormatado = number_format($saldo, 2, ',', '.');
+	        $temCredito = ($saldo > 0);
+
+	        echo json_encode([
+            	'tem_credito' => $temCredito,
+            	'valor_credito' => $saldoFormatado, // "25,30"
+            	'valor_credito_num' => $saldo // 25.30 (para cálculos no JS)
+        	]);
+	    } catch (Exception $e) {
+	        echo json_encode(['erro' => 'Erro ao consultar crédito: ' . $e->getMessage()]);
+	    }
+
+	    exit;
+	
+	}elseif ($token_cliente) {
 
 		//consultar o cupom no bd
 
