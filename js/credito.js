@@ -25,9 +25,15 @@ async function verificarSeTemCredito(){
 
                 if (response.tem_credito) {
                     // Caso tenha crédito, mostra o bloco
-                    console.log('Tem credito!!!!!');
+                    localStorage.setItem('creditoDisponivel', response.valor_credito);
+                    const valorCredito = localStorage.getItem('creditoDisponivel');
+                    const totalDescontado = Math.max(parseFloat(resumoTotal) - parseFloat(valorCredito), 0);
+                    atualizarCreditoDisponivel(valorCredito, resumoTotal, totalDescontado);
+                    console.log('Tem crédito disponível: R$', response.valor_credito);
+                    atualizarTotal();
                 } else {
                     // Caso não tenha crédito, esconde o bloco
+                    $('.js-box-credito').fadeOut();
                     console.log('SEM credito!!!!!');
                 }
             },
@@ -46,12 +52,16 @@ async function verificarSeTemCredito(){
 function atualizarCreditoDisponivel(valorCredito, resumoTotal, totalDescontado) {
     let boxCredito = $('.js-box-credito');
 
+    valorCredito = parseFloat(valorCredito) || 0;
+    resumoTotal = parseFloat(resumoTotal) || 0;
+    totalDescontado = parseFloat(totalDescontado) || 0;
+
     if (valorCredito > 0) {
         // Se houver crédito disponível, exibe a box e atualiza os valores
         boxCredito.fadeIn();
-        $('.js-box-credito .selecao-single .txt-p .p-single').text(`R$ ${valorCredito.toFixed(2)}`);
-        $('.js-box-credito .selecao-single .duracao .color-p').text(`R$ ${resumoTotal.toFixed(2)}`);
-        $('.js-box-credito .selecao-single .preco-lixeira .preco-single').text(`R$ ${totalDescontado.toFixed(2)}`);
+        $('.js-box-credito .selecao-single .credito-disponivel').text(`R$ ${valorCredito.toFixed(2)}`);
+        $('.js-box-credito .selecao-single .serv-atual').text(`R$ ${resumoTotal.toFixed(2)}`);
+        $('.js-box-credito .selecao-single .total-desconto').text(`R$ ${totalDescontado.toFixed(2)}`);
     } else {
         // Se não houver crédito, esconde a box
         boxCredito.fadeOut();

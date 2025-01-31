@@ -31,6 +31,13 @@ $(document).ready(function() {
 
     $('.btn-voltar-do-resumo').click(function(e){
         e.stopPropagation();
+        $('.js-box-credito').fadeOut();
+        $('.js-box-credito .selecao-single .credito-disponivel').text('');
+        $('.js-box-credito .selecao-single .serv-atual').text('');
+        $('.js-box-credito .selecao-single .total-desconto').text('');
+        limparCupons();
+        localStorage.removeItem('creditoDisponivel');
+        atualizarTotal();
         trocarBox('.wraper-pagamento', '.wraper-modal');
     })
 
@@ -681,6 +688,7 @@ function atualizarTotal() {
     // Recupera todas as tarifas do localStorage
     const tarifaAdicional = JSON.parse(localStorage.getItem('tarifaAdicional') || '{}');
     const tarifaNoturna = JSON.parse(localStorage.getItem('tarifaNoturna') || '{}');
+    const creditoDisponivel = JSON.parse(localStorage.getItem('creditoDisponivel') || '0');
     const cupons = JSON.parse(localStorage.getItem('cupons') || '[]');
 
     // Inicializa os totais para cada cliente
@@ -754,6 +762,12 @@ function atualizarTotal() {
                 resumoTotal -= parseFloat(cupom.desconto);
             }
         });
+    }
+
+    // **Aplica o desconto do crédito disponível**
+    if (!isNaN(creditoDisponivel) && creditoDisponivel > 0) {
+        resumoTotal -= parseFloat(creditoDisponivel);
+        if (resumoTotal < 0) resumoTotal = 0; // Evita valores negativos
     }
 
      // Salva o resumoTotal no localStorage
@@ -879,10 +893,11 @@ function closeModal() {
 
     // Resetar o resumo visual e os valores de total
     $('.wraper-resumo .selecao-single').each(function() {
-        if (!$(this).hasClass('box-tarifa-especial')) {
+        if (!$(this).hasClass('box-tarifa-especial') && !$(this).closest('.js-box-credito').length) {
             $(this).remove();
         }
     });
+
     $('.selecao-single-total:not(.css-form-cupon)').html(`
         <div class="txt-p"><span class="color-p">Total</span></div> 
         <div class="duracao">
@@ -1010,6 +1025,11 @@ function closeModal() {
     $('.resumo-sim-tarifa-noturna').css('display','none');
 
     $('.cupom_selecionados').css('display','none');
+
+    $('.js-box-credito').fadeOut();
+    $('.js-box-credito .selecao-single .credito-disponivel').text('');
+    $('.js-box-credito .selecao-single .serv-atual').text('');
+    $('.js-box-credito .selecao-single .total-desconto').text('');
 
     limparCupons();
     localStorage.clear();
@@ -1426,8 +1446,7 @@ function ClickbtnAvancarAgendamento(){
                 $('.js-modal-agenda-servicos').css('opacity', '1');
                 // Validação passou, verifica o token no cookie
 
-                const token = getCookie('token'); // Assumindo que o token está no cookie 'token'
-                
+                let token = localStorage.getItem('token') || getCookie('token');
 
                 if (token) {
                     // Token encontrado no cookie, realiza a consulta no backend
@@ -1546,7 +1565,7 @@ function exibirNotificacao(tipo, mensagem) {
 function obterClienteIdPorToken() {
     return new Promise((resolve, reject) => {
         // Recupera o token do localStorage
-        let token = getCookie('token');
+        let token = localStorage.getItem('token') || getCookie('token');
 
         if (!token) {
             reject('Token não encontrado no localStorage.');

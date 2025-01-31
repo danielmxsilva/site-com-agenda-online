@@ -306,7 +306,7 @@
 
 	        // Converte saldo para número no PHP (segurança extra)
 	        $saldo = floatval($resultado['total_credito'] ?? '0');
-	        $saldoFormatado = number_format($saldo, 2, ',', '.');
+	        $saldoFormatado = number_format($saldo, 2,);
 	        $temCredito = ($saldo > 0);
 
 	        echo json_encode([

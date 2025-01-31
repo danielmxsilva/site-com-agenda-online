@@ -526,6 +526,7 @@ function validarFormularioSenha(config) {
                         }
                         console.log("ENTREI NO IF TOKEN");
                         trocarBox(".login-agenda", ".js-box-pagamento-agenda");
+                        verificarSeTemCredito();
                         exibirNotificacao('sucesso', notificacaoSucesso);
                     } else {
                         exibirNotificacao('erro', 'Erro ao salvar o token. Tente novamente.');
@@ -638,6 +639,14 @@ function clickBtnSair(){
 
         $('.form-informacoes-cliente').hide();
 
+        $('.js-box-credito').fadeOut();
+        $('.js-box-credito .selecao-single .credito-disponivel').text('');
+        $('.js-box-credito .selecao-single .serv-atual').text('');
+        $('.js-box-credito .selecao-single .total-desconto').text('');
+
+        limparCupons();
+        localStorage.removeItem('creditoDisponivel');
+        atualizarTotal();
         trocarBox('.wraper-pagamento', '.wraper-modal', duracao = 400);
         //$('.wraper-modal.js-modal-agenda-servicos').css({ opacity: 1, display: 'block' }).fadeOut(400);
         //$('.wraper-modal.js-modal-agenda-servicos').css('opacity','1');

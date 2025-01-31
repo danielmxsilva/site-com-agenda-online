@@ -4993,7 +4993,7 @@ HTML;
 	SE TEM CREDITO DISPONIVEL
 	-->
 
-		<div class="wraper-resumo box-servicos-select js-box-credito box-credito-css" style="display: block;">
+		<div class="wraper-resumo box-servicos-select js-box-credito box-credito-css" style="display:none;">
 
 			<div class="selecao-single-topo flex">
 				<div class="txt-p"><span class="color-p">Crédito Disponível</span>
@@ -5004,18 +5004,17 @@ HTML;
 				<div class="preco-lixeira">
 					<span class="preco-single color-p">Total Descontado</span>
 				</div>
-				<input type="hidden" name="cliente_1">
 			</div>
 
 			<div class="selecao-single flex">
 	            <div class="txt-p">
-	                <span class="p-single">R$ 69,99</span>
+	                <span class="p-single credito-disponivel"></span>
 	            </div>
 	            <div class="duracao">
-					<span class="color-p">R$ 139,98</span>
+					<span class="color-p serv-atual"></span>
 				</div>
 	            <div class="preco-lixeira">
-	                <span class="preco-single">R$ 70,97</span>
+	                <span class="preco-single total-desconto"></span>
 	            </div>
 	        </div>
 
