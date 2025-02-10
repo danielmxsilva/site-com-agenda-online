@@ -972,7 +972,8 @@ function closeModal() {
     $('input[type=email]').val('');
     $('input[type=file]').val('');
     $('input[type=submit]').fadeIn();
-
+    
+    $('input[type=file]').val('');
     $('#preview-foto').hide(); // Esconde o preview
     $('#file-name').text('Nenhum arquivo selecionado'); // Reseta o texto
 
@@ -1411,10 +1412,6 @@ function ClickbtnAvancarAgendamento(){
 
     $('.btn-avancar').click(function(){
 
-        maskCupom();
-        consultarCupom();
-        verificarSeTemCredito();
-
         $('.js-modal-agenda-servicos').css('opacity','0.3');
 
         const existeDados = localStorage.getItem('servicosSelecionadosAgenda');
@@ -1479,6 +1476,11 @@ function ClickbtnAvancarAgendamento(){
                                 preencherResumoDataHorario('.resumo-data-horario');
                                 atualizarTotal();
                             }
+
+                            maskCupom();
+                            consultarCupom();
+                            verificarSeTemCredito();
+
                         },
                         error: function() {
                             exibirNotificacao('erro', 'Erro ao validar o token. Tente novamente.');
@@ -1496,6 +1498,9 @@ function ClickbtnAvancarAgendamento(){
                     preencherServicosDinamicos();
                     preencherResumoDataHorario('.resumo-data-horario');
                     atualizarTotal();
+                    maskCupom();
+                    consultarCupom();
+                    verificarSeTemCredito();
                 }
 
                 // Garante que a mensagem de erro seja escondida, caso ainda esteja visível

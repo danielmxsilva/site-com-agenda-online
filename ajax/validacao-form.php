@@ -380,16 +380,16 @@
 	    }
 
 	    // 5. Verificar se o cupom é reutilizável ou se já foi usado pelo cliente
-	    if (!$cupom['reutilizavel']) {
-	        $query_uso = $pdo->prepare("SELECT COUNT(*) as total FROM tb_uso_cupons WHERE cupom_id = ? AND cliente_id = ?");
-	        $query_uso->execute([$cupom['id'], $cliente_id]);
-	        $uso_total = $query_uso->fetch(PDO::FETCH_ASSOC)['total'];
+		if (!$cupom['reutilizavel']) {
+		    $query_uso = $pdo->prepare("SELECT COUNT(*) as total FROM tb_uso_cupons WHERE cupom_id = ? AND cliente_id = ? AND status = 'usado'");
+		    $query_uso->execute([$cupom['id'], $cliente_id]);
+		    $uso_total = $query_uso->fetch(PDO::FETCH_ASSOC)['total'];
 
-	        if ($uso_total > 0) {
-	            echo json_encode(['sucesso' => false, 'mensagem' => 'Você já utilizou este cupom.']);
-	            exit();
-	        }
-	    }
+		    if ($uso_total > 0) {
+		        echo json_encode(['sucesso' => false, 'mensagem' => 'Você já utilizou este cupom.']);
+		        exit();
+		    }
+		}
 
 	    // Retorna os dados do cupom, sem realizar alterações
 	    echo json_encode([

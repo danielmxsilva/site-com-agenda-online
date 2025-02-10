@@ -24,13 +24,29 @@ async function verificarSeTemCredito(){
                 console.log('Resposta do PHP:', response);
 
                 if (response.tem_credito) {
-                    // Caso tenha crédito, mostra o bloco
+
+                    // Caso tenha crédito, salva no localStorage
                     localStorage.setItem('creditoDisponivel', response.valor_credito);
-                    const valorCredito = localStorage.getItem('creditoDisponivel');
-                    const totalDescontado = Math.max(parseFloat(resumoTotal) - parseFloat(valorCredito), 0);
+                    const valorCredito = parseFloat(localStorage.getItem('creditoDisponivel')) || 0;
+
+                    // Calcula o total descontado
+                    const totalDescontado = Math.max(resumoTotal - valorCredito, 0);
+
+                    // Calcula o saldo restante do crédito (caso tenha sobrado após o desconto)
+                    const saldoRestanteCredito = parseFloat((Math.max(valorCredito - resumoTotal, 0)).toFixed(2));
+
+                    // Salva o saldo restante no localStorage para atualização futura no BD
+                    localStorage.setItem('saldoRestanteCredito', saldoRestanteCredito);
+
+                    // Atualiza a interface com os valores calculados
                     atualizarCreditoDisponivel(valorCredito, resumoTotal, totalDescontado);
+                    
                     console.log('Tem crédito disponível: R$', response.valor_credito);
+                    console.log('Saldo restante do crédito:', saldoRestanteCredito);
+
+                    // Atualiza o total geral
                     atualizarTotal();
+
                 } else {
                     // Caso não tenha crédito, esconde o bloco
                     $('.js-box-credito').fadeOut();
@@ -56,12 +72,17 @@ function atualizarCreditoDisponivel(valorCredito, resumoTotal, totalDescontado) 
     resumoTotal = parseFloat(resumoTotal) || 0;
     totalDescontado = parseFloat(totalDescontado) || 0;
 
+    // Função para formatar como moeda brasileira
+    function formatarMoeda(valor) {
+        return valor.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
     if (valorCredito > 0) {
         // Se houver crédito disponível, exibe a box e atualiza os valores
         boxCredito.fadeIn();
-        $('.js-box-credito .selecao-single .credito-disponivel').text(`R$ ${valorCredito.toFixed(2)}`);
-        $('.js-box-credito .selecao-single .serv-atual').text(`R$ ${resumoTotal.toFixed(2)}`);
-        $('.js-box-credito .selecao-single .total-desconto').text(`R$ ${totalDescontado.toFixed(2)}`);
+        $('.js-box-credito .selecao-single .credito-disponivel').text(`R$ ${formatarMoeda(valorCredito)}`);
+        $('.js-box-credito .selecao-single .serv-atual').text(`R$ ${formatarMoeda(resumoTotal)}`);
+        $('.js-box-credito .selecao-single .total-desconto').text(`R$ ${formatarMoeda(totalDescontado)}`);
     } else {
         // Se não houver crédito, esconde a box
         boxCredito.fadeOut();

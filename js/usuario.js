@@ -62,8 +62,9 @@ function pegarDados(dados, endereco){
 	  if (dados.foto_perfil_cliente) {
 		    let fotoPerfil = dados.foto_perfil_cliente;
 		    let fotoContainer = `
-		         <img id="preview-foto-edit" src="${includePathPainel}uploads/${fotoPerfil}" alt="Foto do Perfil">
+		         <img id="preview-foto-edit" class="preview-foto-edit"  src="${includePathPainel}uploads/${fotoPerfil}" alt="Foto do Perfil">
 		    `;
+		    $('.file-name-edit').text(fotoPerfil);
 		    $('.image-preview').html(fotoContainer).show(); // Insere o HTML e mostra o container
 		    $('.icone-perfil').hide(); // Oculta o ícone padrão
 		} else {

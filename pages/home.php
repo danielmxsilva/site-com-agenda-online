@@ -2,6 +2,7 @@
 	<div class="background-menu"></div>
 	<div class="menu-fixo fixed" id="cabecalho">
 		
+
 		<div class="container flex" style="align-items: center;">
 			<div class="logo">
 				<a href="#home">
@@ -4537,17 +4538,17 @@ HTML;
 
 				    <div class="flex-file">
 
-				    	<input style="display: none;" type="file" id="foto-cadastro" name="foto-cadastro" placeholder=" " accept="image/*">
+				    	<input style="display: none;" class="foto-cadastro" type="file" id="foto-cadastro" name="foto-cadastro" placeholder=" " accept="image/*">
 
-					    <div class="image-preview" id="image-preview" style="cursor: pointer; text-align: center;">
+					    <div class="image-preview image-preview-cadastro" id="image-preview" style="cursor: pointer; text-align: center;">
 
-					        <img id="preview-foto" src="#" alt="Preview da Foto" style="display: none;">
+					        <img id="preview-foto" class="preview-foto-cadastro" src="#" alt="Preview da Foto" style="display: none;">
 
 					        <i class="fa-solid fa-user" style="font-size: 30px;text-align: center;padding-top: 10px; color: #9d9c9c;"></i>
 
 					    </div>
 
-				    	<span id="file-name" style="color: #555; cursor: pointer;">Nenhum arquivo selecionado</span>
+				    	<span id="file-name" class="file-name-cadastro" style="color: #555; cursor: pointer;">Nenhum arquivo selecionado</span>
 
 					</div><!--flex-file-->
 
@@ -5268,11 +5269,11 @@ HTML;
 
 				    <div class="flex-file">
 
-				    	<input style="display: none;" type="file" id="foto-edit-cadastro" name="foto-edit-cadastro" placeholder=" " accept="image/*">
+				    	<input style="display: none;" type="file" id="foto-edit-cadastro" class="foto-edit-cadastro" name="foto-edit-cadastro" placeholder=" " accept="image/*">
 
-					    <div class="image-preview" id="image-perfil-edit" style="cursor: pointer; text-align: center;">
+					    <div class="image-preview image-preview-edit" id="image-perfil-edit" class="image-preview-edit" style="cursor: pointer; text-align: center;">
 
-					        <img id="preview-foto-edit" src="" alt="Preview da Foto" style="display: none;">
+					        <img id="preview-foto-edit" class="preview-foto-edit" src="" alt="Preview da Foto" style="display: none;">
 
 					        <i class="icone-perfil fa-solid fa-user" style="font-size: 30px;text-align: center;padding-top: 10px; color: #9d9c9c;"></i>
 

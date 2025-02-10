@@ -1,16 +1,17 @@
 $(document).ready(function(){
 
     //(input,classPai,fileName,imgFoto)
+    
 
-    fotoValidacao('#foto-cadastro'
-        ,'#image-preview'
-        ,'#file-name'
-        ,'#preview-foto');
+    fotoValidacao('.foto-cadastro'
+        ,'.image-preview-cadastro'
+        ,'.file-name-cadastro'
+        ,'.preview-foto-cadastro');
 
-    fotoValidacao('#foto-edit-cadastro'
-        ,'#image-perfil-edit'
-        ,'#file-name-edit'
-        ,'#preview-foto-edit');
+    fotoValidacao('.foto-edit-cadastro'
+        ,'.image-preview-edit'
+        ,'.file-name-edit'
+        ,'.preview-foto-edit');
 
 	novoCadastro({
       formSelector: '.form-informacoes-cliente',

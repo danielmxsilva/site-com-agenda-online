@@ -169,12 +169,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 	//<i class="fa-solid fa-eye-slash"></i> = fechado
 </script>
 	
-    
-
-  
-
-</script>
-<!--final scripts particulas-->
 
 
 </body>

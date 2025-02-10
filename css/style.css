@@ -1228,15 +1228,17 @@ section{
 }
 
 .estilo-resumo-servico
-.selecao-single-topo
 .duracao{
 	width: 4%;
 }
 
 .estilo-resumo-servico
-.selecao-single-topo
 .txt-p{
 	width: 65%;
+}
+
+.estilo-resumo-servico .total-resumo-completo .txt-p{
+	width: 70%;
 }
 
 .wraper-resumo{
@@ -2913,6 +2915,13 @@ legend.codigo-info .codigo-dica {
 .estilo-cupons-servico .preco-lixeira .icone-lixeira-css:hover {
     color: #d83434;
 }
+
+.resumo-servico-js .preco-lixeira .icone-lixeira{
+	display: none;
+}
+
+
+
 @media screen and (max-width: 1070px){
 	.menu{
 		text-align: right;
@@ -3006,17 +3015,13 @@ legend.codigo-info .codigo-dica {
   	width: 30%;
   }
 
-  .estilo-resumo-servico .selecao-single-topo .preco-lixeira{
+  .estilo-resumo-servico .preco-lixeira{
   	width: 27%;
   }
 
-  .estilo-resumo-servico .selecao-single-total .duracao{
-  	width: 28%;
-  }
-
-  .estilo-resumo-servico .selecao-single-total .preco-lixeira{
-  	width: 37%;
-  }
+  .estilo-resumo-servico .total-resumo-completo .txt-p{
+		width: 60%;
+	}
 
   .estilo-cupons-servico .resumo-cupom-css .txt-p{
   	width: 100%;
@@ -3130,6 +3135,19 @@ legend.codigo-info .codigo-dica {
 	.footer-links{
 		margin: 15px 0;
 	}
+
+	.estilo-resumo-servico .selecao-single-topo .txt-p{
+		width: 60%;
+	}
+
+	.estilo-resumo-servico .selecao-single-topo .duracao{
+		width: 0%;
+	}
+
+	.estilo-resumo-servico .selecao-single-topo .preco-lixeira{
+		width: 20%;
+	}
+
 }
 
 @media screen and (max-width: 480px){
