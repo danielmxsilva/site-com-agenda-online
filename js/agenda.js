@@ -79,7 +79,7 @@ $(document).ready(function() {
         const horarioEmMinutos = hora * 60 + minuto;
         const agoraEmMinutos = horaAtual * 60 + minutoAtual;
 
-        return diaBarraFormatado !== diaAtual || horarioEmMinutos > agoraEmMinutos;
+        return diaBarraFormatado !== diaAtual || horarioEmMinutos >= (agoraEmMinutos + 60);
     });
 
     const qtdDisponiveis = horariosFuturos.length;
@@ -149,7 +149,7 @@ $(document).ready(function() {
                 const agoraEmMinutos = horaAtual * 60 + minutoAtual;
                 const limiteEmMinutos = agoraEmMinutos + 60; // Define o limite como 1 hora à frente
 
-                return horarioEmMinutos > agoraEmMinutos && validoParaAgendar;
+                return horarioEmMinutos >= (agoraEmMinutos + 60) && validoParaAgendar;
             }
 
             // Se não for hoje, todos os horários disponíveis são válidos

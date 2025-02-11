@@ -4425,10 +4425,11 @@ HTML;
 				        <span class="toggle-password" onclick="togglePasswordVisibility()"><i class="fa-solid fa-eye-slash"></i></span>
 				     </div>
 
+				     <!--
 				      <div class="wraper-form-single checkbox-login-lembrar">
 				        <input type="checkbox" name="lembrar_login"> <span>Lembrar Login</span>
 				      </div>
-
+	-->
 				      <div class="wraper-form-single btn-esqueci-senha">
 				      	<a class="btn-esqueci-senha">Esqueci minha senha</a>
 				      </div><!--btn-esqueci-senha-->
