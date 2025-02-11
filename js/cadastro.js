@@ -313,7 +313,8 @@ function novoCadastro(config) {
                     const dados = response.dados;
                     const endereco = response.endereco || null;
                     const token = response.token;
-                    localStorage.setItem('token', token);
+                    setCookie('token', token, 365);
+                    //localStorage.setItem('token', token);
                     pegarDados(dados, endereco);
                     exibirNotificacao('sucesso', response.mensagem);
                     trocarBox('.login-agenda', '.js-box-pagamento-agenda', 400); // Exemplo de navegação

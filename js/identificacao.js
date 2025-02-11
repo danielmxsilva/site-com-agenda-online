@@ -508,7 +508,9 @@ function validarFormularioSenha(config) {
                     // Define a mensagem de sucesso
                     const notificacaoSucesso = `Login efetuado! Bem-vindo(a), ${nomeCliente}!`;
 
+                    
                     if (token) {
+                        /*
                         // Verifica se o checkbox "Lembrar Login" está selecionado
                         const lembrarLogin = $('input[name="lembrar_login"]').is(':checked');
                         if (lembrarLogin) {
@@ -524,6 +526,11 @@ function validarFormularioSenha(config) {
                                 localStorage.setItem(key, dadosCliente[key]);
                             }
                         }
+                        */
+                        
+                        setCookie('token', token, 365); // Salva cada propriedade no cookie
+                        
+
                         console.log("ENTREI NO IF TOKEN");
                         trocarBox(".login-agenda", ".js-box-pagamento-agenda");
                         verificarSeTemCredito();

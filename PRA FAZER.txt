@@ -3,8 +3,8 @@
 
 
 /***/
--Validar se sobra valor do credito para atualizar no bd
 -Adicionar o token no cookie mesmo se não clicar em lembrar login, devido ao uso da validação do cupom
+-Validar se sobra valor do credito para atualizar no bd
 -Remover o icone lixeira do resumo dos serviços, devido aos horarios selecionados = se remover vai precisar de menos horarios, os horarios ja foram selecionados
 -Estrutura o banco de dados Mysql para estrutura de chave estrangeira
 -Ao sair do login precisa limpar todos os inputs e seleções salvas no localStorage
