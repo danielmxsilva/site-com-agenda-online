@@ -12,7 +12,7 @@ $data = isset($_GET['data']) ? $_GET['data'] : die(json_encode(['error' => 'Data
 $dataFormatada = date('Y-m-d', strtotime($data));
 
 // Prepare a consulta para verificar a disponibilidade
-$query = "SELECT horario FROM tb_agendamento WHERE data = ?";
+$query = "SELECT horario FROM tb_agendamento WHERE data = ? AND status = 'agendado'";
 $conn = Mysql::conectar(); // Use a conexão da classe Mysql
 
 // Prepare a consulta
