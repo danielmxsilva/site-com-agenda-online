@@ -1,22 +1,25 @@
 
-- Continuar a trabalhar com recuperação de dados ao efetuar login
-
-
+/*- Continuar a trabalhar com recuperação de dados ao efetuar login*/
 /***/
 /*-Adicionar o token no cookie mesmo se não clicar em lembrar login, devido ao uso da validação do cupom*/
 /*-Ajustar os horarios disponíveis para apenas ser possível agendar horarios com 30 minutos afrenet ex:apartir das 14:30 somente agendar as 16:00 */
 /*-Ajustar para recuperar os horarios que estão com status cancelado no bd tb_agendamento*/
+/*-Retirar o lembrar login devido ao cookie que sempre é adicionado ao realizar login*/
 
--Corrigir estrutura do BD para chaves estrangeiras e chaves primarias
--Retirar o lembrar login devido ao cookie que sempre é adicionado ao realizar login
--Validar se sobra valor do credito para atualizar no bd
--Remover o icone lixeira do resumo dos serviços, devido aos horarios selecionados = se remover vai precisar de menos horarios, os horarios ja foram selecionados
--Estrutura o banco de dados Mysql para estrutura de chave estrangeira
--Ao sair do login precisa limpar todos os inputs e seleções salvas no localStorage
--Ao voltar pelo botão seleção de serviços, caso o cliente não tenha clicado em lembrar-login, deverá pular a sessão de login novamente
--Corrigir a atualização da foto do usuario pelo painel
+/*-Corrigir estrutura do BD para chaves estrangeiras e chaves primarias - NECESSÁRIO ALTERAR A ESTRUTURA DA LOGICA ATUAL*/
+/*-Remover o icone lixeira do resumo dos serviços, devido aos horarios selecionados = se remover vai precisar de menos horarios, os horarios ja foram selecionados*/
+/*-Ao sair do login precisa limpar todos os inputs e seleções salvas no localStorage*/
+/*-Ao voltar pelo botão seleção de serviços, caso o cliente não tenha clicado em lembrar-login, deverá pular a sessão de login novamente - Adicionado cookie ao realizar login*/
+/*-Remover a lixeira do resumo total devido aos horarios selecionados*/
+
+-Adicionar o input telefone para ficar disponivel para o cliente editar o nmr
 -Fazer formulario de atualização de dados do usuario
--Remover a lixeira do resumo total devido aos horarios selecionados
+
+-Corrigir a atualização da foto do usuario 
+-Limpar os inputs do formulario de login ao acessar.
+-Ajustar seleção de horarios do serviço,para se possível se selecionar 1 horario preencher todos os outros automaticamente.
+-Validar se sobra valor do credito para atualizar no bd
+
 -Verificar os dados quando tem cookie do login salvo
 
 - Fazer a validação e abate do crédito disponivel

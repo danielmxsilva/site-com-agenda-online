@@ -5258,6 +5258,12 @@ HTML;
 			      </div>
 
 			      <div class="wraper-form-single">
+			        <input type="text"  inputmode="tel"
+						pattern="^\(\d{2}\)\s\d{5}-\d{4}$" id="telefone-perfil-edit" name="telefone-perfil-edit" placeholder=" " required>
+			        <label for="telefone-perfil-edit">Número de Telefone</label>
+			      </div>
+
+			      <div class="wraper-form-single">
 			        <input type="email" id="email-perfil-edit" name="email-perfil-edit" placeholder=" ">
 			        <label for="emaill-perfil-edit">Seu E-mail</label>
 			      </div>
@@ -5292,15 +5298,13 @@ HTML;
 				  </div><!--wraper-->
 
 			      <div class="wraper-form-single">
-			        <input type="text" id="cep-perfil-edit" name="cep-perfil-edit" placeholder=" ">
+			        <input type="text" id="cep-perfil-edit" inputmode="numeric" pattern="^\d{5}-\d{3}$" name="cep-perfil-edit" placeholder=" ">
 			        <label for="cep-perfil-edit">CEP</label>
 			      </div>
 
 			      <div class="wraper-form-single">
 			        <select name="cidade-perfil-edit" id="cidade-perfil-edit">
 			          <option value="cidade" selected disabled>Cidade:</option>
-			          <option value="Itupeva">Itupeva</option>
-			          <option value="Jundiaí">Jundiaí</option>
 			        </select>
 			      </div>
 
@@ -5315,12 +5319,13 @@ HTML;
 			      </div>
 
 			      <div class="wraper-form-single" style="margin-top: 20px;">
-			        <input type="text" id="n-casa-perfil-edit" name="n-casa-perfil-edit" placeholder=" ">
+			        <input type="text" id="n-casa-perfil-edit" inputmode="numeric" pattern="^\d{1,5}$" name="n-casa-perfil-edit" placeholder=" ">
 			        <label for="n-casa-perfil-edit">Número</label>
 			      </div>
 
 			      <div class="wraper-form-single" style="position:static;">
-			        <input type="submit" disabled value="Aceite a Politica de Privacidade" class="acao-novo-cadastro">
+			      	<input type="hidden" id="id-perfil-edit" name="id-perfil-edit" value="">
+			        <input type="submit" disabled value="Editar Cadastro" class="acao-editar-cadastro">
 			      </div>
 
 			    </fieldset>

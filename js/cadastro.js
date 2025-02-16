@@ -3,15 +3,10 @@ $(document).ready(function(){
     //(input,classPai,fileName,imgFoto)
     
 
-    fotoValidacao('.foto-cadastro'
+    fotoValidacaoCadastro('.foto-cadastro'
         ,'.image-preview-cadastro'
         ,'.file-name-cadastro'
         ,'.preview-foto-cadastro');
-
-    fotoValidacao('.foto-edit-cadastro'
-        ,'.image-preview-edit'
-        ,'.file-name-edit'
-        ,'.preview-foto-edit');
 
 	novoCadastro({
       formSelector: '.form-informacoes-cliente',
@@ -19,6 +14,7 @@ $(document).ready(function(){
       endpoint: 'ajax/validacao-form.php',
       divPai: '.login-agenda',
     });
+
 
     //recuperarSenha();
 
@@ -30,11 +26,26 @@ $(document).ready(function(){
 	aplicarMascara('[name="n-casa-login-agenda"]', 'numeroCasa');
     aplicarMascara('[name="codigo-recuperar-senha"]', 'codigoRecuperacao');
 
+    aplicarMascara('[name="nome-perfil-edit"]', 'nomeCompleto');
+    aplicarMascara('[name="email-perfil-edit"]', 'email');
+    aplicarMascara('[name="bairro-perfil-edit"]', 'nomeCompleto');
+    aplicarMascara('[name="rua-casa-perfil-edit"]', 'nomeCompleto');
+    aplicarMascara('[name="n-casa-perfil-edit"]', 'numeroCasa');
+
+    preencherCepEdit('#cep-perfil-edit');
+
 	preencherCep('#cep-login-agenda');
 
     const cepInput = $("#cep-login-agenda");
+    const cepInputEdit = $("#cep-perfil-edit");
+
+    const maskTelefonePerfilEdit = $('#telefone-perfil-edit');
+
+    aplicarMascaraTelefone(maskTelefonePerfilEdit);
 
     maskCep(cepInput);
+
+    maskCep(cepInputEdit);
   
 
     const $checkbox = $('#consentimento-checkbox');
@@ -64,7 +75,7 @@ $(document).ready(function(){
 
 // Verifica o estado inicial do checkbox
 
-function fotoValidacao(input,classPai,fileName,imgFoto){
+function fotoValidacaoCadastro(input,classPai,fileName,imgFoto){
 
     console.log("chamei e entrei no meu fotoValidação!!!");
 
@@ -115,6 +126,7 @@ function fotoValidacao(input,classPai,fileName,imgFoto){
 
 }
 
+
 function preencherCep(cep){
 	 $(cep).on('blur', function () {
         const cep = $(this).val().replace(/\D/g, '');
@@ -152,6 +164,47 @@ function preencherCep(cep){
             });
         } else {
         	exibirNotificacao('erro', 'Por favor, insira um CEP válido.');
+        }
+    });
+}
+
+function preencherCepEdit(cep){
+     $(cep).on('blur', function () {
+        const cep = $(this).val().replace(/\D/g, '');
+
+        if (cep.length === 8) {
+            // Faz a chamada AJAX para buscar os dados do CEP
+            $.ajax({
+                url: 'ajax/consultaCep.php',
+                method: 'POST',
+                data: { cep: cep },
+                dataType: 'json',
+                beforeSend: function () {
+                    // Limpa os campos antes da consulta
+                    $('.js-form-editar-perfil').addClass('carregando');
+                    $('#rua-casa-perfil-edit, #bairro-perfil-edit, #n-casa-perfil-edit').val('');
+                },
+                success: function (response) {
+                    $('.js-form-editar-perfil').removeClass('carregando');
+                    if (response.erro) {
+                        exibirNotificacao('erro', 'CEP não encontrado!');
+                    } else {
+                        $('#rua-casa-perfil-edit').val(response.logradouro);
+                        $('#bairro-perfil-edit').val(response.bairro);
+                        // Adiciona a cidade no select dinamicamente
+                        $('#cidade-perfil-edit')
+                            .html(`<option value="${response.localidade}" selected>${response.localidade}</option>`)
+                            .prop('disabled', false);
+                        console.log("cidade do response" + response.localidade);
+                    }
+                },
+                error: function () {
+                    $('.js-form-editar-perfil').removeClass('carregando');
+                    exibirNotificacao('erro', 'Erro ao consultar o CEP. Tente novamente.');
+                }
+            });
+        } else {
+            exibirNotificacao('erro', 'Por favor, insira um CEP válido.');
         }
     });
 }
@@ -316,6 +369,7 @@ function novoCadastro(config) {
                     setCookie('token', token, 365);
                     //localStorage.setItem('token', token);
                     pegarDados(dados, endereco);
+                    
                     exibirNotificacao('sucesso', response.mensagem);
                     trocarBox('.login-agenda', '.js-box-pagamento-agenda', 400); // Exemplo de navegação
                     consultarCupom();
@@ -338,6 +392,8 @@ function novoCadastro(config) {
     })
 
 }
+
+
 
 function validarCampos(inputs) {
     let todosValidos = true;
@@ -398,6 +454,8 @@ function maskCep(inputElement) {
         input.setSelectionRange(newCursorPosition, newCursorPosition);
     });
 }
+
+
 
 function aplicarMascara(seletor, tipoMascara) {
 
