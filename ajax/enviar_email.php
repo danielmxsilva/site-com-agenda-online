@@ -20,7 +20,7 @@
             $mail->Port = 465; // Porta SMTP 
 
             // Configurações do e-mail
-            $mail->setFrom('contato@paularosangelanails.com.br ', 'Paula Rosangela Nail'); // E-mail e nome do remetente
+            $mail->setFrom('contato@paularosangelanails.com.br ', 'Paula Rosangela Nails'); // E-mail e nome do remetente
             $mail->addAddress($emailCliente); // Adiciona o destinatário
 
             $mail->CharSet = 'UTF-8'; // Define a codificação do e-mail

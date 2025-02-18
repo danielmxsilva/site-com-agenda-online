@@ -4447,7 +4447,7 @@ HTML;
 				      <legend class="codigo-info">Coloque seu E-mail cadastrado <span class="codigo-dica">Vamos enviar um código para você recuperar a senha!</span></legend>
 
 				      <div class="wraper-form-single">
-				        <input type="email" id="email-recuperar-senha" name="email-recuperar-senha" placeholder=" " required>
+				        <input type="email" id="email-recuperar-senha" class="mask-email" name="email-recuperar-senha" placeholder=" " required>
 				        <label for="email-recuperar-senha">E-mail</label>
 				      </div>
 
@@ -4467,7 +4467,7 @@ HTML;
 					    </legend>
 
 				      <div class="wraper-form-single">
-				        <input type="text" id="codigo-recuperar-senha" name="codigo-recuperar-senha" placeholder=" " required>
+				        <input type="text" id="codigo-recuperar-senha" class="mask-codigo-recuperar-senha" name="codigo-recuperar-senha" placeholder=" " required>
 				        <label for="telefone-login-agenda">Código</label>
 				      </div>
 
@@ -4522,12 +4522,12 @@ HTML;
 			      </div>
 
 			      <div class="wraper-form-single">
-			        <input type="text" id="nome-login-agenda" name="nome-login-agenda" placeholder=" ">
+			        <input type="text" class="mask-nome" id="nome-login-agenda" name="nome-login-agenda" placeholder=" ">
 			        <label for="nome-login-agenda">Nome Completo</label>
 			      </div>
 
 			      <div class="wraper-form-single">
-			        <input type="email" id="email-login-agenda" name="email-login-agenda" placeholder=" ">
+			        <input type="email" class="mask-email" id="email-login-agenda" name="email-login-agenda" placeholder=" ">
 			        <label for="emaill-login-agenda">Seu melhor E-mail</label>
 			      </div>
 
@@ -4574,17 +4574,17 @@ HTML;
 			      </div>
 
 			      <div class="wraper-form-single" style="margin-top: 20px;">
-			        <input type="text" id="bairro-login-agenda" name="bairro-login-agenda" placeholder=" ">
+			        <input type="text" class="mask-bairro" id="bairro-login-agenda" name="bairro-login-agenda" placeholder=" ">
 			        <label for="bairro-login-agenda">Bairro</label>
 			      </div>
 
 			      <div class="wraper-form-single" style="margin-top: 20px;">
-			        <input type="text" id="rua-casa-login-agenda" name="rua-casa-login-agenda" placeholder=" ">
+			        <input type="text" class="mask-rua" id="rua-casa-login-agenda" name="rua-casa-login-agenda" placeholder=" ">
 			        <label for="rua-casa-login-agenda">Rua</label>
 			      </div>
 
 			      <div class="wraper-form-single" style="margin-top: 20px;">
-			        <input type="text" id="n-casa-login-agenda" inputmode="numeric" pattern="^\d{1,5}$" name="n-casa-login-agenda" placeholder=" ">
+			        <input type="text" id="n-casa-login-agenda" inputmode="numeric" class="mask-n-casa" pattern="^\d{1,5}$" name="n-casa-login-agenda" placeholder=" ">
 			        <label for="n-casa-login-agenda">Número</label>
 			      </div>
 
@@ -5253,7 +5253,7 @@ HTML;
 			      <legend class="color-p">Informações do Cadastro</legend>
 
 			      <div class="wraper-form-single">
-			        <input type="text" id="nome-perfil-edit" name="nome-perfil-edit" placeholder=" ">
+			        <input type="text" class="mask-nome" id="nome-perfil-edit" name="nome-perfil-edit" placeholder=" ">
 			        <label for="nome-perfil-edit">Nome Completo</label>
 			      </div>
 
@@ -5264,7 +5264,7 @@ HTML;
 			      </div>
 
 			      <div class="wraper-form-single">
-			        <input type="email" id="email-perfil-edit" name="email-perfil-edit" placeholder=" ">
+			        <input type="email" id="email-perfil-edit" class="mask-email" name="email-perfil-edit" placeholder=" ">
 			        <label for="emaill-perfil-edit">Seu E-mail</label>
 			      </div>
 
@@ -5309,17 +5309,17 @@ HTML;
 			      </div>
 
 			      <div class="wraper-form-single" style="margin-top: 20px;">
-			        <input type="text" id="bairro-perfil-edit" name="bairro-perfil-edit" placeholder=" ">
+			        <input type="text" id="bairro-perfil-edit" class="mask-bairro" name="bairro-perfil-edit" placeholder=" ">
 			        <label for="bairro-perfil-edit">Bairro</label>
 			      </div>
 
 			      <div class="wraper-form-single" style="margin-top: 20px;">
-			        <input type="text" id="rua-casa-perfil-edit" name="rua-casa-perfil-edit" placeholder=" ">
+			        <input type="text" id="rua-casa-perfil-edit" class="mask-rua" name="rua-casa-perfil-edit" placeholder=" ">
 			        <label for="rua-casa-perfil-edit">Rua</label>
 			      </div>
 
 			      <div class="wraper-form-single" style="margin-top: 20px;">
-			        <input type="text" id="n-casa-perfil-edit" inputmode="numeric" pattern="^\d{1,5}$" name="n-casa-perfil-edit" placeholder=" ">
+			        <input type="text" id="n-casa-perfil-edit" class="mask-n-casa" inputmode="numeric" pattern="^\d{1,5}$" name="n-casa-perfil-edit" placeholder=" ">
 			        <label for="n-casa-perfil-edit">Número</label>
 			      </div>
 

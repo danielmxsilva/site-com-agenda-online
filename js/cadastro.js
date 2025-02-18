@@ -15,22 +15,23 @@ $(document).ready(function(){
       divPai: '.login-agenda',
     });
 
+    atualizarCadastro({
+        formSelector: '#form-atualizacao',
+        mensagemSucesso: 'Cadastro atualizado com sucesso!',
+        endpoint: 'ajax/validacao-form.php',
+        divPai: '.box-atualizacao'
+    });
+
 
     //recuperarSenha();
 
-	aplicarMascara('[name="nome-login-agenda"]', 'nomeCompleto');
-	aplicarMascara('[name="email-login-agenda"]', 'email');
-    aplicarMascara('[name="email-recuperar-senha"]', 'email');
-	aplicarMascara('[name="bairro-login-agenda"]', 'nomeCompleto');
-	aplicarMascara('[name="rua-casa-login-agenda"]', 'nomeCompleto');
-	aplicarMascara('[name="n-casa-login-agenda"]', 'numeroCasa');
-    aplicarMascara('[name="codigo-recuperar-senha"]', 'codigoRecuperacao');
-
-    aplicarMascara('[name="nome-perfil-edit"]', 'nomeCompleto');
-    aplicarMascara('[name="email-perfil-edit"]', 'email');
-    aplicarMascara('[name="bairro-perfil-edit"]', 'nomeCompleto');
-    aplicarMascara('[name="rua-casa-perfil-edit"]', 'nomeCompleto');
-    aplicarMascara('[name="n-casa-perfil-edit"]', 'numeroCasa');
+	aplicarMascara('.mask-nome', 'nomeCompleto');
+	aplicarMascara('.mask-email', 'email');
+    aplicarMascara('.mask-email', 'email');
+	aplicarMascara('.mask-bairro', 'nomeCompleto');
+	aplicarMascara('.mask-rua', 'nomeCompleto');
+	aplicarMascara('.mask-n-casa', 'numeroCasa');
+    aplicarMascara('.mask-codigo-recuperar-senha', 'codigoRecuperacao');
 
     preencherCepEdit('#cep-perfil-edit');
 
@@ -393,7 +394,101 @@ function novoCadastro(config) {
 
 }
 
+function atualizarCadastro(config) {
 
+    const { formSelector, mensagemSucesso, endpoint, divPai } = config;
+
+    $(formSelector).on("submit", function (event) {
+        event.preventDefault();
+
+        $(divPai).addClass('carregando');
+
+        var nome_atualizacao = $('input[name="nome-login-agenda"]').val();
+        var email_atualizacao = $('input[name="email-login-agenda"]').val();
+        var cep_atualizacao = $('input[name="cep-login-agenda"]').val();
+        var cidade_atualizacao = $('select[name="cidade-login-agenda"]').val();
+        var bairro_atualizacao = $('input[name="bairro-login-agenda"]').val();
+        var rua_atualizacao = $('input[name="rua-casa-login-agenda"]').val();
+        var nmr_casa_atualizacao = $('input[name="n-casa-login-agenda"]').val();
+        var foto_perfil = $('input[name="foto-cadastro"]');
+        var arquivo = foto_perfil[0].files[0];
+
+        // Validação da cidade
+        const cidadesPermitidas = ["Itupeva", "Jundiaí"];
+        if (!cidade_atualizacao || cidade_atualizacao === "cidade") {
+            exibirNotificacao('erro', "Por favor, selecione uma cidade.");
+            $(divPai).removeClass('carregando');
+            return;
+        } else if (!cidadesPermitidas.includes(cidade_atualizacao)) {
+            exibirNotificacao('erro', "Atualmente só atendemos em Itupeva e Jundiaí.");
+            $(divPai).removeClass('carregando');
+            return;
+        }
+
+        // Lista de campos obrigatórios
+        const inputsObrigatorios = [
+            { campo: nome_atualizacao, mensagemErro: "Por favor, preencha o campo de nome completo." },
+            { campo: email_atualizacao, mensagemErro: "Por favor, preencha o campo de e-mail." },
+            { campo: cidade_atualizacao, mensagemErro: "Por favor, selecione uma cidade." },
+            { campo: bairro_atualizacao, mensagemErro: "Por favor, preencha o campo de bairro." },
+            { campo: rua_atualizacao, mensagemErro: "Por favor, preencha o campo de rua." },
+            { campo: nmr_casa_atualizacao, mensagemErro: "Por favor, preencha o campo de número da casa." },
+        ];
+
+        // Valida todos os campos obrigatórios
+        const validacaoCampos = validarCampos(inputsObrigatorios);
+        if (!validacaoCampos) {
+            $(divPai).removeClass('carregando');
+            return;
+        }
+
+        const formData = new FormData($(formSelector)[0]);
+
+        formData.append('nome_atualizacao', nome_atualizacao);
+        formData.append('email_atualizacao', email_atualizacao);
+        formData.append('cep_atualizacao', cep_atualizacao);
+        formData.append('cidade_atualizacao', cidade_atualizacao);
+        formData.append('bairro_atualizacao', bairro_atualizacao);
+        formData.append('rua_atualizacao', rua_atualizacao);
+        formData.append('nmr_casa_atualizacao', nmr_casa_atualizacao);
+
+        if (arquivo) {
+            formData.append('foto_cadastro', arquivo);
+            console.log("Foto adicionada:", arquivo);
+        } else {
+            formData.append('foto_cadastro', null);
+            console.log("Nenhuma foto foi adicionada.");
+        }
+
+        formData.append('formulario', 'atualizacao_cliente');
+
+        // Envia o formulário via AJAX
+        $.ajax({
+            url: endpoint,
+            method: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            dataType: 'json',
+            success: function (response) {
+                if (response.sucesso) {
+                    exibirNotificacao('sucesso', response.mensagem);
+                    trocarBox('.editar-perfil', '.perfil-atualizado', 400); // Exemplo de navegação
+                } else {
+                    exibirNotificacao('erro', response.mensagem);
+                }
+            },
+            error: function () {
+                exibirNotificacao('erro', 'Erro ao enviar o formulário. Tente novamente.');
+            },
+            complete: function () {
+                $(divPai).removeClass('carregando');
+            }
+        });
+    });
+
+
+}
 
 function validarCampos(inputs) {
     let todosValidos = true;

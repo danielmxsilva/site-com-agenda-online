@@ -24,8 +24,40 @@ li{list-style:none}
 
 /**FINAL RESET PARTICULAS**/
 
-.carregando{
-	opacity: 0.5;
+.carregando {
+    position: relative;
+}
+
+.carregando::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.7); /* Fundo branco semi-transparente */
+    backdrop-filter: blur(4px); /* Efeito de desfoque */
+    z-index: 10;
+}
+
+.carregando::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    border: 4px solid #ff69b4; /* Cor rosa, pode ajustar */
+    border-top: 4px solid transparent;
+    border-radius: 50%;
+    animation: girar 0.8s linear infinite;
+    transform: translate(-50%, -50%);
+    z-index: 11;
+}
+
+@keyframes girar {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
  #preloader {
