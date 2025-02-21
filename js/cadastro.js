@@ -12,16 +12,16 @@ $(document).ready(function(){
       formSelector: '.form-informacoes-cliente',
       mensagemSucesso: 'Cadastro concluido com sucesso!',
       endpoint: 'ajax/validacao-form.php',
-      divPai: '.login-agenda',
+      divPai: '.js-box-modal-load',
     });
-
+/*
     atualizarCadastro({
-        formSelector: '#form-atualizacao',
+        formSelector: '.js-form-editar-perfil',
         mensagemSucesso: 'Cadastro atualizado com sucesso!',
         endpoint: 'ajax/validacao-form.php',
-        divPai: '.box-atualizacao'
+        divPai: '.js-form-editar-perfil'
     });
-
+*/
 
     //recuperarSenha();
 
@@ -39,10 +39,6 @@ $(document).ready(function(){
 
     const cepInput = $("#cep-login-agenda");
     const cepInputEdit = $("#cep-perfil-edit");
-
-    const maskTelefonePerfilEdit = $('#telefone-perfil-edit');
-
-    aplicarMascaraTelefone(maskTelefonePerfilEdit);
 
     maskCep(cepInput);
 
@@ -129,7 +125,8 @@ function fotoValidacaoCadastro(input,classPai,fileName,imgFoto){
 
 
 function preencherCep(cep){
-	 $(cep).on('blur', function () {
+
+	 $(cep).on('input', function () {
         const cep = $(this).val().replace(/\D/g, '');
 
         if (cep.length === 8) {
@@ -141,11 +138,11 @@ function preencherCep(cep){
                 dataType: 'json',
                 beforeSend: function () {
                     // Limpa os campos antes da consulta
-                    $('.login-agenda').addClass('carregando');
+                    $('.js-box-modal-load').addClass('carregando');
                     $('#rua-casa-login-agenda, #bairro-login-agenda').val('');
                 },
                 success: function (response) {
-                	$('.login-agenda').removeClass('carregando');
+                	$('.js-box-modal-load').removeClass('carregando');
                     if (response.erro) {
                         exibirNotificacao('erro', 'CEP não encontrado!');
                     } else {
@@ -159,18 +156,27 @@ function preencherCep(cep){
                     }
                 },
                 error: function () {
-                    $('.login-agenda').removeClass('carregando');
+                    $('.js-box-modal-load').removeClass('carregando');
                     exibirNotificacao('erro', 'Erro ao consultar o CEP. Tente novamente.');
                 }
             });
-        } else {
-        	exibirNotificacao('erro', 'Por favor, insira um CEP válido.');
+        } 
+    });
+
+
+     // Validação ao perder o foco (caso o usuário saia sem digitar os 8 números)
+    $(cep).on('blur', function () {
+        let cepValor = $(this).val().replace(/\D/g, '');
+        if (cepValor.length < 8 && cepValor.length > 0) {
+            exibirNotificacao('erro', 'Por favor, insira um CEP válido.');
         }
     });
+
+
 }
 
 function preencherCepEdit(cep){
-     $(cep).on('blur', function () {
+     $(cep).on('input', function () {
         const cep = $(this).val().replace(/\D/g, '');
 
         if (cep.length === 8) {
@@ -182,11 +188,11 @@ function preencherCepEdit(cep){
                 dataType: 'json',
                 beforeSend: function () {
                     // Limpa os campos antes da consulta
-                    $('.js-form-editar-perfil').addClass('carregando');
+                    toggleClass('.js-box-modal-load', 'carregando', true);
                     $('#rua-casa-perfil-edit, #bairro-perfil-edit, #n-casa-perfil-edit').val('');
                 },
                 success: function (response) {
-                    $('.js-form-editar-perfil').removeClass('carregando');
+                    toggleClass('.js-box-modal-load', 'carregando', false);
                     if (response.erro) {
                         exibirNotificacao('erro', 'CEP não encontrado!');
                     } else {
@@ -200,7 +206,7 @@ function preencherCepEdit(cep){
                     }
                 },
                 error: function () {
-                    $('.js-form-editar-perfil').removeClass('carregando');
+                    toggleClass('.js-box-modal-load', 'carregando', false);
                     exibirNotificacao('erro', 'Erro ao consultar o CEP. Tente novamente.');
                 }
             });
@@ -229,7 +235,8 @@ function novoCadastro(config) {
             return;
         }
 
-        $(divPai).addClass('carregando');
+        //$(divPai).addClass('carregando');
+        toggleClass(divPai, 'carregando', true);
 
     	var senha_cadastro = $('input[name="senha-cadastro-agenda"]').val();
         var senha_cadastro_confirmar = $('input[name="senha-cadastro-agenda-confirmacao"]').val();
@@ -266,11 +273,11 @@ function novoCadastro(config) {
 
         if (cidade === "cidade" || cidade === null || cidade === " "){
             exibirNotificacao('erro', "Por favor, selecione uma cidade."); // Mensagem de erro caso a opção padrão seja selecionada
-            $(divPai).removeClass('carregando');
+            toggleClass(divPai, 'carregando', false);
             return; // Impede o envio do formulário
         } else if (!cidadesPermitidas.includes(cidade)) {
             exibirNotificacao('erro', "Atualmente só atendemos em Itupeva e Jundiai!."); // Mostra o aviso
-            $(divPai).removeClass('carregando');
+            toggleClass(divPai, 'carregando', false);
             return; // Impede o envio do formulário
         } else {
 		    console.log("Cidade válida: " + cidade); // Exibe uma mensagem de sucesso no console
@@ -286,35 +293,35 @@ function novoCadastro(config) {
 	    // Valida todos os inputs obrigatórios
 	    const validacaoCampos = validarCampos(inputsObrigatorios);
 	    if (!validacaoCampos) {
-	        $(divPai).removeClass('carregando'); // Remove a classe se a validação falhar
+	        toggleClass(divPai, 'carregando', false); // Remove a classe se a validação falhar
 	        return;
 	    }
         
         // 1. Validar se as senhas coincidem (PRIMEIRA ETAPA)
         if (senha_cadastro !== senha_cadastro_confirmar)  {
             exibirNotificacao('erro', "As senhas não coincidem.");
-            $(divPai).removeClass('carregando');
+            toggleClass(divPai, 'carregando', false);
             return; // Para a validação se as senhas não coincidem
         }
 
         const errosSenha = validarSenha(senha_cadastro, senha_cadastro_confirmar);
         if (errosSenha.length > 0) {
             exibirNotificacao('erro', errosSenha.join("<br>"));
-            $(divPai).removeClass('carregando');
+            toggleClass(divPai, 'carregando', false);
             return;
         }
 
         // 2. Validar sequências (SEGUNDA ETAPA - SÓ EXECUTA SE PASSOU NA ETAPA 1)
         if (contemSequencia(senha_cadastro)) {
             exibirNotificacao('erro', "A senha não pode conter sequências!");
-            $(divPai).removeClass('carregando');
+            toggleClass(divPai, 'carregando', false);
             return; // Para a validação se encontrar sequências
         }
 
         // 3. Validar senhas óbvias (TERCEIRA ETAPA - SÓ EXECUTA SE PASSOU NAS ETAPAS ANTERIORES)
         if (senhaEhObvia(senha_cadastro)) {
             exibirNotificacao('erro', "A senha é muito óbvia!");
-            $(divPai).removeClass('carregando');
+            toggleClass(divPai, 'carregando', false);
             return; // Para a validação se a senha for óbvia
         }
 
@@ -393,7 +400,7 @@ function novoCadastro(config) {
     })
 
 }
-
+/*
 function atualizarCadastro(config) {
 
     const { formSelector, mensagemSucesso, endpoint, divPai } = config;
@@ -489,7 +496,7 @@ function atualizarCadastro(config) {
 
 
 }
-
+*/
 function validarCampos(inputs) {
     let todosValidos = true;
 

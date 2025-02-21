@@ -10,7 +10,7 @@ $(document).ready(function(){
       mensagemSucesso: 'Cadastro encontrado! entre com sua senha para prosseguir',
       mensagemErro: 'Cadastro NÃO encontrado! Preencha todos os campos obrigatórios para criar um cadastro',
       endpoint: 'ajax/validacao-form.php',
-      divPai: '.login-agenda'
+      divPai: '.js-box-modal-load'
   });
 
   validarFormularioSenha({
@@ -20,7 +20,7 @@ $(document).ready(function(){
      mensagemSucesso: 'Login efetuado com Sucesso!',
      mensagemErro: 'Senha Incorreta, por favor tente novamente ou recupere sua senha.',
      endpointSenha: 'ajax/validacao-form.php',
-     divPai: '.login-agenda'
+     divPai: '.js-box-modal-load'
   });
 
   $('.btn-esqueci-senha').click(function(e){
@@ -51,7 +51,7 @@ function recuperarSenha(){
         }
 
         submitButton.val('Enviando...').prop('disabled', true);
-        $('.login-agenda').addClass('carregando');
+         toggleClass('.js-box-modal-load', 'carregando', true);
 
         $.ajax({
             url: 'ajax/validacao-form.php',
@@ -64,7 +64,7 @@ function recuperarSenha(){
             },
             success: function (response) {
                 submitButton.val('Enviar Codigo').prop('disabled', false);
-                $('.login-agenda').removeClass('carregando');
+                 toggleClass('.js-box-modal-load', 'carregando', false);
                 console.log("Resposta recebida:", response);
                 if (response && response.emailEncontrado) {
                     exibirNotificacao('sucesso', response.mensagem);
@@ -76,7 +76,7 @@ function recuperarSenha(){
             },
             error: function (xhr, status, error) {
                 submitButton.val('Enviar Codigo').prop('disabled', false);
-                $('.login-agenda').removeClass('carregando');
+                 toggleClass('.js-box-modal-load', 'carregando', false);
                 exibirNotificacao('erro','Erro ao enviar o e-mail. Tente novamente.');
                 console.log("Resposta do servidor:", xhr.responseText);
                 console.error("Erro na requisição:", status, error);
@@ -116,8 +116,8 @@ function recuperarSenha(){
     // Atualizar nova senha
     $('.form-recup-senha-nova-senha-js').on("submit", function (event) {
         event.preventDefault();
-
-        const divPai = $('.form-recuperar-senha-nova-senha-js');
+ 
+        const divPai = $('.js-box-modal-load');
         const senhaNova = $('#senha-recup-agenda').val();
         const senhaConfirmacao = $('#senha-recup-agenda-confirmacao').val();
         const email = $('#email-recuperar-senha').val(); // Pega o e-mail original do input inicial
@@ -135,21 +135,21 @@ function recuperarSenha(){
         const errosNovaSenha = validarSenha(senhaNova, senhaConfirmacao);
         if (errosNovaSenha.length > 0) {
             exibirNotificacao('erro', errosNovaSenha.join("<br>"));
-            $(divPai).removeClass('carregando');
+            toggleClass(divPai, 'carregando', false);
             return;
         }
 
         // 2. Validar sequências (SEGUNDA ETAPA - SÓ EXECUTA SE PASSOU NA ETAPA 1)
         if (contemSequencia(senhaNova)) {
             exibirNotificacao('erro', "A senha não pode conter sequências!");
-            $(divPai).removeClass('carregando');
+            toggleClass(divPai, 'carregando', false);
             return; // Para a validação se encontrar sequências
         }
 
         // 3. Validar senhas óbvias (TERCEIRA ETAPA - SÓ EXECUTA SE PASSOU NAS ETAPAS ANTERIORES)
         if (senhaEhObvia(senhaNova)) {
             exibirNotificacao('erro', "A senha é muito óbvia!");
-            $(divPai).removeClass('carregando');
+            toggleClass(divPai, 'carregando', false);
             return; // Para a validação se a senha for óbvia
         }
 
@@ -235,7 +235,7 @@ function validarEConsultarFormulario(config) {
                     data: { telefone: phoneInput },
                     beforeSend: function () {
                         // Adiciona a classe 'carregando' antes de iniciar a requisição
-                        $(divPai).addClass('carregando');
+                        toggleClass(divPai, 'carregando', true);
                     },
                     success: function (response) {
                         // Oculta o botão de submit
@@ -286,7 +286,7 @@ function validarEConsultarFormulario(config) {
 
                     complete: function () {
                         // Remove a classe 'carregando' após o término da requisição (sucesso ou erro)
-                        $(divPai).removeClass('carregando');
+                        toggleClass(divPai, 'carregando', false);
                     }
                     
                 });
@@ -488,8 +488,8 @@ function validarFormularioSenha(config) {
             beforeSend: function () {
 
                 //$(divPai).css('opacity', '0.5'); // Define opacidade para indicar carregamento
-                $(divPai).addClass('carregando'); // Classe para desativar interações, se necessário
-            
+                 // Classe para desativar interações, se necessário
+                toggleClass('.js-box-modal-load', 'carregando', true);
             },
             success: function (response) {
                 $(divPai).removeClass('carregando');
@@ -552,12 +552,12 @@ function validarFormularioSenha(config) {
                     // Redirecionar ou executar ação adicional
                 } else {
                     //alert("Senha invalida!");
-                    $(divPai).removeClass('carregando'); 
+                    toggleClass('.js-box-modal-load', 'carregando', false);
                     exibirNotificacao('erro', 'Senha incorreta!');
                 }
             },
             error: function () {
-                $(divPai).removeClass('carregando');
+                toggleClass('.js-box-modal-load', 'carregando', false);
                 $(".js-sucess-modal-agenda-servicos").stop(true, true).fadeOut(0);
 
                 // Exibe mensagem de erro genérica

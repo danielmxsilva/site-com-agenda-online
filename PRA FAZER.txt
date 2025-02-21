@@ -11,12 +11,15 @@
 /*-Ao sair do login precisa limpar todos os inputs e seleções salvas no localStorage*/
 /*-Ao voltar pelo botão seleção de serviços, caso o cliente não tenha clicado em lembrar-login, deverá pular a sessão de login novamente - Adicionado cookie ao realizar login*/
 /*-Remover a lixeira do resumo total devido aos horarios selecionados*/
+/*-Adicionar o input telefone para ficar disponivel para o cliente editar o nmr*/
 
--Adicionar o input telefone para ficar disponivel para o cliente editar o nmr
+-Corrigir recuperação de senha, email so pode ser o do usuario.
+
+
 -Fazer formulario de atualização de dados do usuario
 
 -Corrigir a atualização da foto do usuario 
--Limpar os inputs do formulario de login ao acessar.
+-Limpar os inputs do formulario de login ao acessar. 
 -Ajustar seleção de horarios do serviço,para se possível se selecionar 1 horario preencher todos os outros automaticamente.
 -Validar se sobra valor do credito para atualizar no bd
 

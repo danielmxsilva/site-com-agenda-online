@@ -82,14 +82,17 @@ function pegarDados(dados, endereco){
 
 		    // Selecionar a cidade no dropdown
 		    if ($('#cidade-perfil-edit option[value="' + endereco.cidade + '"]').length > 0) {
-		        $('#cidade-perfil-edit').val(endereco.cidade);
-		        $('.local-cidade').text(endereco.cidade);
-		        console.log("Cidade encontrada no dropdown:", endereco.cidade);
-		    } else {
-		        // Adicionar a cidade como nova opção, caso não exista
-		        $('#cidade-perfil-edit').append(new Option(endereco.cidade, endereco.cidade)).val(endereco.cidade);
-		        console.log("Cidade não encontrada. Adicionada nova cidade:", endereco.cidade);
-		    }
+                $('#cidade-perfil-edit').val(endereco.cidade).trigger('change');
+                $('.local-cidade').text(endereco.cidade);
+                console.log("Cidade encontrada no dropdown:", endereco.cidade);
+            } else {
+                // Adiciona a cidade como nova opção e seleciona
+                $('#cidade-perfil-edit')
+                    .append(new Option(endereco.cidade, endereco.cidade))
+                    .val(endereco.cidade)
+                    .trigger('change'); // <-- Garante que o `<select>` reconheça a mudança
+                console.log("Cidade não encontrada. Adicionada nova cidade:", endereco.cidade);
+            }
 
 		    // Atualizar o campo do bairro
 		    $('#bairro-perfil-edit').val(endereco.bairro);
@@ -110,9 +113,17 @@ function pegarDados(dados, endereco){
 
 		    $('#id-perfil-edit').val(dados.id);
 
+            setTimeout(function() {
+                atualizarDadosUsuario();
+            }, 1000);
+
 }
 
 function atualizarDadosUsuario(){
+
+    const maskTelefonePerfilEdit = $('#telefone-perfil-edit');
+
+    aplicarMascaraTelefone(maskTelefonePerfilEdit);
 
 	fotoValidacaoEdit('.foto-edit-cadastro'
         ,'.image-preview-edit'
@@ -120,12 +131,12 @@ function atualizarDadosUsuario(){
         ,'.preview-foto-edit'
   );
 
-	editCadastro({
-      formSelector: '.js-form-editar-perfil',
-      mensagemSucesso: 'Atualização de Cadastro Realizado!',
-      endpoint: 'ajax/validacao-form.php',
-      divPai: '.box-editar-dados',
-  });
+	atualizarCadastro({
+        formSelector: '.js-form-editar-perfil',
+        mensagemSucesso: 'Cadastro atualizado com sucesso!',
+        endpoint: 'ajax/validacao-form.php',
+        divPai: '.js-form-editar-perfil'
+    });
 
 
 	function fotoValidacaoEdit(input,classPai,fileName,imgFoto){
@@ -179,146 +190,104 @@ function atualizarDadosUsuario(){
 
 	}
 
-	function editCadastro(config) {
+	function atualizarCadastro(config) {
 
-    const { formSelector, mensagemSucesso, endpoint, divPai} = config;
+    const { formSelector, mensagemSucesso, endpoint, divPai } = config;
 
     $(formSelector).on("submit", function (event) {
-
         event.preventDefault();
 
         $(divPai).addClass('carregando');
 
-      
-      	var id_perfil_edit = $('input[name="id-perfil-edit"]').val();
-        var nome_cadastro = $('input[name="nome-perfil-edit"]').val();
-        var email_cadastro = $('input[name="email-perfil-edit"]').val();
-        var cep_cadastro = $('input[name="cep-perfil-edit"]').val();
-        var cidade_cadastro = $('select[name="cidade-perfil-edit"]').val();
-        var bairro_cadastro = $('input[name="bairro-perfil-edit"]').val();
-        var rua_cadastro = $('input[name="rua-casa-perfil-edit"]').val();
-        var nmr_casa_cadastro = $('input[name="n-casa-perfil-edit"]').val();
-
-        var foto_perfil = $('input[name="foto-edit-cadastro"]');
+        var nome_atualizacao = $('input[name="nome-perfil-edit"]').val();
+        var telefone_atualizacao = $('input[name="telefone-perfil-edit"]').val();
+        var email_atualizacao = $('input[name="email-perfil-edit"]').val();
+        var cep_atualizacao = $('input[name="cep-perfil-edit"]').val();
+        var cidade_atualizacao = $('select[name="cidade-perfil-edit"]').val();
+        var bairro_atualizacao = $('input[name="bairro-perfil-edit"]').val();
+        var rua_atualizacao = $('input[name="rua-casa-perfil-edit"]').val();
+        var nmr_casa_atualizacao = $('input[name="n-casa-perfil-edit"]').val();
+        var foto_perfil = $('input[name="foto-cadastro"]');
         var arquivo = foto_perfil[0].files[0];
 
-        
+        console.log("Cidade no momento do envio:", cidade_atualizacao);
 
-        const cidade = $('#cidade-login-agenda').val(); // Obtém o valor selecionado
+        // Validação da cidade
         const cidadesPermitidas = ["Itupeva", "Jundiaí"];
-
-        console.log("Valor selecionado de cidade:", cidade);
-        console.log("Cidades permitidas:", cidadesPermitidas);
-
-        // Lista de inputs para validar (você pode adicionar mais aqui)
-        const inputsObrigatorios = [
-            { campo: nome_cadastro, mensagemErro: "Por favor, preencha o campo de nome completo." },
-            { campo: email_cadastro, mensagemErro: "Por favor, preencha o campo de e-mail." },
-            { campo: cidade_cadastro, mensagemErro: "Por favor, selecione uma cidade." },
-            { campo: bairro_cadastro, mensagemErro: "Por favor, preencha o campo de bairro." },
-            { campo: rua_cadastro, mensagemErro: "Por favor, preencha o campo de rua." },
-            { campo: nmr_casa_cadastro, mensagemErro: "Por favor, preencha o campo de número da casa." },
-        ];
-
-        if (cidade === "cidade" || cidade === null || cidade === " "){
-            exibirNotificacao('erro', "Por favor, selecione uma cidade."); // Mensagem de erro caso a opção padrão seja selecionada
+        if (!cidade_atualizacao || cidade_atualizacao === "cidade") {
+            exibirNotificacao('erro', "Por favor, selecione uma cidade.");
             $(divPai).removeClass('carregando');
-            return; // Impede o envio do formulário
-        } else if (!cidadesPermitidas.includes(cidade)) {
-            exibirNotificacao('erro', "Atualmente só atendemos em Itupeva e Jundiai!."); // Mostra o aviso
+            return;
+        } else if (!cidadesPermitidas.includes(cidade_atualizacao)) {
+            exibirNotificacao('erro', "Atualmente só atendemos em Itupeva e Jundiaí.");
             $(divPai).removeClass('carregando');
-            return; // Impede o envio do formulário
-        } else {
-            console.log("Cidade válida: " + cidade); // Exibe uma mensagem de sucesso no console
-        }
-
-        /*
-
-        PAREI FAZENDO A VALIDAÇÃO DA RECUPERAÇÃO DO SELECT BOX PARA PREENCHER AUTOMATICAMENTE
-
-
-        */
-
-        // Valida todos os inputs obrigatórios
-        const validacaoCampos = validarCampos(inputsObrigatorios);
-        if (!validacaoCampos) {
-            $(divPai).removeClass('carregando'); // Remove a classe se a validação falhar
             return;
         }
-        
 
-        // Verifica se o valor da cidade é válido
-        if (!cidade_cadastro || cidade_cadastro === "cidade") {
-            exibirNotificacao('erro', 'Por favor, selecione uma cidade.');
-            return; // Impede o envio do formulário
+        // Lista de campos obrigatórios
+        const inputsObrigatorios = [
+            { campo: nome_atualizacao, mensagemErro: "Por favor, preencha o campo de nome completo." },
+            { campo: email_atualizacao, mensagemErro: "Por favor, preencha o campo de e-mail." },
+            { campo: cidade_atualizacao, mensagemErro: "Por favor, selecione uma cidade." },
+            { campo: bairro_atualizacao, mensagemErro: "Por favor, preencha o campo de bairro." },
+            { campo: rua_atualizacao, mensagemErro: "Por favor, preencha o campo de rua." },
+            { campo: nmr_casa_atualizacao, mensagemErro: "Por favor, preencha o campo de número da casa." },
+        ];
+
+        // Valida todos os campos obrigatórios
+        const validacaoCampos = validarCampos(inputsObrigatorios);
+        if (!validacaoCampos) {
+            $(divPai).removeClass('carregando');
+            return;
         }
 
         const formData = new FormData($(formSelector)[0]);
 
-        formData.append('telefone_cadastro', telefoneCadastroValor);
-        formData.append('nome_cadastro', nome_cadastro);
-        formData.append('email_cadastro', email_cadastro);
-        formData.append('cep_cadastro', cep_cadastro);
-        formData.append('cidade_cadastro', cidade_cadastro);
-        formData.append('bairro_cadastro', bairro_cadastro);
-        formData.append('rua_cadastro', rua_cadastro);
-        formData.append('nmr_casa_cadastro', nmr_casa_cadastro);
-
+        formData.append('nome_atualizacao', nome_atualizacao);
+        formData.append('email_atualizacao', email_atualizacao);
+        formData.append('cep_atualizacao', cep_atualizacao);
+        formData.append('cidade_atualizacao', cidade_atualizacao);
+        formData.append('bairro_atualizacao', bairro_atualizacao);
+        formData.append('rua_atualizacao', rua_atualizacao);
+        formData.append('nmr_casa_atualizacao', nmr_casa_atualizacao);
 
         if (arquivo) {
-            // Caso tenha uma foto
-            formData.append('foto_cadastro', arquivo); // Adiciona o arquivo ao FormData
+            formData.append('foto_cadastro', arquivo);
             console.log("Foto adicionada:", arquivo);
         } else {
-            // Caso não tenha uma foto
-            formData.append('foto_cadastro', null); // Adiciona um valor nulo para indicar ausência de foto
+            formData.append('foto_cadastro', null);
             console.log("Nenhuma foto foi adicionada.");
         }
 
-        // Adiciona um identificador para o backend saber que tipo de formulário está enviando
-        formData.append('formulario', 'cadastro_cliente');
+        formData.append('formulario', 'atualizacao_cliente');
 
-        // Imprime os valores do formData no console
-    
-        // Envia o POST via AJAX
-        
+        // Envia o formulário via AJAX
         $.ajax({
-            url: 'ajax/validacao-form.php',
+            url: endpoint,
             method: 'POST',
             data: formData,
-            contentType: false, // Necessário para enviar arquivos
-            processData: false, // Necessário para enviar arquivos
+            contentType: false,
+            processData: false,
             dataType: 'json',
             success: function (response) {
                 if (response.sucesso) {
-                    const dados = response.dados;
-                    const endereco = response.endereco || null;
-                    const token = response.token;
-                    setCookie('token', token, 365);
-                    //localStorage.setItem('token', token);
-                    pegarDados(dados, endereco);
-                    
                     exibirNotificacao('sucesso', response.mensagem);
-                    trocarBox('.login-agenda', '.js-box-pagamento-agenda', 400); // Exemplo de navegação
-                    consultarCupom();
+                    trocarBox('.editar-perfil', '.perfil-atualizado', 400); // Exemplo de navegação
                 } else {
                     exibirNotificacao('erro', response.mensagem);
                 }
-                //$(divPai).removeClass('carregando');
             },
             error: function () {
                 exibirNotificacao('erro', 'Erro ao enviar o formulário. Tente novamente.');
-                $(divPai).removeClass('carregando');
             },
             complete: function () {
-                $(divPai).removeClass('carregando'); // Remove a classe carregando ao finalizar
+                $(divPai).removeClass('carregando');
             }
         });
+    });
 
-        
 
-    })
+}
 
-	}
 
 }

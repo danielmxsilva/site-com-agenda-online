@@ -1399,6 +1399,14 @@ function limparInputsFormulario(formulario) {
     $(formulario).find('input[type="text"]').val('');
 }
 
+function toggleClass(elemento, classe, adicionar) {
+    if (adicionar) {
+        $(elemento).addClass(classe);
+    } else {
+        $(elemento).removeClass(classe);
+    }
+}
+
 function ClickbtnAvancarAgendamento(){
     /*
     <div class="sucess js-sucess-modal-agenda-servicos">
@@ -1412,13 +1420,14 @@ function ClickbtnAvancarAgendamento(){
 
     $('.btn-avancar').click(function(){
 
-        $('.js-modal-agenda-servicos').css('opacity','0.3');
+        $('.js-box-modal-load').addClass('carregando');
 
         const existeDados = localStorage.getItem('servicosSelecionadosAgenda');
 
         if (!existeDados || existeDados === "{}"){
             exibirNotificacao('erro', 'Você precisa selecionar algum serviço para prosseguir!');
-            $('.js-modal-agenda-servicos').css('opacity','1');
+            //$('.js-box-modal-load').removeClass('carregando');
+            $('.js-box-modal-load').removeClass('carregando');
             return;
         }
 
@@ -1433,14 +1442,14 @@ function ClickbtnAvancarAgendamento(){
                 exibirNotificacao('erro', mensagemErro)
                 
                 // Restaura a opacidade
-                $('.js-modal-agenda-servicos').css('opacity', '1');
+                $('.js-box-modal-load').removeClass('carregando');
 
                 // Oculta a mensagem de erro após 5 segundos
             
 
             } else {
 
-                $('.js-modal-agenda-servicos').css('opacity', '1');
+                $('.js-box-modal-load').removeClass('carregando');
                 // Validação passou, verifica o token no cookie
 
                 let token = localStorage.getItem('token') || getCookie('token');
@@ -1452,11 +1461,11 @@ function ClickbtnAvancarAgendamento(){
                         method: 'POST',
                         data: { token: token },
                         beforeSend: function(){
-                            $('.js-modal-agenda-servicos').addClass('carregando');
+                            $('.js-box-modal-load').addClass('carregando');
                         },
                         success: function(response) {
                         
-                            $('.js-modal-agenda-servicos').removeClass('carregando');
+                            $('.js-box-modal-load').removeClass('carregando');
                             if (response.tokenValido) {
                                 // Token válido, recupera os dados do usuário e troca a box
                                 // Aqui você deve usar response.dados para preencher as informações na próxima box

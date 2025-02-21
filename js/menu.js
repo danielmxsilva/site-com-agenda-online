@@ -91,8 +91,6 @@ $(document).ready(function(){
 
 	$('.perfil-cliente').click(function (e) {
 		e.stopPropagation();
-
-		atualizarDadosUsuario();
 		
 	    const isBoxOpen = $('.box-perfil-slide').is(':visible'); // Verifica se está visível
 

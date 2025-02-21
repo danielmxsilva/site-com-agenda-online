@@ -30,7 +30,7 @@ async function verificarSeTemCredito(){
                     const valorCredito = parseFloat(localStorage.getItem('creditoDisponivel')) || 0;
 
                     // Calcula o total descontado
-                    const totalDescontado = Math.max(resumoTotal - valorCredito, 0);
+                    const totalDescontado = Math.max(resumoTotal - valorCrehomedito, 0);
 
                     // Calcula o saldo restante do crédito (caso tenha sobrado após o desconto)
                     const saldoRestanteCredito = parseFloat((Math.max(valorCredito - resumoTotal, 0)).toFixed(2));

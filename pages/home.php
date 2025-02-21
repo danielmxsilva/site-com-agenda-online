@@ -2283,7 +2283,7 @@
 
 	<div class="box-modal" style="display: none;">
 
-		<div class="box-modal-wraper fundo-box">
+		<div class="box-modal-wraper fundo-box js-box-modal-load">
 
 			<div class="close-btn"><i class="fa-solid fa-square-xmark"></i></div><!--close-btn-->
 
@@ -5325,7 +5325,7 @@ HTML;
 
 			      <div class="wraper-form-single" style="position:static;">
 			      	<input type="hidden" id="id-perfil-edit" name="id-perfil-edit" value="">
-			        <input type="submit" disabled value="Editar Cadastro" class="acao-editar-cadastro">
+			        <input type="submit" value="Editar Cadastro" class="acao-editar-cadastro">
 			      </div>
 
 			    </fieldset>

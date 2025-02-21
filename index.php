@@ -80,12 +80,12 @@ src="https://www.facebook.com/tr?id=963368409173053&ev=PageView&noscript=1"
 
 
 
-<!--
+
 <div id="preloader">
     <div class="spinner"></div>
     <div id="preloader-text">Carregando agora</div>
 </div>
--->
+
 
 <body>
 
@@ -112,6 +112,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </script>
 
 <script src="<?php echo INCLUDE_PATH;?>js/jquery.js"></script>
+<script src="<?php echo INCLUDE_PATH;?>js/preloader.js"></script>
 <script src="<?php echo INCLUDE_PATH;?>js/jquery.ajaxform.js"></script>
 <script src="<?php echo INCLUDE_PATH;?>js/form-agenda.js"></script>
 <script src="https://kit.fontawesome.com/86e9924e5d.js" crossorigin="anonymous"></script>
@@ -123,12 +124,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!--<script src="<?php //echo INCLUDE_PATH;?>js/validacao-form.js"></script>-->
 <script src="<?php echo INCLUDE_PATH;?>js/box-model.js"></script>
 <script src="<?php echo INCLUDE_PATH;?>js/identificacao.js"></script>
-<script src="<?php echo INCLUDE_PATH;?>js/cadastro.js"></script>
 <script src="<?php echo INCLUDE_PATH;?>js/resumo-servicos.js"></script>
 <script src="<?php echo INCLUDE_PATH;?>js/usuario.js"></script>
 <script src="<?php echo INCLUDE_PATH;?>js/consultar.js"></script>
 <script src="<?php echo INCLUDE_PATH;?>js/cupom.js"></script>
 <script src="<?php echo INCLUDE_PATH;?>js/credito.js"></script>
+<script src="<?php echo INCLUDE_PATH;?>js/cadastro.js"></script>
 <!-- scripts particulas -->
 <!--
 <script src="<?php //echo INCLUDE_PATH;?>js/particles.js"></script>
