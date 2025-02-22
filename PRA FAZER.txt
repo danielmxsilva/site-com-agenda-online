@@ -12,15 +12,16 @@
 /*-Ao voltar pelo botão seleção de serviços, caso o cliente não tenha clicado em lembrar-login, deverá pular a sessão de login novamente - Adicionado cookie ao realizar login*/
 /*-Remover a lixeira do resumo total devido aos horarios selecionados*/
 /*-Adicionar o input telefone para ficar disponivel para o cliente editar o nmr*/
+/*-Corrigir recuperação de senha, email so pode ser o do usuario. = verificado, está em ordem envia o email para o email cadastrado e depois faz login com a nova senha*/
 
--Corrigir recuperação de senha, email so pode ser o do usuario.
-
+-Adicionar o campo CPF para nota fiscal paulista
 
 -Fazer formulario de atualização de dados do usuario
 
 -Corrigir a atualização da foto do usuario 
 -Limpar os inputs do formulario de login ao acessar. 
 -Ajustar seleção de horarios do serviço,para se possível se selecionar 1 horario preencher todos os outros automaticamente.
+-Ajustar o box select serviços para ser em partes, primeiro escolhe a quantidade de clientes e então surge os serviços, depois os horarios
 -Validar se sobra valor do credito para atualizar no bd
 
 -Verificar os dados quando tem cookie do login salvo

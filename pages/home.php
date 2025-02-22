@@ -4502,7 +4502,7 @@ HTML;
 				</form><!--form-login-agenda-->
 			</div><!--form-telefone-login-->
 
-			 <form class="form-informacoes-cliente">
+			 <form class="form-informacoes-cliente form-cadastro-cliente">
 			 	<div class="wraper-h" style="margin: 10px 0 40px 0;">
 					<h3 class="titulo-h">Seu <span class="rosa-span">Cadastro</span></h3>
 					<span class="line-h"></span>
@@ -4518,12 +4518,17 @@ HTML;
 
 			      <div class="wraper-form-single">
 			        <input type="password" id="senha-cadastro-agenda-confirmacao" name="senha-cadastro-agenda-confirmacao" placeholder=" ">
-			        <label for="senha-cadastro-agenda">Repita sua Senha</label>
+			        <label for="senha-cadastro-agenda-confirmacao">Repita sua Senha</label>
 			      </div>
 
 			      <div class="wraper-form-single">
 			        <input type="text" class="mask-nome" id="nome-login-agenda" name="nome-login-agenda" placeholder=" ">
 			        <label for="nome-login-agenda">Nome Completo</label>
+			      </div>
+
+			      <div class="wraper-form-single">
+			        <input type="text" inputmode="numeric" pattern="^\d{3}.\d{3}.\d{3}-\d{2}$" id="cpf-login-agenda" name="cpf-login-agenda" placeholder=" ">
+			        <label for="cpf-login-agenda">CPF</label>
 			      </div>
 
 			      <div class="wraper-form-single">

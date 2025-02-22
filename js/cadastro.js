@@ -9,7 +9,7 @@ $(document).ready(function(){
         ,'.preview-foto-cadastro');
 
 	novoCadastro({
-      formSelector: '.form-informacoes-cliente',
+      formSelector: '.form-cadastro-cliente',
       mensagemSucesso: 'Cadastro concluido com sucesso!',
       endpoint: 'ajax/validacao-form.php',
       divPai: '.js-box-modal-load',
@@ -40,9 +40,13 @@ $(document).ready(function(){
     const cepInput = $("#cep-login-agenda");
     const cepInputEdit = $("#cep-perfil-edit");
 
+    const cpfInput = $("#cpf-login-agenda");
+
     maskCep(cepInput);
 
     maskCep(cepInputEdit);
+
+    maskCPF(cpfInput);
   
 
     const $checkbox = $('#consentimento-checkbox');
@@ -176,6 +180,44 @@ function preencherCep(cep){
 }
 
 function preencherCepEdit(cep){
+
+    $(cep).on('input', function () {
+        const cep = $(this).val().replace(/\D/g, '');
+
+        if (cep.length === 8) {
+            // Faz a chamada AJAX para buscar os dados do CEP
+            $.ajax({
+                url: 'ajax/consultaCep.php',
+                method: 'POST',
+                data: { cep: cep },
+                dataType: 'json',
+                beforeSend: function () {
+                    // Limpa os campos antes da consulta
+                    $('.js-box-modal-load').addClass('carregando');
+                    $('#rua-casa-perfil-edit, #bairro-perfil-edit, #n-casa-perfil-edit').val('');
+                },
+                success: function (response) {
+                    $('.js-box-modal-load').removeClass('carregando');
+                    if (response.erro) {
+                        exibirNotificacao('erro', 'CEP não encontrado!');
+                    } else {
+                        $('#rua-casa-perfil-edit').val(response.logradouro);
+                        $('#bairro-perfil-edit').val(response.bairro);
+                        // Adiciona a cidade no select dinamicamente
+                        $('#cidade-perfil-edit')
+                            .html(`<option value="${response.localidade}" selected>${response.localidade}</option>`)
+                            .prop('disabled', false);
+                        console.log("cidade do response" + response.localidade);
+                    }
+                },
+                error: function () {
+                    $('.js-box-modal-load').removeClass('carregando');
+                    exibirNotificacao('erro', 'Erro ao consultar o CEP. Tente novamente.');
+                }
+            });
+        } 
+    });
+/*
      $(cep).on('input', function () {
         const cep = $(this).val().replace(/\D/g, '');
 
@@ -214,6 +256,46 @@ function preencherCepEdit(cep){
             exibirNotificacao('erro', 'Por favor, insira um CEP válido.');
         }
     });
+*/
+     // Validação ao perder o foco (caso o usuário saia sem digitar os 8 números)
+    $(cep).on('blur', function () {
+        let cepValor = $(this).val().replace(/\D/g, '');
+        if (cepValor.length < 8 && cepValor.length > 0) {
+            exibirNotificacao('erro', 'Por favor, insira um CEP válido.');
+        }
+    });
+
+}
+
+function validarCPF(cpf) {
+    // Remove caracteres não numéricos
+    cpf = cpf.replace(/\D/g, "");
+
+    // CPF deve ter 11 dígitos
+    if (cpf.length !== 11) return false;
+
+    // Verifica se todos os dígitos são iguais (ex.: 00000000000)
+    if (/^(\d)\1{10}$/.test(cpf)) return false;
+
+    // Cálculo do primeiro dígito verificador
+    let soma = 0;
+    for (let i = 0; i < 9; i++) {
+        soma += parseInt(cpf.charAt(i)) * (10 - i);
+    }
+    let resto = soma % 11;
+    let digito1 = (resto < 2) ? 0 : 11 - resto;
+    if (digito1 !== parseInt(cpf.charAt(9))) return false;
+
+    // Cálculo do segundo dígito verificador
+    soma = 0;
+    for (let i = 0; i < 10; i++) {
+        soma += parseInt(cpf.charAt(i)) * (11 - i);
+    }
+    resto = soma % 11;
+    let digito2 = (resto < 2) ? 0 : 11 - resto;
+    if (digito2 !== parseInt(cpf.charAt(10))) return false;
+
+    return true;
 }
 
 function novoCadastro(config) {
@@ -241,6 +323,7 @@ function novoCadastro(config) {
     	var senha_cadastro = $('input[name="senha-cadastro-agenda"]').val();
         var senha_cadastro_confirmar = $('input[name="senha-cadastro-agenda-confirmacao"]').val();
         var nome_cadastro = $('input[name="nome-login-agenda"]').val();
+        var cpf_cadastro = $('input[name="cpf-login-agenda"]').val();
         var email_cadastro = $('input[name="email-login-agenda"]').val();
         var cep_cadastro = $('input[name="cep-login-agenda"]').val();
         var cidade_cadastro = $('select[name="cidade-login-agenda"]').val();
@@ -268,6 +351,7 @@ function novoCadastro(config) {
 		    { campo: cidade_cadastro, mensagemErro: "Por favor, selecione uma cidade." },
 		    { campo: bairro_cadastro, mensagemErro: "Por favor, preencha o campo de bairro." },
 		    { campo: rua_cadastro, mensagemErro: "Por favor, preencha o campo de rua." },
+            { campo: cpf_cadastro, mensagemErro: "Por favor, preencha o campo CPF." },
 		    { campo: nmr_casa_cadastro, mensagemErro: "Por favor, preencha o campo de número da casa." },
 		];
 
@@ -329,6 +413,12 @@ function novoCadastro(config) {
         if (!cidade_cadastro || cidade_cadastro === "cidade") {
             exibirNotificacao('erro', 'Por favor, selecione uma cidade.');
             return; // Impede o envio do formulário
+        }
+
+        if(!validarCPF(cpf_cadastro)) {
+            exibirNotificacao('erro', 'CPF inválido!.');
+            toggleClass(divPai, 'carregando', false);
+            return;
         }
 
         const formData = new FormData($(formSelector)[0]);
@@ -557,7 +647,28 @@ function maskCep(inputElement) {
     });
 }
 
+function maskCPF(inputElement) {
+    inputElement.on("input", function () {
+        const input = this;
+        let value = input.value.replace(/\D/g, ""); // Remove caracteres não numéricos
+        const cursorPosition = input.selectionStart; // Posição do cursor antes de aplicar a máscara
+        const oldValueLength = input.value.length;
 
+        // Limita o CPF para 11 dígitos
+        value = value.substring(0, 11);
+
+        // Aplica a máscara no formato 000.000.000-00 de forma sequencial
+        value = value.replace(/^(\d{3})(\d)/, "$1.$2");            // Insere o primeiro ponto
+        value = value.replace(/^(\d{3}\.\d{3})(\d)/, "$1.$2");       // Insere o segundo ponto
+        value = value.replace(/^(\d{3}\.\d{3}\.\d{3})(\d)/, "$1-$2");  // Insere o hífen
+
+        input.value = value;
+
+        // Calcula a nova posição do cursor e reposiciona
+        const newCursorPosition = cursorPosition + (input.value.length - oldValueLength);
+        input.setSelectionRange(newCursorPosition, newCursorPosition);
+    });
+}
 
 function aplicarMascara(seletor, tipoMascara) {
 

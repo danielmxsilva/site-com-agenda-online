@@ -115,7 +115,7 @@ function pegarDados(dados, endereco){
 
             setTimeout(function() {
                 atualizarDadosUsuario();
-            }, 1000);
+            }, 2000);
 
 }
 

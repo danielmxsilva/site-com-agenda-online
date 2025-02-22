@@ -766,6 +766,14 @@
         //echo json_encode(['success' => true, 'mensagem' => 'Cadastro realizado com sucesso!']);
         //exit;
 
+    } elseif (isset($_POST['formulario']) && $_POST['formulario'] === 'atualizacao_cliente'){
+
+    	echo json_encode([
+	        'sucesso' => true,
+	        'mensagem' => 'Sucesso!!!!'
+	    ]);
+	    exit;
+
     } else {
 	    echo json_encode(['error' => 'parametros inválidos.']);
 	    exit;
