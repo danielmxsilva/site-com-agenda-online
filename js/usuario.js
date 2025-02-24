@@ -4,7 +4,7 @@ function pegarDados(dados, endereco){
 
 	//cupomValidar();
 
-	console.log("Dados recebidos em pegarDados:", dados);
+   console.log("Dados recebidos em pegarDados:", dados);
    console.log("Endereço recebido em pegarDados:", endereco);
 
    if (!endereco) {
@@ -55,9 +55,16 @@ function pegarDados(dados, endereco){
 
 	carregarHistorico(idCliente);
 
+    //PREENCHENDO OS DADOS DO FORMULARIO EDITAR DADOS DO CLIENTE
+
+    //Limpar os formulario antes de preencher com novos dados
+
+    limparInputsFormulario('.js-form-editar-perfil');
+
 	// Preencher os campos com os dados do cliente
 	  $('#nome-perfil-edit').val(dados.nome);
 	  $('#telefone-perfil-edit').val(dados.telefone);
+      $('#cpf-perfil-edit').val(dados.cpf);
 	  $('#email-perfil-edit').val(dados.email);
 
 	  if (dados.foto_perfil_cliente) {
@@ -190,7 +197,8 @@ function atualizarDadosUsuario(){
 
 	}
 
-	function atualizarCadastro(config) {
+
+  function atualizarCadastro(config) {
 
     const { formSelector, mensagemSucesso, endpoint, divPai } = config;
 
@@ -201,13 +209,14 @@ function atualizarDadosUsuario(){
 
         var nome_atualizacao = $('input[name="nome-perfil-edit"]').val();
         var telefone_atualizacao = $('input[name="telefone-perfil-edit"]').val();
+        var cpf = $('input[name="cpf-perfil-edit"]').val();
         var email_atualizacao = $('input[name="email-perfil-edit"]').val();
         var cep_atualizacao = $('input[name="cep-perfil-edit"]').val();
         var cidade_atualizacao = $('select[name="cidade-perfil-edit"]').val();
         var bairro_atualizacao = $('input[name="bairro-perfil-edit"]').val();
         var rua_atualizacao = $('input[name="rua-casa-perfil-edit"]').val();
         var nmr_casa_atualizacao = $('input[name="n-casa-perfil-edit"]').val();
-        var foto_perfil = $('input[name="foto-cadastro"]');
+        var foto_perfil = $('input[name="foto-edit-cadastro"]');
         var arquivo = foto_perfil[0].files[0];
 
         console.log("Cidade no momento do envio:", cidade_atualizacao);
@@ -227,7 +236,9 @@ function atualizarDadosUsuario(){
         // Lista de campos obrigatórios
         const inputsObrigatorios = [
             { campo: nome_atualizacao, mensagemErro: "Por favor, preencha o campo de nome completo." },
+            { campo: telefone_atualizacao, mensagemErro: "Por favor, preencha o campo de telefone." },
             { campo: email_atualizacao, mensagemErro: "Por favor, preencha o campo de e-mail." },
+            { campo: cpf, mensagemErro: "Por favor, preencha o campo de CPF." },
             { campo: cidade_atualizacao, mensagemErro: "Por favor, selecione uma cidade." },
             { campo: bairro_atualizacao, mensagemErro: "Por favor, preencha o campo de bairro." },
             { campo: rua_atualizacao, mensagemErro: "Por favor, preencha o campo de rua." },
@@ -244,7 +255,9 @@ function atualizarDadosUsuario(){
         const formData = new FormData($(formSelector)[0]);
 
         formData.append('nome_atualizacao', nome_atualizacao);
+        formData.append('telefone_atualizacao', telefone_atualizacao);
         formData.append('email_atualizacao', email_atualizacao);
+        formData.append('cpf', cpf);
         formData.append('cep_atualizacao', cep_atualizacao);
         formData.append('cidade_atualizacao', cidade_atualizacao);
         formData.append('bairro_atualizacao', bairro_atualizacao);
@@ -252,10 +265,10 @@ function atualizarDadosUsuario(){
         formData.append('nmr_casa_atualizacao', nmr_casa_atualizacao);
 
         if (arquivo) {
-            formData.append('foto_cadastro', arquivo);
+            formData.append('foto_edit_cadastro', arquivo);
             console.log("Foto adicionada:", arquivo);
         } else {
-            formData.append('foto_cadastro', null);
+            formData.append('foto_edit_cadastro', null);
             console.log("Nenhuma foto foi adicionada.");
         }
 
@@ -286,8 +299,9 @@ function atualizarDadosUsuario(){
         });
     });
 
+    
 
-}
+  }
 
 
 }

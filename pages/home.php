@@ -5165,83 +5165,14 @@ HTML;
 				<div class="historico-cliente">
 				    <h2>Histórico de Agendamentos</h2>
 
-				    <div class="lista-historico">
+				    <div class="lista-historico"></div>
 
-<!--
-				        <div class="item-historico">
-				            <div class="data-servico">15/12/2024</div>
-				            <div class="detalhes-servico">
-				                <p><strong>Serviço:</strong> Manicure com esmaltação</p>
-				                <p class="style-agendado"><strong>Status:</strong> Agendado</p>
-				            </div>
-		
-				        </div>
-				        
-				        <div class="item-historico">
-				            <div class="data-servico">10/12/2024</div>
-				            <div class="detalhes-servico">
-				                <p><strong>Serviço:</strong> Pedicure com esmaltação</p>
-				                <p class="style-concluido"><strong>Status:</strong> Concluído</p>
-				            </div>
-				            
-				        </div>
+				    <div class="sem-historico" style="text-align: center; padding: 20px;">
+					    <i class="fas fa-clipboard-list fa-4x" style="color: #aaa;"></i>
+					    <h3>Sem histórico de serviços</h3>
+					    <p>Você ainda não realizou nenhum serviço. Seus registros aparecerão aqui assim que houver serviços realizados.</p>
+					</div>
 
-				        <div class="item-historico">
-				            <div class="data-servico">10/12/2024</div>
-				            <div class="detalhes-servico">
-				                <p><strong>Serviço:</strong> Pedicure com esmaltação</p>
-				                <p class="style-cancelado"><strong>Status:</strong> Cancelado</p>
-				            </div>
-				            
-				        </div>
-
-				        <div class="item-historico">
-				            <div class="data-servico">10/12/2024</div>
-				            <div class="detalhes-servico">
-				                <p><strong>Serviço:</strong> Pedicure com esmaltação</p>
-				                <p class="style-concluido"><strong>Status:</strong> Concluído</p>
-				            </div>
-				            
-				        </div>
-
-				        <div class="item-historico">
-				            <div class="data-servico">10/12/2024</div>
-				            <div class="detalhes-servico">
-				                <p><strong>Serviço:</strong> Pedicure com esmaltação</p>
-				                <p class="style-concluido"><strong>Status:</strong> Concluído</p>
-				            </div>
-				            
-				        </div>
-
-				        <div class="item-historico">
-				            <div class="data-servico">10/12/2024</div>
-				            <div class="detalhes-servico">
-				                <p><strong>Serviço:</strong> Pedicure com esmaltação</p>
-				                <p class="style-concluido"><strong>Status:</strong> Concluído</p>
-				            </div>
-				            
-				        </div>
-
-				        <div class="item-historico">
-				            <div class="data-servico">10/12/2024</div>
-				            <div class="detalhes-servico">
-				                <p><strong>Serviço:</strong> Pedicure com esmaltação</p>
-				                <p class="style-concluido"><strong>Status:</strong> Concluído</p>
-				            </div>
-				            
-				        </div>
-
-				        <div class="item-historico">
-				            <div class="data-servico">10/12/2024</div>
-				            <div class="detalhes-servico">
-				                <p><strong>Serviço:</strong> Pedicure com esmaltação</p>
-				                <p class="style-concluido"><strong>Status:</strong> Concluído</p>
-				            </div>
-				            
-				        </div>
--->
-
-				    </div>
 				</div>
 
 			</div><!--box-historico-->
@@ -5266,6 +5197,11 @@ HTML;
 			        <input type="text"  inputmode="tel"
 						pattern="^\(\d{2}\)\s\d{5}-\d{4}$" id="telefone-perfil-edit" name="telefone-perfil-edit" placeholder=" " required>
 			        <label for="telefone-perfil-edit">Número de Telefone</label>
+			      </div>
+
+			      <div class="wraper-form-single">
+			        <input type="text" inputmode="numeric" pattern="^\d{3}.\d{3}.\d{3}-\d{2}$" id="cpf-perfil-edit" name="cpf-perfil-edit" placeholder=" ">
+			        <label for="cpf-login-agenda">CPF</label>
 			      </div>
 
 			      <div class="wraper-form-single">

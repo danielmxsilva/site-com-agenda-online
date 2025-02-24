@@ -608,6 +608,7 @@
         $senha = filter_input(INPUT_POST, 'senha_cadastro', FILTER_SANITIZE_STRING); // Sanitiza a senha
 		$senhaConfirmar = filter_input(INPUT_POST, 'senha_cadastro_confirmar', FILTER_SANITIZE_STRING); // Sanitiza a confirmação da senha
 		$nome = filter_input(INPUT_POST, 'nome_cadastro', FILTER_SANITIZE_STRING); // Sanitiza o nome
+		$cpf =  filter_input(INPUT_POST, 'cpf_cadastro', FILTER_SANITIZE_STRING); // Valida CPF
 		$email = filter_input(INPUT_POST, 'email_cadastro', FILTER_VALIDATE_EMAIL); // Valida e-mail
 		$cep = filter_input(INPUT_POST, 'cep_cadastro', FILTER_SANITIZE_STRING); // Sanitiza o CEP
 		$cidade = filter_input(INPUT_POST, 'cidade_cadastro', FILTER_SANITIZE_STRING); // Sanitiza a cidade
@@ -688,13 +689,14 @@
 
 		    // Inserir dados na tabela tb_clientes
 		    $senhaHash = password_hash($senha, PASSWORD_DEFAULT); // Armazenar a senha de forma segura
-		    $sqlCliente = "INSERT INTO tb_clientes (endereco_id, nome, senha_login, email, foto_perfil_cliente, telefone, data_cadastro, atendido, add_cliente_site) 
-		                   VALUES (?, ?, ?, ?, ?, ?, NOW(), '0', '1')";
+		    $sqlCliente = "INSERT INTO tb_clientes (endereco_id, nome, senha_login, cpf, email, foto_perfil_cliente, telefone, data_cadastro, atendido, add_cliente_site) 
+		                   VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), '0', '1')";
 		    $stmtCliente = $pdo->prepare($sqlCliente);
 		    $stmtCliente->execute([
 		    	$enderecoId,
 		    	$nome, 
-		    	$senhaHash, 
+		    	$senhaHash,
+		    	$cpf, 
 		    	$email,
 		    	$nomeArquivo, // Sempre passamos uma string, mesmo que seja vazia
 		    	$telefone
@@ -768,11 +770,136 @@
 
     } elseif (isset($_POST['formulario']) && $_POST['formulario'] === 'atualizacao_cliente'){
 
-    	echo json_encode([
-	        'sucesso' => true,
-	        'mensagem' => 'Sucesso!!!!'
-	    ]);
-	    exit;
+    	
+		    // Verifica se o CPF foi enviado para identificar o cliente
+		    if (!isset($_POST['cpf'])) {
+		        echo json_encode(['sucesso' => false, 'mensagem' => 'CPF não fornecido.']);
+		        exit;
+		    }
+
+		    $cpf = trim($_POST['cpf']);
+
+		    // Dados do formulário
+		    $dadosAtualizados = [
+		        'nome' => trim($_POST['nome_atualizacao']),
+		        'email' => trim($_POST['email_atualizacao']),
+		        'telefone' => trim($_POST['telefone_atualizacao']),
+		        'cpf' => trim($_POST['cpf']),
+		    ];
+
+		    $enderecoAtualizado = [
+		        'cep' => trim($_POST['cep_atualizacao']),
+		        'cidade' => trim($_POST['cidade_atualizacao']),
+		        'bairro' => trim($_POST['bairro_atualizacao']),
+		        'rua' => trim($_POST['rua_atualizacao']),
+		        'numero_casa' => trim($_POST['nmr_casa_atualizacao'])
+		    ];
+
+		    // Se houver uma nova foto, processa o upload
+		    $fotoAtualizada = "";
+		    if (!empty($_FILES['foto_cadastro']['name'])) {
+		        $fotoNome = uniqid() . '_' . $_FILES['foto_cadastro']['name'];
+		        $fotoDestino = __DIR__ . "/uploads/" . $fotoNome;
+
+		        if (move_uploaded_file($_FILES['foto_cadastro']['tmp_name'], $fotoDestino)) {
+		            $fotoAtualizada = $fotoNome;
+		            $dadosAtualizados['foto_perfil_cliente'] = $fotoNome;
+		        } else {
+		            echo json_encode(['sucesso' => false, 'mensagem' => 'Erro ao fazer upload da foto.']);
+		            exit;
+		        }
+		    }
+
+		    // Conexão com o banco de dados
+		    $pdo = Mysql::conectar();
+
+		    try {
+		        // Busca o ID do cliente pelo CPF
+		        $stmtCliente = $pdo->prepare("SELECT id, endereco_id, foto_perfil_cliente FROM tb_clientes WHERE cpf = ?");
+		        $stmtCliente->execute([$cpf]);
+		        $cliente = $stmtCliente->fetch(PDO::FETCH_ASSOC);
+
+		        if (!$cliente) {
+		            echo json_encode(['sucesso' => false, 'mensagem' => 'Cliente não encontrado.']);
+		            exit;
+		        }
+
+		        $clienteId = $cliente['id'];
+		        $enderecoId = $cliente['endereco_id'];
+
+		        // Atualiza os dados do cliente
+		        $camposSet = [];
+		        foreach ($dadosAtualizados as $campo => $valor) {
+		            $camposSet[] = "$campo = :$campo";
+		        }
+		        $sqlCliente = "UPDATE tb_clientes SET " . implode(', ', $camposSet) . " WHERE id = :id";
+		        $stmt = $pdo->prepare($sqlCliente);
+		        
+		        foreach ($dadosAtualizados as $campo => $valor) {
+		            $stmt->bindValue(":$campo", $valor);
+		        }
+		        $stmt->bindValue(":id", $clienteId);
+		        $stmt->execute();
+
+		        // Atualiza os dados do endereço
+		        $camposEndereco = [];
+		        foreach ($enderecoAtualizado as $campo => $valor) {
+		            $camposEndereco[] = "$campo = :$campo";
+		        }
+		        $sqlEndereco = "UPDATE tb_endereco SET " . implode(', ', $camposEndereco) . " WHERE id = :id";
+		        $stmtEndereco = $pdo->prepare($sqlEndereco);
+		        
+		        foreach ($enderecoAtualizado as $campo => $valor) {
+		            $stmtEndereco->bindValue(":$campo", $valor);
+		        }
+		        $stmtEndereco->bindValue(":id", $enderecoId);
+		        $stmtEndereco->execute();
+
+		        // Busca os dados atualizados do cliente e endereço
+		        $stmtClienteFetch = $pdo->prepare("
+		            SELECT c.id, c.nome, c.email, c.telefone, c.cpf, c.foto_perfil_cliente, c.data_cadastro,
+		                   e.cep, e.cidade, e.bairro, e.rua, e.numero_casa
+		            FROM tb_clientes c
+		            JOIN tb_endereco e ON c.endereco_id = e.id
+		            WHERE c.id = ?
+		        ");
+		        $stmtClienteFetch->execute([$clienteId]);
+		        $clienteData = $stmtClienteFetch->fetch(PDO::FETCH_ASSOC);
+
+		        // Formata os dados de endereço separadamente
+		        $endereco = [
+		            'cep' => $clienteData['cep'],
+		            'cidade' => $clienteData['cidade'],
+		            'bairro' => $clienteData['bairro'],
+		            'rua' => $clienteData['rua'],
+		            'numero_casa' => $clienteData['numero_casa']
+		        ];
+
+		        // Remove os dados de endereço do array principal
+		        unset($clienteData['cep'], $clienteData['cidade'], $clienteData['bairro'], $clienteData['rua'], $clienteData['numero_casa']);
+
+		        // Retorna JSON com os dados atualizados
+		        echo json_encode([
+		            'sucesso' => true,
+		            'mensagem' => 'Cadastro atualizado com sucesso!',
+		            'dados' => $clienteData,
+		            'endereco' => $endereco
+		        ]);
+		        exit();
+
+		    } catch (PDOException $e) {
+		        // Se houver erro no banco, remove a foto enviada para evitar lixo no servidor
+		        if ($fotoAtualizada && file_exists(__DIR__ . "/uploads/" . $fotoAtualizada)) {
+		            unlink(__DIR__ . "/uploads/" . $fotoAtualizada);
+		        }
+
+		        error_log("Erro no banco de dados: " . $e->getMessage());
+		        echo json_encode([
+		            'sucesso' => false,
+		            'mensagem' => 'Erro ao conectar ou processar os dados no banco de dados.'
+		        ]);
+		        exit;
+		    }
 
     } else {
 	    echo json_encode(['error' => 'parametros inválidos.']);

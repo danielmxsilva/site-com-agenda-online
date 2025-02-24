@@ -2130,7 +2130,45 @@ legend.codigo-info .codigo-dica {
     gap: 20px;
 }
 
+.lista-historico {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 250px;
+  background-color: #f9f9f9;
+  padding: 20px;
+}
+
+.sem-historico {
+    text-align: center;
+    padding: 20px;
+    background-color: #f9f9f9;  /* Fundo claro */
+    border: 2px dashed #e0e0e0; /* Borda estilo dashed */
+    border-radius: 8px;
+    margin: 20px auto;
+    max-width: 600px;  /* Limita a largura para centralizar melhor */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Sutil sombra para destaque */
+}
+
+.sem-historico i {
+    font-size: 4rem; /* Tamanho do ícone */
+    color: #aaa;
+    margin-bottom: 15px;
+}
+
+.sem-historico h3 {
+    font-size: 1.8rem;
+    margin: 10px 0;
+    color: #333;
+}
+
+.sem-historico p {
+    font-size: 1rem;
+    color: #666;
+}
+
 .item-historico {
+	  width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;

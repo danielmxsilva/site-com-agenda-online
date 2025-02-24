@@ -179,7 +179,6 @@ function recuperarSenha(){
     
 }
 
-
 function aplicarMascaraTelefone(seletor) {
     const maskTelefone = (value) => {
         value = value.replace(/\D/g, "");
@@ -187,6 +186,13 @@ function aplicarMascaraTelefone(seletor) {
         return value.replace(/^(\d{2})(\d)/g, "($1) $2").replace(/(\d{5})(\d{4})$/, "$1-$2");
     };
 
+    // Aplica a máscara imediatamente para inputs já preenchidos (ex.: formulário de edição)
+    $(seletor).each(function () {
+        const maskedValue = maskTelefone($(this).val());
+        $(this).val(maskedValue);
+    });
+
+    // Aplica a máscara durante a digitação
     $(seletor).on("input", function () {
         const maskedValue = maskTelefone($(this).val());
         $(this).val(maskedValue);

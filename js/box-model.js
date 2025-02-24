@@ -1396,7 +1396,59 @@ function atualizarTempoEstimado() {
 }
 
 function limparInputsFormulario(formulario) {
-    $(formulario).find('input[type="text"]').val('');
+    if (!formulario || !$(formulario).length) {
+        console.warn("O formulário especificado não foi encontrado.");
+        return;
+    }
+
+    let $form = $(formulario);
+
+    // Verifica se há inputs de texto, número e textarea antes de tentar limpar
+    if ($form.find('input[type="text"], input[type="number"], textarea').length) {
+        $form.find('input[type="text"], input[type="number"], textarea').val('');
+    }
+
+    // Verifica se há checkboxes e radios antes de desmarcar
+    if ($form.find('input[type="radio"], input[type="checkbox"]').length) {
+        $form.find('input[type="radio"], input[type="checkbox"]').prop('checked', false);
+    }
+
+    // Verifica se há input file antes de resetar
+    if ($form.find('input[type="file"]').length) {
+        $form.find('input[type="file"]').each(function () {
+            $(this).val(null); // Limpa a seleção do arquivo
+
+            let $flexFile = $(this).closest('.flex-file');
+
+            // Verifica se existem os elementos antes de tentar manipulá-los
+            let $previewImg = $flexFile.find('.preview-foto-cadastro');
+            let $previewImgEdit = $flexFile.find('.preview-foto-edit');
+            let $iconUser = $flexFile.find('.fa-user');
+            let $fileNameCadastro = $flexFile.find('.file-name-cadastro');
+            let $fileNameEdit = $flexFile.find('.file-name-edit');
+
+            // Resetando a visualização da imagem, se os elementos existirem
+            if ($previewImg.length) {
+                $previewImg.hide().attr('src', '#');
+            }
+
+            if ($previewImgEdit.length) {
+                $previewImgEdit.hide().attr('src', '#');
+            }
+
+            if ($iconUser.length) {
+                $iconUser.show();
+            }
+
+            if ($fileNameCadastro.length) {
+                $fileNameCadastro.text('Nenhum arquivo selecionado');
+            }
+
+            if ($fileNameEdit.length) {
+                $fileNameEdit.text('Nenhum arquivo selecionado');
+            }
+        });
+    }
 }
 
 function toggleClass(elemento, classe, adicionar) {

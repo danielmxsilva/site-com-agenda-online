@@ -41,12 +41,15 @@ $(document).ready(function(){
     const cepInputEdit = $("#cep-perfil-edit");
 
     const cpfInput = $("#cpf-login-agenda");
+    const cpfInputEdit = $("#cpf-perfil-edit");
 
     maskCep(cepInput);
 
     maskCep(cepInputEdit);
 
     maskCPF(cpfInput);
+
+    maskCPF(cpfInputEdit);
   
 
     const $checkbox = $('#consentimento-checkbox');
@@ -427,6 +430,7 @@ function novoCadastro(config) {
         formData.append('senha_cadastro', senha_cadastro);
         formData.append('senha_cadastro_confirmar', senha_cadastro_confirmar);
         formData.append('nome_cadastro', nome_cadastro);
+        formData.append('cpf_cadastro', cpf_cadastro);
         formData.append('email_cadastro', email_cadastro);
         formData.append('cep_cadastro', cep_cadastro);
         formData.append('cidade_cadastro', cidade_cadastro);
@@ -471,6 +475,8 @@ function novoCadastro(config) {
                     exibirNotificacao('sucesso', response.mensagem);
                     trocarBox('.login-agenda', '.js-box-pagamento-agenda', 400); // Exemplo de navegação
                     consultarCupom();
+                    limparInputsFormulario(formSelector);
+                    limparInputsFormulario('.form-login-agenda');
                 } else {
                     exibirNotificacao('erro', response.mensagem);
                 }
