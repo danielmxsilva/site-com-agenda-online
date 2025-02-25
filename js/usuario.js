@@ -132,6 +132,8 @@ function atualizarDadosUsuario(){
 
     aplicarMascaraTelefone(maskTelefonePerfilEdit);
 
+    //(input,classPai,fileName,imgFoto)
+
 	fotoValidacaoEdit('.foto-edit-cadastro'
         ,'.image-preview-edit'
         ,'.file-name-edit'
@@ -148,57 +150,57 @@ function atualizarDadosUsuario(){
 
 	function fotoValidacaoEdit(input,classPai,fileName,imgFoto){
 
-    console.log("chamei e entrei no meu fotoValidação!!!");
+        console.log("chamei e entrei no meu fotoValidação!!!");
 
-    // Clique no preview da imagem
-    $(classPai).on('click', function () {
-        $(input).click();
-    });
+        // Clique no preview da imagem
+        $(classPai).on('click', function () {
+            $(input).click();
+        });
 
-    // Clique no texto "Nenhum arquivo selecionado"
-    $(fileName).on('click', function () {
-        $(input).click();
-    });
+        // Clique no texto "Nenhum arquivo selecionado"
+        $(fileName).on('click', function () {
+            $(input).click();
+        });
 
-    $(input).on('change', function (e) {
-        const file = e.target.files[0]; // Obtém o arquivo selecionado
+        $(input).on('change', function (e) {
+            const file = e.target.files[0]; // Obtém o arquivo selecionado
 
-        if (file) {
+            if (file) {
 
-            const validExtensions = ['jpg', 'jpeg', 'png']; // Extensões permitidas
-            const fileExtension = file.name.split('.').pop().toLowerCase(); // Obtém a extensão do arquivo
+                const validExtensions = ['jpg', 'jpeg', 'png']; // Extensões permitidas
+                const fileExtension = file.name.split('.').pop().toLowerCase(); // Obtém a extensão do arquivo
 
-            // Verifica se a extensão do arquivo é válida
-            if (!validExtensions.includes(fileExtension)) {
-                // Exibe erro e reseta o input
-                exibirNotificacao('erro', "Apenas imagem .jpg, .jpeg ou .png são permitidos.");
-                $(this).val(''); // Limpa o input file
-                $(imgFoto).hide(); // Esconde o preview
+                // Verifica se a extensão do arquivo é válida
+                if (!validExtensions.includes(fileExtension)) {
+                    // Exibe erro e reseta o input
+                    exibirNotificacao('erro', "Apenas imagem .jpg, .jpeg ou .png são permitidos.");
+                    $(this).val(''); // Limpa o input file
+                    $(imgFoto).hide(); // Esconde o preview
+                    $(fileName).text('Nenhum arquivo selecionado'); // Reseta o texto
+                    return; // Sai da função
+                }
+
+                const reader = new FileReader();
+
+                // Atualiza o preview
+                reader.onload = function (e) {
+                    $(imgFoto).attr('src', e.target.result).show(); // Mostra o preview
+                };
+
+                reader.readAsDataURL(file); // Lê o arquivo como URL de dados
+
+                // Atualiza o nome do arquivo no texto
+                $(fileName).text(file.name);
+            } else {
+                $(imgFoto).hide(); // Esconde o preview se nenhum arquivo for selecionado
                 $(fileName).text('Nenhum arquivo selecionado'); // Reseta o texto
-                return; // Sai da função
             }
-
-            const reader = new FileReader();
-
-            // Atualiza o preview
-            reader.onload = function (e) {
-                $(imgFoto).attr('src', e.target.result).show(); // Mostra o preview
-            };
-
-            reader.readAsDataURL(file); // Lê o arquivo como URL de dados
-
-            // Atualiza o nome do arquivo no texto
-            $(fileName).text(file.name);
-        } else {
-            $(imgFoto).hide(); // Esconde o preview se nenhum arquivo for selecionado
-            $(fileName).text('Nenhum arquivo selecionado'); // Reseta o texto
-        }
-    });
+        });
 
 	}
 
 
-  function atualizarCadastro(config) {
+   function atualizarCadastro(config) {
 
     const { formSelector, mensagemSucesso, endpoint, divPai } = config;
 
@@ -216,8 +218,8 @@ function atualizarDadosUsuario(){
         var bairro_atualizacao = $('input[name="bairro-perfil-edit"]').val();
         var rua_atualizacao = $('input[name="rua-casa-perfil-edit"]').val();
         var nmr_casa_atualizacao = $('input[name="n-casa-perfil-edit"]').val();
-        var foto_perfil = $('input[name="foto-edit-cadastro"]');
-        var arquivo = foto_perfil[0].files[0];
+        /*var foto_perfil = $('input[name="foto-edit-cadastro"]');
+        var arquivo = foto_perfil[0].files[0];*/
 
         console.log("Cidade no momento do envio:", cidade_atualizacao);
 
@@ -264,14 +266,15 @@ function atualizarDadosUsuario(){
         formData.append('rua_atualizacao', rua_atualizacao);
         formData.append('nmr_casa_atualizacao', nmr_casa_atualizacao);
 
-        if (arquivo) {
-            formData.append('foto_edit_cadastro', arquivo);
-            console.log("Foto adicionada:", arquivo);
-        } else {
-            formData.append('foto_edit_cadastro', null);
-            console.log("Nenhuma foto foi adicionada.");
-        }
+        var fotoInput = document.querySelector('input[name="foto-edit-cadastro"]');
 
+        if (fotoInput && fotoInput.files.length > 0) {
+            formData.append('foto_perfil_cliente', fotoInput.files[0]);
+            console.log("Foto adicionada:", fotoInput.files[0]);
+            console.log("Foto adicionada ao FormData:", formData.get('foto_edit_cadastro'));
+        } else {
+            console.log("Nenhuma nova foto foi adicionada. Mantendo a foto antiga.");
+        }
         formData.append('formulario', 'atualizacao_cliente');
 
         // Envia o formulário via AJAX
@@ -284,8 +287,11 @@ function atualizarDadosUsuario(){
             dataType: 'json',
             success: function (response) {
                 if (response.sucesso) {
+                    const dadosedit = response.dados;
+                    const enderecoedit = response.endereco || null;
                     exibirNotificacao('sucesso', response.mensagem);
-                    trocarBox('.editar-perfil', '.perfil-atualizado', 400); // Exemplo de navegação
+                    pegarDados(dadosedit, enderecoedit);
+                    //trocarBox('.editar-perfil', '.perfil-atualizado', 400); // Exemplo de navegação
                 } else {
                     exibirNotificacao('erro', response.mensagem);
                 }

@@ -5179,7 +5179,7 @@ HTML;
 
 			<div class="box-perfil-slide box-editar-dados">
 
-			<form class="css-form-editar js-form-editar-perfil">
+			<form class="css-form-editar js-form-editar-perfil" enctype="multipart/form-data">
 			 	<div class="wraper-h" style="margin: 10px 0 40px 0;">
 					<h3 class="titulo-h">Seu <span class="rosa-span">Cadastro</span></h3>
 					<span class="line-h"></span>

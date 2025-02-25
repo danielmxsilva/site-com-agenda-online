@@ -779,11 +779,14 @@
 
 		    $cpf = trim($_POST['cpf']);
 
+		     // Tratamento do telefone: remover todos os caracteres não numéricos
+    		$telefone = isset($_POST['telefone_atualizacao']) ? preg_replace('/\D/', '', $_POST['telefone_atualizacao']) : '';
+
 		    // Dados do formulário
 		    $dadosAtualizados = [
 		        'nome' => trim($_POST['nome_atualizacao']),
 		        'email' => trim($_POST['email_atualizacao']),
-		        'telefone' => trim($_POST['telefone_atualizacao']),
+		        'telefone' => $telefone,
 		        'cpf' => trim($_POST['cpf']),
 		    ];
 
@@ -797,11 +800,11 @@
 
 		    // Se houver uma nova foto, processa o upload
 		    $fotoAtualizada = "";
-		    if (!empty($_FILES['foto_cadastro']['name'])) {
-		        $fotoNome = uniqid() . '_' . $_FILES['foto_cadastro']['name'];
+		    if (!empty($_FILES['foto_perfil_cliente']['name'])) {
+		        $fotoNome = uniqid() . '_' . $_FILES['foto_perfil_cliente']['name'];
 		        $fotoDestino = __DIR__ . "/uploads/" . $fotoNome;
 
-		        if (move_uploaded_file($_FILES['foto_cadastro']['tmp_name'], $fotoDestino)) {
+		        if (move_uploaded_file($_FILES['foto_perfil_cliente']['tmp_name'], $fotoDestino)) {
 		            $fotoAtualizada = $fotoNome;
 		            $dadosAtualizados['foto_perfil_cliente'] = $fotoNome;
 		        } else {
