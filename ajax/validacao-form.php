@@ -768,143 +768,66 @@
         //echo json_encode(['success' => true, 'mensagem' => 'Cadastro realizado com sucesso!']);
         //exit;
 
-    } elseif (isset($_POST['formulario']) && $_POST['formulario'] === 'atualizacao_cliente'){
-
+    } elseif (isset($_POST['formulario']) && $_POST['formulario'] === 'atualizacao_cliente') {
     	
-		    // Verifica se o CPF foi enviado para identificar o cliente
-		    if (!isset($_POST['cpf'])) {
-		        echo json_encode(['sucesso' => false, 'mensagem' => 'CPF não fornecido.']);
-		        exit;
-		    }
+	    if (!isset($_POST['id_perfil_edit'])) {
+	        echo json_encode(['sucesso' => false, 'mensagem' => 'ID do cliente não fornecido.']);
+	        exit;
+	    }
 
-		    $cpf = trim($_POST['cpf']);
+	    $idCliente = trim($_POST['id_perfil_edit']);
+	    $cpf = trim($_POST['cpf']);
+	    $telefone = isset($_POST['telefone_atualizacao']) ? preg_replace('/\D/', '', $_POST['telefone_atualizacao']) : '';
 
-		     // Tratamento do telefone: remover todos os caracteres não numéricos
-    		$telefone = isset($_POST['telefone_atualizacao']) ? preg_replace('/\D/', '', $_POST['telefone_atualizacao']) : '';
+	    $dadosAtualizados = [
+	        'nome' => trim($_POST['nome_atualizacao']),
+	        'email' => trim($_POST['email_atualizacao']),
+	        'telefone' => $telefone,
+	        'cpf' => $cpf
+	    ];
 
-		    // Dados do formulário
-		    $dadosAtualizados = [
-		        'nome' => trim($_POST['nome_atualizacao']),
-		        'email' => trim($_POST['email_atualizacao']),
-		        'telefone' => $telefone,
-		        'cpf' => trim($_POST['cpf']),
-		    ];
+	    $enderecoAtualizado = [
+	        'cep' => trim($_POST['cep_atualizacao']),
+	        'cidade' => trim($_POST['cidade_atualizacao']),
+	        'bairro' => trim($_POST['bairro_atualizacao']),
+	        'rua' => trim($_POST['rua_atualizacao']),
+	        'numero_casa' => trim($_POST['nmr_casa_atualizacao'])
+	    ];
 
-		    $enderecoAtualizado = [
-		        'cep' => trim($_POST['cep_atualizacao']),
-		        'cidade' => trim($_POST['cidade_atualizacao']),
-		        'bairro' => trim($_POST['bairro_atualizacao']),
-		        'rua' => trim($_POST['rua_atualizacao']),
-		        'numero_casa' => trim($_POST['nmr_casa_atualizacao'])
-		    ];
+	    // Se houver uma nova foto, processa o upload
+	    if (!empty($_FILES['foto_perfil_cliente']['name'])) {
+	        $fotoNome = uniqid() . '_' . $_FILES['foto_perfil_cliente']['name'];
+	        $fotoDestino = BASE_DIR_PAINEL . '/uploads/' . $fotoNome;
 
-		    // Se houver uma nova foto, processa o upload
-		    $fotoAtualizada = "";
-		    if (!empty($_FILES['foto_perfil_cliente']['name'])) {
-		        $fotoNome = uniqid() . '_' . $_FILES['foto_perfil_cliente']['name'];
-		        $fotoDestino = __DIR__ . "/uploads/" . $fotoNome;
+	        if (!is_dir(BASE_DIR_PAINEL . '/uploads/')) {
+	            mkdir(BASE_DIR_PAINEL . '/uploads/', 0777, true);
+	        }
 
-		        if (move_uploaded_file($_FILES['foto_perfil_cliente']['tmp_name'], $fotoDestino)) {
-		            $fotoAtualizada = $fotoNome;
-		            $dadosAtualizados['foto_perfil_cliente'] = $fotoNome;
-		        } else {
-		            echo json_encode(['sucesso' => false, 'mensagem' => 'Erro ao fazer upload da foto.']);
-		            exit;
-		        }
-		    }
+	        if (move_uploaded_file($_FILES['foto_perfil_cliente']['tmp_name'], $fotoDestino)) {
+	            $dadosAtualizados['foto_perfil_cliente'] = $fotoNome;
+	        } else {
+	            echo json_encode(['sucesso' => false, 'mensagem' => 'Erro ao fazer upload da foto.']);
+	            exit;
+	        }
+	    }
 
-		    // Conexão com o banco de dados
-		    $pdo = Mysql::conectar();
+	    // Conexão com o banco de dados
+	    $pdo = Mysql::conectar();
 
-		    try {
-		        // Busca o ID do cliente pelo CPF
-		        $stmtCliente = $pdo->prepare("SELECT id, endereco_id, foto_perfil_cliente FROM tb_clientes WHERE cpf = ?");
-		        $stmtCliente->execute([$cpf]);
-		        $cliente = $stmtCliente->fetch(PDO::FETCH_ASSOC);
+	    try {
+	        $sqlCliente = "UPDATE tb_clientes SET nome=:nome, email=:email, telefone=:telefone, cpf=:cpf WHERE id=:id";
+	        $stmt = $pdo->prepare($sqlCliente);
+	        $stmt->execute(array_merge($dadosAtualizados, ['id' => $idCliente]));
 
-		        if (!$cliente) {
-		            echo json_encode(['sucesso' => false, 'mensagem' => 'Cliente não encontrado.']);
-		            exit;
-		        }
+	        echo json_encode(['sucesso' => true, 'mensagem' => 'Cadastro atualizado com sucesso!']);
+	        exit();
+	    } catch (PDOException $e) {
+	        error_log("Erro no banco: " . $e->getMessage());
+	        echo json_encode(['sucesso' => false, 'mensagem' => 'Erro ao atualizar os dados.']);
+	        exit;
+	    }
 
-		        $clienteId = $cliente['id'];
-		        $enderecoId = $cliente['endereco_id'];
-
-		        // Atualiza os dados do cliente
-		        $camposSet = [];
-		        foreach ($dadosAtualizados as $campo => $valor) {
-		            $camposSet[] = "$campo = :$campo";
-		        }
-		        $sqlCliente = "UPDATE tb_clientes SET " . implode(', ', $camposSet) . " WHERE id = :id";
-		        $stmt = $pdo->prepare($sqlCliente);
-		        
-		        foreach ($dadosAtualizados as $campo => $valor) {
-		            $stmt->bindValue(":$campo", $valor);
-		        }
-		        $stmt->bindValue(":id", $clienteId);
-		        $stmt->execute();
-
-		        // Atualiza os dados do endereço
-		        $camposEndereco = [];
-		        foreach ($enderecoAtualizado as $campo => $valor) {
-		            $camposEndereco[] = "$campo = :$campo";
-		        }
-		        $sqlEndereco = "UPDATE tb_endereco SET " . implode(', ', $camposEndereco) . " WHERE id = :id";
-		        $stmtEndereco = $pdo->prepare($sqlEndereco);
-		        
-		        foreach ($enderecoAtualizado as $campo => $valor) {
-		            $stmtEndereco->bindValue(":$campo", $valor);
-		        }
-		        $stmtEndereco->bindValue(":id", $enderecoId);
-		        $stmtEndereco->execute();
-
-		        // Busca os dados atualizados do cliente e endereço
-		        $stmtClienteFetch = $pdo->prepare("
-		            SELECT c.id, c.nome, c.email, c.telefone, c.cpf, c.foto_perfil_cliente, c.data_cadastro,
-		                   e.cep, e.cidade, e.bairro, e.rua, e.numero_casa
-		            FROM tb_clientes c
-		            JOIN tb_endereco e ON c.endereco_id = e.id
-		            WHERE c.id = ?
-		        ");
-		        $stmtClienteFetch->execute([$clienteId]);
-		        $clienteData = $stmtClienteFetch->fetch(PDO::FETCH_ASSOC);
-
-		        // Formata os dados de endereço separadamente
-		        $endereco = [
-		            'cep' => $clienteData['cep'],
-		            'cidade' => $clienteData['cidade'],
-		            'bairro' => $clienteData['bairro'],
-		            'rua' => $clienteData['rua'],
-		            'numero_casa' => $clienteData['numero_casa']
-		        ];
-
-		        // Remove os dados de endereço do array principal
-		        unset($clienteData['cep'], $clienteData['cidade'], $clienteData['bairro'], $clienteData['rua'], $clienteData['numero_casa']);
-
-		        // Retorna JSON com os dados atualizados
-		        echo json_encode([
-		            'sucesso' => true,
-		            'mensagem' => 'Cadastro atualizado com sucesso!',
-		            'dados' => $clienteData,
-		            'endereco' => $endereco
-		        ]);
-		        exit();
-
-		    } catch (PDOException $e) {
-		        // Se houver erro no banco, remove a foto enviada para evitar lixo no servidor
-		        if ($fotoAtualizada && file_exists(__DIR__ . "/uploads/" . $fotoAtualizada)) {
-		            unlink(__DIR__ . "/uploads/" . $fotoAtualizada);
-		        }
-
-		        error_log("Erro no banco de dados: " . $e->getMessage());
-		        echo json_encode([
-		            'sucesso' => false,
-		            'mensagem' => 'Erro ao conectar ou processar os dados no banco de dados.'
-		        ]);
-		        exit;
-		    }
-
-    } else {
+	} else {
 	    echo json_encode(['error' => 'parametros inválidos.']);
 	    exit;
 	}

@@ -211,13 +211,14 @@ function atualizarDadosUsuario(){
 
         var nome_atualizacao = $('input[name="nome-perfil-edit"]').val();
         var telefone_atualizacao = $('input[name="telefone-perfil-edit"]').val();
-        var cpf = $('input[name="cpf-perfil-edit"]').val();
+        var cpf_atualizacao = $('input[name="cpf-perfil-edit"]').val();
         var email_atualizacao = $('input[name="email-perfil-edit"]').val();
         var cep_atualizacao = $('input[name="cep-perfil-edit"]').val();
         var cidade_atualizacao = $('select[name="cidade-perfil-edit"]').val();
         var bairro_atualizacao = $('input[name="bairro-perfil-edit"]').val();
         var rua_atualizacao = $('input[name="rua-casa-perfil-edit"]').val();
         var nmr_casa_atualizacao = $('input[name="n-casa-perfil-edit"]').val();
+        var id_perfil_edit = $('input[name="id-perfil-edit"]').val();
         /*var foto_perfil = $('input[name="foto-edit-cadastro"]');
         var arquivo = foto_perfil[0].files[0];*/
 
@@ -240,11 +241,12 @@ function atualizarDadosUsuario(){
             { campo: nome_atualizacao, mensagemErro: "Por favor, preencha o campo de nome completo." },
             { campo: telefone_atualizacao, mensagemErro: "Por favor, preencha o campo de telefone." },
             { campo: email_atualizacao, mensagemErro: "Por favor, preencha o campo de e-mail." },
-            { campo: cpf, mensagemErro: "Por favor, preencha o campo de CPF." },
+            { campo: cpf_atualizacao, mensagemErro: "Por favor, preencha o campo de CPF." },
             { campo: cidade_atualizacao, mensagemErro: "Por favor, selecione uma cidade." },
             { campo: bairro_atualizacao, mensagemErro: "Por favor, preencha o campo de bairro." },
             { campo: rua_atualizacao, mensagemErro: "Por favor, preencha o campo de rua." },
             { campo: nmr_casa_atualizacao, mensagemErro: "Por favor, preencha o campo de número da casa." },
+            { campo: id_perfil_edit, mensagemErro: "Id do cliente não encontrado!"},
         ];
 
         // Valida todos os campos obrigatórios
@@ -254,17 +256,24 @@ function atualizarDadosUsuario(){
             return;
         }
 
+        if(!validarCPF(cpf_atualizacao)) {
+            exibirNotificacao('erro', 'CPF inválido!.');
+            toggleClass(divPai, 'carregando', false);
+            return;
+        }
+
         const formData = new FormData($(formSelector)[0]);
 
         formData.append('nome_atualizacao', nome_atualizacao);
         formData.append('telefone_atualizacao', telefone_atualizacao);
         formData.append('email_atualizacao', email_atualizacao);
-        formData.append('cpf', cpf);
+        formData.append('cpf', cpf_atualizacao);
         formData.append('cep_atualizacao', cep_atualizacao);
         formData.append('cidade_atualizacao', cidade_atualizacao);
         formData.append('bairro_atualizacao', bairro_atualizacao);
         formData.append('rua_atualizacao', rua_atualizacao);
         formData.append('nmr_casa_atualizacao', nmr_casa_atualizacao);
+        formData.append('id_perfil_edit', id_perfil_edit);
 
         var fotoInput = document.querySelector('input[name="foto-edit-cadastro"]');
 
@@ -287,10 +296,10 @@ function atualizarDadosUsuario(){
             dataType: 'json',
             success: function (response) {
                 if (response.sucesso) {
-                    const dadosedit = response.dados;
-                    const enderecoedit = response.endereco || null;
+                    const dados = response.dados;
+                    const endereco = response.endereco || null;
                     exibirNotificacao('sucesso', response.mensagem);
-                    pegarDados(dadosedit, enderecoedit);
+                    pegarDados(dados, endereco);
                     //trocarBox('.editar-perfil', '.perfil-atualizado', 400); // Exemplo de navegação
                 } else {
                     exibirNotificacao('erro', response.mensagem);
@@ -304,10 +313,9 @@ function atualizarDadosUsuario(){
             }
         });
     });
-
     
 
-  }
+   }
 
 
 }
