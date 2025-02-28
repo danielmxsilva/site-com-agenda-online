@@ -121,6 +121,7 @@ function pegarDados(dados, endereco){
 		    $('#id-perfil-edit').val(dados.id);
 
             setTimeout(function() {
+                console.log("Chamando atualizarDadosUsuario() apenas uma vez.");
                 atualizarDadosUsuario();
             }, 2000);
 
@@ -131,6 +132,9 @@ function atualizarDadosUsuario(){
     const maskTelefonePerfilEdit = $('#telefone-perfil-edit');
 
     aplicarMascaraTelefone(maskTelefonePerfilEdit);
+
+    // Evita adicionar o evento de submit múltiplas vezes
+    $('.js-form-editar-perfil').off("submit");
 
     //(input,classPai,fileName,imgFoto)
 
@@ -299,8 +303,8 @@ function atualizarDadosUsuario(){
                     const dados = response.dados;
                     const endereco = response.endereco || null;
                     exibirNotificacao('sucesso', response.mensagem);
-                    pegarDados(dados, endereco);
-                    //trocarBox('.editar-perfil', '.perfil-atualizado', 400); // Exemplo de navegação
+                    pegarDados(dados, endereco); // Atualiza os dados na tela
+                   
                 } else {
                     exibirNotificacao('erro', response.mensagem);
                 }

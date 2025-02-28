@@ -794,32 +794,103 @@
 	        'numero_casa' => trim($_POST['nmr_casa_atualizacao'])
 	    ];
 
-	    // Se houver uma nova foto, processa o upload
-	    if (!empty($_FILES['foto_perfil_cliente']['name'])) {
-	        $fotoNome = uniqid() . '_' . $_FILES['foto_perfil_cliente']['name'];
-	        $fotoDestino = BASE_DIR_PAINEL . '/uploads/' . $fotoNome;
-
-	        if (!is_dir(BASE_DIR_PAINEL . '/uploads/')) {
-	            mkdir(BASE_DIR_PAINEL . '/uploads/', 0777, true);
-	        }
-
-	        if (move_uploaded_file($_FILES['foto_perfil_cliente']['tmp_name'], $fotoDestino)) {
-	            $dadosAtualizados['foto_perfil_cliente'] = $fotoNome;
-	        } else {
-	            echo json_encode(['sucesso' => false, 'mensagem' => 'Erro ao fazer upload da foto.']);
-	            exit;
-	        }
-	    }
-
 	    // Conexão com o banco de dados
 	    $pdo = Mysql::conectar();
 
-	    try {
-	        $sqlCliente = "UPDATE tb_clientes SET nome=:nome, email=:email, telefone=:telefone, cpf=:cpf WHERE id=:id";
-	        $stmt = $pdo->prepare($sqlCliente);
-	        $stmt->execute(array_merge($dadosAtualizados, ['id' => $idCliente]));
+	    // Se houver uma nova foto, processa o upload
 
-	        echo json_encode(['sucesso' => true, 'mensagem' => 'Cadastro atualizado com sucesso!']);
+	    if (!empty($_FILES['foto_perfil_cliente']['name'])) {
+		    // Buscar a foto antiga do cliente no banco de dados
+		    $stmtFotoAntiga = $pdo->prepare("SELECT foto_perfil_cliente FROM tb_clientes WHERE id = ?");
+		    $stmtFotoAntiga->execute([$idCliente]);
+		    $fotoAntiga = $stmtFotoAntiga->fetchColumn(); // Obtém o nome do arquivo da foto antiga
+
+		    // Define o nome e caminho da nova foto
+		    $fotoNome = uniqid() . '_' . $_FILES['foto_perfil_cliente']['name'];
+		    $fotoDestino = BASE_DIR_PAINEL . '/uploads/' . $fotoNome;
+
+		    // Se o diretório não existir, cria
+		    if (!is_dir(BASE_DIR_PAINEL . '/uploads/')) {
+		        mkdir(BASE_DIR_PAINEL . '/uploads/', 0777, true);
+		    }
+
+		    // Excluir a foto antiga (se existir)
+		    if (!empty($fotoAntiga)) {
+		        $caminhoFotoAntiga = BASE_DIR_PAINEL . '/uploads/' . $fotoAntiga;
+		        if (file_exists($caminhoFotoAntiga)) {
+		            unlink($caminhoFotoAntiga); // Exclui a foto antiga
+		        }
+		    }
+
+		    // Agora move a nova foto para a pasta de uploads
+		    if (move_uploaded_file($_FILES['foto_perfil_cliente']['tmp_name'], $fotoDestino)) {
+		        $dadosAtualizados['foto_perfil_cliente'] = $fotoNome; // Atualiza o nome da foto no banco
+		    } else {
+		        echo json_encode(['sucesso' => false, 'mensagem' => 'Erro ao fazer upload da nova foto.']);
+		        exit;
+		    }
+		}
+
+
+	    try {
+	         // Atualiza os dados do cliente
+	        $camposSet = [];
+	        foreach ($dadosAtualizados as $campo => $valor) {
+	            $camposSet[] = "$campo = :$campo";
+	        }
+	        $sqlCliente = "UPDATE tb_clientes SET " . implode(', ', $camposSet) . " WHERE id = :id";
+	        $stmt = $pdo->prepare($sqlCliente);
+	        
+	        foreach ($dadosAtualizados as $campo => $valor) {
+	            $stmt->bindValue(":$campo", $valor);
+	        }
+	        $stmt->bindValue(":id", $idCliente);
+	        $stmt->execute();
+
+	        // Atualiza os dados do endereço
+	        $camposEndereco = [];
+	        foreach ($enderecoAtualizado as $campo => $valor) {
+	            $camposEndereco[] = "$campo = :$campo";
+	        }
+	        $sqlEndereco = "UPDATE tb_endereco SET " . implode(', ', $camposEndereco) . " WHERE id = (SELECT endereco_id FROM tb_clientes WHERE id = :id)";
+	        $stmtEndereco = $pdo->prepare($sqlEndereco);
+	        
+	        foreach ($enderecoAtualizado as $campo => $valor) {
+	            $stmtEndereco->bindValue(":$campo", $valor);
+	        }
+	        $stmtEndereco->bindValue(":id", $idCliente);
+	        $stmtEndereco->execute();
+
+	        // Busca os dados atualizados do cliente e endereço
+	        $stmtClienteFetch = $pdo->prepare("
+	            SELECT c.id, c.nome, c.email, c.telefone, c.cpf, c.foto_perfil_cliente, c.data_cadastro,
+	                   e.cep, e.cidade, e.bairro, e.rua, e.numero_casa
+	            FROM tb_clientes c
+	            JOIN tb_endereco e ON c.endereco_id = e.id
+	            WHERE c.id = ?
+	        ");
+	        $stmtClienteFetch->execute([$idCliente]);
+	        $clienteData = $stmtClienteFetch->fetch(PDO::FETCH_ASSOC);
+
+	        // Formata os dados de endereço separadamente
+	        $endereco = [
+	            'cep' => $clienteData['cep'],
+	            'cidade' => $clienteData['cidade'],
+	            'bairro' => $clienteData['bairro'],
+	            'rua' => $clienteData['rua'],
+	            'numero_casa' => $clienteData['numero_casa']
+	        ];
+
+	        // Remove os dados de endereço do array principal
+	        unset($clienteData['cep'], $clienteData['cidade'], $clienteData['bairro'], $clienteData['rua'], $clienteData['numero_casa']);
+
+	        // Retorna JSON com os dados atualizados
+	        echo json_encode([
+	            'sucesso' => true,
+	            'mensagem' => 'Cadastro atualizado com sucesso!',
+	            'dados' => $clienteData,
+	            'endereco' => $endereco
+	        ]);
 	        exit();
 	    } catch (PDOException $e) {
 	        error_log("Erro no banco: " . $e->getMessage());
