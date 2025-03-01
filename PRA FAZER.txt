@@ -17,18 +17,14 @@
 /*-Ajustar para que se não existir historico apareça algo como vc ainda não possui historico*/
 /*-Corrigir a atualização da foto do usuario */
 /*-Limpar os inputs do formulario de login ao acessar.*/
+/*-Fazer formulario de atualização de dados do usuario = precisa ser atualizado o cliente pelo ID*/
 
--Fazer formulario de atualização de dados do usuario = precisa ser atualizado o cliente pelo ID
-
-
+-Ajustar o box select serviços para ser em partes, primeiro escolhe a quantidade de clientes e então surge os serviços, depois os horarios
 
 -Ao clicar fora deverá ser fechado as opções do perfil do cliente, historico e editar perfil
- 
+-Ajustar o tamanho dos formularios para dispositivos moveis
 -Ajustar seleção de horarios do serviço,para se possível se selecionar 1 horario preencher todos os outros automaticamente.
--Ajustar o box select serviços para ser em partes, primeiro escolhe a quantidade de clientes e então surge os serviços, depois os horarios
 -Validar se sobra valor do credito para atualizar no bd
-
 -Verificar os dados quando tem cookie do login salvo
-
 - Fazer a validação e abate do crédito disponivel
 - Verificar se não é pacote

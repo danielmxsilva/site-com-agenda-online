@@ -2229,7 +2229,7 @@
 
 		</div><!--wraper-servicos-selecao-->
 
-		<div class="wraper-horarios">
+		<div class="wraper-horarios border-box-model">
 
 				<div class="flex-horarios">
 
@@ -4325,7 +4325,7 @@ HTML;
 
 		</div><!--wraper-servicos-selecao-->
 
-		<div class="wraper-horarios">
+		<div class="wraper-horarios border-box-model">
 
 				<div class="flex-horarios">
 
@@ -5123,25 +5123,20 @@ HTML;
 			      <input type="radio" name="payment-method" value="pix" checked>
 			      <div class="card-info">
 			        <span class="icon"><i class="fa-brands fa-pix"></i></span>
-			        <span class="method-name">Pix</span>
+			        <span class="icon"><i class="fa-solid fa-credit-card"></i></span>
+			        <span class="method-name">Mercado Pago</span>
 			      </div>
 			    </label>
 
 			    <label class="payment-card credit-card">
 			      <input type="radio" name="payment-method" value="cartao">
 			      <div class="card-info">
+			       	<span class="icon"><i class="fa-brands fa-pix"></i></span>
 			        <span class="icon"><i class="fa-solid fa-credit-card"></i></span>
-			        <span class="method-name">Cartão de Crédito</span>
+			        <span class="method-name">PagSeguro</span>
 			      </div>
 			    </label>
 
-			    <label class="payment-card cash">
-			      <input type="radio" name="payment-method" value="dinheiro">
-			      <div class="card-info">
-			        <span class="icon"><i class="fa-solid fa-brazilian-real-sign"></i></span>
-			        <span class="method-name">Dinheiro (30% de sinal)</span>
-			      </div>
-			    </label>
 			  </div>
 
 			  	<div class="btn-chamada-wraper btn-confirm-pagamento">

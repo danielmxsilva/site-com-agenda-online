@@ -976,7 +976,7 @@ section{
 	position: relative;
 	width: 100%;
 	height: 100%;
-	padding: 0 2%;
+	padding: 5px 2%;
 	overflow-y: scroll;
 	scrollbar-width: thin; /* Define a largura da barra de rolagem para Firefox */
   scrollbar-color: rgba(254, 159, 166, 0.7) #f0f0f0; /* Cor da barra e do fundo */
@@ -1015,7 +1015,11 @@ section{
 /***FINAL SERVICO MODAL***/
 
 .box-quantidade-pessoas{
-	padding-top: 20px;
+	padding: 20px;
+	transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 12px rgba(148, 96, 84, 0.71);
+  background-color: white;
+  border-radius: 10px;
 }
 
 .wraper-quantidade{
@@ -1480,7 +1484,16 @@ span.tempo-estimado{
 }
 
 .wraper-horarios{
-	margin-top: 30px;
+	margin-top: 35px;
+	margin-bottom: 30px;
+}
+
+.border-box-model{
+	transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 12px rgba(148, 96, 84, 0.71);
+  background-color: white;
+  border-radius: 15px;
+  padding: 25px;
 }
 
 .horarios-periodo {
@@ -2323,7 +2336,6 @@ legend.codigo-info .codigo-dica {
 .payment-card {
   position: relative;
   width: 100%;
-  max-width: 150px;
   padding: 15px;
   background: #f4f6f9;
   border: 1px solid #ddd;
@@ -2344,19 +2356,20 @@ legend.codigo-info .codigo-dica {
 }
 
 .payment-card .card-info {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
+  margin: 5px 0;
 }
 
 .payment-card .icon {
-  font-size: 1.8em;
+  font-size: 1.2em;
   color: #555;
   transition: color 0.3s ease;
+  display: inline-block;
+  margin: 0 5px;
 }
 
 .payment-card .method-name {
+	display: block;
+	margin-top: 15px;
   font-size: 1em;
   font-weight: bold;
   color: #333;
